@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #0a0a0b;
+  --color-ink: #050506;
+  --color-panel: #121214;
+  --color-card: #161311;
+  --color-elevated: #1c1814;
+  --color-line: #2b2018;
+  --color-line-strong: #3a2418;
+  --color-fg: #f6efe6;
+  --color-fg-soft: #d7cfc6;
+  --color-muted: #9a8f86;
+  --color-subtle: #7c726b;
+  --color-accent: #e23b12;
+  --color-accent-hot: #ff7a1a;
+  --color-accent-warm: #ffb347;
+  --color-ok: #3dcc7a;
+  --color-whatsapp: #25d366;
+  --color-chip: #1c1612;
+  --font-sans: "Heebo", "Arial Hebrew", Arial, sans-serif;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --shadow-lift: 0 18px 40px rgb(0 0 0 / 0.45);
+  --shadow-ember: 0 0 0 1px rgb(226 59 18 / 0.25), 0 18px 40px rgb(0 0 0 / 0.45);
+  --z-index-float: 60;
+  --motion-quick: 150ms;
+  --motion-fast: 250ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  html,
+  body,
+  #app {
+    min-height: 100%;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-accent) 40%, transparent);
+    color: var(--color-fg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.hezi-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}

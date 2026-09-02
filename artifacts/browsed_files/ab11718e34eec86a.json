@@ -1,0 +1,146 @@
+[
+  {
+    "name": "default-listing-pattern.md",
+    "path": "skills/website-manager/references/default-listing-pattern.md",
+    "sha": "13a754f6fbdeba0c72d6d44eae6895ec8b2adf63",
+    "size": 1059,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/default-listing-pattern.md?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/default-listing-pattern.md",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/13a754f6fbdeba0c72d6d44eae6895ec8b2adf63",
+    "download_url": "https://raw.githubusercontent.com/hollaugo/prompt-circle-skills/main/skills/website-manager/references/default-listing-pattern.md",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/default-listing-pattern.md?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/13a754f6fbdeba0c72d6d44eae6895ec8b2adf63",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/default-listing-pattern.md"
+    }
+  },
+  {
+    "name": "default-stack.md",
+    "path": "skills/website-manager/references/default-stack.md",
+    "sha": "dd4f3d5fed6b39e25e90b80a1e0cb4d592287f65",
+    "size": 2257,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/default-stack.md?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/default-stack.md",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/dd4f3d5fed6b39e25e90b80a1e0cb4d592287f65",
+    "download_url": "https://raw.githubusercontent.com/hollaugo/prompt-circle-skills/main/skills/website-manager/references/default-stack.md",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/default-stack.md?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/dd4f3d5fed6b39e25e90b80a1e0cb4d592287f65",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/default-stack.md"
+    }
+  },
+  {
+    "name": "deployment-shapes.md",
+    "path": "skills/website-manager/references/deployment-shapes.md",
+    "sha": "2078a06bd8579ed6a546dee6ecaede7fe7c32de1",
+    "size": 791,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/deployment-shapes.md?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/deployment-shapes.md",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/2078a06bd8579ed6a546dee6ecaede7fe7c32de1",
+    "download_url": "https://raw.githubusercontent.com/hollaugo/prompt-circle-skills/main/skills/website-manager/references/deployment-shapes.md",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/deployment-shapes.md?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/2078a06bd8579ed6a546dee6ecaede7fe7c32de1",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/deployment-shapes.md"
+    }
+  },
+  {
+    "name": "hosting-decision.md",
+    "path": "skills/website-manager/references/hosting-decision.md",
+    "sha": "27ff8e9077180eeddb6cea4175f3281546730e12",
+    "size": 1402,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/hosting-decision.md?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/hosting-decision.md",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/27ff8e9077180eeddb6cea4175f3281546730e12",
+    "download_url": "https://raw.githubusercontent.com/hollaugo/prompt-circle-skills/main/skills/website-manager/references/hosting-decision.md",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/hosting-decision.md?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/27ff8e9077180eeddb6cea4175f3281546730e12",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/hosting-decision.md"
+    }
+  },
+  {
+    "name": "notion-cms-model.md",
+    "path": "skills/website-manager/references/notion-cms-model.md",
+    "sha": "76b5c2ba7355db3ef8e336b121d82e361da03465",
+    "size": 3191,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/notion-cms-model.md?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/notion-cms-model.md",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/76b5c2ba7355db3ef8e336b121d82e361da03465",
+    "download_url": "https://raw.githubusercontent.com/hollaugo/prompt-circle-skills/main/skills/website-manager/references/notion-cms-model.md",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/notion-cms-model.md?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/76b5c2ba7355db3ef8e336b121d82e361da03465",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/notion-cms-model.md"
+    }
+  },
+  {
+    "name": "openclaw-automation.md",
+    "path": "skills/website-manager/references/openclaw-automation.md",
+    "sha": "848e33dd2f45e76bcd051e8c717527aa07759553",
+    "size": 1435,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/openclaw-automation.md?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/openclaw-automation.md",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/848e33dd2f45e76bcd051e8c717527aa07759553",
+    "download_url": "https://raw.githubusercontent.com/hollaugo/prompt-circle-skills/main/skills/website-manager/references/openclaw-automation.md",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/openclaw-automation.md?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/848e33dd2f45e76bcd051e8c717527aa07759553",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/openclaw-automation.md"
+    }
+  },
+  {
+    "name": "seo-aeo-geo.md",
+    "path": "skills/website-manager/references/seo-aeo-geo.md",
+    "sha": "b24b0d08aaa2017a702cfa6068c3af7d7ad60bcf",
+    "size": 1231,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/seo-aeo-geo.md?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/seo-aeo-geo.md",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/b24b0d08aaa2017a702cfa6068c3af7d7ad60bcf",
+    "download_url": "https://raw.githubusercontent.com/hollaugo/prompt-circle-skills/main/skills/website-manager/references/seo-aeo-geo.md",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/seo-aeo-geo.md?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/b24b0d08aaa2017a702cfa6068c3af7d7ad60bcf",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/seo-aeo-geo.md"
+    }
+  },
+  {
+    "name": "site-types",
+    "path": "skills/website-manager/references/site-types",
+    "sha": "a795017ec9d8fb4f0dc259e0785bd1b8a5d87644",
+    "size": 0,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/site-types?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/tree/main/skills/website-manager/references/site-types",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/trees/a795017ec9d8fb4f0dc259e0785bd1b8a5d87644",
+    "download_url": null,
+    "type": "dir",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/site-types?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/trees/a795017ec9d8fb4f0dc259e0785bd1b8a5d87644",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/tree/main/skills/website-manager/references/site-types"
+    }
+  },
+  {
+    "name": "widgets-and-interactions.md",
+    "path": "skills/website-manager/references/widgets-and-interactions.md",
+    "sha": "15a471a2e9048c349fbfbf8d6565f6acfed9ab29",
+    "size": 1511,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/widgets-and-interactions.md?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/widgets-and-interactions.md",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/15a471a2e9048c349fbfbf8d6565f6acfed9ab29",
+    "download_url": "https://raw.githubusercontent.com/hollaugo/prompt-circle-skills/main/skills/website-manager/references/widgets-and-interactions.md",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/widgets-and-interactions.md?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/15a471a2e9048c349fbfbf8d6565f6acfed9ab29",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/widgets-and-interactions.md"
+    }
+  }
+]

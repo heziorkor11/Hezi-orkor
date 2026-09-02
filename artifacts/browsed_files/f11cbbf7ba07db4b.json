@@ -1,0 +1,66 @@
+[
+  {
+    "name": "SKILL.md",
+    "path": "skills/website-manager/SKILL.md",
+    "sha": "299d88773bbf1389456e94740e6c6a6953a83b65",
+    "size": 12101,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/SKILL.md?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/SKILL.md",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/299d88773bbf1389456e94740e6c6a6953a83b65",
+    "download_url": "https://raw.githubusercontent.com/hollaugo/prompt-circle-skills/main/skills/website-manager/SKILL.md",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/SKILL.md?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/299d88773bbf1389456e94740e6c6a6953a83b65",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/SKILL.md"
+    }
+  },
+  {
+    "name": "agents",
+    "path": "skills/website-manager/agents",
+    "sha": "58185e45b64892c99bef99fd6cbe5a13512aa8d2",
+    "size": 0,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/agents?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/tree/main/skills/website-manager/agents",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/trees/58185e45b64892c99bef99fd6cbe5a13512aa8d2",
+    "download_url": null,
+    "type": "dir",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/agents?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/trees/58185e45b64892c99bef99fd6cbe5a13512aa8d2",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/tree/main/skills/website-manager/agents"
+    }
+  },
+  {
+    "name": "references",
+    "path": "skills/website-manager/references",
+    "sha": "97392dbe7901bffac48bfdc92d04351e084a67d4",
+    "size": 0,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/tree/main/skills/website-manager/references",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/trees/97392dbe7901bffac48bfdc92d04351e084a67d4",
+    "download_url": null,
+    "type": "dir",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/trees/97392dbe7901bffac48bfdc92d04351e084a67d4",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/tree/main/skills/website-manager/references"
+    }
+  },
+  {
+    "name": "scripts",
+    "path": "skills/website-manager/scripts",
+    "sha": "caa0813aab54058da188670936e20b1cefff4741",
+    "size": 0,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/scripts?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/tree/main/skills/website-manager/scripts",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/trees/caa0813aab54058da188670936e20b1cefff4741",
+    "download_url": null,
+    "type": "dir",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/scripts?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/trees/caa0813aab54058da188670936e20b1cefff4741",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/tree/main/skills/website-manager/scripts"
+    }
+  }
+]

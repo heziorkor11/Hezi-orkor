@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:8081/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "חלקי חילוף לרכב בנהריה | חזי אורקור",
+      "hasCanvas": false,
+      "bodyTextLen": 2584,
+      "bodyTextHash": "b80abfc7db5db589e3c2a8b492141db5fccfcee53260bf8dbbbbf01a4f0ddc62",
+      "bodyTextPrefix": "Hezi Orkor WE FIX EVERYTHING 052-485-8516 אודות לא מצאת? סל פנסי",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "חלקי חילוף לרכב בנהריה | חזי אורקור",
+      "hasCanvas": false,
+      "bodyTextLen": 2549,
+      "bodyTextHash": "012eac18c33cad5b75f338da9f99f93140920e1dc232a5783101c440c5248aa6",
+      "bodyTextPrefix": "052-485-8516 לא מצאת? סל פנסים מראות מדחסי מזגן מעבים רדיאטורים ",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-built.json",
+  "divergesFromBaseline": false,
+  "baselineReasons": []
+}

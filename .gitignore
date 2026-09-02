@@ -1,0 +1,10 @@
+node_modules/
+.vercel/output/
+.vercel/README.txt
+dist/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+.tanstack/

@@ -1,0 +1,66 @@
+[
+  {
+    "name": "generic.md",
+    "path": "skills/website-manager/references/site-types/generic.md",
+    "sha": "c00ab9bad9c90ec01c7268982441a6b6401adc2b",
+    "size": 725,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/site-types/generic.md?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/site-types/generic.md",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/c00ab9bad9c90ec01c7268982441a6b6401adc2b",
+    "download_url": "https://raw.githubusercontent.com/hollaugo/prompt-circle-skills/main/skills/website-manager/references/site-types/generic.md",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/site-types/generic.md?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/c00ab9bad9c90ec01c7268982441a6b6401adc2b",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/site-types/generic.md"
+    }
+  },
+  {
+    "name": "pharmacy.md",
+    "path": "skills/website-manager/references/site-types/pharmacy.md",
+    "sha": "53ffbcbd9f5a0c573191dbcf1b6edfa64ca77e3a",
+    "size": 612,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/site-types/pharmacy.md?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/site-types/pharmacy.md",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/53ffbcbd9f5a0c573191dbcf1b6edfa64ca77e3a",
+    "download_url": "https://raw.githubusercontent.com/hollaugo/prompt-circle-skills/main/skills/website-manager/references/site-types/pharmacy.md",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/site-types/pharmacy.md?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/53ffbcbd9f5a0c573191dbcf1b6edfa64ca77e3a",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/site-types/pharmacy.md"
+    }
+  },
+  {
+    "name": "professional-services.md",
+    "path": "skills/website-manager/references/site-types/professional-services.md",
+    "sha": "e319518777d0d45a78136965fd569d4b4fff0469",
+    "size": 627,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/site-types/professional-services.md?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/site-types/professional-services.md",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/e319518777d0d45a78136965fd569d4b4fff0469",
+    "download_url": "https://raw.githubusercontent.com/hollaugo/prompt-circle-skills/main/skills/website-manager/references/site-types/professional-services.md",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/site-types/professional-services.md?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/e319518777d0d45a78136965fd569d4b4fff0469",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/site-types/professional-services.md"
+    }
+  },
+  {
+    "name": "saas.md",
+    "path": "skills/website-manager/references/site-types/saas.md",
+    "sha": "24ca2f0a325295ebad80b7e3fd472f643d71557b",
+    "size": 575,
+    "url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/site-types/saas.md?ref=main",
+    "html_url": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/site-types/saas.md",
+    "git_url": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/24ca2f0a325295ebad80b7e3fd472f643d71557b",
+    "download_url": "https://raw.githubusercontent.com/hollaugo/prompt-circle-skills/main/skills/website-manager/references/site-types/saas.md",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/hollaugo/prompt-circle-skills/contents/skills/website-manager/references/site-types/saas.md?ref=main",
+      "git": "https://api.github.com/repos/hollaugo/prompt-circle-skills/git/blobs/24ca2f0a325295ebad80b7e3fd472f643d71557b",
+      "html": "https://github.com/hollaugo/prompt-circle-skills/blob/main/skills/website-manager/references/site-types/saas.md"
+    }
+  }
+]
