@@ -34,8 +34,12 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <form onSubmit={onSearch} className="relative order-3 w-full max-w-xl flex-1 basis-full md:order-0 md:basis-auto">
+        <form onSubmit={onSearch} className="relative order-3 w-full max-w-xl flex-1 basis-full md:order-0 md:basis-auto" role="search">
+          <label htmlFor="site-search" className="sr-only">
+            חיפוש חלק, מק״ט או OE
+          </label>
           <input
+            id="site-search"
             name="q"
             type="search"
             placeholder="חפש פריט | חלק חילוף | מק״ט | OE"
@@ -52,7 +56,7 @@ export function SiteHeader() {
           </button>
         </form>
 
-        <nav className="flex items-center gap-3 text-sm text-fg-soft">
+        <nav aria-label="ראשי" className="flex items-center gap-3 text-sm text-fg-soft">
           <a href="tel:0524858516" className="flex items-center gap-1.5 hover:text-fg">
             <Phone className="size-4" />
             <span className="hidden sm:inline">052-485-8516</span>
@@ -64,7 +68,10 @@ export function SiteHeader() {
           <Link to="/help" className="hover:text-fg">
             לא מצאת?
           </Link>
-          <Link to="/cart" className="relative flex items-center gap-1.5 hover:text-fg">
+          <Link to="/legal/$slug" params={{ slug: "accessibility" }} className="hidden hover:text-fg md:inline">
+            נגישות
+          </Link>
+          <Link to="/cart" className="relative flex items-center gap-1.5 hover:text-fg" aria-label={count > 0 ? `סל קניות, ${count} פריטים` : "סל קניות"}>
             <ShoppingBag className="size-4" />
             סל
             {count > 0 ? (
@@ -76,7 +83,7 @@ export function SiteHeader() {
         </nav>
       </header>
 
-      <nav className="hezi-scroll flex gap-2 overflow-x-auto border-b border-line bg-ink px-4 py-2.5 md:px-5.5">
+      <nav aria-label="קטגוריות חלקים" className="hezi-scroll flex gap-2 overflow-x-auto border-b border-line bg-ink px-4 py-2.5 md:px-5.5">
         {categories.map((c) => (
           <Link
             key={c.id}

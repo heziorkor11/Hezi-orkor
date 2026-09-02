@@ -17,7 +17,7 @@ export function ProductCard({ product }: { product: Product }) {
   const years = yearRange(product);
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-card transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-ember">
+    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-card transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-ember motion-reduce:transition-none motion-reduce:hover:translate-y-0">
       <Link to="/product/$id" params={{ id: product.id }} className="block">
         <div className="relative grid h-52 place-items-center overflow-hidden bg-[radial-gradient(120px_80px_at_50%_60%,rgb(226_59_18_/_0.14),transparent),linear-gradient(180deg,#1a1410,#0e0c0b)]">
           <span className="absolute top-2.5 right-2.5 z-10 rounded-full border border-line-strong bg-chip px-2 py-0.5 text-[11px] font-bold text-accent-warm">

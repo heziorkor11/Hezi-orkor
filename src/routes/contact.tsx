@@ -1,6 +1,7 @@
 import { FormEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { MapPin, Phone } from "lucide-react";
+import { FormField } from "@/components/form-field";
 import { HoursWidget } from "@/components/hours-widget";
 import { JsonLd } from "@/components/json-ld";
 import { Button } from "@/components/ui/button";
@@ -101,15 +102,27 @@ function ContactPage() {
         <div className="space-y-4">
           <form className="rounded-xl border border-line bg-card p-5" onSubmit={onSubmit}>
             <h2 className="mb-3 text-lg font-semibold">שליחה בוואטסאפ</h2>
-            <div className="grid gap-2.5">
-              <Input name="name" placeholder="שם" autoComplete="name" required />
-              <Input name="phone" placeholder="טלפון" autoComplete="tel" inputMode="tel" required />
-              <textarea
-                name="note"
-                rows={4}
-                placeholder="מה צריך? מק״ט, דגם, שנה…"
-                className="w-full rounded-md border border-line-strong bg-paper px-3 py-2 text-sm text-fg outline-none placeholder:text-subtle focus:border-accent-hot focus:ring-2 focus:ring-accent/30"
-              />
+            <div className="grid gap-3">
+              <FormField label="שם">
+                <Input name="name" autoComplete="name" required />
+              </FormField>
+              <FormField label="טלפון">
+                <Input name="phone" autoComplete="tel" inputMode="tel" required />
+              </FormField>
+              <FormField label="מה צריך">
+                <textarea
+                  name="note"
+                  rows={4}
+                  placeholder="מק״ט, דגם, שנה…"
+                  className="w-full rounded-md border border-line-strong bg-paper px-3 py-2 text-sm text-fg outline-none placeholder:text-subtle focus:border-accent-hot focus:ring-2 focus:ring-accent/30"
+                />
+              </FormField>
+              <p className="text-xs text-muted">
+                ההודעה נפתחת בוואטסאפ ואינה נשמרת בשרת האתר.{" "}
+                <Link to="/legal/$slug" params={{ slug: "privacy" }} className="underline hover:text-fg">
+                  מדיניות פרטיות
+                </Link>
+              </p>
               <Button type="submit" variant="accent">
                 שליחה לוואטסאפ
               </Button>

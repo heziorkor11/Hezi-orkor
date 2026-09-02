@@ -14,7 +14,10 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as HelpRouteImport } from './routes/help'
+import { Route as LegalRouteImport } from './routes/legal'
 import { Route as ResultsRouteImport } from './routes/results'
+import { Route as LegalIndexRouteImport } from './routes/legal.index'
+import { Route as LegalSlugRouteImport } from './routes/legal.$slug'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -42,10 +45,25 @@ const HelpRoute = HelpRouteImport.update({
   path: '/help',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LegalRoute = LegalRouteImport.update({
+  id: '/legal',
+  path: '/legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResultsRoute = ResultsRouteImport.update({
   id: '/results',
   path: '/results',
   getParentRoute: () => rootRouteImport,
+} as any)
+const LegalIndexRoute = LegalIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LegalRoute,
+} as any)
+const LegalSlugRoute = LegalSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => LegalRoute,
 } as any)
 const ProductIdRoute = ProductIdRouteImport.update({
   id: '/product/$id',
@@ -59,8 +77,11 @@ export interface FileRoutesByFullPath {
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/help': typeof HelpRoute
+  '/legal': typeof LegalRouteWithChildren
   '/results': typeof ResultsRoute
+  '/legal/$slug': typeof LegalSlugRoute
   '/product/$id': typeof ProductIdRoute
+  '/legal/': typeof LegalIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -69,7 +90,9 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/help': typeof HelpRoute
   '/results': typeof ResultsRoute
+  '/legal/$slug': typeof LegalSlugRoute
   '/product/$id': typeof ProductIdRoute
+  '/legal': typeof LegalIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -78,8 +101,11 @@ export interface FileRoutesById {
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/help': typeof HelpRoute
+  '/legal': typeof LegalRouteWithChildren
   '/results': typeof ResultsRoute
+  '/legal/$slug': typeof LegalSlugRoute
   '/product/$id': typeof ProductIdRoute
+  '/legal/': typeof LegalIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -89,8 +115,11 @@ export interface FileRouteTypes {
     | '/cart'
     | '/contact'
     | '/help'
+    | '/legal'
     | '/results'
+    | '/legal/$slug'
     | '/product/$id'
+    | '/legal/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -99,7 +128,9 @@ export interface FileRouteTypes {
     | '/contact'
     | '/help'
     | '/results'
+    | '/legal/$slug'
     | '/product/$id'
+    | '/legal'
   id:
     | '__root__'
     | '/'
@@ -107,8 +138,11 @@ export interface FileRouteTypes {
     | '/cart'
     | '/contact'
     | '/help'
+    | '/legal'
     | '/results'
+    | '/legal/$slug'
     | '/product/$id'
+    | '/legal/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -117,6 +151,7 @@ export interface RootRouteChildren {
   CartRoute: typeof CartRoute
   ContactRoute: typeof ContactRoute
   HelpRoute: typeof HelpRoute
+  LegalRoute: typeof LegalRouteWithChildren
   ResultsRoute: typeof ResultsRoute
   ProductIdRoute: typeof ProductIdRoute
 }
@@ -158,12 +193,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HelpRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/legal': {
+      id: '/legal'
+      path: '/legal'
+      fullPath: '/legal'
+      preLoaderRoute: typeof LegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/results': {
       id: '/results'
       path: '/results'
       fullPath: '/results'
       preLoaderRoute: typeof ResultsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/legal/': {
+      id: '/legal/'
+      path: '/'
+      fullPath: '/legal/'
+      preLoaderRoute: typeof LegalIndexRouteImport
+      parentRoute: typeof LegalRoute
+    }
+    '/legal/$slug': {
+      id: '/legal/$slug'
+      path: '/$slug'
+      fullPath: '/legal/$slug'
+      preLoaderRoute: typeof LegalSlugRouteImport
+      parentRoute: typeof LegalRoute
     }
     '/product/$id': {
       id: '/product/$id'
@@ -175,12 +231,25 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface LegalRouteChildren {
+  LegalSlugRoute: typeof LegalSlugRoute
+  LegalIndexRoute: typeof LegalIndexRoute
+}
+
+const LegalRouteChildren: LegalRouteChildren = {
+  LegalSlugRoute: LegalSlugRoute,
+  LegalIndexRoute: LegalIndexRoute,
+}
+
+const LegalRouteWithChildren = LegalRoute._addFileChildren(LegalRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CartRoute: CartRoute,
   ContactRoute: ContactRoute,
   HelpRoute: HelpRoute,
+  LegalRoute: LegalRouteWithChildren,
   ResultsRoute: ResultsRoute,
   ProductIdRoute: ProductIdRoute,
 }

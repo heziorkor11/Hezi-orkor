@@ -25,7 +25,7 @@ export function HoursWidget({ compact = false }: { compact?: boolean }) {
         <strong className="text-fg">{brand.hours}</strong>
       </div>
       {status ? (
-        <p className={compact ? "text-muted" : "mt-1 text-sm"}>
+        <p className={compact ? "text-muted" : "mt-1 text-sm"} aria-live="polite">
           <span className={status.open ? "font-semibold text-ok" : "font-semibold text-accent-warm"}>
             {status.label}
           </span>

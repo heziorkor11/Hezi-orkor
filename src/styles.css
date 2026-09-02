@@ -82,6 +82,32 @@
   html {
     scroll-behavior: auto;
   }
+
+  .motion-safe-only {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  inset-inline-start: 1rem;
+  top: -5rem;
+  z-index: 100;
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: var(--color-fg);
+  padding: 0.75rem 1.1rem;
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-hot);
+  outline-offset: 2px;
 }
 
 .hezi-scroll {

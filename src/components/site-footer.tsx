@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { HoursWidget } from "@/components/hours-widget";
 import { brand } from "@/lib/catalog";
+import { legalNav } from "@/lib/legal";
 
 export function SiteFooter() {
   return (
@@ -8,7 +9,7 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-6 md:grid-cols-[2fr_1fr_1fr_1fr]">
         <div>
           <div className="mb-2.5 flex items-center gap-3">
-            <img src="/brand/logo.jpg" alt="Hezi Orkor" className="h-16 w-auto" />
+            <img src="/brand/logo.jpg" alt={`לוגו ${brand.nameHe}`} className="h-16 w-auto" />
             <strong className="text-fg">{brand.nameHe}</strong>
           </div>
           <p className="max-w-md leading-relaxed">
@@ -30,13 +31,13 @@ export function SiteFooter() {
             </Link>
           </p>
           <p className="mt-1">
-            <Link to="/results" search={{ category: "radiator" }} className="hover:text-fg">
-              רדיאטורים
+            <Link to="/results" search={{ category: "ac-compressor" }} className="hover:text-fg">
+              מדחסי מזגן
             </Link>
           </p>
           <p className="mt-1">
-            <Link to="/results" search={{ category: "shocks" }} className="hover:text-fg">
-              בולמים
+            <Link to="/results" search={{ category: "radiator" }} className="hover:text-fg">
+              רדיאטורים
             </Link>
           </p>
           <p className="mt-1">
@@ -64,12 +65,35 @@ export function SiteFooter() {
           </p>
         </div>
         <div>
-          <strong className="text-fg">חשוב לדעת</strong>
-          <p className="mt-2 leading-relaxed">
-            גרסת הדגמה. המלאי האמיתי יחובר מהמאסטר-קטלוג אחרי אישור מחירים.
+          <strong className="text-fg">משפטי ונגישות</strong>
+          {legalNav.map((item) => (
+            <p key={item.slug} className="mt-1 first:mt-2">
+              <Link to="/legal/$slug" params={{ slug: item.slug }} className="hover:text-fg">
+                {item.title}
+              </Link>
+            </p>
+          ))}
+          <p className="mt-1">
+            <Link to="/legal" className="hover:text-fg">
+              כל המסמכים
+            </Link>
           </p>
         </div>
       </div>
+      <p className="mx-auto mt-8 max-w-[1180px] text-xs leading-relaxed">
+        המחיר וההתאמה מאושרים לפני תשלום. אין סליקה באתר.{" "}
+        <Link to="/legal/$slug" params={{ slug: "terms" }} className="underline hover:text-fg">
+          תנאי שימוש
+        </Link>
+        {" · "}
+        <Link to="/legal/$slug" params={{ slug: "privacy" }} className="underline hover:text-fg">
+          פרטיות
+        </Link>
+        {" · "}
+        <Link to="/legal/$slug" params={{ slug: "accessibility" }} className="underline hover:text-fg">
+          נגישות
+        </Link>
+      </p>
     </footer>
   );
 }

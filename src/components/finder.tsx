@@ -28,6 +28,7 @@ export function Finder({ state = {} }: { state?: ProductFilter }) {
     <div className="w-full max-w-5xl">
       <form
         className="grid grid-cols-1 gap-1.5 rounded-xl border border-line-strong bg-card/95 p-2 shadow-lift sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:rounded-full"
+        aria-label="חיפוש חלק לפי סוג, יצרן, דגם ושנה"
         onSubmit={(e) => {
           e.preventDefault();
           submit();

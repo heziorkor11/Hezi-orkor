@@ -146,6 +146,12 @@ function ProductPage() {
             )}
           </dl>
           <p className="mb-4 leading-relaxed text-fg-soft">{product.description}</p>
+          <p className="mb-4 rounded-md border border-line bg-elevated px-3 py-2.5 text-sm text-muted">
+            לפני התקנה יש לאשר התאמה לפי מספר רכב או מק״ט OE. חלק חליפי אינו בהכרח מקורי.{" "}
+            <Link to="/legal/$slug" params={{ slug: "shipping" }} className="text-accent-hot underline">
+              אחריות והתאמה
+            </Link>
+          </p>
           <div className="mb-4.5 flex items-center gap-2">
             <button
               type="button"
