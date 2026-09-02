@@ -78,14 +78,16 @@ export function productJsonLd(product: Product) {
     description: product.description,
     image: product.image || "/brand/logo.jpg",
     brand: { "@type": "Brand", name: brand.nameHe },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "ILS",
-      price: product.price,
-      availability: "https://schema.org/InStock",
-      itemCondition: "https://schema.org/NewCondition",
-      seller: { "@type": "AutoPartsStore", name: brand.nameHe },
-    },
+    offers: product.price
+      ? {
+          "@type": "Offer",
+          priceCurrency: "ILS",
+          price: product.price,
+          availability: "https://schema.org/InStock",
+          itemCondition: "https://schema.org/NewCondition",
+          seller: { "@type": "AutoPartsStore", name: brand.nameHe },
+        }
+      : undefined,
   };
 }
 
