@@ -9,7 +9,7 @@ import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { useCart } from "@/lib/cart";
-import { categoryName, getProduct, products, waLink } from "@/lib/catalog";
+import { categoryName, fitmentLabel, getProduct, products, waLink } from "@/lib/catalog";
 import { breadcrumbJsonLd, pageDescription, pageTitle, productJsonLd } from "@/lib/seo";
 import { money } from "@/lib/utils";
 
@@ -93,10 +93,16 @@ function ProductPage() {
           </span>
           <h1 className="mt-2 mb-2 text-[28px] leading-snug">{product.name}</h1>
           <div className="mb-4 flex items-baseline gap-2">
-            <span className="text-[28px] font-extrabold tabular-nums">{money(product.price)}</span>
-            {product.originalPrice ? (
-              <span className="text-subtle line-through tabular-nums">{money(product.originalPrice)}</span>
-            ) : null}
+            {product.price ? (
+              <>
+                <span className="text-[28px] font-extrabold tabular-nums">{money(product.price)}</span>
+                {product.originalPrice ? (
+                  <span className="text-subtle line-through tabular-nums">{money(product.originalPrice)}</span>
+                ) : null}
+              </>
+            ) : (
+              <span className="text-lg font-bold text-accent-warm">מחיר באישור בוואטסאפ</span>
+            )}
           </div>
           <dl className="mb-4 grid grid-cols-[7.5rem_1fr] gap-x-2.5 gap-y-2 text-sm">
             <dt className="text-muted">מק״ט</dt>
@@ -113,22 +119,8 @@ function ProductPage() {
                 <dd className="font-semibold">{product.side}</dd>
               </>
             ) : null}
-            {product.make ? (
-              <>
-                <dt className="text-muted">רכב</dt>
-                <dd className="font-semibold">
-                  {product.make} {product.model}{" "}
-                  {product.yearFrom === product.yearTo
-                    ? product.yearFrom
-                    : `${product.yearFrom}–${product.yearTo}`}
-                </dd>
-              </>
-            ) : (
-              <>
-                <dt className="text-muted">התאמה</dt>
-                <dd className="font-semibold">אוניברסלי</dd>
-              </>
-            )}
+            <dt className="text-muted">רכב</dt>
+            <dd className="font-semibold">{fitmentLabel(product)}</dd>
           </dl>
           <p className="mb-4 leading-relaxed text-fg-soft">{product.description}</p>
           <div className="mb-4.5 flex items-center gap-2">
@@ -164,7 +156,7 @@ function ProductPage() {
               className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-md bg-accent px-4 text-sm font-semibold text-fg hover:bg-accent-hot"
               target="_blank"
               rel="noreferrer"
-              href={waLink(`שלום, רציתי לבדוק התאמה לחלק ${product.sku} — ${product.name}`)}
+              href={waLink(`שלום, רציתי לבדוק התאמה ומחיר לחלק ${product.sku} — ${product.name}`)}
             >
               <WhatsAppIcon className="size-4" />
               בדקו איתי בוואטסאפ
