@@ -9,7 +9,7 @@ import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { useCart } from "@/lib/cart";
-import { categoryName, fitmentLabel, getProduct, products, waLink } from "@/lib/catalog";
+import { categoryName, getProduct, products, waLink } from "@/lib/catalog";
 import { breadcrumbJsonLd, pageDescription, pageTitle, productJsonLd } from "@/lib/seo";
 import { money } from "@/lib/utils";
 
@@ -119,8 +119,31 @@ function ProductPage() {
                 <dd className="font-semibold">{product.side}</dd>
               </>
             ) : null}
-            <dt className="text-muted">רכב</dt>
-            <dd className="font-semibold">{fitmentLabel(product)}</dd>
+            {product.make ? (
+              <>
+                <dt className="text-muted">יצרן</dt>
+                <dd className="font-semibold">{product.make}</dd>
+              </>
+            ) : null}
+            {product.model ? (
+              <>
+                <dt className="text-muted">דגם</dt>
+                <dd className="font-semibold">{product.model}</dd>
+              </>
+            ) : null}
+            {product.yearFrom ? (
+              <>
+                <dt className="text-muted">שנים</dt>
+                <dd className="font-semibold">
+                  {product.yearFrom === product.yearTo ? product.yearFrom : `${product.yearFrom}–${product.yearTo}`}
+                </dd>
+              </>
+            ) : (
+              <>
+                <dt className="text-muted">רכב</dt>
+                <dd className="font-semibold">אוניברסלי</dd>
+              </>
+            )}
           </dl>
           <p className="mb-4 leading-relaxed text-fg-soft">{product.description}</p>
           <div className="mb-4.5 flex items-center gap-2">
