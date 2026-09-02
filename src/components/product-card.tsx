@@ -54,12 +54,18 @@ export function ProductCard({ product }: { product: Product }) {
           )}
         </div>
         <div className="mt-auto flex items-baseline gap-2">
-          <span className="text-[22px] font-extrabold tabular-nums text-fg">{money(product.price)}</span>
-          {product.originalPrice ? (
-            <span className="text-[13px] text-subtle line-through tabular-nums">
-              {money(product.originalPrice)}
-            </span>
-          ) : null}
+          {product.price ? (
+            <>
+              <span className="text-[22px] font-extrabold tabular-nums text-fg">{money(product.price)}</span>
+              {product.originalPrice ? (
+                <span className="text-[13px] text-subtle line-through tabular-nums">
+                  {money(product.originalPrice)}
+                </span>
+              ) : null}
+            </>
+          ) : (
+            <span className="text-sm font-bold text-accent-warm">מחיר באישור בוואטסאפ</span>
+          )}
         </div>
         <div className="flex gap-2">
           <Button
