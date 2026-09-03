@@ -1,7 +1,5 @@
 import { sameModel } from "@/lib/model-names";
 import {
-  PAGE_SIZE,
-  type ListingCard,
   type ListingResult,
   type ListingSearch,
   type Product,
@@ -9,14 +7,8 @@ import {
   type SearchHit,
   typeFromCategory,
 } from "@/lib/catalog-types";
-import {
-  displayModel,
-  displayVehicle,
-  loadFacets,
-  loadManifest,
-  polishText,
-  unique,
-} from "@/lib/catalog-runtime";
+import { loadFacets, unique } from "@/lib/catalog-runtime";
+import { oeSearchTokens, yearBounds } from "@/lib/part-display";
 
 function escapeReg(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -47,7 +39,7 @@ function queryMatchesHit(hit: SearchHit, raw: string) {
   const make = hit.make || "";
   const model = hit.model || "";
   const sku = (hit.sku || "").toLowerCase();
-  const oeTokens = (hit.oe || "").split(/[\s,;|/]+/).map((t) => t.toLowerCase()).filter(Boolean);
+  const oeTokens = oeSearchTokens(hit.oe);
   if (looksLikePartNumber(s)) {
     if (sku === s || sku.startsWith(s) || s.startsWith(sku)) return true;
     if (oeTokens.some((t) => t === s || t.startsWith(s) || s.startsWith(t))) return true;
@@ -65,7 +57,8 @@ function filterHit(hit: SearchHit, state: ProductFilter) {
   if (state.model && !sameModel(state.make || hit.make || "", hit.model, state.model)) return false;
   if (state.year) {
     const y = Number(String(state.year).replace(/["']/g, ""));
-    if (hit.yearFrom && Number.isFinite(y) && (y < hit.yearFrom || y > (hit.yearTo || hit.yearFrom))) return false;
+    const bounds = yearBounds(hit.title, hit.yearFrom, hit.yearTo);
+    if (bounds && Number.isFinite(y) && (y < bounds.from || y > bounds.to)) return false;
   }
   if (state.type) {
     if (typeFromCategory(hit.category) !== state.type && hit.category !== state.type) return false;
@@ -108,7 +101,13 @@ export async function modelsFor(state: ProductFilter) {
 export async function yearsFor(state: ProductFilter) {
   const facets = await loadFacets();
   const key = `${state.make || ""}\t${state.model || ""}`;
-  if (facets.yearsByMakeModel[key]) return facets.yearsByMakeModel[key];
+  const raw = facets.yearsByMakeModel[key] || [];
+  if (raw.length > 12) {
+    const hi = Math.max(...raw);
+    const lo = Math.min(...raw);
+    if (hi - lo > 12) return [hi, lo];
+  }
+  if (facets.yearsByMakeModel[key]) return raw;
   if (state.make) {
     const prefix = `${state.make}\t`;
     const years = Object.entries(facets.yearsByMakeModel)
@@ -118,9 +117,3 @@ export async function yearsFor(state: ProductFilter) {
   }
   return unique(Object.values(facets.yearsByMakeModel).flat()).sort((a, b) => b - a);
 }
-
-void displayModel;
-void displayVehicle;
-void polishText;
-void PAGE_SIZE;
-void loadManifest;
