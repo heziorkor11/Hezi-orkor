@@ -4,7 +4,8 @@ import { FaqList } from "@/components/faq-list";
 import { Finder } from "@/components/finder";
 import { JsonLd } from "@/components/json-ld";
 import { ProductCard } from "@/components/product-card";
-import { brand, faqs, loadFeatured, reviews } from "@/lib/catalog";
+import { brand, faqs, loadFeatured } from "@/lib/catalog";
+import { reviews } from "@/lib/reviews";
 import { localBusinessJsonLd, pageDescription, websiteJsonLd } from "@/lib/seo";
 import { money } from "@/lib/utils";
 import { Star } from "lucide-react";
@@ -37,21 +38,10 @@ function Home() {
       <JsonLd data={websiteJsonLd()} />
       <section className="relative isolate flex flex-col items-center justify-end overflow-hidden px-5 pt-8 pb-6 text-center">
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster="/brand/logo.jpg"
-            className="h-full w-full object-cover object-[center_35%] motion-reduce:hidden"
-          >
+          <video autoPlay muted loop playsInline poster="/brand/logo.jpg" className="h-full w-full object-cover object-[center_35%] motion-reduce:hidden">
             <source src="/brand/logo-loop.mp4" type="video/mp4" />
           </video>
-          <img
-            src="/brand/logo.jpg"
-            alt=""
-            className="hidden h-full w-full object-cover object-[center_35%] motion-reduce:block"
-          />
+          <img src="/brand/logo.jpg" alt="" className="hidden h-full w-full object-cover object-[center_35%] motion-reduce:block" />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(5_5_6_/_0.15)_0%,rgb(5_5_6_/_0.45)_52%,rgb(5_5_6_/_0.94)_100%),radial-gradient(700px_260px_at_50%_28%,rgb(226_59_18_/_0.16),transparent)]" />
         </div>
         <h1 className="sr-only">חזי אורקור — חלקי חילוף לרכב בנהריה</h1>
