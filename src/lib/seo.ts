@@ -1,4 +1,5 @@
 import { brand, type Product } from "@/lib/catalog";
+import { primaryOeLine, yearsFromTitle } from "@/lib/part-display";
 
 export const SITE_NAME = `${brand.nameHe} | ${brand.name}`;
 
@@ -68,22 +69,32 @@ export function faqJsonLd(items: { q: string; a: string }[]) {
 }
 
 export function productJsonLd(product: Product) {
+  const named = yearsFromTitle(product.name);
+  const mpn = primaryOeLine(product.oe, 1).split(" · ")[0] || product.sku;
   return {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
     sku: product.sku,
-    mpn: product.oe.split(/[\s,;/]+/)[0]?.trim() || product.sku,
+    mpn,
     description: product.description,
     image: product.image || "/brand/logo.jpg",
-    brand: { "@type": "Brand", name: brand.nameHe },
+    brand: { "@type": "Brand", name: product.make || "חליפי" },
     offers: {
       "@type": "Offer",
-      availability: "https://schema.org/InStock",
+      availability: "https://schema.org/LimitedAvailability",
       itemCondition: "https://schema.org/NewCondition",
       seller: { "@type": "AutoPartsStore", name: brand.nameHe },
       url: `/product/${product.id}`,
     },
+    ...(named
+      ? {
+          additionalProperty: [
+            { "@type": "PropertyValue", name: "שנת התחלה", value: String(named.from) },
+            { "@type": "PropertyValue", name: "שנת סיום", value: String(named.to) },
+          ],
+        }
+      : {}),
   };
 }
 
