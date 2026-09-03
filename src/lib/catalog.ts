@@ -244,7 +244,13 @@ function wixImage(id: string) {
 }
 
 async function loadImageMap() {
-  if (!cache.images) cache.images = await catalogJson<Record<string, string>>("images.json");
+  if (!cache.images) {
+    const parts = await Promise.all([
+      catalogJson<Record<string, string>>("images-a.json"),
+      catalogJson<Record<string, string>>("images-b.json"),
+    ]);
+    cache.images = { ...parts[0], ...parts[1] };
+  }
   return cache.images;
 }
 
@@ -466,6 +472,7 @@ async function hydrateHits(hits: SearchHit[]): Promise<Product[]> {
 }
 
 export async function loadListing(state: ListingSearch = {}): Promise<ListingResult> {
+  await loadImageMap();
   const manifest = await loadManifest();
   const page = Math.max(1, state.page ?? 1);
   const needsIndex = Boolean(state.q || state.make || state.model || state.year || state.type);
