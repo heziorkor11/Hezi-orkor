@@ -232,9 +232,27 @@ type Cache = {
   featured?: Product[];
   pages: Map<number, ListingCard[]>;
   chunks: Map<string, Product[]>;
+  images?: Record<string, string>;
 };
 
 const cache: Cache = { pages: new Map(), chunks: new Map() };
+
+function wixImage(id: string) {
+  if (!id) return undefined;
+  if (id.startsWith("http")) return id;
+  return `https://static.wixstatic.com/media/${id}/v1/fit/w_600,h_600,q_80/file.jpg`;
+}
+
+async function loadImageMap() {
+  if (!cache.images) cache.images = await catalogJson<Record<string, string>>("images.json");
+  return cache.images;
+}
+
+function resolveImage(sku?: string, existing?: string) {
+  if (existing) return existing;
+  if (!sku || !cache.images) return undefined;
+  return wixImage(cache.images[sku]);
+}
 
 function catalogUrl(rel: string) {
   if (typeof window !== "undefined") return `/catalog/${rel}`;
@@ -323,7 +341,7 @@ function cardToProduct(card: ListingCard & Partial<Product>): Product {
     side: card.side || "",
     condition: card.condition || "חלק חדש",
     description: card.description || "",
-    image: card.image,
+    image: resolveImage(card.sku, card.image),
     universal: Boolean(!make && !yearFrom && !(card.vehicleFitment || "").trim()),
     vehicleFitment: card.vehicleFitment || "",
   };
@@ -354,6 +372,7 @@ async function loadSkuMap(): Promise<Record<string, string>> {
 }
 
 export async function loadPage(n: number): Promise<ListingCard[]> {
+  await loadImageMap();
   const page = Math.max(1, n);
   const hit = cache.pages.get(page);
   if (hit) return hit;
@@ -363,6 +382,7 @@ export async function loadPage(n: number): Promise<ListingCard[]> {
 }
 
 async function loadChunk(id: string): Promise<Product[]> {
+  await loadImageMap();
   const hit = cache.chunks.get(id);
   if (hit) return hit;
   const rows = await catalogJson<ListingCard[]>(`chunks/${id}.json`);
@@ -372,6 +392,7 @@ async function loadChunk(id: string): Promise<Product[]> {
 }
 
 export async function loadFeatured(): Promise<Product[]> {
+  await loadImageMap();
   if (!cache.featured) {
     const rows = await catalogJson<ListingCard[]>("featured.json");
     cache.featured = rows.map((row) => cardToProduct(row));
