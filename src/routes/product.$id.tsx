@@ -69,6 +69,7 @@ function ProductPage() {
             <img
               src={product.image}
               alt={product.name}
+              referrerPolicy="no-referrer"
               className="h-full max-h-[420px] w-full object-contain p-4"
             />
           ) : (

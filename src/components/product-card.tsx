@@ -25,7 +25,7 @@ export function ProductCard({ product }: { product: Product }) {
             מק״ט {product.sku}
           </span>
           {product.image ? (
-            <img src={product.image} alt={product.name} className="h-full w-full object-contain p-3 pb-16" />
+            <img src={product.image} alt={product.name} referrerPolicy="no-referrer" className="h-full w-full object-contain p-3 pb-16" />
           ) : (
             <div className="mb-10 grid size-24 place-items-center rounded-3xl border border-line-strong bg-elevated">
               <PartIcon type={product.type} size={72} />

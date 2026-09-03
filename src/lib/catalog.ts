@@ -248,16 +248,23 @@ async function loadImageMap() {
     const parts = await Promise.all([
       catalogJson<Record<string, string>>("images-a.json"),
       catalogJson<Record<string, string>>("images-b.json"),
+      catalogJson<Record<string, string>>("images-galor.json").catch(() => ({})),
     ]);
-    cache.images = { ...parts[0], ...parts[1] };
+    cache.images = { ...parts[0], ...parts[1], ...parts[2] };
   }
   return cache.images;
 }
 
 function resolveImage(sku?: string, existing?: string) {
-  if (existing) return existing;
-  if (!sku || !cache.images) return undefined;
-  return wixImage(cache.images[sku]);
+  const mapped = sku && cache.images ? cache.images[sku] : undefined;
+  const candidate = mapped || existing;
+  if (!candidate) return undefined;
+  if (candidate.startsWith("g:")) return `https://galor-shop.com/uploads/photos/${candidate.slice(2)}`;
+  if (candidate.startsWith("http")) {
+    if (candidate.endsWith("/photos/") || candidate.endsWith("/photos")) return undefined;
+    return candidate;
+  }
+  return wixImage(candidate);
 }
 
 function catalogUrl(rel: string) {
