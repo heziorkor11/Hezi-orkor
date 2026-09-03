@@ -1,4 +1,5 @@
 import { acRawProducts } from "./ac-products";
+import { filterRawProducts } from "./filter-products";
 
 export type Product = {
   id: string;
@@ -32,7 +33,9 @@ export type CategoryId =
   | "bumper"
   | "electrical"
   | "accessories"
-  | "tools";
+  | "tools"
+  | "cabin-filter"
+  | "oil-filter";
 
 export type PartTypeId =
   | "headlight"
@@ -47,7 +50,9 @@ export type PartTypeId =
   | "fender"
   | "bumper"
   | "battery"
-  | "accessory";
+  | "accessory"
+  | "cabin-filter"
+  | "oil-filter";
 
 export const brand = {
   name: "Hezi Orkor",
@@ -73,6 +78,8 @@ export const categories: { id: CategoryId; name: string }[] = [
   { id: "mirrors", name: "מראות" },
   { id: "ac-compressor", name: "מדחסי מזגן" },
   { id: "ac-condenser", name: "מעבים" },
+  { id: "cabin-filter", name: "פילטר מזגן" },
+  { id: "oil-filter", name: "פילטר שמן" },
   { id: "radiator", name: "רדיאטורים" },
   { id: "shocks", name: "בולמים" },
   { id: "sensors", name: "חיישנים" },
@@ -90,6 +97,8 @@ export const partTypes: { id: PartTypeId; name: string; category: CategoryId }[]
   { id: "mirror", name: "מראה צד", category: "mirrors" },
   { id: "compressor", name: "מדחס מזגן", category: "ac-compressor" },
   { id: "condenser", name: "מעבה מזגן", category: "ac-condenser" },
+  { id: "cabin-filter", name: "פילטר מזגן", category: "cabin-filter" },
+  { id: "oil-filter", name: "פילטר שמן", category: "oil-filter" },
   { id: "radiator", name: "רדיאטור", category: "radiator" },
   { id: "shock", name: "בולם זעזועים", category: "shocks" },
   { id: "sensor", name: "חיישן", category: "sensors" },
@@ -101,8 +110,42 @@ export const partTypes: { id: PartTypeId; name: string; category: CategoryId }[]
 
 const demoProducts: Product[] = [];
 
-function hydrateAc(): Product[] {
-  return acRawProducts.map((row) => {
+type RawRow = {
+  id: string;
+  sku: string;
+  oe?: string;
+  name: string;
+  type?: string;
+  category?: string;
+  make?: string;
+  model?: string;
+  yearFrom?: number;
+  yearTo?: number;
+  side?: string;
+  condition?: string;
+  description?: string;
+  image?: string;
+  universal?: boolean;
+};
+
+function mapType(t?: string): PartTypeId {
+  if (t === "condenser") return "condenser";
+  if (t === "cabin-filter") return "cabin-filter";
+  if (t === "oil-filter") return "oil-filter";
+  if (t === "compressor") return "compressor";
+  return (t as PartTypeId) || "compressor";
+}
+
+function mapCat(c?: string): CategoryId {
+  if (c === "ac-condenser") return "ac-condenser";
+  if (c === "cabin-filter") return "cabin-filter";
+  if (c === "oil-filter") return "oil-filter";
+  if (c === "ac-compressor") return "ac-compressor";
+  return (c as CategoryId) || "ac-compressor";
+}
+
+function hydrate(rows: RawRow[]): Product[] {
+  return rows.map((row) => {
     const make = row.make ?? "";
     const model = row.model ?? "";
     const yearFrom = row.yearFrom ?? 0;
@@ -114,8 +157,8 @@ function hydrateAc(): Product[] {
       sku: row.sku,
       oe: row.oe ?? "",
       name: row.name,
-      type: (row.type === "condenser" ? "condenser" : "compressor") as PartTypeId,
-      category: (row.category === "ac-condenser" ? "ac-condenser" : "ac-compressor") as CategoryId,
+      type: mapType(row.type),
+      category: mapCat(row.category),
       make,
       model,
       yearFrom,
@@ -126,7 +169,7 @@ function hydrateAc(): Product[] {
         row.description ||
         `${row.name}. ${fit ? `התאמה: ${fit}.` : "יש לאשר התאמה לפי מק״ט / OE / מספר רכב."} מק״ט ${row.sku}. המחיר יאושר בוואטסאפ לפני הזמנה.`,
       image: row.image,
-      universal: Boolean((row as { universal?: boolean }).universal || (!make && !yearFrom)),
+      universal: Boolean(row.universal || (!make && !yearFrom)),
     };
   });
 }
@@ -135,7 +178,7 @@ function score(p: Product) {
   return (p.image ? 4 : 0) + (p.make ? 2 : 0) + (p.model ? 1 : 0) + (p.yearFrom ? 1 : 0);
 }
 
-export const products: Product[] = hydrateAc()
+export const products: Product[] = hydrate([...acRawProducts, ...filterRawProducts])
   .sort((a, b) => score(b) - score(a))
   .concat(demoProducts);
 
