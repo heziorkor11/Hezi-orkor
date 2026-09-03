@@ -1,5 +1,6 @@
 import { typeFromCategory, PAGE_SIZE, type ListingCard, type ListingResult, type ListingSearch, type Product, type SearchHit } from "@/lib/catalog-types";
 import { displayModel, polishText, unique } from "@/lib/catalog-runtime";
+import { catalogJson } from "@/lib/catalog-io";
 import { imageLooksLikeSharedOe, inferCategory, yearsFromTitle } from "@/lib/part-display";
 
 const cache = {
@@ -22,41 +23,6 @@ function usableRaw(value?: string) {
   if (value.startsWith("/products/") || value.startsWith("/catalog/")) return false;
   if (value.endsWith("/photos/") || value.endsWith("/photos")) return false;
   return true;
-}
-
-function catalogUrl(rel: string) {
-  if (typeof window !== "undefined") return `/catalog/${rel}`;
-  const vercel = typeof process !== "undefined" ? process.env.VERCEL_URL : "";
-  const origin =
-    (typeof process !== "undefined" && (process.env.CATALOG_ORIGIN || process.env.VITE_SITE_ORIGIN)) ||
-    (vercel ? `https://${vercel}` : "http://127.0.0.1:8080");
-  return `${String(origin).replace(/\/$/, "")}/catalog/${rel}`;
-}
-
-async function readCatalogText(rel: string): Promise<string> {
-  if (import.meta.env.SSR) {
-    try {
-      const { readFile } = await import("node:fs/promises");
-      const { join } = await import("node:path");
-      const cwd = process.cwd();
-      for (const path of [join(cwd, "public", "catalog", rel), join(cwd, ".output", "public", "catalog", rel)]) {
-        try {
-          return await readFile(path, "utf8");
-        } catch {
-          /* next */
-        }
-      }
-    } catch {
-      /* fetch */
-    }
-  }
-  const res = await fetch(catalogUrl(rel));
-  if (!res.ok) throw new Error(`Failed to load catalog ${rel} (${res.status})`);
-  return await res.text();
-}
-
-async function catalogJson<T>(rel: string): Promise<T> {
-  return JSON.parse(await readCatalogText(rel)) as T;
 }
 
 async function loadImageMap() {
