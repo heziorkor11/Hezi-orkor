@@ -17,7 +17,7 @@ export function SiteFooter() {
           </p>
           <p className="mt-2 text-fg-soft">{brand.address}</p>
           <p className="mt-1">
-            {brand.tagline} · {brand.phone}
+            {brand.taglineHe} · {brand.phone}
           </p>
           <div className="mt-3">
             <HoursWidget compact />
@@ -42,7 +42,7 @@ export function SiteFooter() {
           </p>
           <p className="mt-1">
             <Link to="/cart" className="hover:text-fg">
-              סל קניות
+              רשימת הצעה
             </Link>
           </p>
         </div>
@@ -81,18 +81,7 @@ export function SiteFooter() {
         </div>
       </div>
       <p className="mx-auto mt-8 max-w-[1180px] text-xs leading-relaxed">
-        המחיר וההתאמה מאושרים לפני תשלום. אין סליקה באתר.{" "}
-        <Link to="/legal/$slug" params={{ slug: "terms" }} className="underline hover:text-fg">
-          תנאי שימוש
-        </Link>
-        {" · "}
-        <Link to="/legal/$slug" params={{ slug: "privacy" }} className="underline hover:text-fg">
-          פרטיות
-        </Link>
-        {" · "}
-        <Link to="/legal/$slug" params={{ slug: "accessibility" }} className="underline hover:text-fg">
-          נגישות
-        </Link>
+        המחיר וההתאמה מאושרים לפני תשלום. אין סליקה באתר. הסל באתר הוא רשימת הצעת מחיר בלבד.
       </p>
     </footer>
   );

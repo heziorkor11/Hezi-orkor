@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { PartIcon } from "@/components/part-icon";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
-import { fitmentLabel, quoteMessage, type Product, waLink } from "@/lib/catalog";
+import { displayVehicle, fitmentLabel, quoteMessage, type Product, waLink } from "@/lib/catalog";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { useState } from "react";
 
@@ -14,7 +14,7 @@ function yearRange(product: Product) {
 
 export function ProductCard({ product }: { product: Product }) {
   const add = useCart((s) => s.add);
-  const car = [product.make, product.model].filter(Boolean).join(" ");
+  const car = displayVehicle(product.make, product.model);
   const years = yearRange(product);
   const fit = fitmentLabel(product);
   const [broken, setBroken] = useState(false);
@@ -94,10 +94,10 @@ export function ProductCard({ product }: { product: Product }) {
             className="flex-1"
             onClick={() => {
               add(product.id, 1);
-              toast.success("נוסף לסל", { description: product.name });
+              toast.success("נוסף לרשימת הצעת מחיר", { description: product.name });
             }}
           >
-            הוסף לסל
+            הוסף להצעה
           </Button>
           <a
             href={waLink(quoteMessage(product))}

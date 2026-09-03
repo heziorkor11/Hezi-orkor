@@ -23,13 +23,13 @@ export function SiteHeader() {
         <Link to="/" className="flex items-center gap-2.5">
           <img
             src="/brand/logo.jpg"
-            alt="Hezi Orkor"
+            alt="חזי אורקור"
             className="h-14 w-auto object-contain drop-shadow-[0_0_12px_rgb(226_59_18_/_0.4)]"
           />
           <span className="hidden flex-col leading-none sm:flex">
-            <strong className="text-base tracking-wide">Hezi Orkor</strong>
-            <small className="text-[10px] font-extrabold tracking-[0.18em] text-accent-hot">
-              WE FIX EVERYTHING
+            <strong className="text-base tracking-wide">חזי אורקור</strong>
+            <small className="text-[10px] font-bold tracking-wide text-accent-hot">
+              חלפים לרכב בנהריה
             </small>
           </span>
         </Link>
@@ -71,9 +71,9 @@ export function SiteHeader() {
           <Link to="/legal/$slug" params={{ slug: "accessibility" }} className="hidden hover:text-fg md:inline">
             נגישות
           </Link>
-          <Link to="/cart" className="relative flex items-center gap-1.5 hover:text-fg" aria-label={count > 0 ? `סל קניות, ${count} פריטים` : "סל קניות"}>
+          <Link to="/cart" className="relative flex items-center gap-1.5 hover:text-fg" aria-label={count > 0 ? `רשימת הצעת מחיר, ${count} פריטים` : "רשימת הצעת מחיר"}>
             <ShoppingBag className="size-4" />
-            סל
+            הצעה
             {count > 0 ? (
               <span className="absolute -top-2 -left-2 grid min-w-4.5 place-items-center rounded-full bg-accent px-1 text-[11px] font-bold text-fg tabular-nums">
                 {count}
@@ -83,7 +83,7 @@ export function SiteHeader() {
         </nav>
       </header>
 
-      <nav aria-label="קטגוריות חלקים" className="hezi-scroll flex gap-2 overflow-x-auto border-b border-line bg-ink px-4 py-2.5 md:px-5.5">
+      <nav aria-label="קטגוריות חלקים" className="flex flex-wrap gap-2 border-b border-line bg-ink px-4 py-2 md:px-5.5">
         {categories.map((c) => (
           <Link
             key={c.id}
