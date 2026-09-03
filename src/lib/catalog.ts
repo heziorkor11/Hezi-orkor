@@ -243,27 +243,31 @@ function wixImage(id: string) {
   return `https://static.wixstatic.com/media/${id}/v1/fit/w_600,h_600,q_80/file.jpg`;
 }
 
+function usableRaw(value?: string) {
+  if (!value) return false;
+  if (value.startsWith("/products/")) return false;
+  if (value.startsWith("/catalog/")) return false;
+  if (value.endsWith("/photos/") || value.endsWith("/photos")) return false;
+  return true;
+}
+
 async function loadImageMap() {
   if (!cache.images) {
-    const parts = await Promise.all([
-      catalogJson<Record<string, string>>("images-a.json"),
-      catalogJson<Record<string, string>>("images-b.json"),
-      catalogJson<Record<string, string>>("images-galor.json").catch(() => ({})),
-    ]);
-    cache.images = { ...parts[0], ...parts[1], ...parts[2] };
+    const files = ["images-a.json", "images-b.json", "images-galor.json", "images-hot.json"];
+    const parts = await Promise.all(
+      files.map((f) => catalogJson<Record<string, string>>(f).catch(() => ({} as Record<string, string>))),
+    );
+    cache.images = Object.assign({}, ...parts);
   }
   return cache.images;
 }
 
 function resolveImage(sku?: string, existing?: string) {
   const mapped = sku && cache.images ? cache.images[sku] : undefined;
-  const candidate = mapped || existing;
+  const candidate = (mapped && usableRaw(mapped) ? mapped : undefined) || (usableRaw(existing) ? existing : undefined);
   if (!candidate) return undefined;
   if (candidate.startsWith("g:")) return `https://galor-shop.com/uploads/photos/${candidate.slice(2)}`;
-  if (candidate.startsWith("http")) {
-    if (candidate.endsWith("/photos/") || candidate.endsWith("/photos")) return undefined;
-    return candidate;
-  }
+  if (candidate.startsWith("http")) return candidate;
   return wixImage(candidate);
 }
 
@@ -454,9 +458,7 @@ async function loadSequential(start: number, count: number): Promise<Product[]> 
   if (count <= 0) return [];
   const first = Math.floor(start / PAGE_SIZE) + 1;
   const last = Math.floor((start + count - 1) / PAGE_SIZE) + 1;
-  const pages = await Promise.all(
-    Array.from({ length: last - first + 1 }, (_, i) => loadPage(first + i)),
-  );
+  const pages = await Promise.all(Array.from({ length: last - first + 1 }, (_, i) => loadPage(first + i)));
   const merged = pages.flat();
   const offset = start - (first - 1) * PAGE_SIZE;
   return merged.slice(offset, offset + count).map((card) => cardToProduct(card));

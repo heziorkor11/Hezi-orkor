@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
 import { fitmentLabel, quoteMessage, type Product, waLink } from "@/lib/catalog";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { useState } from "react";
 
 function yearRange(product: Product) {
   if (!product.yearFrom) return null;
@@ -16,6 +17,8 @@ export function ProductCard({ product }: { product: Product }) {
   const car = [product.make, product.model].filter(Boolean).join(" ");
   const years = yearRange(product);
   const fit = fitmentLabel(product);
+  const [broken, setBroken] = useState(false);
+  const showImage = Boolean(product.image) && !broken;
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-card transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-ember motion-reduce:transition-none motion-reduce:hover:translate-y-0">
@@ -24,8 +27,14 @@ export function ProductCard({ product }: { product: Product }) {
           <span className="absolute top-2.5 right-2.5 z-10 rounded-full border border-line-strong bg-chip px-2 py-0.5 text-[11px] font-bold text-accent-warm">
             מק״ט {product.sku}
           </span>
-          {product.image ? (
-            <img src={product.image} alt={product.name} referrerPolicy="no-referrer" className="h-full w-full object-contain p-3 pb-16" />
+          {showImage ? (
+            <img
+              src={product.image}
+              alt={product.name}
+              referrerPolicy="no-referrer"
+              onError={() => setBroken(true)}
+              className="h-full w-full object-contain p-3 pb-16"
+            />
           ) : (
             <div className="mb-10 grid size-24 place-items-center rounded-3xl border border-line-strong bg-elevated">
               <PartIcon type={product.type} size={72} />
