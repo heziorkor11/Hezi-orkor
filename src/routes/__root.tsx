@@ -4,7 +4,7 @@ import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { ShopShell } from "@/components/shop-shell";
 import appCss from "../styles.css?url";
 
-const APP_NAME = "Hezi Orkor | חלקי חילוף לרכב";
+const APP_NAME = "חזי אורקור | חלקי חילוף לרכב בנהריה";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -39,19 +39,15 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <html lang="he" dir="rtl" className="antialiased" suppressHydrationWarning>
-      <head>
-        <HeadContent />
-      </head>
-      <body className="bg-paper text-fg">
+    <>
+      <HeadContent />
+      <AuthProvider>
         <PreviewHostBridge />
-        <AuthProvider>
-          <ShopShell>
-            <Outlet />
-          </ShopShell>
-        </AuthProvider>
-        <Scripts />
-      </body>
-    </html>
+        <ShopShell>
+          <Outlet />
+        </ShopShell>
+      </AuthProvider>
+      <Scripts />
+    </>
   );
 }
