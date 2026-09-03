@@ -42,7 +42,6 @@ export function localBusinessJsonLd() {
       },
     ],
     areaServed: ["נהריה", "הגליל המערבי", "עכו", "קריית שמונה"],
-    priceRange: "₪₪",
   };
 }
 
@@ -74,20 +73,17 @@ export function productJsonLd(product: Product) {
     "@type": "Product",
     name: product.name,
     sku: product.sku,
-    mpn: product.oe.split(",")[0]?.trim() || product.sku,
+    mpn: product.oe.split(/[\s,;/]+/)[0]?.trim() || product.sku,
     description: product.description,
     image: product.image || "/brand/logo.jpg",
     brand: { "@type": "Brand", name: brand.nameHe },
-    offers: product.price
-      ? {
-          "@type": "Offer",
-          priceCurrency: "ILS",
-          price: product.price,
-          availability: "https://schema.org/InStock",
-          itemCondition: "https://schema.org/NewCondition",
-          seller: { "@type": "AutoPartsStore", name: brand.nameHe },
-        }
-      : undefined,
+    offers: {
+      "@type": "Offer",
+      availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+      seller: { "@type": "AutoPartsStore", name: brand.nameHe },
+      url: `/product/${product.id}`,
+    },
   };
 }
 

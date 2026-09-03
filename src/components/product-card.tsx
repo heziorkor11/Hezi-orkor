@@ -3,8 +3,8 @@ import { toast } from "sonner";
 import { PartIcon } from "@/components/part-icon";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
-import type { Product } from "@/lib/catalog";
-import { money } from "@/lib/utils";
+import { fitmentLabel, quoteMessage, type Product, waLink } from "@/lib/catalog";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 
 function yearRange(product: Product) {
   if (!product.yearFrom) return null;
@@ -15,6 +15,7 @@ export function ProductCard({ product }: { product: Product }) {
   const add = useCart((s) => s.add);
   const car = [product.make, product.model].filter(Boolean).join(" ");
   const years = yearRange(product);
+  const fit = fitmentLabel(product);
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-card transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-ember motion-reduce:transition-none motion-reduce:hover:translate-y-0">
@@ -24,18 +25,14 @@ export function ProductCard({ product }: { product: Product }) {
             מק״ט {product.sku}
           </span>
           {product.image ? (
-            <img
-              src={product.image}
-              alt={product.name}
-              className="h-full w-full object-contain p-3 pb-16"
-            />
+            <img src={product.image} alt={product.name} className="h-full w-full object-contain p-3 pb-16" />
           ) : (
             <div className="mb-10 grid size-24 place-items-center rounded-3xl border border-line-strong bg-elevated">
               <PartIcon type={product.type} size={72} />
             </div>
           )}
           <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-ink via-ink/80 to-transparent px-3 pt-10 pb-2.5">
-            <p className="truncate text-sm font-bold text-fg">{car || "אוניברסלי"}</p>
+            <p className="truncate text-sm font-bold text-fg">{car || product.vehicleFitment || "יש לאשר לפי מספר רכב"}</p>
             {years ? <p className="text-xs font-semibold text-accent-warm">{years}</p> : null}
           </div>
         </div>
@@ -64,10 +61,15 @@ export function ProductCard({ product }: { product: Product }) {
               <dt className="text-muted">שנים</dt>
               <dd className="font-bold text-fg">{years}</dd>
             </>
+          ) : product.vehicleFitment ? (
+            <>
+              <dt className="text-muted">התאמה</dt>
+              <dd className="line-clamp-2 font-bold text-fg">{product.vehicleFitment}</dd>
+            </>
           ) : (
             <>
               <dt className="text-muted">רכב</dt>
-              <dd className="font-bold text-ok">אוניברסלי</dd>
+              <dd className="font-bold text-ok">{fit}</dd>
             </>
           )}
           {product.side ? (
@@ -77,18 +79,7 @@ export function ProductCard({ product }: { product: Product }) {
             </>
           ) : null}
         </dl>
-        <div className="mt-auto flex items-baseline gap-2">
-          {product.price ? (
-            <>
-              <span className="text-[22px] font-extrabold tabular-nums text-fg">{money(product.price)}</span>
-              {product.originalPrice ? (
-                <span className="text-[13px] text-subtle line-through tabular-nums">{money(product.originalPrice)}</span>
-              ) : null}
-            </>
-          ) : (
-            <span className="text-sm font-bold text-accent-warm">מחיר באישור בוואטסאפ</span>
-          )}
-        </div>
+        <p className="mt-auto text-sm font-bold text-accent-warm">צור קשר להצעת מחיר</p>
         <div className="flex gap-2">
           <Button
             className="flex-1"
@@ -99,13 +90,15 @@ export function ProductCard({ product }: { product: Product }) {
           >
             הוסף לסל
           </Button>
-          <Link
-            to="/product/$id"
-            params={{ id: product.id }}
-            className="inline-flex h-11 items-center justify-center rounded-md border border-line-strong bg-elevated px-3 text-sm font-semibold text-fg-soft hover:border-accent hover:text-fg"
+          <a
+            href={waLink(quoteMessage(product))}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex h-11 items-center justify-center gap-1 rounded-md border border-line-strong bg-elevated px-3 text-sm font-semibold text-fg-soft hover:border-accent hover:text-fg"
           >
-            פרטים
-          </Link>
+            <WhatsAppIcon className="size-4" />
+            לבירור מלאי
+          </a>
         </div>
       </div>
     </article>
