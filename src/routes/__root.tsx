@@ -39,15 +39,19 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <>
-      <HeadContent />
-      <AuthProvider>
+    <html lang="he" dir="rtl" className="antialiased" suppressHydrationWarning>
+      <head>
+        <HeadContent />
+      </head>
+      <body className="bg-paper text-fg">
         <PreviewHostBridge />
-        <ShopShell>
-          <Outlet />
-        </ShopShell>
-      </AuthProvider>
-      <Scripts />
-    </>
+        <AuthProvider>
+          <ShopShell>
+            <Outlet />
+          </ShopShell>
+        </AuthProvider>
+        <Scripts />
+      </body>
+    </html>
   );
 }
