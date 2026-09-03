@@ -68,52 +68,84 @@ function filterHit(hit: SearchHit, state: ProductFilter) {
 }
 
 export async function loadListing(state: ListingSearch = {}): Promise<ListingResult> {
-  const { loadListingImpl } = await import("./catalog-listing");
-  return loadListingImpl(state, { filterHit });
+  try {
+    const { loadListingImpl } = await import("./catalog-listing");
+    return await loadListingImpl(state, { filterHit });
+  } catch (err) {
+    console.error("[catalog] loadListing failed", err);
+    return { items: [], total: 0, page: 1, pages: 1 };
+  }
 }
 
 export async function loadFeatured(): Promise<Product[]> {
-  const { loadFeaturedImpl } = await import("./catalog-listing");
-  return loadFeaturedImpl();
+  try {
+    const { loadFeaturedImpl } = await import("./catalog-listing");
+    return await loadFeaturedImpl();
+  } catch (err) {
+    console.error("[catalog] loadFeatured failed", err);
+    return [];
+  }
 }
 
 export async function loadProduct(sku: string): Promise<Product | undefined> {
-  const { loadProductImpl } = await import("./catalog-listing");
-  return loadProductImpl(sku);
+  try {
+    const { loadProductImpl } = await import("./catalog-listing");
+    return await loadProductImpl(sku);
+  } catch (err) {
+    console.error("[catalog] loadProduct failed", err);
+    return undefined;
+  }
 }
 
 export async function loadRelated(product: Product, limit = 4): Promise<Product[]> {
-  const { loadRelatedImpl } = await import("./catalog-listing");
-  return loadRelatedImpl(product, limit);
+  try {
+    const { loadRelatedImpl } = await import("./catalog-listing");
+    return await loadRelatedImpl(product, limit);
+  } catch (err) {
+    console.error("[catalog] loadRelated failed", err);
+    return [];
+  }
 }
 
 export async function makesFor(_state?: ProductFilter) {
-  const facets = await loadFacets();
-  return facets.makes;
+  try {
+    const facets = await loadFacets();
+    return facets.makes;
+  } catch {
+    return [];
+  }
 }
 
 export async function modelsFor(state: ProductFilter) {
-  const facets = await loadFacets();
-  if (state.make && facets.modelsByMake[state.make]) return facets.modelsByMake[state.make];
-  return unique(Object.values(facets.modelsByMake).flat()).sort((a, b) => a.localeCompare(b, "he"));
+  try {
+    const facets = await loadFacets();
+    if (state.make && facets.modelsByMake[state.make]) return facets.modelsByMake[state.make];
+    return unique(Object.values(facets.modelsByMake).flat()).sort((a, b) => a.localeCompare(b, "he"));
+  } catch {
+    return [];
+  }
 }
 
 export async function yearsFor(state: ProductFilter) {
-  const facets = await loadFacets();
-  const key = `${state.make || ""}\t${state.model || ""}`;
-  const raw = facets.yearsByMakeModel[key] || [];
-  if (raw.length > 12) {
-    const hi = Math.max(...raw);
-    const lo = Math.min(...raw);
-    if (hi - lo > 12) return [hi, lo];
+  try {
+    const facets = await loadFacets();
+    const key = `${state.make || ""}\t${state.model || ""}`;
+    const raw = facets.yearsByMakeModel[key] || [];
+    if (raw.length > 12) {
+      const hi = Math.max(...raw);
+      const lo = Math.min(...raw);
+      if (hi - lo > 12) return [hi, lo];
+    }
+    if (facets.yearsByMakeModel[key]) return raw;
+    if (state.make) {
+      const prefix = `${state.make}\t`;
+      const years = Object.entries(facets.yearsByMakeModel)
+        .filter(([k]) => k.startsWith(prefix))
+        .flatMap(([, ys]) => ys);
+      return unique(years).sort((a, b) => b - a);
+    }
+    return unique(Object.values(facets.yearsByMakeModel).flat()).sort((a, b) => b - a);
+  } catch {
+    return [];
   }
-  if (facets.yearsByMakeModel[key]) return raw;
-  if (state.make) {
-    const prefix = `${state.make}\t`;
-    const years = Object.entries(facets.yearsByMakeModel)
-      .filter(([k]) => k.startsWith(prefix))
-      .flatMap(([, ys]) => ys);
-    return unique(years).sort((a, b) => b - a);
-  }
-  return unique(Object.values(facets.yearsByMakeModel).flat()).sort((a, b) => b - a);
 }
