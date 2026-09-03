@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Minus, Plus } from "lucide-react";
 import { DemoBanner } from "@/components/demo-banner";
@@ -9,16 +9,22 @@ import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { useCart } from "@/lib/cart";
-import { categoryName, getProduct, products, waLink } from "@/lib/catalog";
+import { categoryName, loadProduct, loadRelated, quoteMessage, waLink } from "@/lib/catalog";
 import { breadcrumbJsonLd, pageDescription, pageTitle, productJsonLd } from "@/lib/seo";
-import { money } from "@/lib/utils";
 
 export const Route = createFileRoute("/product/$id")({
-  head: ({ params }) => {
-    const product = getProduct(params.id);
-    if (!product) {
-      return { meta: [{ title: pageTitle("מוצר לא נמצא") }] };
-    }
+  loader: async ({ params }) => {
+    const product = await loadProduct(params.id);
+    if (!product) throw notFound();
+    const related = await loadRelated(product);
+    return { product, related };
+  },
+  pendingComponent: () => (
+    <div className="mx-auto max-w-[1180px] px-5 py-16 text-center text-muted">טוען מוצר…</div>
+  ),
+  head: ({ loaderData }) => {
+    const product = loaderData?.product;
+    if (!product) return { meta: [{ title: pageTitle("מוצר לא נמצא") }] };
     return {
       meta: [
         { title: pageTitle(product.name) },
@@ -30,25 +36,9 @@ export const Route = createFileRoute("/product/$id")({
 });
 
 function ProductPage() {
-  const { id } = Route.useParams();
-  const product = getProduct(id);
+  const { product, related } = Route.useLoaderData();
   const add = useCart((s) => s.add);
   const [qty, setQty] = useState(1);
-
-  if (!product) {
-    return (
-      <div className="mx-auto max-w-[1180px] px-5 py-16">
-        <div className="rounded-xl border border-line bg-card p-7 text-center">
-          המוצר לא נמצא.{" "}
-          <Link to="/" className="text-accent-hot underline">
-            חזרה
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const related = products.filter((x) => x.category === product.category && x.id !== product.id).slice(0, 4);
   const cat = categoryName(product.category) || "קטגוריה";
 
   return (
@@ -93,16 +83,7 @@ function ProductPage() {
           </span>
           <h1 className="mt-2 mb-2 text-[28px] leading-snug">{product.name}</h1>
           <div className="mb-4 flex items-baseline gap-2">
-            {product.price ? (
-              <>
-                <span className="text-[28px] font-extrabold tabular-nums">{money(product.price)}</span>
-                {product.originalPrice ? (
-                  <span className="text-subtle line-through tabular-nums">{money(product.originalPrice)}</span>
-                ) : null}
-              </>
-            ) : (
-              <span className="text-lg font-bold text-accent-warm">מחיר באישור בוואטסאפ</span>
-            )}
+            <span className="text-lg font-bold text-accent-warm">צור קשר להצעת מחיר</span>
           </div>
           <dl className="mb-4 grid grid-cols-[7.5rem_1fr] gap-x-2.5 gap-y-2 text-sm">
             <dt className="text-muted">מק״ט</dt>
@@ -138,10 +119,15 @@ function ProductPage() {
                   {product.yearFrom === product.yearTo ? product.yearFrom : `${product.yearFrom}–${product.yearTo}`}
                 </dd>
               </>
+            ) : product.vehicleFitment ? (
+              <>
+                <dt className="text-muted">התאמה לרכב</dt>
+                <dd className="font-semibold">{product.vehicleFitment}</dd>
+              </>
             ) : (
               <>
                 <dt className="text-muted">רכב</dt>
-                <dd className="font-semibold">אוניברסלי</dd>
+                <dd className="font-semibold">יש לאשר לפי מספר רכב</dd>
               </>
             )}
           </dl>
@@ -185,10 +171,10 @@ function ProductPage() {
               className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-md bg-accent px-4 text-sm font-semibold text-fg hover:bg-accent-hot"
               target="_blank"
               rel="noreferrer"
-              href={waLink(`שלום, רציתי לבדוק התאמה ומחיר לחלק ${product.sku} — ${product.name}`)}
+              href={waLink(quoteMessage(product))}
             >
               <WhatsAppIcon className="size-4" />
-              בדקו איתי בוואטסאפ
+              לבירור מלאי
             </a>
           </div>
         </div>

@@ -2,10 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ActiveFilters } from "@/components/active-filters";
 import { DemoBanner } from "@/components/demo-banner";
 import { Finder } from "@/components/finder";
-import { PAGE_SIZE, Pagination } from "@/components/pagination";
+import { Pagination } from "@/components/pagination";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
-import { categoryName, filterProducts, type ListingSearch } from "@/lib/catalog";
+import { categoryName, loadListing, type ListingSearch } from "@/lib/catalog";
 import { pageDescription, pageTitle } from "@/lib/seo";
 
 export type ResultsSearch = ListingSearch;
@@ -29,6 +29,9 @@ export const Route = createFileRoute("/results")({
     category: str(search.category),
     page: num(search.page),
   }),
+  loaderDeps: ({ search }) => search,
+  loader: ({ deps }) => loadListing(deps),
+  pendingComponent: PendingResults,
   head: ({ match }) => {
     const s = match.search;
     const topic = s.q
@@ -49,13 +52,15 @@ export const Route = createFileRoute("/results")({
   component: ResultsPage,
 });
 
+function PendingResults() {
+  return (
+    <div className="mx-auto max-w-[1180px] px-5 py-16 text-center text-muted">טוען קטלוג…</div>
+  );
+}
+
 function ResultsPage() {
   const state = Route.useSearch();
-  const list = filterProducts(state);
-  const page = state.page ?? 1;
-  const pages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
-  const current = Math.min(page, pages);
-  const slice = list.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);
+  const listing = Route.useLoaderData();
   const title = state.q
     ? `חיפוש: ${state.q}`
     : state.category
@@ -72,19 +77,19 @@ function ResultsPage() {
         <div className="mb-4.5">
           <h1 className="text-[26px] tracking-tight">{title}</h1>
           <p className="text-muted">
-            {list.length} חלקים תואמים
-            {pages > 1 ? ` · עמוד ${current} מתוך ${pages}` : ""}
+            {listing.total} חלקים תואמים
+            {listing.pages > 1 ? ` · עמוד ${listing.page} מתוך ${listing.pages}` : ""}
           </p>
         </div>
         <ActiveFilters state={state} />
-        {list.length ? (
+        {listing.items.length ? (
           <>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {slice.map((p) => (
+              {listing.items.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
             </div>
-            <Pagination page={current} total={list.length} search={state} />
+            <Pagination page={listing.page} total={listing.total} search={state} />
           </>
         ) : (
           <div className="rounded-xl border border-line bg-card p-7 text-center">

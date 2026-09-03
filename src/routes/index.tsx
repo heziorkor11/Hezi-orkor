@@ -4,12 +4,16 @@ import { FaqList } from "@/components/faq-list";
 import { Finder } from "@/components/finder";
 import { JsonLd } from "@/components/json-ld";
 import { ProductCard } from "@/components/product-card";
-import { brand, faqs, products, reviews } from "@/lib/catalog";
+import { brand, faqs, loadFeatured, reviews } from "@/lib/catalog";
 import { localBusinessJsonLd, pageDescription, websiteJsonLd } from "@/lib/seo";
 import { money } from "@/lib/utils";
 import { Star } from "lucide-react";
 
 export const Route = createFileRoute("/")({
+  loader: () => loadFeatured(),
+  pendingComponent: () => (
+    <div className="mx-auto max-w-[1180px] px-5 py-16 text-center text-muted">טוען…</div>
+  ),
   head: () => ({
     meta: [
       { title: `חלקי חילוף לרכב בנהריה | ${brand.nameHe}` },
@@ -25,7 +29,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const featured = products.slice(0, 8);
+  const featured = Route.useLoaderData();
 
   return (
     <>
@@ -63,7 +67,7 @@ function Home() {
       <div className="grid grid-cols-2 border-y border-line bg-panel lg:grid-cols-4">
         <Trust k="משלוח נוח" v={`₪${brand.shipping} · חינם מ־${money(brand.freeShipFrom)}`} />
         <Trust k="אספקה מהירה" v="איסוף מנהריה או שליח" />
-        <Trust k="התאמה לפי רכב" v="סוג חלק ← יצרן ← דגם ← שנה" />
+        <Trust k="התאמה לפי רכב" v="קטגוריה ← יצרן ← דגם ← שנה" />
         <Trust k="אדם בצד השני" v={`וואטסאפ ${brand.phone}`} />
       </div>
 
@@ -71,7 +75,7 @@ function Home() {
         <DemoBanner />
         <div className="mb-4.5">
           <h2 className="text-[26px] tracking-tight">חלקים שמוצאים בעין</h2>
-          <p className="text-muted">תמונה, מק״ט, צד ושנים — בלי לנחש.</p>
+          <p className="text-muted">תמונה, מק״ט, צד ושנים — בלי לנחש. בלי מחיר באתר, רק הצעת מחיר.</p>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {featured.map((p) => (

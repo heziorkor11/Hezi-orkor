@@ -1,25 +1,42 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { makesFor, modelsFor, partTypes, yearsFor, type ProductFilter } from "@/lib/catalog";
+import { categories, loadFacets, type CatalogFacets, type ProductFilter } from "@/lib/catalog";
 import { Button } from "@/components/ui/button";
 
 export function Finder({ state = {} }: { state?: ProductFilter }) {
   const navigate = useNavigate();
   const [draft, setDraft] = useState<ProductFilter>(state);
-  const makes = makesFor(draft);
-  const models = modelsFor(draft);
-  const years = yearsFor(draft);
+  const [facets, setFacets] = useState<CatalogFacets | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    loadFacets().then((next) => {
+      if (!cancelled) setFacets(next);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const makes = facets?.makes ?? (draft.make ? [draft.make] : []);
+  const models = draft.make && facets?.modelsByMake[draft.make]
+    ? facets.modelsByMake[draft.make]
+    : draft.model
+      ? [draft.model]
+      : [];
+  const yearKey = `${draft.make || ""}\t${draft.model || ""}`;
+  const years = facets?.yearsByMakeModel[yearKey] ?? (draft.year ? [Number(draft.year)] : []);
 
   function submit() {
     navigate({
       to: "/results",
       search: {
-        type: draft.type || undefined,
+        category: draft.category || undefined,
         make: draft.make || undefined,
         model: draft.model || undefined,
         year: draft.year || undefined,
+        type: undefined,
         q: undefined,
-        category: undefined,
       },
     });
   }
@@ -28,20 +45,20 @@ export function Finder({ state = {} }: { state?: ProductFilter }) {
     <div className="w-full max-w-5xl">
       <form
         className="grid grid-cols-1 gap-1.5 rounded-xl border border-line-strong bg-card/95 p-2 shadow-lift sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:rounded-full"
-        aria-label="חיפוש חלק לפי סוג, יצרן, דגם ושנה"
+        aria-label="חיפוש חלק לפי קטגוריה, יצרן, דגם ושנה"
         onSubmit={(e) => {
           e.preventDefault();
           submit();
         }}
       >
-        <Field label="1 · סוג חלק">
+        <Field label="1 · קטגוריה">
           <select
-            value={draft.type ?? ""}
+            value={draft.category ?? ""}
             className="w-full border-0 bg-transparent text-[15px] font-semibold text-fg outline-none"
-            onChange={(e) => setDraft((d) => ({ ...d, type: e.target.value || undefined }))}
+            onChange={(e) => setDraft((d) => ({ ...d, category: e.target.value || undefined }))}
           >
-            <option value="">בחר סוג חלק</option>
-            {partTypes.map((t) => (
+            <option value="">כל הקטגוריות</option>
+            {categories.map((t) => (
               <option key={t.id} value={t.id} className="text-ink">
                 {t.name}
               </option>

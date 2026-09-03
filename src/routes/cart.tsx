@@ -1,16 +1,16 @@
+import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { useCart } from "@/lib/cart";
-import { brand, getProduct, waLink } from "@/lib/catalog";
-import { money } from "@/lib/utils";
+import { loadProduct, quoteMessage, waLink, type Product } from "@/lib/catalog";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
     meta: [
       { title: "סל הקניות | חזי אורקור | נהריה" },
-      { name: "description", content: "סל הקניות של חזי אורקור. הזמנה לאישור בוואטסאפ, בלי סליקה באתר." },
+      { name: "description", content: "סל הקניות של חזי אורקור. בקשת הצעת מחיר בוואטסאפ, בלי סליקה באתר." },
     ],
   }),
   component: CartPage,
@@ -20,19 +20,31 @@ function CartPage() {
   const items = useCart((s) => s.items);
   const remove = useCart((s) => s.remove);
   const setQty = useCart((s) => s.setQty);
+  const [products, setProducts] = useState<Record<string, Product>>({});
+
+  useEffect(() => {
+    let cancelled = false;
+    const ids = items.map((c) => c.id);
+    Promise.all(ids.map((id) => loadProduct(id))).then((rows) => {
+      if (cancelled) return;
+      const next: Record<string, Product> = {};
+      rows.forEach((p) => {
+        if (p) next[p.id] = p;
+      });
+      setProducts(next);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [items]);
 
   const rows = items
-    .map((c) => ({ ...c, product: getProduct(c.id) }))
-    .filter((x): x is typeof x & { product: NonNullable<typeof x.product> } => Boolean(x.product));
-  const priced = rows.filter((x) => typeof x.product.price === "number");
-  const sum = priced.reduce((s, x) => s + (x.product.price ?? 0) * x.qty, 0);
-  const ship = sum >= brand.freeShipFrom || sum === 0 ? 0 : brand.shipping;
-  const needsQuote = priced.length !== rows.length;
+    .map((c) => ({ ...c, product: products[c.id] }))
+    .filter((x): x is typeof x & { product: Product } => Boolean(x.product));
 
   const orderText =
-    "הזמנה מהאתר:\n" +
-    rows.map((x) => `${x.product.sku} × ${x.qty} — ${x.product.name}`).join("\n") +
-    (needsQuote ? "\nחלק מהפריטים לאישור מחיר בוואטסאפ." : "\nסה\"כ " + (sum + ship) + " ₪");
+    "שלום, אשמח להצעת מחיר ולבירור מלאי לפריטים מהאתר:\n" +
+    rows.map((x) => `${x.product.sku} × ${x.qty} — ${x.product.name}`).join("\n");
 
   return (
     <div className="mx-auto max-w-[1180px] px-5 pt-7 pb-16">
@@ -40,6 +52,10 @@ function CartPage() {
         <h1 className="text-[26px] tracking-tight">סל הקניות</h1>
         <p className="text-muted">{rows.length} פריטים</p>
       </div>
+
+      {items.length && !rows.length ? (
+        <p className="text-muted">טוען פריטים מהקטלוג…</p>
+      ) : null}
 
       {rows.length ? (
         <>
@@ -60,9 +76,7 @@ function CartPage() {
                     <button type="button" className="grid size-11 place-items-center rounded-md border border-line-strong" onClick={() => setQty(x.id, x.qty + 1)} aria-label="הוסף כמות">+</button>
                   </div>
                 </div>
-                <div className="text-lg font-extrabold tabular-nums">
-                  {x.product.price ? money(x.product.price * x.qty) : "מחיר באישור"}
-                </div>
+                <div className="text-sm font-bold text-accent-warm">צור קשר להצעת מחיר</div>
                 <Button variant="ghost" size="sm" onClick={() => remove(x.id)}>
                   <Trash2 className="size-4" />
                   הסר
@@ -71,21 +85,10 @@ function CartPage() {
             ))}
           </div>
           <div className="mt-4 rounded-xl border border-line bg-card p-4">
-            {needsQuote ? (
-              <p className="mb-3 text-sm text-muted">יש פריטים בלי מחיר באתר. נאשר הכל בוואטסאפ לפני הזמנה.</p>
-            ) : (
-              <>
-                <p className="mb-2">
-                  משלוח: <b>{ship ? money(ship) : "חינם"}</b>{" "}
-                  {sum < brand.freeShipFrom && sum ? `(חינם מ־${money(brand.freeShipFrom)})` : ""}
-                </p>
-                <p className="mb-3">
-                  לתשלום: <span className="text-[22px] font-extrabold tabular-nums">{money(sum + ship)}</span>
-                </p>
-              </>
-            )}
+            <p className="mb-3 text-sm text-muted">
+              אין מחירים באתר. נשלח הצעת מחיר ונברר מלאי בוואטסאפ לפני הזמנה. העסקה נכרתת רק אחרי אישור התאמה.
+            </p>
             <p className="mb-4 text-sm text-muted">
-              השליחה בוואטסאפ היא בקשת הזמנה — העסקה נכרתת רק אחרי אישור התאמה ומחיר. אין סליקה באתר.{" "}
               <Link to="/legal/$slug" params={{ slug: "cancellation" }} className="underline hover:text-fg">
                 ביטול עסקה
               </Link>
@@ -94,13 +97,13 @@ function CartPage() {
                 תנאי שימוש
               </Link>
             </p>
-            <a className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-accent px-5 text-sm font-semibold text-fg hover:bg-accent-hot" target="_blank" rel="noreferrer" href={waLink(orderText)}>
+            <a className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-accent px-5 text-sm font-semibold text-fg hover:bg-accent-hot" target="_blank" rel="noreferrer" href={waLink(orderText || quoteMessage({ sku: "", name: "סל ריק" }))}>
               <WhatsAppIcon className="size-4" />
-              שליחה לאישור בוואטסאפ
+              שליחה להצעת מחיר בוואטסאפ
             </a>
           </div>
         </>
-      ) : (
+      ) : items.length ? null : (
         <div className="rounded-xl border border-line bg-card p-7 text-center">
           הסל ריק.{" "}
           <Link to="/" className="text-accent-hot underline">בחזרה לקטלוג</Link>
