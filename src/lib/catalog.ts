@@ -253,7 +253,9 @@ function usableRaw(value?: string) {
 
 async function loadImageMap() {
   if (!cache.images) {
-    const files = ["images-a.json", "images-b.json", "images-galor.json", "images-hot.json"];
+    const listed = ["images-a.json", "images-b.json", "images-galor.json", "images-hot.json"];
+    const pack = await catalogJson<{ files: string[] }>("images/manifest.json").catch(() => ({ files: [] as string[] }));
+    const files = listed.concat((pack.files || []).map((f) => `images/${f}`));
     const parts = await Promise.all(
       files.map((f) => catalogJson<Record<string, string>>(f).catch(() => ({} as Record<string, string>))),
     );
