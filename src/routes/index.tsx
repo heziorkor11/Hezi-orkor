@@ -35,7 +35,7 @@ function Home() {
     <>
       <JsonLd data={localBusinessJsonLd()} />
       <JsonLd data={websiteJsonLd()} />
-      <section className="relative isolate flex min-h-[520px] flex-col items-center justify-end overflow-hidden px-5 pt-9 pb-8 text-center lg:min-h-[640px]">
+      <section className="relative isolate flex flex-col items-center justify-end overflow-hidden px-5 pt-8 pb-6 text-center">
         <div className="pointer-events-none absolute inset-0 -z-10">
           <video
             autoPlay
@@ -55,11 +55,9 @@ function Home() {
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(5_5_6_/_0.15)_0%,rgb(5_5_6_/_0.45)_52%,rgb(5_5_6_/_0.94)_100%),radial-gradient(700px_260px_at_50%_28%,rgb(226_59_18_/_0.16),transparent)]" />
         </div>
         <h1 className="sr-only">חזי אורקור — חלקי חילוף לרכב בנהריה</h1>
-        <p className="mb-2.5 text-[13px] font-extrabold tracking-[0.28em] text-accent-warm">
-          WE FIX EVERYTHING
-        </p>
-        <p className="mb-4.5 text-base text-fg-soft">
-          חלפים ואביזרים לרכב בנהריה — מוצאים מהר, לפי מק״ט או לפי הרכב
+        <p className="mb-2 text-lg font-bold text-fg">חלקי חילוף לרכב בנהריה</p>
+        <p className="mb-4 text-base text-fg-soft">
+          מוצאים לפי מק״ט, OE או לפי יצרן־דגם־שנה. בלי מחיר באתר — שולחים הצעת מחיר אחרי אישור התאמה.
         </p>
         <Finder />
       </section>
@@ -85,7 +83,7 @@ function Home() {
 
         <div className="mt-9 mb-4.5">
           <h2 className="text-[26px] tracking-tight">מה אומרים לקוחות</h2>
-          <p className="text-muted">הפסיכולוגיה פשוטה: להוריד פחד מטעות.</p>
+          <p className="text-muted">מצאו חלק לפי דגם ושנה, בלי לנחש.</p>
         </div>
         <div className="grid grid-cols-1 gap-3.5 md:grid-cols-3">
           {reviews.map((r) => (
