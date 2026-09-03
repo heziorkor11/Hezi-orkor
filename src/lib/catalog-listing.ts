@@ -1,5 +1,6 @@
 import { typeFromCategory, PAGE_SIZE, type ListingCard, type ListingResult, type ListingSearch, type Product, type SearchHit } from "@/lib/catalog-types";
 import { displayModel, polishText, unique } from "@/lib/catalog-runtime";
+import { imageLooksLikeSharedOe, inferCategory, yearsFromTitle } from "@/lib/part-display";
 
 const cache = {
   searchIndex: undefined as SearchHit[] | undefined,
@@ -69,10 +70,11 @@ async function loadImageMap() {
   return cache.images;
 }
 
-function resolveImage(sku?: string, existing?: string) {
+function resolveImage(sku?: string, existing?: string, oe?: string) {
   const mapped = sku && cache.images ? cache.images[sku] : undefined;
   const candidate = (mapped && usableRaw(mapped) ? mapped : undefined) || (usableRaw(existing) ? existing : undefined);
   if (!candidate) return undefined;
+  if (imageLooksLikeSharedOe(candidate, oe)) return undefined;
   if (candidate.startsWith("g:")) return `https://galor-shop.com/uploads/photos/${candidate.slice(2)}`;
   if (candidate.startsWith("http")) return candidate;
   return wixImage(candidate);
@@ -85,15 +87,17 @@ function collapseRepeatedWords(text: string) {
 function cardToProduct(card: ListingCard & Partial<Product>): Product {
   const make = collapseRepeatedWords(card.make || "");
   const model = displayModel(make, card.model || "");
-  const yearFrom = card.yearFrom || 0;
-  const yearTo = card.yearTo || 0;
+  const named = yearsFromTitle(card.name);
+  const yearFrom = named?.from || card.yearFrom || 0;
+  const yearTo = named?.to || card.yearTo || 0;
+  const category = card.category && card.category !== "general" ? card.category : inferCategory(card.name, card.category);
   return {
     id: card.id || card.sku,
     sku: card.sku,
     oe: card.oe || "",
     name: polishText(card.name),
-    type: typeFromCategory(card.category),
-    category: card.category,
+    type: typeFromCategory(category),
+    category,
     make,
     model,
     yearFrom,
@@ -101,7 +105,7 @@ function cardToProduct(card: ListingCard & Partial<Product>): Product {
     side: polishText(card.side || ""),
     condition: card.condition || "חלק חדש",
     description: polishText(card.description || ""),
-    image: resolveImage(card.sku, card.image),
+    image: resolveImage(card.sku, card.image, card.oe),
     universal: Boolean(!make && !yearFrom && !(card.vehicleFitment || "").trim()),
     vehicleFitment: polishText(card.vehicleFitment || ""),
   };
@@ -140,7 +144,13 @@ export async function loadFeaturedImpl(): Promise<Product[]> {
   await loadImageMap();
   if (!cache.featured) {
     const rows = await catalogJson<ListingCard[]>("featured.json");
-    cache.featured = rows.map((row) => cardToProduct(row));
+    const seen = new Set<string>();
+    cache.featured = rows.map((row) => cardToProduct(row)).filter((p) => {
+      if (!p.image) return true;
+      if (seen.has(p.image)) p.image = undefined;
+      else seen.add(p.image);
+      return true;
+    });
   }
   return cache.featured;
 }
@@ -160,7 +170,10 @@ export async function loadRelatedImpl(product: Product, limit = 4): Promise<Prod
   const chunkId = map[product.sku];
   if (!chunkId) return [];
   const chunk = await loadChunk(chunkId);
-  return chunk.filter((p) => p.category === product.category && p.sku !== product.sku).slice(0, limit);
+  const others = chunk.filter((p) => p.sku !== product.sku);
+  const sameCar = others.filter((p) => product.make && p.make === product.make && (!product.model || p.model === product.model));
+  const pool = sameCar.length ? sameCar : others.filter((p) => p.category === product.category);
+  return pool.slice(0, limit);
 }
 
 export async function loadListingImpl(
