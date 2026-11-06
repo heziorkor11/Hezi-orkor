@@ -7,7 +7,7 @@ import { pageDescription, pageTitle } from "@/lib/seo";
 const titles: Record<LegalSlug, { title: string; summary: string }> = {
   terms: {
     title: "תנאי שימוש",
-    summary: `השימוש באתר ${brand.nameHe} ובשירות ההזמנה בוואטסאפ כפוף לתנאים אלה ולדין הישראלי.`,
+    summary: "השימוש באתר חזי אורקור ובשירות ההזמנה בוואטסאפ כפוף לתנאים אלה ולדין הישראלי.",
   },
   privacy: {
     title: "מדיניות פרטיות",

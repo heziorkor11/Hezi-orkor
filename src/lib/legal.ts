@@ -1,9 +1,8 @@
-import { brand } from "@/lib/brand";
 
 export const legalMeta = {
   lastUpdated: "2 בספטמבר 2026",
   lastUpdatedIso: "2026-09-02",
-  coordinatorName: brand.nameHe,
+  coordinatorName: "חזי אורקור",
   jurisdiction: "בתי המשפט המוסמכים במחוז חיפה",
   standard: "ת״י 5568 (WCAG 2.0 רמת AA)",
 } as const;
