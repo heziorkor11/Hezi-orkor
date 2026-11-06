@@ -86,7 +86,7 @@ function ResultsPage() {
           <>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {listing.items.map((p) => (
-                <ProductCard key={p.id} product={p} />
+                <ProductCard key={p.id} product={p} filter={state} />
               ))}
             </div>
             <Pagination page={listing.page} total={listing.total} search={state} />

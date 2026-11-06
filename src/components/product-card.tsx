@@ -3,22 +3,39 @@ import { toast } from "sonner";
 import { PartIcon } from "@/components/part-icon";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
-import { displayVehicle, fitmentLabel, quoteMessage, type Product, waLink } from "@/lib/catalog";
+import {
+  displayVehicle,
+  fitmentLabel,
+  pickDisplayedFitment,
+  quoteMessage,
+  type Product,
+  type ProductFilter,
+  waLink,
+} from "@/lib/catalog";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { useState } from "react";
 
-function yearRange(product: Product) {
-  if (!product.yearFrom) return null;
-  return product.yearFrom === product.yearTo ? String(product.yearFrom) : `${product.yearFrom}–${product.yearTo}`;
+function yearRange(from?: number, to?: number) {
+  if (!from) return null;
+  return from === to ? String(from) : `${from}–${to}`;
 }
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({
+  product,
+  filter,
+}: {
+  product: Product;
+  /** Active finder filters — when set, card shows the matching fitment. */
+  filter?: ProductFilter;
+}) {
   const add = useCart((s) => s.add);
-  const car = displayVehicle(product.make, product.model);
-  const years = yearRange(product);
+  const shown = pickDisplayedFitment(product, filter);
+  const car = displayVehicle(shown.make, shown.model);
+  const years = yearRange(shown.yearFrom, shown.yearTo);
   const fit = fitmentLabel(product);
   const [broken, setBroken] = useState(false);
   const showImage = Boolean(product.image) && !broken;
+  const extraLabel = shown.extraCount > 0 ? `+${shown.extraCount} רכבים` : null;
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-card transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-ember motion-reduce:transition-none motion-reduce:hover:translate-y-0">
@@ -41,7 +58,12 @@ export function ProductCard({ product }: { product: Product }) {
             </div>
           )}
           <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-ink via-ink/80 to-transparent px-3 pt-10 pb-2.5">
-            <p className="truncate text-sm font-bold text-fg">{car || product.vehicleFitment || "יש לאשר לפי מספר רכב"}</p>
+            <p className="truncate text-sm font-bold text-fg">
+              {car || product.vehicleFitment || "יש לאשר לפי מספר רכב"}
+              {extraLabel ? (
+                <span className="mr-1.5 text-[11px] font-bold text-accent-warm"> {extraLabel}</span>
+              ) : null}
+            </p>
             {years ? <p className="text-xs font-semibold text-accent-warm">{years}</p> : null}
           </div>
         </div>
@@ -53,16 +75,19 @@ export function ProductCard({ product }: { product: Product }) {
           </Link>
         </h3>
         <dl className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 text-xs">
-          {product.make ? (
+          {shown.make ? (
             <>
               <dt className="text-muted">יצרן</dt>
-              <dd className="font-bold text-fg">{product.make}</dd>
+              <dd className="font-bold text-fg">{shown.make}</dd>
             </>
           ) : null}
-          {product.model ? (
+          {shown.model ? (
             <>
               <dt className="text-muted">דגם</dt>
-              <dd className="font-bold text-fg">{product.model}</dd>
+              <dd className="font-bold text-fg">
+                {shown.model}
+                {extraLabel ? <span className="mr-1 text-accent-warm"> {extraLabel}</span> : null}
+              </dd>
             </>
           ) : null}
           {years ? (

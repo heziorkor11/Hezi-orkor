@@ -155,8 +155,8 @@ const products = rows.map((row) => {
   const image = matchImage(row.sku, row.oe, images);
   const description = row.description || defaultDescription(row.name, row.sku, row.vehicleFitment);
 
+  // Catalog-wide multi-fitment normalize (shared table). Small-engine reclass only from plugs.
   const isPlug = category === "spark-plugs";
-  const wantNormalize = isPlug;
 
   let make = "";
   let model = "";
@@ -165,13 +165,24 @@ const products = rows.map((row) => {
   /** @type {{make:string,model:string,yearFrom:number,yearTo:number}[]|undefined} */
   let fitments;
 
-  if (wantNormalize) {
+  {
     const parsed = parseFitments(row.vehicleFitment, row.name, { enabled: true });
-    if (parsed.smallEngine) {
-      // Only reclassify plugs (lawn mower / ATV / small engine) away from vehicle finder.
+    if (parsed.smallEngine && isPlug) {
+      // Lawn mower / ATV / small-engine plugs → own category, excluded from vehicle finder.
       categoryName = "מנועים קטנים";
       category = "small-engine";
       fitments = [];
+    } else if (parsed.smallEngine && !isPlug) {
+      // Non-plug small-engine text: leave make empty, do not invent vehicle fitment.
+      fitments = [];
+      if (true) {
+        needsReviewRows.push({
+          sku: row.sku,
+          name: row.name,
+          reasons: ["small-engine-non-plug"],
+          vehicleFitment: String(row.vehicleFitment || "").slice(0, 240),
+        });
+      }
     } else {
       fitments = parsed.fitments.filter((f) => f.make);
       if (fitments.length) {
@@ -190,17 +201,11 @@ const products = rows.map((row) => {
           sku: row.sku,
           name: row.name,
           reasons: parsed.needsReview,
+          category,
           vehicleFitment: String(row.vehicleFitment || "").slice(0, 240),
         });
       }
     }
-  } else {
-    const legacy = parseMakeModel(row.vehicleFitment, row.name);
-    make = legacy.make;
-    model = legacy.model;
-    const y = parseYears(row.vehicleFitment);
-    yearFrom = y.yearFrom;
-    yearTo = y.yearTo;
   }
 
   const record = compact({
@@ -304,6 +309,7 @@ for (let i = 0; i < pageCount; i += 1) {
       side: p.side || "",
       image: p.image,
       oe: p.oe || "",
+      fitments: p.fitments,
     });
     assertNoPrice(card, `page ${n} ${card.sku}`);
     return card;

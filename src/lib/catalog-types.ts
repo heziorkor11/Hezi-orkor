@@ -104,6 +104,7 @@ export type ListingCard = {
   oe?: string;
   condition?: string;
   description?: string;
+  fitments?: VehicleFitment[];
 };
 
 export type CatalogFacets = {

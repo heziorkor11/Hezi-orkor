@@ -5,6 +5,8 @@ import {
   type CatalogFacets,
   type CatalogManifest,
   type Product,
+  type ProductFilter,
+  type VehicleFitment,
 } from "@/lib/catalog-types";
 import { catalogJson } from "@/lib/catalog-io";
 
@@ -73,6 +75,54 @@ export function fitmentLabel(product: Product) {
   const fit = polishText(product.vehicleFitment);
   if (fit) return fit.length > 80 ? `${fit.slice(0, 77)}…` : fit;
   return "יש לאשר לפי מספר רכב";
+}
+
+
+export function productFitments(product: Product): VehicleFitment[] {
+  if (Array.isArray(product.fitments) && product.fitments.length) return product.fitments;
+  if (product.make) {
+    return [{ make: product.make, model: product.model || "", yearFrom: product.yearFrom || 0, yearTo: product.yearTo || 0 }];
+  }
+  return [];
+}
+
+/** Prefer the fitment matching active finder filters; else the primary (first with model). */
+export function pickDisplayedFitment(product: Product, filter?: ProductFilter): {
+  make: string;
+  model: string;
+  yearFrom: number;
+  yearTo: number;
+  extraCount: number;
+} {
+  const all = productFitments(product);
+  const extra = Math.max(0, all.length - 1);
+  let chosen = all.find((f) => f.model) || all[0];
+
+  if (filter?.make || filter?.model || filter?.year) {
+    const y = filter.year ? Number(String(filter.year).replace(/["']/g, "")) : NaN;
+    const hit = all.find((f) => {
+      if (filter.make && f.make !== filter.make) return false;
+      if (filter.model && !sameModel(filter.make || f.make || "", f.model, filter.model)) return false;
+      if (Number.isFinite(y)) {
+        const from = f.yearFrom || 0;
+        const to = f.yearTo || f.yearFrom || 0;
+        if (from && to && (y < from || y > to)) return false;
+      }
+      return true;
+    });
+    if (hit) chosen = hit;
+  }
+
+  if (!chosen) {
+    return { make: product.make || "", model: product.model || "", yearFrom: product.yearFrom || 0, yearTo: product.yearTo || 0, extraCount: 0 };
+  }
+  return {
+    make: chosen.make || "",
+    model: chosen.model || "",
+    yearFrom: chosen.yearFrom || 0,
+    yearTo: chosen.yearTo || 0,
+    extraCount: filter?.make || filter?.model || filter?.year ? 0 : extra,
+  };
 }
 
 export async function loadManifest(): Promise<CatalogManifest> {

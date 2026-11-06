@@ -159,6 +159,65 @@ export const MODEL_ALIASES = {
   "Fortwo 2": "Fortwo",
   Fortwo: "Fortwo",
   "פורטו": "Fortwo",
+
+  "ג'וליה": "גוליה",
+  גוליה: "גוליה",
+  "גרנד וויאג'ר": "גרנד ויאגר",
+  "גרנד וויאגר": "גרנד ויאגר",
+  "וויאג'ר": "ויאגר",
+  וויאגר: "ויאגר",
+  "ג'ורני": "גורני",
+  "S MAX": "S-MAX",
+  "S Max": "S-MAX",
+  "רנג'לר": "רנגלר",
+  "סד 3": "סדרה 3",
+  סד3: "סדרה 3",
+  "סד 5": "סדרה 5",
+  סד5: "סדרה 5",
+  "לג'נד": "לגנד",
+  "לנדקרוזר פראדו": "לנד קרוזר פראדו",
+  "C HR": "C-HR",
+  "CH R": "C-HR",
+  CHR: "C-HR",
+  CT200H: "CT200h",
+  "IS 250": "IS250",
+  "LS 460": "LS460",
+  "NX 300": "NX300",
+  "RX 300": "RX300",
+  "RX 450": "RX450",
+  "BT 50": "BT-50",
+  BT50: "BT-50",
+  "CX 3": "CX-3",
+  CX3: "CX-3",
+  "CX 30": "CX-30",
+  CX30: "CX-30",
+  "CX 5": "CX-5",
+  CX5: "CX-5",
+  "MX 5": "MX-5",
+  MX5: "MX-5",
+  "אטראז'": "אטראז",
+  "ג'מפי": "גמפי",
+  גמפי: "גמפי",
+  "ג'וגר": "גוגר",
+  "לודג'י": "לודג'י",
+  לודגי: "לודג'י",
+  "קדג'אר": "קדג'אר",
+  קדגאר: "קדג'אר",
+  "קפצ'ור": "קפצ'ור",
+  קפצור: "קפצ'ור",
+
+  "ג'וק": "ג'וק",
+  גוק: "ג'וק",
+  "C4 ספייסטורר": "C4 ספייס טורר",
+  "סנצ'ורי": "סנצ'ורי",
+  סנצורי: "סנצ'ורי",
+  "גמפי 2 0 HDI": "גמפי 2.0 HDI",
+  "גמפי 2 0HDI": "גמפי 2.0 HDI",
+  "סיד 1 6 D": "סיד 1.6 D",
+  "סיד 1 6D": "סיד 1.6 D",
+  ספורטאג: "ספורטאג",
+  "ספורטאג'": "ספורטאג",
+
   "ספורטאג'": "ספורטאג",
   "ספורטאז'": "ספורטאג",
   "FR V": "FR-V",
@@ -215,6 +274,9 @@ export function normalizeModel(make, model) {
   }
   // marketing / junk prefixes
   s = s.replace(/^להט\s+/i, "");
+  // Collapse "קדL" / "קד R" side noise left in model tokens
+  s = s.replace(/\s*קד\s*[LR]\b/gi, " ").replace(/\s*אח\s*[LR]\b/gi, " ");
+  s = s.replace(/\s+עד\s*(\d{2})\b/gi, " עד $1");
   s = s
     .replace(/שנות ייצור.*$/i, "")
     .replace(/:?\s*שנים:.*$/i, "")
@@ -317,6 +379,8 @@ function isJunkModel(model) {
   if (/\d{5,}/.test(m)) return true; // part-number-ish
   if ((m.match(/\d/g) || []).length >= 6) return true;
   if (/^(MS|Z2|WR|U|BOSCH|NGK|ACDelco)\b/i.test(m)) return true;
+  // Product-name leftovers mistaken as models (shock/filter/light rows)
+  if (/^(בולם|פנס|פילטר|מצת|מדחס|מעבה|רפיד|דיסק|חיישן|סליל)/.test(m)) return true;
   return false;
 }
 
