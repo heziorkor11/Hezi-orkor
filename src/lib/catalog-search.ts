@@ -8,15 +8,27 @@ import {
   typeFromCategory,
 } from "@/lib/catalog-types";
 import { loadFacets, unique } from "@/lib/catalog-runtime";
-import { oeSearchTokens, yearBounds } from "@/lib/part-display";
+import { namePartNumberTokens, normalizePartKey, oeSearchTokens, yearBounds } from "@/lib/part-display";
 
 function escapeReg(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function looksLikePartNumber(q: string) {
-  const compact = q.replace(/[\s-]/g, "");
+  const compact = normalizePartKey(q);
   return /\d/.test(compact) && compact.length >= 5;
+}
+
+function partKeyMatches(candidate: string, queryKey: string) {
+  if (!candidate || !queryKey) return false;
+  if (candidate === queryKey) return true;
+  // Prefix: typed query is a prefix of the stored part number.
+  if (queryKey.length >= 5 && candidate.startsWith(queryKey)) return true;
+  // Allow a slightly longer typed form that starts with the stored part.
+  if (candidate.length >= 5 && queryKey.startsWith(candidate) && queryKey.length - candidate.length <= 3) {
+    return true;
+  }
+  return false;
 }
 
 function tokenHit(hay: string, needle: string) {
@@ -35,21 +47,26 @@ function queryMatchesHit(hit: SearchHit, raw: string) {
   const q = raw.trim();
   if (!q) return true;
   const s = q.toLowerCase();
+  const qKey = normalizePartKey(q);
   const title = hit.title || "";
   const titleOriginal = hit.titleOriginal || "";
   const make = hit.make || "";
   const model = hit.model || "";
   const sku = (hit.sku || "").toLowerCase();
+  const skuKey = normalizePartKey(hit.sku);
   const oeTokens = oeSearchTokens(hit.oe);
+  const nameTokens = [...namePartNumberTokens(title), ...namePartNumberTokens(titleOriginal)];
   const titles = [title, titleOriginal].filter(Boolean);
-  if (looksLikePartNumber(s)) {
-    if (sku === s || sku.startsWith(s) || s.startsWith(sku)) return true;
-    if (oeTokens.some((t) => t === s || t.startsWith(s) || s.startsWith(t))) return true;
-    return titles.some((t) => tokenHit(t, q) || t.toLowerCase().includes(s));
+  if (looksLikePartNumber(q)) {
+    if (partKeyMatches(skuKey, qKey) || sku === s || sku.startsWith(s)) return true;
+    if (oeTokens.some((t) => partKeyMatches(normalizePartKey(t), qKey) || partKeyMatches(t, s))) return true;
+    if (nameTokens.some((t) => partKeyMatches(normalizePartKey(t), qKey) || partKeyMatches(t, s))) return true;
+    if (qKey.length >= 6 && normalizePartKey(hit.oe).includes(qKey)) return true;
+    return titles.some((t) => tokenHit(t, q) || (qKey.length >= 6 && normalizePartKey(t).includes(qKey)));
   }
   if (titles.some((t) => tokenHit(t, q)) || tokenHit(make, q) || tokenHit(model, q)) return true;
   if (s.length >= 3 && titles.some((t) => t.toLowerCase().includes(s))) return true;
-  if (s.length >= 4 && (sku === s || sku.startsWith(s))) return true;
+  if (s.length >= 4 && (sku === s || sku.startsWith(s) || partKeyMatches(skuKey, qKey))) return true;
   return false;
 }
 
