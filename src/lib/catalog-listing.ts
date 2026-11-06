@@ -59,8 +59,11 @@ function cardToProduct(card: ListingCard & Partial<Product>): Product {
   const yearFrom = named?.from || card.yearFrom || 0;
   const yearTo = named?.to || card.yearTo || 0;
   let category = card.category && card.category !== "general" ? card.category : inferCategory(card.name, card.category);
-  // Compressors misfiled under lights (HZ-HDL SKUs named מדחס) — name wins.
-  if (/מדחס/.test(card.name || "") && category === "lights") category = "ac-compressor";
+  const nm = card.name || "";
+  // High-confidence name corrections (SKU/name/price unchanged).
+  if (/מדחס/.test(nm) && category === "lights") category = "ac-compressor";
+  else if ((/\bמ\.דלק\b/.test(nm) || nm.startsWith("מ.דלק") || nm.includes("משאבת דלק")) && !/(מסנן|פילטר).{0,12}(מ\.?דלק|דלק)|(מ\.?דלק|דלק).{0,12}(מסנן|פילטר)/.test(nm) && category === "filters") category = "fuel-pump";
+  else if ((/גומי מייצב/.test(nm) || /^בולם\b/.test(nm)) && category === "general") category = "shocks";
   return {
     id: card.id || card.sku,
     sku: card.sku,

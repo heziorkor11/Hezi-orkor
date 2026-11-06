@@ -49,6 +49,8 @@ const CATEGORY_SLUGS = {
   "חיישן חמצן": "sensors",
   תוספים: "additives",
   "מנועים קטנים": "small-engine",
+  "משאבת דלק": "fuel-pump",
+  "בולם זעזועים": "shocks",
 };
 
 const CATEGORY_ORDER = Object.keys(CATEGORY_SLUGS);
@@ -164,15 +166,56 @@ const products = rows.map((row) => {
   let categoryName = row.category || "כללי";
   let category = slugifyCategory(categoryName);
 
-  // Explicit SKU overrides (e.g. HZ-HDL compressors misfiled as headlights).
+  // Explicit SKU overrides (category-overrides.json).
   const ov = categoryOverridesBySku[row.sku];
   if (ov?.category && ov?.categoryName) {
     category = ov.category;
     categoryName = ov.categoryName;
-  } else if (/מדחס/.test(String(row.name || "")) && category === "lights") {
-    // Name-based safety: מדחס under פנס ראשי → מדחס מזגן (same as HZ-CMP).
-    categoryName = "מדחס מזגן";
-    category = "ac-compressor";
+  } else {
+    // High-confidence name rules (never invent; careful with fuel filters).
+    const name = String(row.name || "");
+    const isFuelFilter = /(מסנן|פילטר).{0,12}(מ\.?דלק|דלק)|(מ\.?דלק|דלק).{0,12}(מסנן|פילטר)/.test(name);
+    if ((/\bמ\.דלק\b/.test(name) || name.startsWith("מ.דלק") || name.includes("משאבת דלק")) && !isFuelFilter) {
+      categoryName = "משאבת דלק";
+      category = "fuel-pump";
+    } else if (/מדחס/.test(name) && category === "lights") {
+      categoryName = "מדחס מזגן";
+      category = "ac-compressor";
+    } else if (/גומי מייצב/.test(name) || /^בולם\b/.test(name)) {
+      categoryName = "בולם זעזועים";
+      category = "shocks";
+    } else if (/^רפיד/.test(name) || name.includes("רפידות בלם")) {
+      categoryName = "בלמים";
+      category = "brakes";
+    } else if (/^מעבה\b/.test(name)) {
+      categoryName = "מעבה מזגן";
+      category = "ac-condenser";
+    } else if (/^סליל(י)? הצתה/.test(name)) {
+      categoryName = "סליל הצתה";
+      category = "ignition-coils";
+    } else if (/^מצת/.test(name) && category !== "small-engine") {
+      categoryName = "מצתים";
+      category = "spark-plugs";
+    } else if (/חיישן חמצן/.test(name)) {
+      categoryName = "חיישן חמצן";
+      category = "sensors";
+    } else if (/^(פילטר|מסנן) שמן/.test(name)) {
+      categoryName = "מסנן שמן";
+      category = "oil-filter";
+    } else if (/^(פילטר|מסנן) מזגן/.test(name)) {
+      categoryName = "פילטר מזגן";
+      category = "cabin-filter";
+    } else if (/^נור(ה|ת|ות|ית)\b/.test(name) && category === "lights") {
+      categoryName = "תאורה ונורות";
+      category = "lighting";
+    } else if (
+      category === "lights" &&
+      !/פנס|מדחס|^(ראשי|נס ראשי|סט ראשי)\b/.test(name) &&
+      /(זכוכית|רפלקטור|בורג כוון|ברגים כוון|מסגרת לראשי|כסוי|כיסוי)/.test(name)
+    ) {
+      categoryName = "תאורה ונורות";
+      category = "lighting";
+    }
   }
 
   const side = parseSide(row.vehicleFitment);

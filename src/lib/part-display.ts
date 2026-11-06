@@ -14,6 +14,8 @@ const NAME_CATEGORY: Array<[RegExp, string]> = [
   [/פנס ערפל/, "lighting"],
   [/פנס/, "lights"],
   [/מדחס/, "ac-compressor"],
+  [/מ\.דלק|משאבת דלק/, "fuel-pump"],
+  [/גומי מייצב/, "shocks"],
   [/מעבה/, "ac-condenser"],
   [/פילטר שמן|מסנן שמן/, "oil-filter"],
   [/פילטר מזגן|מסנן מזגן|פילטר תא/, "cabin-filter"],

@@ -149,6 +149,7 @@ const CATEGORY_TYPE: Record<string, PartTypeId> = {
   general: "general",
   radiator: "radiator",
   shocks: "shock",
+  "fuel-pump": "general",
   mirrors: "mirror",
   body: "fender",
   bumper: "bumper",

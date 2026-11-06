@@ -1,7 +1,5407 @@
 {
   "description": "SKU category overrides applied by process-catalog.mjs. Does not change SKU ids, names, or prices.",
-  "reason": "HZ-HDL SKUs whose product name is מדחס (AC compressor) were filed under פנס ראשי/lights — Matan approved fix 2026-11-06",
+  "reason": "Matan approved 2026-11-06: fuel pumps, stabilizer bushings, HDL accessories + high-confidence catalog-wide name rules.",
   "bySku": {
+    "HZ-FLT-00671": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00672": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00673": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00674": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00675": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00676": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00677": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00678": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00679": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00680": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00681": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00682": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00683": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00684": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00685": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00686": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00687": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00688": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00689": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00690": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00691": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00692": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00693": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00694": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00695": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00696": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00697": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00698": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00699": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00700": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00701": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00702": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00703": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00704": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00705": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00706": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00707": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00708": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00709": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00710": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00711": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00712": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00713": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00714": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00715": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00716": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00717": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00718": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00719": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00720": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00721": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00722": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00723": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00724": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00725": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00726": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00727": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00728": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00729": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00730": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00731": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00732": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00733": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00734": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00735": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00736": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00737": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00738": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00739": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00740": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00741": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00742": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00743": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00744": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00745": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00746": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00747": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00748": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00749": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00750": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00751": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00752": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00753": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00754": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00755": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00756": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00757": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00758": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00759": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00760": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00761": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00762": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00763": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00764": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00765": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00766": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00767": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00768": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00769": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00770": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00771": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00772": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00773": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00774": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00775": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00776": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00777": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00778": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00779": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00780": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00781": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00782": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00783": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00784": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00785": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00786": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00787": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00788": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00789": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00790": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00791": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00792": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00793": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00794": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00795": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00796": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00797": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00798": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00799": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00800": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-FLT-00801": {
+      "category": "fuel-pump",
+      "categoryName": "משאבת דלק"
+    },
+    "HZ-GEN-01223": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01224": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01225": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01226": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01227": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01228": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01229": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01230": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01231": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01232": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01233": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01234": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01235": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01236": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01237": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01238": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01239": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01240": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01241": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01242": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01243": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01244": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01245": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01246": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01247": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01248": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01249": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01250": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01251": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01252": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01253": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01254": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01255": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01256": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01257": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01258": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01259": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01260": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01261": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01262": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01263": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01264": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01265": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01266": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01267": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01268": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01269": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01270": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01271": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01272": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01273": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01274": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01275": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01276": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01277": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01278": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01279": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01280": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01281": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01282": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01283": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01284": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01285": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01286": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01287": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01288": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01289": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01290": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01291": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01292": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01293": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01294": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01295": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01296": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01297": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01298": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01299": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01300": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01301": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01302": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01303": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01304": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01305": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01306": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01307": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01308": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01309": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01310": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01311": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01312": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01313": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01314": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01315": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01316": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01317": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01318": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01319": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01320": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01321": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01322": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01323": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01324": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01325": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01326": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01327": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01328": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01329": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01330": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01331": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01332": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01333": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01334": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01335": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01336": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01337": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01338": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01339": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01340": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01341": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01342": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01343": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01344": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01345": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01346": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01347": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01348": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01349": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01350": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01351": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01352": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01353": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01354": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01355": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01356": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01357": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01358": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01359": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01360": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01361": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01362": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01363": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01364": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01365": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01366": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01367": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01368": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01369": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01370": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01371": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01372": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01373": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01374": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01375": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01376": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01377": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01378": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01379": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01380": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01381": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01382": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01383": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01384": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01385": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01386": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01387": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01388": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01389": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01390": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01391": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01392": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01393": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01394": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01395": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01396": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01397": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01398": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01399": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01400": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01401": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01402": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01403": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01404": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01405": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01406": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01407": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01408": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01409": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01410": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01411": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01412": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01413": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01414": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01415": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01416": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01417": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01418": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01419": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01420": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01421": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01422": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01423": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01424": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01425": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01426": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01427": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01428": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01429": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01430": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01431": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01432": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01433": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01434": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01435": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01436": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01437": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01438": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01439": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01440": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01441": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01442": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01443": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01444": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01445": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01446": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01447": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01448": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01449": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01450": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01451": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01452": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01453": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01454": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01455": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01456": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01457": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01458": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01459": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01460": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01461": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01462": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01463": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01464": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01465": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01466": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01467": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01468": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01469": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01470": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01471": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01472": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01473": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01474": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01475": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01476": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01477": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01478": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01479": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01480": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01481": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01482": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01483": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01484": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01485": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01486": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01487": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01488": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01489": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01490": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01491": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01492": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01493": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01494": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01495": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01496": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01497": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01498": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01499": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01500": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01501": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01502": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01503": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01504": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01505": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01506": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01507": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01508": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01509": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01510": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01511": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01512": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01513": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01514": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01515": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01516": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01517": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01518": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01519": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01520": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01521": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01522": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01523": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01524": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01525": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01526": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01527": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01528": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01529": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01530": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01531": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01532": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01533": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01534": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01535": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01536": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01537": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01538": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01539": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01540": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01541": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01542": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01543": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01544": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01545": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01546": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01547": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01548": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01549": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01550": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01551": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01552": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01553": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01554": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01555": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01556": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01557": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01558": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01559": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01560": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01561": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01562": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01563": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01564": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01565": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01566": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01567": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01568": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01569": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01570": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01571": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01572": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01573": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01574": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01575": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01576": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01577": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01578": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01579": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01580": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01581": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01582": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01583": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01584": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01585": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01586": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01587": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01588": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01589": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01590": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01591": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01592": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01593": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01594": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01595": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01596": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01597": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01598": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01599": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01600": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01601": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01602": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01603": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01604": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01605": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01606": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01607": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01608": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01609": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01610": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01611": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01612": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01613": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01614": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01615": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01616": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01617": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01618": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01619": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01620": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01621": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01622": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01623": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01624": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01625": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01626": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01627": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01628": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01629": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01630": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01631": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01632": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01633": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01634": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01635": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01636": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01637": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01638": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01639": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01640": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01641": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01642": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01643": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01644": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01645": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01646": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01647": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01648": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01649": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01650": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01651": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01652": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01653": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01654": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01655": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01656": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01657": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01658": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01659": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01660": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01661": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01662": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01663": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01664": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01665": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01666": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01667": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01668": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01669": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01670": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01671": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01672": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01673": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01674": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01675": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01676": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01677": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01678": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01679": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01680": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01681": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01682": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01683": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01684": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01685": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01686": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01687": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01688": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01689": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01690": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01691": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01692": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01693": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01694": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01695": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01696": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01697": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01698": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01699": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01700": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01701": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01702": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01703": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01704": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01705": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01706": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01707": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01708": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01709": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01710": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01711": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01712": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01713": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01714": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01715": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01716": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01717": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01718": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01719": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01720": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01721": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01722": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01723": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01724": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01725": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01726": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01727": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01728": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01729": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01730": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01731": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01732": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01733": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01734": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01735": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01736": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01737": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01738": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01739": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01740": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01741": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01742": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01743": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01744": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01745": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01746": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01747": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01748": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01749": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01750": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01751": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01752": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01753": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01754": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01755": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01756": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01757": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01758": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01759": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01760": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01761": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01762": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01763": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01764": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01765": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01766": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01767": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01768": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01769": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01770": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01771": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01772": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01773": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01774": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01775": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01776": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01777": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01778": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01779": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01780": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01781": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01782": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01783": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01784": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01785": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01786": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01787": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01788": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01789": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01790": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01791": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01792": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01793": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01794": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01795": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01796": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01797": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01798": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01799": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01800": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01801": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01802": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01803": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01804": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01805": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01806": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01807": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01808": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01809": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01810": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01811": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01812": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01813": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01814": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01815": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01816": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01817": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01818": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01819": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01820": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01821": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01822": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01823": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01824": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01825": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01826": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01827": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01828": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01829": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01830": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01831": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01832": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01833": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01834": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01835": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01836": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01837": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01838": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01839": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01840": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01841": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01842": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01843": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01844": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01845": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01846": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01847": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01848": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01849": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01850": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01851": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01852": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01853": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01854": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01855": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01856": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01857": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01858": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01859": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01860": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01861": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01862": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01863": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01864": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01865": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01866": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01867": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01868": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01869": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01870": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01871": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01872": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01873": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01874": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01875": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01876": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01877": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01878": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01879": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01880": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01881": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01882": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01883": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01884": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01885": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01886": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01887": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01888": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01889": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01890": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01891": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01892": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01893": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01894": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01895": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01896": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01897": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01898": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01899": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01900": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01901": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01902": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01903": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01904": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01905": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01906": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01907": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01908": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01909": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01910": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01911": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01912": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01913": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01914": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01915": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01916": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01917": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01918": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01919": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01920": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01921": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01922": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01923": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01924": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01925": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01926": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01927": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01928": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01929": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01930": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01931": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01932": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01933": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01934": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01935": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01936": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01937": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01938": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01939": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01940": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01941": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01942": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01943": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01944": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01945": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01946": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01947": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01948": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01949": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01950": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01951": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01952": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01953": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01954": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01955": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01956": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01957": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01958": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01959": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01960": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01961": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01962": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01963": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01964": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01965": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01966": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01967": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01968": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01969": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01970": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01971": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01972": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01973": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01974": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01975": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01976": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01977": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01978": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01979": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01980": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01981": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01982": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01983": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01984": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01985": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01986": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01987": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01988": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01989": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01990": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01991": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01992": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01993": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01994": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01995": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01996": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01997": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01998": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-01999": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02000": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02001": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02002": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02003": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02004": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02005": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02006": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02007": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02008": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02009": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02010": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02011": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02012": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02013": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02014": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02015": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02016": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02017": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02018": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02019": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02020": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02021": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02022": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02023": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02024": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02025": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02026": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02027": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02028": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02029": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02030": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02031": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02032": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02033": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02034": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02035": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02036": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02037": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02038": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02039": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02040": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02041": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02042": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02043": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02044": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02045": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02046": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02047": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02048": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02049": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02050": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02051": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02052": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02053": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02054": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02055": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02056": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02057": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02058": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02059": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02060": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02061": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02062": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02063": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02064": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02065": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02066": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02067": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02068": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02069": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02070": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02071": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02072": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02073": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02074": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02075": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02076": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02077": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02078": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02079": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02080": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02081": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02082": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02083": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02084": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02085": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02086": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02087": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02088": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02089": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02090": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02091": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02092": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02093": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02094": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02095": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02096": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02097": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02098": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02099": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02100": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02101": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02102": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02103": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02104": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02105": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02106": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02107": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02108": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02109": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02110": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02111": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02112": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02113": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02114": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02115": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02116": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02117": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02118": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02119": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02120": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02121": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02122": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02123": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02124": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02125": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02126": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02127": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02128": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02129": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02130": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02131": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02132": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02133": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02134": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02135": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02136": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02137": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02138": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02139": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02140": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02141": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02142": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02143": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02144": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02145": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02146": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02147": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02148": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02149": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02150": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02151": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02152": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02153": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02154": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02155": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02156": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02157": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02158": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02159": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02160": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02161": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02162": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02163": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02164": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02165": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02166": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02167": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02168": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02169": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02170": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02171": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02172": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02173": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02174": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02175": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02176": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02177": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02178": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02179": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02180": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02181": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02182": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02183": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02184": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02185": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02186": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02187": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02188": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02189": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02190": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02191": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02192": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02193": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02194": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02195": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02196": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02197": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02198": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02199": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02200": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02201": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02202": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02203": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02204": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02205": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02206": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02207": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02208": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02209": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02210": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02211": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02212": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02213": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02214": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02215": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02216": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02217": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02218": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02219": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02220": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02221": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02222": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02223": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02224": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02225": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02226": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02227": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02228": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02229": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02230": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02231": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02232": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02233": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02234": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02235": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02236": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02237": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02238": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02239": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02240": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02241": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02242": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02243": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02244": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02245": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02246": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02247": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02248": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02249": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02250": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02251": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02252": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02253": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02254": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02255": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02256": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02257": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02258": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02259": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02260": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02261": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02262": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02263": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02264": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02265": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02266": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02267": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02268": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02269": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02270": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02271": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02272": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02273": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02274": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02275": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02276": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02277": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02278": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02279": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02280": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02281": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02282": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02283": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02284": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02285": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02286": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02287": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02288": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02289": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02290": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02291": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02292": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02293": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02294": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02295": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02296": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02297": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02298": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02299": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02300": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02301": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02302": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02303": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02304": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02305": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02306": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02307": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02308": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02309": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02310": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02329": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02330": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02331": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02332": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02333": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02334": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02335": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02336": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02337": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02338": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02339": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02340": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02341": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02342": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02343": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02344": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02345": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02346": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02347": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02348": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02349": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02350": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02351": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02352": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02353": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02354": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02355": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02356": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02357": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02358": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02359": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02360": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02361": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02362": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02363": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02364": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02365": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02366": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02367": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02368": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02369": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02370": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02371": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02372": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02373": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02374": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02375": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02376": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02377": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02378": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02379": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02380": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02381": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02382": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02383": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02384": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02385": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02386": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02387": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02388": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02389": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02390": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02391": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02392": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02393": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02394": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02395": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02396": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02397": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02398": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02399": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02400": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02401": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02402": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02403": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02404": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02405": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02406": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02407": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02408": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02409": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02410": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02411": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02412": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02413": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02414": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02415": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02416": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02417": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02418": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02419": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02420": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02421": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02422": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02423": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02424": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02425": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02426": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02427": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02428": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02429": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02430": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02431": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02432": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02433": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02434": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02435": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02436": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02437": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02438": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02439": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02440": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02441": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02442": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02443": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02444": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02445": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-GEN-02446": {
+      "category": "shocks",
+      "categoryName": "בולם זעזועים"
+    },
+    "HZ-HDL-00049": {
+      "category": "lighting",
+      "categoryName": "תאורה ונורות"
+    },
+    "HZ-HDL-00050": {
+      "category": "lighting",
+      "categoryName": "תאורה ונורות"
+    },
+    "HZ-HDL-00051": {
+      "category": "lighting",
+      "categoryName": "תאורה ונורות"
+    },
+    "HZ-HDL-00052": {
+      "category": "lighting",
+      "categoryName": "תאורה ונורות"
+    },
+    "HZ-HDL-00057": {
+      "category": "lighting",
+      "categoryName": "תאורה ונורות"
+    },
+    "HZ-HDL-00095": {
+      "category": "lighting",
+      "categoryName": "תאורה ונורות"
+    },
+    "HZ-HDL-00312": {
+      "category": "lighting",
+      "categoryName": "תאורה ונורות"
+    },
+    "HZ-HDL-00339": {
+      "category": "lighting",
+      "categoryName": "תאורה ונורות"
+    },
+    "HZ-HDL-00496": {
+      "category": "lighting",
+      "categoryName": "תאורה ונורות"
+    },
+    "HZ-HDL-00615": {
+      "category": "lighting",
+      "categoryName": "תאורה ונורות"
+    },
+    "HZ-HDL-01004": {
+      "category": "lighting",
+      "categoryName": "תאורה ונורות"
+    },
+    "HZ-HDL-02238": {
+      "category": "lighting",
+      "categoryName": "תאורה ונורות"
+    },
+    "HZ-HDL-02239": {
+      "category": "lighting",
+      "categoryName": "תאורה ונורות"
+    },
     "HZ-HDL-03518": {
       "category": "ac-compressor",
       "categoryName": "מדחס מזגן"
