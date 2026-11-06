@@ -58,7 +58,9 @@ function cardToProduct(card: ListingCard & Partial<Product>): Product {
   const named = yearsFromTitle(card.name);
   const yearFrom = named?.from || card.yearFrom || 0;
   const yearTo = named?.to || card.yearTo || 0;
-  const category = card.category && card.category !== "general" ? card.category : inferCategory(card.name, card.category);
+  let category = card.category && card.category !== "general" ? card.category : inferCategory(card.name, card.category);
+  // Compressors misfiled under lights (HZ-HDL SKUs named מדחס) — name wins.
+  if (/מדחס/.test(card.name || "") && category === "lights") category = "ac-compressor";
   return {
     id: card.id || card.sku,
     sku: card.sku,

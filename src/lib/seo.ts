@@ -1,6 +1,7 @@
 import { brand } from "@/lib/brand";
 import type { Product } from "@/lib/catalog";
 import { primaryOeLine, yearsFromTitle } from "@/lib/part-display";
+import { catalogPrice } from "@/lib/prices";
 
 export function siteName() {
   return `${brand.nameHe} | ${brand.name}`;
@@ -74,6 +75,7 @@ export function faqJsonLd(items: { q: string; a: string }[]) {
 export function productJsonLd(product: Product) {
   const named = yearsFromTitle(product.name);
   const mpn = primaryOeLine(product.oe, 1).split(" · ")[0] || product.sku;
+  const price = catalogPrice(product.sku);
   return {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -89,6 +91,7 @@ export function productJsonLd(product: Product) {
       itemCondition: "https://schema.org/NewCondition",
       seller: { "@type": "AutoPartsStore", name: brand.nameHe },
       url: `/product/${product.id}`,
+      ...(price != null ? { price: String(price), priceCurrency: "ILS" } : {}),
     },
     ...(named
       ? {

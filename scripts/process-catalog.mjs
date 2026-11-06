@@ -3,7 +3,7 @@
  * Build the public Hezi catalog JSON from sheet לאתר only.
  * Never writes price / cost / supplier fields.
  */
-import { existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readPublicCatalogRows } from "./latar-xlsx.mjs";
@@ -17,6 +17,18 @@ import {
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "public", "catalog");
+const CATEGORY_OVERRIDES_PATH = join(OUT, "category-overrides.json");
+/** @type {Record<string, {category:string, categoryName:string}>} */
+const categoryOverridesBySku = (() => {
+  try {
+    if (!existsSync(CATEGORY_OVERRIDES_PATH)) return {};
+    const raw = JSON.parse(readFileSync(CATEGORY_OVERRIDES_PATH, "utf8"));
+    return raw?.bySku && typeof raw.bySku === "object" ? raw.bySku : {};
+  } catch {
+    return {};
+  }
+})();
+
 const PAGE_SIZE = 60;
 const CHUNK_SIZE = 200;
 const FEATURED_COUNT = 8;
@@ -151,6 +163,18 @@ const needsReviewRows = [];
 const products = rows.map((row) => {
   let categoryName = row.category || "כללי";
   let category = slugifyCategory(categoryName);
+
+  // Explicit SKU overrides (e.g. HZ-HDL compressors misfiled as headlights).
+  const ov = categoryOverridesBySku[row.sku];
+  if (ov?.category && ov?.categoryName) {
+    category = ov.category;
+    categoryName = ov.categoryName;
+  } else if (/מדחס/.test(String(row.name || "")) && category === "lights") {
+    // Name-based safety: מדחס under פנס ראשי → מדחס מזגן (same as HZ-CMP).
+    categoryName = "מדחס מזגן";
+    category = "ac-compressor";
+  }
+
   const side = parseSide(row.vehicleFitment);
   const image = matchImage(row.sku, row.oe, images);
   const description = row.description || defaultDescription(row.name, row.sku, row.vehicleFitment);

@@ -1,0 +1,168 @@
+{
+  "description": "SKUs whose catalog price is hidden on the site (quote CTA). Source prices.json values are NOT altered — Matan keeps source of truth.",
+  "reason": "Top 20 most severe outliers from price-outliers.xlsx (severity-sorted) — Matan decision 2026-11-06",
+  "skus": [
+    "HZ-GEN-04954",
+    "HZ-HDL-03339",
+    "HZ-HDL-03328",
+    "HZ-HDL-03329",
+    "HZ-CMP-00849",
+    "HZ-HDL-02858",
+    "HZ-HDL-02859",
+    "HZ-OIL-00032",
+    "HZ-OIL-00048",
+    "HZ-HDL-03270",
+    "HZ-HDL-03271",
+    "HZ-GEN-04973",
+    "HZ-GEN-04947",
+    "HZ-GEN-04963",
+    "HZ-GEN-04956",
+    "HZ-GEN-04921",
+    "HZ-GEN-01868",
+    "HZ-GEN-01869",
+    "HZ-GEN-04827",
+    "HZ-GEN-01866"
+  ],
+  "details": [
+    {
+      "sku": "HZ-GEN-04954",
+      "name": "ס.מצמד רנו טוינגו 0.9 מ16",
+      "category": "כללי",
+      "sourcePriceNotShown": 130353,
+      "reason": "מחיר גבוה מאוד (>20,000 ₪) · גבוה פי 309.6 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-HDL-03339",
+      "name": "פנס ראשי G-CLASS מR LED 18",
+      "category": "פנס ראשי",
+      "sourcePriceNotShown": 27439,
+      "reason": "מחיר גבוה מאוד (>20,000 ₪) · גבוה פי 14.6 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-HDL-03328",
+      "name": "פנס ראשי אאודי A8 מ17 לד L",
+      "category": "פנס ראשי",
+      "sourcePriceNotShown": 26591,
+      "reason": "מחיר גבוה מאוד (>20,000 ₪) · גבוה פי 14.1 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-HDL-03329",
+      "name": "פנס ראשי אאודי A8 מ17 לד R",
+      "category": "פנס ראשי",
+      "sourcePriceNotShown": 26591,
+      "reason": "מחיר גבוה מאוד (>20,000 ₪) · גבוה פי 14.1 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-CMP-00849",
+      "name": "מדחס טויוטה הילפינגר היב' חל'",
+      "category": "מדחס מזגן",
+      "sourcePriceNotShown": 23609,
+      "reason": "מחיר גבוה מאוד (>20,000 ₪) · גבוה פי 9.9 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-HDL-02858",
+      "name": "פנס ראשי BMW5 מ20 לד R",
+      "category": "פנס ראשי",
+      "sourcePriceNotShown": 23508,
+      "reason": "מחיר גבוה מאוד (>20,000 ₪) · גבוה פי 12.5 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-HDL-02859",
+      "name": "פנס ראשי BMW5 מ20 לד L",
+      "category": "פנס ראשי",
+      "sourcePriceNotShown": 23508,
+      "reason": "מחיר גבוה מאוד (>20,000 ₪) · גבוה פי 12.5 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-OIL-00032",
+      "name": "שמן גיר אוטומט אוטבוסים TOTAL HD XLD 208L MAN-חבית",
+      "category": "שמנים ונוזלים",
+      "sourcePriceNotShown": 22829,
+      "reason": "מחיר גבוה מאוד (>20,000 ₪) · גבוה פי 26.7 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-OIL-00048",
+      "name": "שמן גיר רציף 208L EcoLife MOTUL-נמכר בחבית",
+      "category": "שמנים ונוזלים",
+      "sourcePriceNotShown": 21637,
+      "reason": "מחיר גבוה מאוד (>20,000 ₪) · גבוה פי 25.3 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-HDL-03270",
+      "name": "פנס ראשי אאודי 13 A8עד18 לד L",
+      "category": "פנס ראשי",
+      "sourcePriceNotShown": 20296,
+      "reason": "מחיר גבוה מאוד (>20,000 ₪) · גבוה פי 10.8 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-HDL-03271",
+      "name": "פנס ראשי אאודי 13 A8עד18 לד R",
+      "category": "פנס ראשי",
+      "sourcePriceNotShown": 20296,
+      "reason": "מחיר גבוה מאוד (>20,000 ₪) · גבוה פי 10.8 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-GEN-04973",
+      "name": "ס.מצמד רנו קפצור 1.2 מ14 AT עם מזלגות",
+      "category": "כללי",
+      "sourcePriceNotShown": 15664,
+      "reason": "מחיר גבוה (>10,000 ₪) · גבוה פי 37.2 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-GEN-04947",
+      "name": "ס.מצמד קיה סיד 1.6 מ12 הפוך DSG רובוטי",
+      "category": "כללי",
+      "sourcePriceNotShown": 13727,
+      "reason": "מחיר גבוה (>10,000 ₪) · גבוה פי 32.6 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-GEN-04963",
+      "name": "ס.מצמד רנו פלואנס D מ-09 +2 מזלגות",
+      "category": "כללי",
+      "sourcePriceNotShown": 12894,
+      "reason": "מחיר גבוה (>10,000 ₪) · גבוה פי 30.6 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-GEN-04956",
+      "name": "ס.מצמד רנו טרפיק AT 2.0D מ20 טבול",
+      "category": "כללי",
+      "sourcePriceNotShown": 12666,
+      "reason": "מחיר גבוה (>10,000 ₪) · גבוה פי 30.1 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-GEN-04921",
+      "name": "ס.מצמד פור פוקוס 1.6 2.0 מ11 רובוטי",
+      "category": "כללי",
+      "sourcePriceNotShown": 10976,
+      "reason": "מחיר גבוה (>10,000 ₪) · גבוה פי 26.1 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-GEN-01868",
+      "name": "בולם מרצ W222 S400 אחL מ13 בולם אויר",
+      "category": "כללי",
+      "sourcePriceNotShown": 9963,
+      "reason": "גבוה פי 23.7 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-GEN-01869",
+      "name": "בולם מרצ W222 S400 אחR מ13 בולם אויר",
+      "category": "כללי",
+      "sourcePriceNotShown": 9963,
+      "reason": "גבוה פי 23.7 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-GEN-04827",
+      "name": "ס.מצמד ניס קשקאי 1.3 מ19 מצמד רטוב",
+      "category": "כללי",
+      "sourcePriceNotShown": 9861,
+      "reason": "גבוה פי 23.4 מחציון הקטגוריה (סף 8×)"
+    },
+    {
+      "sku": "HZ-GEN-01866",
+      "name": "בולם מרצ W221 S300 אחL מ06 עד13 בולם אויר",
+      "category": "כללי",
+      "sourcePriceNotShown": 9792,
+      "reason": "גבוה פי 23.3 מחציון הקטגוריה (סף 8×)"
+    }
+  ]
+}
