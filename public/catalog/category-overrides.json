@@ -1,0 +1,102 @@
+{
+  "description": "SKU category overrides applied by process-catalog.mjs. Does not change SKU ids, names, or prices.",
+  "reason": "HZ-HDL SKUs whose product name is מדחס (AC compressor) were filed under פנס ראשי/lights — Matan approved fix 2026-11-06",
+  "bySku": {
+    "HZ-HDL-03518": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03519": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03520": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03521": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03522": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03523": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03524": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03525": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03532": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03533": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03562": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03563": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03564": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03565": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03566": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03567": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03618": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03619": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03620": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03792": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03793": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03794": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03795": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    },
+    "HZ-HDL-03796": {
+      "category": "ac-compressor",
+      "categoryName": "מדחס מזגן"
+    }
+  }
+}
