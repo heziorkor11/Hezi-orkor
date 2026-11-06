@@ -1,3 +1,4 @@
+import bidiFactory from "bidi-js";
 import { brand } from "@/lib/brand";
 import { expandProductName } from "@/lib/name-expand";
 import { splitOe } from "@/lib/part-display";
@@ -133,14 +134,31 @@ export function preloadOrderPdf(): Promise<void> {
   return Promise.all([loadJsPdf(), preloadOrderPdfAssets()]).then(() => undefined);
 }
 
-/** jsPDF ships a bidi engine; pass LOGICAL Hebrew and these flags (do not pre-reorder). */
+/** All layout stays logical until each wrapped line is drawn. Unicode bidi also mirrors brackets. */
+const bidi = bidiFactory();
 const RTL_OPTS = {
   align: "right" as const,
-  isInputVisual: false,
+  // Already visual: explicitly prevent jsPDF's second bidi pass.
+  isInputVisual: true,
   isOutputVisual: true,
-  isInputRtl: true,
+  isInputRtl: false,
   isOutputRtl: false,
 };
+
+export function orderPdfVisualLine(text: string): string {
+  // Supplier year shorthand is a single printed token, not a free-standing RTL letter
+  // followed by an independent number. Preserve its source spelling on the page.
+  const protectedText = text.replace(/(?<![א-ת\w])מ\d{2}(?!\d)/g,
+    (token) => `\u202d${token}\u202c`);
+  const levels = bidi.getEmbeddingLevels(protectedText, "rtl");
+  return bidi.getReorderedString(protectedText, levels)
+    .replace(/[\u202a-\u202e\u2066-\u2069]/g, "");
+}
+
+function drawRtl(doc: JsPdfDoc, text: string | string[], x: number, y: number, align: "left" | "right" = "right") {
+  const lines = (Array.isArray(text) ? text : [text]).map(orderPdfVisualLine);
+  doc.text(lines, x, y, { ...RTL_OPTS, align });
+}
 
 function displayName(name: string) {
   return expandProductName(name).name || name;
@@ -202,10 +220,10 @@ function textRight(
   if (opts?.maxWidth) {
     // split on logical text; jsPDF bidi runs per drawn line
     const lines = doc.splitTextToSize(t, opts.maxWidth) as string[];
-    doc.text(lines, xRight, y, { ...RTL_OPTS });
+    drawRtl(doc, lines, xRight, y);
     return lines.length;
   }
-  doc.text(t, xRight, y, { ...RTL_OPTS });
+  drawRtl(doc, t, xRight, y);
   return 1;
 }
 
@@ -248,16 +266,8 @@ export async function buildOrderPdfBlob(input: OrderPdfInput): Promise<{
       doc.setFont("Heebo", "normal");
       doc.setFontSize(8);
       doc.setTextColor(MUTED);
-      doc.text(`${brand.nameHe} · ${brand.phone} · ${brand.address}`, right, pageH - 7, {
-        ...RTL_OPTS,
-      });
-      doc.text(`עמוד ${i} מתוך ${pageCount}`, left, pageH - 7, {
-        align: "left",
-        isInputVisual: false,
-        isOutputVisual: true,
-        isInputRtl: false,
-        isOutputRtl: false,
-      });
+      drawRtl(doc, `${brand.nameHe} · ${brand.phone} · ${brand.address}`, right, pageH - 7);
+      drawRtl(doc, `עמוד ${i} מתוך ${pageCount}`, left, pageH - 7, "left");
     }
   };
 
@@ -386,7 +396,7 @@ export async function buildOrderPdfBlob(input: OrderPdfInput): Promise<{
     doc.setFont("Heebo", "bold");
     doc.setFontSize(10);
     doc.setTextColor(FG);
-    doc.text(nameLines, right - 3, ty, { ...RTL_OPTS });
+    drawRtl(doc, nameLines, right - 3, ty);
     ty += nameLines.length * 5 + 1;
 
     doc.setFont("Heebo", "normal");
@@ -394,7 +404,7 @@ export async function buildOrderPdfBlob(input: OrderPdfInput): Promise<{
     doc.setTextColor(MUTED);
     for (const d of detailLines) {
       const ls = doc.splitTextToSize(d, contentW - 8) as string[];
-      doc.text(ls, right - 3, ty, { ...RTL_OPTS });
+      drawRtl(doc, ls, right - 3, ty);
       ty += ls.length * 4.2;
     }
 
