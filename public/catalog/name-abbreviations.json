@@ -464,7 +464,102 @@
       "abbr": "תח",
       "full": "תחתון",
       "mode": "token"
+    },
+    {
+      "abbr": "טוי",
+      "full": "טויוטה",
+      "mode": "token"
+    },
+    {
+      "abbr": "סקו",
+      "full": "סקודה",
+      "mode": "token"
+    },
+    {
+      "abbr": "יונ",
+      "full": "יונדאי",
+      "mode": "token"
+    },
+    {
+      "abbr": "מיצ",
+      "full": "מיצובישי",
+      "mode": "token"
+    },
+    {
+      "abbr": "ניס",
+      "full": "ניסאן",
+      "mode": "token"
+    },
+    {
+      "abbr": "הונ",
+      "full": "הונדה",
+      "mode": "token"
+    },
+    {
+      "abbr": "מזד",
+      "full": "מאזדה",
+      "mode": "token"
+    },
+    {
+      "abbr": "במו",
+      "full": "ב.מ.וו",
+      "mode": "token"
+    },
+    {
+      "abbr": "מרצ",
+      "full": "מרצדס",
+      "mode": "token"
+    },
+    {
+      "abbr": "פיא",
+      "full": "פיאט",
+      "mode": "token"
+    },
+    {
+      "abbr": "סוז",
+      "full": "סוזוקי",
+      "mode": "token"
+    },
+    {
+      "abbr": "סוב",
+      "full": "סובארו",
+      "mode": "token"
+    },
+    {
+      "abbr": "אופ",
+      "full": "אופל",
+      "mode": "token"
+    },
+    {
+      "abbr": "איס",
+      "full": "איסוזו",
+      "mode": "token"
+    },
+    {
+      "abbr": "אלפ",
+      "full": "אלפא",
+      "mode": "token"
+    },
+    {
+      "abbr": "פיג",
+      "full": "פיג'ו",
+      "mode": "token"
+    },
+    {
+      "abbr": "אמר",
+      "full": "שברולט",
+      "mode": "token"
+    },
+    {
+      "abbr": "פור",
+      "full": "פורד",
+      "mode": "token"
+    },
+    {
+      "abbr": "סיט",
+      "full": "סיאט",
+      "mode": "token"
     }
   ],
-  "reason": " Matan corrections 2026-11-06: ק.הגה→קצה הגה, ת.פרונט→תפוח פרונט, מ.מצמד→משאבת מצמד; קס׳ not expanded (pending supplier)."
+  "reason": " Matan corrections 2026-11-06: ק.הגה→קצה הגה, ת.פרונט→תפוח פרונט, מ.מצמד→משאבת מצמד; קס׳ not expanded (pending supplier). · Make abbrev expansions 2026-11-07 (token, unambiguous only)."
 }

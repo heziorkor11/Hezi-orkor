@@ -1,0 +1,133 @@
+{
+  "description": "Car-make abbreviations NOT applied — ambiguous in this catalog (word-boundary alone is not enough).",
+  "date": "2026-11-07",
+  "items": [
+    {
+      "abbr": "פול",
+      "candidates": [
+        "פולקסווגן",
+        "אאודי (titles use פול A5/A6)"
+      ],
+      "countApprox": 508,
+      "examples": [
+        "נאבה פול A5 אחורי מ09",
+        "מסרק הגה כח פול T5",
+        "נאבה פול פולו אחורי מ18"
+      ],
+      "reason": "Same token used for VW and Audi models in supplier titles"
+    },
+    {
+      "abbr": "וול",
+      "candidates": [
+        "וולוו",
+        "גרייט וול (Great Wall)"
+      ],
+      "countApprox": 3,
+      "examples": [
+        "משאבת מים מיצ פגרו I גרייט וול B"
+      ],
+      "reason": "All hits are Great Wall (סיני), not Volvo"
+    },
+    {
+      "abbr": "לנד",
+      "candidates": [
+        "לנדרובר",
+        "לנדקרוזר"
+      ],
+      "countApprox": 3,
+      "examples": [
+        "מעבה לנד רובר דיסקברי מ10 בנזין"
+      ],
+      "reason": "Already paired with רובר; expanding would duplicate (לנדרובר רובר) or confuse with Land Cruiser"
+    },
+    {
+      "abbr": "סינ",
+      "candidates": [
+        "סיני / Chinese brands shorthand"
+      ],
+      "countApprox": "unknown",
+      "examples": [
+        "פילטר אוויר סינ גרייט וול B"
+      ],
+      "reason": "Not a single OEM make; leave as-is"
+    }
+  ],
+  "appliedMakes": [
+    {
+      "abbr": "טוי",
+      "full": "טויוטה"
+    },
+    {
+      "abbr": "סקו",
+      "full": "סקודה"
+    },
+    {
+      "abbr": "יונ",
+      "full": "יונדאי"
+    },
+    {
+      "abbr": "מיצ",
+      "full": "מיצובישי"
+    },
+    {
+      "abbr": "ניס",
+      "full": "ניסאן"
+    },
+    {
+      "abbr": "הונ",
+      "full": "הונדה"
+    },
+    {
+      "abbr": "מזד",
+      "full": "מאזדה"
+    },
+    {
+      "abbr": "במו",
+      "full": "ב.מ.וו"
+    },
+    {
+      "abbr": "מרצ",
+      "full": "מרצדס"
+    },
+    {
+      "abbr": "פיא",
+      "full": "פיאט"
+    },
+    {
+      "abbr": "סוז",
+      "full": "סוזוקי"
+    },
+    {
+      "abbr": "סוב",
+      "full": "סובארו"
+    },
+    {
+      "abbr": "אופ",
+      "full": "אופל"
+    },
+    {
+      "abbr": "איס",
+      "full": "איסוזו"
+    },
+    {
+      "abbr": "אלפ",
+      "full": "אלפא"
+    },
+    {
+      "abbr": "פיג",
+      "full": "פיג'ו"
+    },
+    {
+      "abbr": "אמר",
+      "full": "שברולט"
+    },
+    {
+      "abbr": "פור",
+      "full": "פורד"
+    },
+    {
+      "abbr": "סיט",
+      "full": "סיאט"
+    }
+  ]
+}

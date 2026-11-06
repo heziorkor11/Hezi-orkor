@@ -1,9 +1,11 @@
 import { brand } from "@/lib/brand";
+import { expandProductName } from "@/lib/name-expand";
 import { splitOe } from "@/lib/part-display";
 import { catalogPrice, formatCatalogPrice } from "@/lib/prices";
 
 export const PRODUCT_SITE = "https://hezi-orkor.vercel.app";
-/** Soft cap for wa.me URLs (WhatsApp commonly truncates around ~2000–4000). */
+export const CART_URL = `${PRODUCT_SITE}/cart`;
+/** Soft cap for encoded wa.me URLs (Hebrew expands ~3×). */
 export const WA_URL_SOFT_LIMIT = 6000;
 
 export type OrderCustomer = {
@@ -29,7 +31,6 @@ export type OrderLineInput = {
 const AFTERMARKET_BRANDS =
   /^(VALEO|BOSCH|MAHLE|MANN|TRW|SACHS|LUK|NGK|DENSO|FEBI|MEYLE|DELPHI|TEXTAR|ATE|BREMBO|GATES|SKF|MOOG|KYB|MONROE|BOGE|BILSTEIN|OPTIMAL|ACDELCO|ASHIKA|SIDAT|LEMFORDER|BLUEPRINT|PAGID|FERODO|JURID|GIRLING|HELLA|NRF|CHAMPION|WIX|FILTRON|COMLINE|SPEEDMATE|EUROMASTER)$/i;
 
-/** Israeli mobile/landline → digits only, optional leading 0 or 972. */
 export function normalizeIlPhone(raw: string) {
   let d = String(raw || "").replace(/\D/g, "");
   if (d.startsWith("972")) d = "0" + d.slice(3);
@@ -38,11 +39,9 @@ export function normalizeIlPhone(raw: string) {
 
 export function isValidIlPhone(raw: string) {
   const d = normalizeIlPhone(raw);
-  // Mobile 05x-xxxxxxx (10 digits) or landline 0[2-9]-xxxxxxx (9–10)
   return /^05\d{8}$/.test(d) || /^0[2-489]\d{7,8}$/.test(d);
 }
 
-/** IL plates: 7 or 8 digits, optional dashes/spaces. */
 export function normalizeIlPlate(raw: string) {
   return String(raw || "").replace(/\D/g, "");
 }
@@ -70,12 +69,7 @@ export function orderRefNow(d = new Date()) {
     hour12: false,
   }).formatToParts(d);
   const get = (t: string) => parts.find((p) => p.type === t)?.value || "00";
-  const y = get("year");
-  const m = get("month");
-  const day = get("day");
-  const h = get("hour");
-  const min = get("minute");
-  return `HZ-ORD-${y}${m}${day}-${h}${min}`;
+  return `HZ-ORD-${get("year")}${get("month")}${get("day")}-${get("hour")}${get("minute")}`;
 }
 
 export function formatTimestampIl(d = new Date()) {
@@ -88,14 +82,13 @@ export function formatTimestampIl(d = new Date()) {
 
 export function oeListForMessage(raw?: string, cap = 5) {
   const { oem, aftermarket } = splitOe(raw);
-  const list = (oem.length ? oem : aftermarket).slice(0, cap);
-  const total = (oem.length ? oem : aftermarket).length;
+  const all = oem.length ? oem : aftermarket;
+  const list = all.slice(0, cap);
   if (!list.length) return "";
-  const extra = total - list.length;
+  const extra = all.length - list.length;
   return extra > 0 ? `${list.join(" · ")} + עוד ${extra}` : list.join(" · ");
 }
 
-/** Brand + manufacturer P/N pairs from OE blob (aftermarket brands only). */
 export function brandMfgPairs(raw?: string, cap = 3): string[] {
   const tokens = String(raw || "")
     .split(/[\s,;|/•·:：]+/)
@@ -105,21 +98,16 @@ export function brandMfgPairs(raw?: string, cap = 3): string[] {
   let brandName = "";
   for (const tok of tokens) {
     const key = tok.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
-    if (AFTERMARKET_BRANDS.test(key) || /^MAHLE$/i.test(tok)) {
-      brandName = tok.toUpperCase() === "FILTER" ? brandName : tok;
-      if (/^FILTER$/i.test(tok) && brandName) continue;
+    if (AFTERMARKET_BRANDS.test(key)) {
+      brandName = tok;
       continue;
     }
+    if (/^FILTER$/i.test(tok)) continue;
     if (brandName && /[0-9]/.test(tok) && tok.length >= 4) {
       out.push(`${brandName} ${tok}`);
       brandName = "";
       if (out.length >= cap) break;
     }
-  }
-  // Also catch "MAHLE FILTER OX416"
-  if (!out.length && /MAHLE/i.test(raw || "")) {
-    const m = String(raw).match(/MAHLE(?:\s+FILTER)?\s+([A-Z0-9][A-Z0-9.\-]{2,})/i);
-    if (m) out.push(`MAHLE ${m[1]}`);
   }
   return out;
 }
@@ -145,27 +133,12 @@ export function productAbsoluteUrl(sku: string) {
   return `${PRODUCT_SITE}/product/${encodeURIComponent(sku)}`;
 }
 
-export function buildCartOrderMessage(
-  customer: OrderCustomer,
-  lines: OrderLineInput[],
-  opts?: { compact?: boolean; now?: Date; dropBrands?: boolean; dropLinks?: boolean },
-) {
-  const now = opts?.now ?? new Date();
-  const compact = Boolean(opts?.compact);
-  const dropBrands = Boolean(opts?.dropBrands);
-  const dropLinks = Boolean(opts?.dropLinks);
-  const oeCap = compact ? 3 : 5;
-  const brandCap = compact ? 2 : 3;
+function displayName(name: string) {
+  return expandProductName(name).name || name;
+}
 
-  let subtotal = 0;
-  let quoteCount = 0;
-  for (const line of lines) {
-    const p = catalogPrice(line.sku);
-    if (p == null) quoteCount += 1;
-    else subtotal += p * line.qty;
-  }
-
-  const header = [
+function customerHeader(customer: OrderCustomer, now: Date) {
+  return [
     "*הזמנה / בקשת הצעת מחיר מהאתר*",
     `מס׳ הזמנה: ${orderRefNow(now)}`,
     `תאריך: ${formatTimestampIl(now)} (Asia/Jerusalem)`,
@@ -184,46 +157,99 @@ export function buildCartOrderMessage(
     "",
     "*פריטים*",
   ];
+}
 
-  const itemBlocks = lines.map((line, i) => {
-    const oe = oeListForMessage(line.oe, oeCap);
-    const brands = brandMfgPairs(line.oe, brandCap);
-    const rows = [
-      "────────",
-      `${i + 1}. ${line.name}`,
-      `   מק״ט אצלנו: ${line.sku}`,
-    ];
-    if (oe) rows.push(`   מק״ט מקורי (OE): ${oe}`);
-    if (!dropBrands && brands.length) rows.push(`   יצרן/מותג + מק״ט יצרן: ${brands.join(" · ")}`);
-    rows.push(
-      `   כמות: ${line.qty}`,
-      `   מחיר יח׳: ${unitPriceLabel(line.sku)}`,
-      `   סה״כ שורה: ${lineTotalLabel(line.sku, line.qty)}`,
-    );
-    if (!dropLinks) rows.push(`   קישור: ${productAbsoluteUrl(line.sku)}`);
-    return rows.join("\n");
-  });
+function totals(lines: OrderLineInput[]) {
+  let subtotal = 0;
+  let quoteCount = 0;
+  for (const line of lines) {
+    const p = catalogPrice(line.sku);
+    if (p == null) quoteCount += 1;
+    else subtotal += p * line.qty;
+  }
+  return { subtotal, quoteCount };
+}
 
+/** Full per-item block — always same structure for every line. */
+function itemBlock(
+  line: OrderLineInput,
+  index: number,
+  oeCap: number,
+  brandCap: number,
+) {
+  const oe = oeListForMessage(line.oe, oeCap);
+  const brands = brandMfgPairs(line.oe, brandCap);
+  const rows = [
+    "────────",
+    `${index + 1}. ${displayName(line.name)}`,
+    `   מק״ט אצלנו: ${line.sku}`,
+  ];
+  if (oe) rows.push(`   מק״ט מקורי (OE): ${oe}`);
+  if (brands.length) rows.push(`   יצרן/מותג + מק״ט יצרן: ${brands.join(" · ")}`);
+  rows.push(
+    `   כמות: ${line.qty}`,
+    `   מחיר יח׳: ${unitPriceLabel(line.sku)}`,
+    `   סה״כ שורה: ${lineTotalLabel(line.sku, line.qty)}`,
+    `   קישור: ${productAbsoluteUrl(line.sku)}`,
+  );
+  return rows.join("\n");
+}
+
+export function buildCartOrderMessage(
+  customer: OrderCustomer,
+  lines: OrderLineInput[],
+  opts?: { now?: Date; oeCap?: number; brandCap?: number },
+) {
+  const now = opts?.now ?? new Date();
+  const oeCap = opts?.oeCap ?? 5;
+  const brandCap = opts?.brandCap ?? 3;
+  const { subtotal, quoteCount } = totals(lines);
+
+  const body = lines.map((line, i) => itemBlock(line, i, oeCap, brandCap));
   const footer = [
     "────────",
     "",
     "*סיכום*",
     `סכום ביניים (פריטים עם מחיר מחירון): ${formatCatalogPrice(subtotal)}`,
     `פריטים בהצעת מחיר: ${quoteCount}`,
-    dropLinks ? `קישורי מוצרים: ${PRODUCT_SITE}/product/{מק״ט}` : "",
     "*המחירים מחירון באתר — אישור התאמה ומחיר סופי אצלכם לפני הזמנה. אין סליקה באתר.*",
-  ].filter(Boolean);
+  ];
 
-  return [...header, ...itemBlocks, ...footer].join("\n");
+  return [...customerHeader(customer, now), ...body, ...footer].join("\n");
 }
 
-/** Single-product quick quote — OE + link; asks for plate when no form. */
+/** Last-resort short list when even oeCap=2 still exceeds URL limit. */
+export function buildCartOrderMessageSummary(
+  customer: OrderCustomer,
+  lines: OrderLineInput[],
+  opts?: { now?: Date },
+) {
+  const now = opts?.now ?? new Date();
+  const { subtotal, quoteCount } = totals(lines);
+  const shortItems = lines.map((line, i) => {
+    const name = displayName(line.name);
+    const short = name.length > 42 ? `${name.slice(0, 39)}…` : name;
+    return `${i + 1}. ${line.sku} × ${line.qty} — ${short} · ${unitPriceLabel(line.sku)}`;
+  });
+  return [
+    ...customerHeader(customer, now),
+    ...shortItems,
+    "",
+    `רשימה מלאה בקישור: ${CART_URL}`,
+    "",
+    "*סיכום*",
+    `סכום ביניים (פריטים עם מחיר מחירון): ${formatCatalogPrice(subtotal)}`,
+    `פריטים בהצעת מחיר: ${quoteCount}`,
+    "*המחירים מחירון באתר — אישור התאמה ומחיר סופי אצלכם לפני הזמנה. אין סליקה באתר.*",
+  ].join("\n");
+}
+
 export function buildQuickQuoteMessage(product: { sku: string; name: string; oe?: string }) {
   const oe = oeListForMessage(product.oe, 5);
-  const brands = brandMfgPairs(product.oe, 3);
+  const brands = brandMfgPairs(product.oe, 2);
   const lines = [
     `שלום, אשמח להצעת מחיר ולבירור מלאי עבור:`,
-    product.name,
+    displayName(product.name),
     `מק״ט אצלנו: ${product.sku}`,
   ];
   if (oe) lines.push(`מק״ט מקורי (OE): ${oe}`);
@@ -244,47 +270,65 @@ export function waLinkForText(text: string) {
 export type OrderMessageFit = {
   text: string;
   url: string;
-  compact: boolean;
-  truncated: boolean;
+  /** oeCap used for full-format attempts */
+  oeCap: number;
+  brandCap: number;
+  /** true when fell back to short list + cart link */
+  summaryFallback: boolean;
 };
 
-/** Shrink message until wa.me URL is under soft limit (WhatsApp truncates long URLs). */
+/**
+ * Prefer full item format for EVERY line.
+ * Fit length by lowering OE/brand caps uniformly: 5/3 → 3/2 → 2/2.
+ * Only if still too long: summary list + cart link.
+ */
 export function buildCartOrderMessageFitting(
   customer: OrderCustomer,
   lines: OrderLineInput[],
   now?: Date,
 ): OrderMessageFit {
-  const attempts: Array<{ compact: boolean; dropBrands: boolean; dropLinks: boolean; short: boolean }> = [
-    { compact: false, dropBrands: false, dropLinks: false, short: false },
-    { compact: true, dropBrands: false, dropLinks: false, short: false },
-    { compact: true, dropBrands: true, dropLinks: false, short: false },
-    { compact: true, dropBrands: true, dropLinks: false, short: true },
-    { compact: true, dropBrands: true, dropLinks: true, short: true },
+  const caps: Array<{ oeCap: number; brandCap: number }> = [
+    { oeCap: 5, brandCap: 3 },
+    { oeCap: 3, brandCap: 2 },
+    { oeCap: 2, brandCap: 2 },
   ];
 
-  let last = { text: "", url: "", compact: true, truncated: true };
-  for (const a of attempts) {
-    const cust = a.short
-      ? { ...customer, notes: customer.notes.slice(0, 60), city: customer.city.slice(0, 24) }
-      : customer;
-    const ls = a.short
-      ? lines.map((l) => ({
-          ...l,
-          name: l.name.length > 40 ? `${l.name.slice(0, 37)}…` : l.name,
-          // Keep raw OE; compact oeCap already limits token count (avoid mid-token cuts).
-        }))
-      : lines;
-    const text = buildCartOrderMessage(cust, ls, {
-      now,
-      compact: a.compact,
-      dropBrands: a.dropBrands,
-      dropLinks: a.dropLinks,
-    });
+  let last: OrderMessageFit = {
+    text: "",
+    url: "",
+    oeCap: 2,
+    brandCap: 2,
+    summaryFallback: false,
+  };
+
+  for (const c of caps) {
+    const text = buildCartOrderMessage(customer, lines, { now, ...c });
     const url = waLinkForText(text);
-    last = { text, url, compact: a.compact, truncated: a.dropLinks || a.short || a.dropBrands };
-    if (url.length <= WA_URL_SOFT_LIMIT) return { ...last, truncated: last.truncated };
+    last = { text, url, oeCap: c.oeCap, brandCap: c.brandCap, summaryFallback: false };
+    if (url.length <= WA_URL_SOFT_LIMIT) return last;
   }
-  return last;
+
+  const text = buildCartOrderMessageSummary(customer, lines, { now });
+  const url = waLinkForText(text);
+  return { text, url, oeCap: 0, brandCap: 0, summaryFallback: true };
+}
+
+/** Smallest N where summary fallback is required for a typical cart (experimental helper). */
+export function findSummaryFallbackThreshold(
+  customer: OrderCustomer,
+  sampleLine: OrderLineInput,
+  maxN = 40,
+) {
+  for (let n = 1; n <= maxN; n++) {
+    const lines = Array.from({ length: n }, (_, i) => ({
+      ...sampleLine,
+      sku: sampleLine.sku,
+      name: `${sampleLine.name} #${i + 1}`,
+    }));
+    const fit = buildCartOrderMessageFitting(customer, lines);
+    if (fit.summaryFallback) return n;
+  }
+  return null;
 }
 
 export function emptyOrderCustomer(): OrderCustomer {
