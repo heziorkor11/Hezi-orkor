@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { useCart } from "@/lib/cart";
 import { loadProduct, quoteMessage, waLink, type Product } from "@/lib/catalog";
+import { priceOrQuoteLabel } from "@/lib/prices";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
@@ -76,7 +77,7 @@ function CartPage() {
                     <button type="button" className="grid size-11 place-items-center rounded-md border border-line-strong" onClick={() => setQty(x.id, x.qty + 1)} aria-label="הוסף כמות">+</button>
                   </div>
                 </div>
-                <div className="text-sm font-bold text-accent-warm">צור קשר להצעת מחיר</div>
+                <div className="text-sm font-bold text-accent-warm tabular-nums">{priceOrQuoteLabel(x.product.sku)}</div>
                 <Button variant="ghost" size="sm" onClick={() => remove(x.id)}>
                   <Trash2 className="size-4" />
                   הסר
@@ -86,7 +87,7 @@ function CartPage() {
           </div>
           <div className="mt-4 rounded-xl border border-line bg-card p-4">
             <p className="mb-3 text-sm text-muted">
-              אין מחירים באתר. נשלח הצעת מחיר ונברר מלאי בוואטסאפ לפני הזמנה. העסקה נכרתת רק אחרי אישור התאמה.
+              המחירים באתר הם מחירון. נאשר התאמה ומחיר סופי בוואטסאפ לפני הזמנה. אין סליקה באתר.
             </p>
             <p className="mb-4 text-sm text-muted">
               <Link to="/legal/$slug" params={{ slug: "cancellation" }} className="underline hover:text-fg">

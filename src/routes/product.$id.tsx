@@ -10,6 +10,7 @@ import { useCart } from "@/lib/cart";
 import { categoryName, loadProduct, loadRelated, quoteMessage, waLink } from "@/lib/catalog";
 import { displayYears, primaryOeLine, splitOe } from "@/lib/part-display";
 import { breadcrumbJsonLd, pageDescription, pageTitle, productJsonLd } from "@/lib/seo";
+import { priceOrQuoteLabel } from "@/lib/prices";
 
 export const Route = createFileRoute("/product/$id")({
   loader: async ({ params }) => {
@@ -74,7 +75,7 @@ function ProductPage() {
           <span className="inline-block rounded-full bg-ok/12 px-2 py-0.5 text-[11px] font-bold text-ok">{product.condition}</span>
           <h1 className="mt-2 mb-2 text-[28px] leading-snug">{product.name}</h1>
           <div className="mb-4 flex items-baseline gap-2">
-            <span className="text-lg font-bold text-accent-warm">צור קשר להצעת מחיר</span>
+            <span className="text-lg font-bold text-accent-warm tabular-nums">{priceOrQuoteLabel(product.sku)}</span>
           </div>
           <dl className="mb-4 grid grid-cols-[7.5rem_1fr] gap-x-2.5 gap-y-2 text-sm">
             <dt className="text-muted">מק״ט חנות</dt>

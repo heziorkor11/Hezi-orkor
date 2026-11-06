@@ -77,7 +77,7 @@ function Home() {
         <DemoBanner />
         <div className="mb-3">
           <h2 className="text-[17px] font-extrabold tracking-tight md:text-[26px]">מהקטלוג</h2>
-          <p className="text-xs text-muted md:text-sm">תמונה · מק״ט · הצעת מחיר בוואטסאפ</p>
+          <p className="text-xs text-muted md:text-sm">תמונה · מק״ט · מחיר מחירון</p>
         </div>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {featured.map((p) => (
@@ -87,9 +87,9 @@ function Home() {
 
         <div className="mt-6 grid grid-cols-2 gap-2 md:mt-8 md:gap-3">
           <div className="rounded-[14px] border border-line bg-card p-2.5 text-xs font-bold md:p-3.5 md:text-sm">
-            בלי מחיר באתר
+            מחיר מחירון
             <span className="mt-1 block text-[10.5px] font-normal leading-snug text-muted md:text-xs">
-              רק הצעה אחרי התאמה
+              אישור התאמה לפני תשלום
             </span>
           </div>
           <div className="rounded-[14px] border border-line bg-card p-2.5 text-xs font-bold md:p-3.5 md:text-sm">
