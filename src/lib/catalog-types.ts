@@ -11,6 +11,7 @@ export type Product = {
   sku: string;
   oe: string;
   name: string;
+  nameOriginal?: string;
   type: PartTypeId;
   category: string;
   make: string;
@@ -80,6 +81,7 @@ export type CatalogManifest = {
 export type SearchHit = {
   sku: string;
   title: string;
+  titleOriginal?: string;
   category: string;
   oe: string;
   make?: string;
@@ -93,6 +95,7 @@ export type ListingCard = {
   id: string;
   sku: string;
   name: string;
+  nameOriginal?: string;
   category: string;
   vehicleFitment?: string;
   make?: string;

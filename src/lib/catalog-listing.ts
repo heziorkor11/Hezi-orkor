@@ -2,6 +2,7 @@ import { typeFromCategory, PAGE_SIZE, type ListingCard, type ListingResult, type
 import { displayModel, polishText, unique } from "@/lib/catalog-runtime";
 import { catalogJson } from "@/lib/catalog-io";
 import { imageLooksLikeSharedOe, inferCategory, yearsFromTitle } from "@/lib/part-display";
+import { expandProductName } from "@/lib/name-expand";
 
 const cache = {
   searchIndex: undefined as SearchHit[] | undefined,
@@ -68,7 +69,8 @@ function cardToProduct(card: ListingCard & Partial<Product>): Product {
     id: card.id || card.sku,
     sku: card.sku,
     oe: card.oe || "",
-    name: polishText(card.name),
+    name: polishText(expandProductName(card.name).name),
+    nameOriginal: card.nameOriginal || expandProductName(card.name).nameOriginal,
     type: typeFromCategory(category),
     category,
     make,

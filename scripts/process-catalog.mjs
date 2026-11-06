@@ -14,6 +14,7 @@ import {
   parseYearsIn,
   isSmallEngineText,
 } from "./fitment-normalize.mjs";
+import { expandProductName } from "./name-expand.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "public", "catalog");
@@ -220,7 +221,6 @@ const products = rows.map((row) => {
 
   const side = parseSide(row.vehicleFitment);
   const image = matchImage(row.sku, row.oe, images);
-  const description = row.description || defaultDescription(row.name, row.sku, row.vehicleFitment);
 
   // Catalog-wide multi-fitment normalize (shared table). Small-engine reclass only from plugs.
   const isPlug = category === "spark-plugs";
@@ -275,10 +275,17 @@ const products = rows.map((row) => {
     }
   }
 
+  const expanded = expandProductName(row.name);
+  const displayName = expanded.name;
+  const descriptionExpanded = row.description
+    ? expandProductName(row.description).name
+    : defaultDescription(displayName, row.sku, row.vehicleFitment);
+
   const record = compact({
     id: row.sku,
     sku: row.sku,
-    name: row.name,
+    name: displayName,
+    nameOriginal: expanded.nameOriginal,
     category,
     categoryName,
     vehicleFitment: row.vehicleFitment,
@@ -289,7 +296,7 @@ const products = rows.map((row) => {
     side,
     image,
     oe: row.oe,
-    description,
+    description: descriptionExpanded,
     condition: "חלק חדש",
     fitments: fitments && fitments.length ? fitments : undefined,
   });
@@ -339,6 +346,7 @@ for (let i = 0; i < chunkCount; i += 1) {
       id: rest.id,
       sku: rest.sku,
       name: rest.name,
+      nameOriginal: rest.nameOriginal,
       category: rest.category,
       vehicleFitment: rest.vehicleFitment || "",
       make: rest.make || "",
@@ -367,6 +375,7 @@ for (let i = 0; i < pageCount; i += 1) {
       id: p.id,
       sku: p.sku,
       name: p.name,
+      nameOriginal: p.nameOriginal,
       category: p.category,
       vehicleFitment: p.vehicleFitment || "",
       make: p.make || "",
@@ -388,6 +397,7 @@ const searchIndex = products.map((p) =>
   compact({
     sku: p.sku,
     title: p.name,
+    titleOriginal: p.nameOriginal,
     category: p.category,
     oe: p.oe || "",
     make: p.make || undefined,
@@ -409,6 +419,7 @@ const featured = (withImage.length >= FEATURED_COUNT ? withImage : [...withImage
       id: p.id,
       sku: p.sku,
       name: p.name,
+      nameOriginal: p.nameOriginal,
       category: p.category,
       vehicleFitment: p.vehicleFitment || "",
       make: p.make || "",

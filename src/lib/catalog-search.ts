@@ -36,17 +36,19 @@ function queryMatchesHit(hit: SearchHit, raw: string) {
   if (!q) return true;
   const s = q.toLowerCase();
   const title = hit.title || "";
+  const titleOriginal = hit.titleOriginal || "";
   const make = hit.make || "";
   const model = hit.model || "";
   const sku = (hit.sku || "").toLowerCase();
   const oeTokens = oeSearchTokens(hit.oe);
+  const titles = [title, titleOriginal].filter(Boolean);
   if (looksLikePartNumber(s)) {
     if (sku === s || sku.startsWith(s) || s.startsWith(sku)) return true;
     if (oeTokens.some((t) => t === s || t.startsWith(s) || s.startsWith(t))) return true;
-    return tokenHit(title, q) || title.toLowerCase().includes(s);
+    return titles.some((t) => tokenHit(t, q) || t.toLowerCase().includes(s));
   }
-  if (tokenHit(title, q) || tokenHit(make, q) || tokenHit(model, q)) return true;
-  if (s.length >= 3 && title.toLowerCase().includes(s)) return true;
+  if (titles.some((t) => tokenHit(t, q)) || tokenHit(make, q) || tokenHit(model, q)) return true;
+  if (s.length >= 3 && titles.some((t) => t.toLowerCase().includes(s))) return true;
   if (s.length >= 4 && (sku === s || sku.startsWith(s))) return true;
   return false;
 }
