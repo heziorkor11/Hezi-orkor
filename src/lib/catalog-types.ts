@@ -1,4 +1,11 @@
 import catalogManifest from "../../public/catalog/manifest.json";
+export type VehicleFitment = {
+  make: string;
+  model: string;
+  yearFrom: number;
+  yearTo: number;
+};
+
 export type Product = {
   id: string;
   sku: string;
@@ -16,6 +23,7 @@ export type Product = {
   image?: string;
   universal?: boolean;
   vehicleFitment?: string;
+  fitments?: VehicleFitment[];
 };
 
 export type CategoryId = string;
@@ -43,6 +51,7 @@ export type PartTypeId =
   | "ignition-coil"
   | "bulb"
   | "additive"
+  | "small-engine"
   | "general";
 
 export const PAGE_SIZE = 60;
@@ -77,6 +86,7 @@ export type SearchHit = {
   model?: string;
   yearFrom?: number;
   yearTo?: number;
+  fitments?: VehicleFitment[];
 };
 
 export type ListingCard = {
@@ -131,6 +141,7 @@ const CATEGORY_TYPE: Record<string, PartTypeId> = {
   brakes: "brake",
   sensors: "sensor",
   "spark-plugs": "spark-plug",
+  "small-engine": "small-engine",
   fluids: "fluid",
   "ignition-coils": "ignition-coil",
   additives: "additive",
@@ -169,6 +180,7 @@ export const partTypes: { id: PartTypeId; name: string; category: string }[] = [
   { id: "shock", name: "בולם זעזועים", category: "shocks" },
   { id: "sensor", name: "חיישן", category: "sensors" },
   { id: "spark-plug", name: "מצת", category: "spark-plugs" },
+  { id: "small-engine", name: "מנועים קטנים", category: "small-engine" },
   { id: "ignition-coil", name: "סליל הצתה", category: "ignition-coils" },
   { id: "fluid", name: "שמנים ונוזלים", category: "fluids" },
   { id: "additive", name: "תוסף", category: "additives" },

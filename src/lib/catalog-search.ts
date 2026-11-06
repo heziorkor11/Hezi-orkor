@@ -51,14 +51,35 @@ function queryMatchesHit(hit: SearchHit, raw: string) {
   return false;
 }
 
+function fitmentEntries(hit: SearchHit) {
+  if (Array.isArray(hit.fitments) && hit.fitments.length) return hit.fitments;
+  if (hit.make) {
+    return [{ make: hit.make, model: hit.model || "", yearFrom: hit.yearFrom || 0, yearTo: hit.yearTo || 0 }];
+  }
+  return [];
+}
+
 function filterHit(hit: SearchHit, state: ProductFilter) {
   if (state.category && hit.category !== state.category) return false;
-  if (state.make && hit.make !== state.make) return false;
-  if (state.model && !sameModel(state.make || hit.make || "", hit.model, state.model)) return false;
-  if (state.year) {
-    const y = Number(String(state.year).replace(/["']/g, ""));
-    const bounds = yearBounds(hit.title, hit.yearFrom, hit.yearTo);
-    if (bounds && Number.isFinite(y) && (y < bounds.from || y > bounds.to)) return false;
+  if (state.make || state.model || state.year) {
+    const entries = fitmentEntries(hit);
+    if (!entries.length) return false;
+    const y = state.year ? Number(String(state.year).replace(/["']/g, "")) : NaN;
+    const ok = entries.some((f) => {
+      if (state.make && f.make !== state.make) return false;
+      if (state.model && !sameModel(state.make || f.make || "", f.model, state.model)) return false;
+      if (Number.isFinite(y)) {
+        const from = f.yearFrom || 0;
+        const to = f.yearTo || f.yearFrom || 0;
+        if (from && to && (y < from || y > to)) return false;
+        if (!from && !to) {
+          const bounds = yearBounds(hit.title, hit.yearFrom, hit.yearTo);
+          if (bounds && (y < bounds.from || y > bounds.to)) return false;
+        }
+      }
+      return true;
+    });
+    if (!ok) return false;
   }
   if (state.type) {
     if (typeFromCategory(hit.category) !== state.type && hit.category !== state.type) return false;
