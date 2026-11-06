@@ -7,6 +7,13 @@ import { existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "node:
 import { dirname, extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readPublicCatalogRows } from "./latar-xlsx.mjs";
+import {
+  NORMALIZE_CATEGORIES,
+  parseFitments,
+  parseMakeModelLegacy,
+  parseYearsIn,
+  isSmallEngineText,
+} from "./fitment-normalize.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "public", "catalog");
@@ -29,67 +36,11 @@ const CATEGORY_SLUGS = {
   "סליל הצתה": "ignition-coils",
   "חיישן חמצן": "sensors",
   תוספים: "additives",
+  "מנועים קטנים": "small-engine",
 };
 
 const CATEGORY_ORDER = Object.keys(CATEGORY_SLUGS);
 
-const MAKE_ALIASES = [
-  ["מרצדס בנץ", "מרצדס"],
-  ["אלפא רומיאו", "אלפא רומיאו"],
-  ["לנד רובר", "לנד רובר"],
-  ["ריינג' רובר", "לנד רובר"],
-  ["פולקסוואגן", "פולקסווגן"],
-  ["פולקסווגן", "פולקסווגן"],
-  ["מיצובישי", "מיצובישי"],
-  ["שברולט", "שברולט"],
-  ["דייהטסו", "דייהטסו"],
-  ["דייהצו", "דייהטסו"],
-  ["אינפיניטי", "אינפיניטי"],
-  ["קרייזלר", "קרייזלר"],
-  ["סיטרואן", "סיטרואן"],
-  ["ג'י.אמ.סי", "GMC"],
-  ["ג'י.אם.סי", "GMC"],
-  ["ג׳י.אמ.סי", "GMC"],
-  ["טויוטה", "טויוטה"],
-  ["יונדאי", "יונדאי"],
-  ["הונדה", "הונדה"],
-  ["ניסאן", "ניסאן"],
-  ["מאזדה", "מאזדה"],
-  ["סוזוקי", "סוזוקי"],
-  ["סובארו", "סובארו"],
-  ["סקודה", "סקודה"],
-  ["ב.מ.וו", "ב.מ.וו"],
-  ["במוו", "ב.מ.וו"],
-  ["אאודי", "אאודי"],
-  ["איסוזו", "איסוזו"],
-  ["דאצ'יה", "דאצ'יה"],
-  ["דאציה", "דאצ'יה"],
-  ["דאצ׳יה", "דאצ'יה"],
-  ["פיג'ו", "פיג'ו"],
-  ["פיג׳ו", "פיג'ו"],
-  ["לקסוס", "לקסוס"],
-  ["מרצדס", "מרצדס"],
-  ["וולוו", "וולוו"],
-  ["אופל", "אופל"],
-  ["פורד", "פורד"],
-  ["הונדה", "הונדה"],
-  ["רנו", "רנו"],
-  ["פיאט", "פיאט"],
-  ["קיה", "קיה"],
-  ["ג'יפ", "ג'יפ"],
-  ["ג׳יפ", "ג'יפ"],
-  ["טסלה", "טסלה"],
-  ["פורשה", "פורשה"],
-  ["יגואר", "יגואר"],
-  ["קאדילק", "קאדילק"],
-  ["ביואיק", "ביואיק"],
-  ["דודג'", "דודג'"],
-  ["מיני", "מיני"],
-  ["שבר", "שברולט"],
-  ["הונ ", "הונדה"],
-  ["איס ", "איסוזו"],
-  ["דהט", "דייהטסו"],
-];
 
 function slugifyCategory(name) {
   const trimmed = String(name || "").trim();
@@ -109,33 +60,7 @@ function pad(n, width) {
 }
 
 function parseYears(fit) {
-  let yearFrom = 0;
-  let yearTo = 0;
-  const bump = (a, b) => {
-    if (a < 1950 || a > 2035 || b < 1950 || b > 2035) return;
-    if (!yearFrom || a < yearFrom) yearFrom = a;
-    if (b > yearTo) yearTo = b;
-  };
-  const text = String(fit || "");
-  for (const m of text.matchAll(/((?:19|20)\d{2})\s*[-–]\s*((?:19|20)\d{2})/g)) {
-    bump(Number(m[1]), Number(m[2]));
-  }
-  const expand2 = (n) => {
-    const v = Number(n);
-    if (!Number.isFinite(v)) return 0;
-    return v >= 50 ? 1900 + v : 2000 + v;
-  };
-  for (const m of text.matchAll(/מ\s*(\d{2})(?:\s*עד\s*(\d{2}))?/g)) {
-    const a = expand2(m[1]);
-    const b = m[2] ? expand2(m[2]) : a;
-    bump(a, b);
-  }
-  if (!yearFrom) {
-    const single = text.match(/\b((?:19|20)\d{2})\b/);
-    if (single) bump(Number(single[1]), Number(single[1]));
-  }
-  if (yearFrom && !yearTo) yearTo = yearFrom;
-  return { yearFrom, yearTo };
+  return parseYearsIn(fit);
 }
 
 function parseSide(fit) {
@@ -149,29 +74,7 @@ function parseSide(fit) {
 }
 
 function parseMakeModel(fit, name) {
-  const hay = `${fit || ""} ${name || ""}`;
-  let make = "";
-  let at = -1;
-  let aliasLen = 0;
-  for (const [alias, canonical] of MAKE_ALIASES) {
-    const idx = hay.indexOf(alias);
-    if (idx === -1) continue;
-    if (at === -1 || idx < at || (idx === at && alias.length > aliasLen)) {
-      make = canonical;
-      at = idx;
-      aliasLen = alias.length;
-    }
-  }
-  let model = "";
-  if (make && at >= 0 && at < (fit || "").length) {
-    const rest = String(fit)
-      .slice(at + aliasLen)
-      .replace(/^[\s,]+/, "");
-    const token = rest.split(/[,,]|מ\d{2}|(?:19|20)\d{2}/)[0] || "";
-    model = token.replace(/\s+/g, " ").trim();
-    if (model.length > 40) model = model.slice(0, 40).trim();
-  }
-  return { make, model };
+  return parseMakeModelLegacy(fit, name);
 }
 
 function defaultDescription(name, sku, fitment) {
@@ -243,14 +146,68 @@ if (rows.length !== dataRowCount) {
   );
 }
 
+const needsReviewRows = [];
+
 const products = rows.map((row) => {
-  const categoryName = row.category || "כללי";
-  const category = slugifyCategory(categoryName);
-  const { yearFrom, yearTo } = parseYears(row.vehicleFitment);
+  let categoryName = row.category || "כללי";
+  let category = slugifyCategory(categoryName);
   const side = parseSide(row.vehicleFitment);
-  const { make, model } = parseMakeModel(row.vehicleFitment, row.name);
   const image = matchImage(row.sku, row.oe, images);
   const description = row.description || defaultDescription(row.name, row.sku, row.vehicleFitment);
+
+  // Catalog-wide multi-fitment normalize (shared table). Small-engine reclass only from plugs.
+  const isPlug = category === "spark-plugs";
+
+  let make = "";
+  let model = "";
+  let yearFrom = 0;
+  let yearTo = 0;
+  /** @type {{make:string,model:string,yearFrom:number,yearTo:number}[]|undefined} */
+  let fitments;
+
+  {
+    const parsed = parseFitments(row.vehicleFitment, row.name, { enabled: true });
+    if (parsed.smallEngine && isPlug) {
+      // Lawn mower / ATV / small-engine plugs → own category, excluded from vehicle finder.
+      categoryName = "מנועים קטנים";
+      category = "small-engine";
+      fitments = [];
+    } else if (parsed.smallEngine && !isPlug) {
+      // Non-plug small-engine text: leave make empty, do not invent vehicle fitment.
+      fitments = [];
+      if (true) {
+        needsReviewRows.push({
+          sku: row.sku,
+          name: row.name,
+          reasons: ["small-engine-non-plug"],
+          vehicleFitment: String(row.vehicleFitment || "").slice(0, 240),
+        });
+      }
+    } else {
+      fitments = parsed.fitments.filter((f) => f.make);
+      if (fitments.length) {
+        const primary = fitments.find((f) => f.model) || fitments[0];
+        make = primary.make;
+        model = primary.model || "";
+        yearFrom = primary.yearFrom || 0;
+        yearTo = primary.yearTo || primary.yearFrom || 0;
+      } else {
+        const legacyYears = parseYears(row.vehicleFitment);
+        yearFrom = legacyYears.yearFrom;
+        yearTo = legacyYears.yearTo;
+      }
+      if (parsed.needsReview.length) {
+        needsReviewRows.push({
+          sku: row.sku,
+          name: row.name,
+          reasons: parsed.needsReview,
+          category,
+          vehicleFitment: String(row.vehicleFitment || "").slice(0, 240),
+        });
+      }
+    }
+  }
+
   const record = compact({
     id: row.sku,
     sku: row.sku,
@@ -267,6 +224,7 @@ const products = rows.map((row) => {
     oe: row.oe,
     description,
     condition: "חלק חדש",
+    fitments: fitments && fitments.length ? fitments : undefined,
   });
   assertNoPrice(record, row.sku);
   return record;
@@ -297,7 +255,10 @@ for (const [index, p] of products.entries()) {
   entry.count += 1;
 }
 
-resetDir(OUT);
+// Preserve images/ and images-*.json; only refresh generated JSON shards.
+mkdirSync(OUT, { recursive: true });
+resetDir(join(OUT, "pages"));
+resetDir(join(OUT, "chunks"));
 mkdirSync(join(OUT, "pages"), { recursive: true });
 mkdirSync(join(OUT, "chunks"), { recursive: true });
 
@@ -322,6 +283,7 @@ for (let i = 0; i < chunkCount; i += 1) {
       oe: rest.oe || "",
       description: rest.description,
       condition: rest.condition,
+      fitments: rest.fitments,
     });
     assertNoPrice(full, `chunk ${id} ${full.sku}`);
     skuMap[full.sku] = id;
@@ -347,6 +309,7 @@ for (let i = 0; i < pageCount; i += 1) {
       side: p.side || "",
       image: p.image,
       oe: p.oe || "",
+      fitments: p.fitments,
     });
     assertNoPrice(card, `page ${n} ${card.sku}`);
     return card;
@@ -364,6 +327,7 @@ const searchIndex = products.map((p) =>
     model: p.model || undefined,
     yearFrom: p.yearFrom || undefined,
     yearTo: p.yearTo || undefined,
+    fitments: p.fitments,
   }),
 );
 writeJson(join(OUT, "search-index.json"), searchIndex);
@@ -389,6 +353,7 @@ const featured = (withImage.length >= FEATURED_COUNT ? withImage : [...withImage
       oe: p.oe || "",
       description: p.description,
       condition: p.condition,
+      fitments: p.fitments,
     }),
   );
 writeJson(join(OUT, "featured.json"), featured);
@@ -396,17 +361,28 @@ writeJson(join(OUT, "featured.json"), featured);
 const makes = new Set();
 const modelsByMake = {};
 const yearsByMakeModel = {};
-for (const p of products) {
-  if (!p.make) continue;
-  makes.add(p.make);
-  if (p.model) {
-    modelsByMake[p.make] ??= new Set();
-    modelsByMake[p.make].add(p.model);
+
+function addFacet(make, model, yearFrom, yearTo) {
+  if (!make) return;
+  makes.add(make);
+  const md = model || "";
+  if (md) {
+    modelsByMake[make] ??= new Set();
+    modelsByMake[make].add(md);
   }
-  if (p.yearFrom) {
-    const key = `${p.make}\t${p.model || ""}`;
+  if (yearFrom) {
+    const key = `${make}\t${md}`;
     yearsByMakeModel[key] ??= new Set();
-    for (let y = p.yearFrom; y <= (p.yearTo || p.yearFrom); y += 1) yearsByMakeModel[key].add(y);
+    for (let y = yearFrom; y <= (yearTo || yearFrom); y += 1) yearsByMakeModel[key].add(y);
+  }
+}
+
+for (const p of products) {
+  if (p.category === "small-engine") continue;
+  if (Array.isArray(p.fitments) && p.fitments.length) {
+    for (const f of p.fitments) addFacet(f.make, f.model, f.yearFrom, f.yearTo);
+  } else {
+    addFacet(p.make, p.model, p.yearFrom, p.yearTo);
   }
 }
 
@@ -434,8 +410,10 @@ const manifest = {
   featuredCount: featured.length,
 };
 writeJson(join(OUT, "manifest.json"), manifest);
+writeJson(join(OUT, "fitment-needs-review.json"), needsReviewRows);
 
 console.log(`Catalog built from ${sheetName}: ${products.length} products (xlsx data rows ${dataRowCount})`);
+console.log(`fitment needsReview=${needsReviewRows.length} normalizedCats=${[...NORMALIZE_CATEGORIES].join(",")}`);
 console.log(`pages=${pageCount} chunks=${chunkCount} featured=${featured.length} imagesMatched=${withImage.length}`);
 for (const c of categoryStats) {
   console.log(`  ${String(c.count).padStart(5)}  ${c.name} (${c.id})`);

@@ -5,12 +5,14 @@ function originCandidates(): string[] {
   const envOrigin =
     typeof process !== "undefined" ? process.env.CATALOG_ORIGIN || process.env.VITE_SITE_ORIGIN || "" : "";
   if (envOrigin) out.push(String(envOrigin).replace(/\/$/, ""));
-  out.push("https://hezi-orkor.vercel.app");
+  // Prefer this deployment (preview/prod) before the hard-coded production host,
+  // otherwise preview SSR silently loads stale production catalog JSON.
   const vercel = typeof process !== "undefined" ? process.env.VERCEL_URL || "" : "";
   if (vercel) {
     const host = String(vercel).replace(/^https?:\/\//, "").replace(/\/$/, "");
     if (host && !out.some((o) => o.includes(host))) out.push(`https://${host}`);
   }
+  out.push("https://hezi-orkor.vercel.app");
   return out;
 }
 

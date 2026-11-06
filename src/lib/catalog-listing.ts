@@ -76,6 +76,7 @@ function cardToProduct(card: ListingCard & Partial<Product>): Product {
     image: resolveImage(card.sku, card.image, card.oe),
     universal: Boolean(!make && !yearFrom && !(card.vehicleFitment || "").trim()),
     vehicleFitment: polishText(card.vehicleFitment || ""),
+    fitments: Array.isArray(card.fitments) && card.fitments.length ? card.fitments : undefined,
   };
 }
 
