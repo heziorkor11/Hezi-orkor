@@ -13,6 +13,7 @@ import {
   waLink,
 } from "@/lib/catalog";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { hideVehicleFitmentForFluid } from "@/lib/fluid-classify";
 import { useState } from "react";
 
 function yearRange(from?: number, to?: number) {
@@ -36,6 +37,7 @@ export function ProductCard({
   const [broken, setBroken] = useState(false);
   const showImage = Boolean(product.image) && !broken;
   const extraLabel = shown.extraCount > 0 ? `+${shown.extraCount} רכבים` : null;
+  const hideFit = hideVehicleFitmentForFluid(product.category, product.name);
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-card transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-lift motion-reduce:transition-none motion-reduce:hover:translate-y-0">
@@ -58,13 +60,19 @@ export function ProductCard({
             </div>
           )}
           <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-card via-card/90 to-transparent px-3 pt-10 pb-2.5">
-            <p className="truncate text-sm font-bold text-fg">
-              {car || product.vehicleFitment || "יש לאשר לפי מספר רכב"}
-              {extraLabel ? (
-                <span className="mr-1.5 text-[11px] font-bold text-accent-warm"> {extraLabel}</span>
-              ) : null}
-            </p>
-            {years ? <p className="text-xs font-semibold text-accent-warm">{years}</p> : null}
+            {hideFit ? (
+              <p className="truncate text-sm font-bold text-fg">שמן / נוזל · בלי התאמת רכב</p>
+            ) : (
+              <>
+                <p className="truncate text-sm font-bold text-fg">
+                  {car || product.vehicleFitment || "יש לאשר לפי מספר רכב"}
+                  {extraLabel ? (
+                    <span className="mr-1.5 text-[11px] font-bold text-accent-warm"> {extraLabel}</span>
+                  ) : null}
+                </p>
+                {years ? <p className="text-xs font-semibold text-accent-warm">{years}</p> : null}
+              </>
+            )}
           </div>
         </div>
       </Link>
@@ -75,43 +83,52 @@ export function ProductCard({
           </Link>
         </h3>
         <dl className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 text-xs">
-          {shown.make ? (
+          {hideFit ? (
             <>
-              <dt className="text-muted">יצרן</dt>
-              <dd className="font-bold text-fg">{shown.make}</dd>
-            </>
-          ) : null}
-          {shown.model ? (
-            <>
-              <dt className="text-muted">דגם</dt>
-              <dd className="font-bold text-fg">
-                {shown.model}
-                {extraLabel ? <span className="mr-1 text-accent-warm"> {extraLabel}</span> : null}
-              </dd>
-            </>
-          ) : null}
-          {years ? (
-            <>
-              <dt className="text-muted">שנים</dt>
-              <dd className="font-bold text-fg">{years}</dd>
-            </>
-          ) : product.vehicleFitment ? (
-            <>
-              <dt className="text-muted">התאמה</dt>
-              <dd className="line-clamp-2 font-bold text-fg">{product.vehicleFitment}</dd>
+              <dt className="text-muted">סוג</dt>
+              <dd className="font-bold text-fg">סינון לפי מותג / מק״ט</dd>
             </>
           ) : (
             <>
-              <dt className="text-muted">רכב</dt>
-              <dd className="font-bold text-ok">{fit}</dd>
+              {shown.make ? (
+                <>
+                  <dt className="text-muted">יצרן</dt>
+                  <dd className="font-bold text-fg">{shown.make}</dd>
+                </>
+              ) : null}
+              {shown.model ? (
+                <>
+                  <dt className="text-muted">דגם</dt>
+                  <dd className="font-bold text-fg">
+                    {shown.model}
+                    {extraLabel ? <span className="mr-1 text-accent-warm"> {extraLabel}</span> : null}
+                  </dd>
+                </>
+              ) : null}
+              {years ? (
+                <>
+                  <dt className="text-muted">שנים</dt>
+                  <dd className="font-bold text-fg">{years}</dd>
+                </>
+              ) : product.vehicleFitment ? (
+                <>
+                  <dt className="text-muted">התאמה</dt>
+                  <dd className="line-clamp-2 font-bold text-fg">{product.vehicleFitment}</dd>
+                </>
+              ) : (
+                <>
+                  <dt className="text-muted">רכב</dt>
+                  <dd className="font-bold text-ok">{fit}</dd>
+                </>
+              )}
+              {product.side ? (
+                <>
+                  <dt className="text-muted">צד</dt>
+                  <dd className="font-bold text-fg">{product.side}</dd>
+                </>
+              ) : null}
             </>
           )}
-          {product.side ? (
-            <>
-              <dt className="text-muted">צד</dt>
-              <dd className="font-bold text-fg">{product.side}</dd>
-            </>
-          ) : null}
         </dl>
         <p className="mt-auto text-sm font-bold text-accent">צור קשר להצעת מחיר</p>
         <div className="flex gap-2">

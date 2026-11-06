@@ -2,10 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ActiveFilters } from "@/components/active-filters";
 import { DemoBanner } from "@/components/demo-banner";
 import { Finder } from "@/components/finder";
+import { FluidsFilters } from "@/components/fluids-filters";
 import { Pagination } from "@/components/pagination";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { categoryName, loadListing, type ListingSearch } from "@/lib/catalog";
+import { FLUID_KIND_LABELS, type FluidKind } from "@/lib/fluid-classify";
 import { pageDescription, pageTitle } from "@/lib/seo";
 
 export type ResultsSearch = ListingSearch;
@@ -27,6 +29,8 @@ export const Route = createFileRoute("/results")({
     year: str(search.year),
     q: str(search.q),
     category: str(search.category),
+    fluidKind: str(search.fluidKind),
+    oilBrand: str(search.oilBrand),
     page: num(search.page),
   }),
   loaderDeps: ({ search }) => search,
@@ -34,17 +38,23 @@ export const Route = createFileRoute("/results")({
   pendingComponent: PendingResults,
   head: ({ match }) => {
     const s = match.search;
+    const kindLabel =
+      s.fluidKind && FLUID_KIND_LABELS[s.fluidKind as FluidKind]
+        ? FLUID_KIND_LABELS[s.fluidKind as FluidKind]
+        : undefined;
     const topic = s.q
       ? `חיפוש: ${s.q}`
-      : s.category
-        ? categoryName(s.category) || "קטגוריה"
-        : "תוצאות חיפוש חלקים";
+      : kindLabel
+        ? kindLabel
+        : s.category
+          ? categoryName(s.category) || "קטגוריה"
+          : "תוצאות חיפוש חלקים";
     return {
       meta: [
         { title: pageTitle(topic) },
         {
           name: "description",
-          content: pageDescription(`${topic} בחזי אורקור, נהריה. סינון לפי יצרן, דגם, שנה ומק״ט.`),
+          content: pageDescription(`${topic} בחזי אורקור, נהריה. סינון לפי סוג שמן, מותג ומק״ט.`),
         },
       ],
     };
@@ -61,26 +71,39 @@ function PendingResults() {
 function ResultsPage() {
   const state = Route.useSearch();
   const listing = Route.useLoaderData();
+  const isFluids = state.category === "fluids" || Boolean(state.fluidKind) || Boolean(state.oilBrand);
+  const kindLabel =
+    state.fluidKind && FLUID_KIND_LABELS[state.fluidKind as FluidKind]
+      ? FLUID_KIND_LABELS[state.fluidKind as FluidKind]
+      : undefined;
   const title = state.q
     ? `חיפוש: ${state.q}`
-    : state.category
-      ? categoryName(state.category) || "קטגוריה"
-      : "תוצאות לפי הרכב";
+    : kindLabel
+      ? `${kindLabel}${state.oilBrand ? ` · ${state.oilBrand}` : ""}`
+      : state.category
+        ? `${categoryName(state.category) || "קטגוריה"}${state.oilBrand ? ` · ${state.oilBrand}` : ""}`
+        : "תוצאות לפי הרכב";
 
   return (
     <>
-      <section className="flex justify-center border-b border-line bg-panel px-3.5 py-5 md:px-5 md:py-7" id="search">
-        <Finder key={JSON.stringify({ ...state, page: undefined })} state={state} />
-      </section>
+      {!isFluids ? (
+        <section
+          className="flex justify-center border-b border-line bg-panel px-3.5 py-5 md:px-5 md:py-7"
+          id="search"
+        >
+          <Finder key={JSON.stringify({ ...state, page: undefined })} state={state} />
+        </section>
+      ) : null}
       <div className="mx-auto max-w-[1180px] px-5 pt-7 pb-16">
         <DemoBanner />
         <div className="mb-4.5">
           <h1 className="text-[26px] tracking-tight">{title}</h1>
           <p className="text-muted">
-            {listing.total} חלקים תואמים
+            {listing.total} פריטים
             {listing.pages > 1 ? ` · עמוד ${listing.page} מתוך ${listing.pages}` : ""}
           </p>
         </div>
+        {isFluids ? <FluidsFilters state={{ ...state, category: state.category || "fluids" }} /> : null}
         <ActiveFilters state={state} />
         {listing.items.length ? (
           <>
@@ -94,10 +117,10 @@ function ResultsPage() {
         ) : (
           <div className="rounded-xl border border-line bg-card p-7 text-center">
             <h2 className="mb-2 text-lg font-semibold">לא מצאנו התאמה בקטלוג</h2>
-            <p className="mb-4 text-muted">שלחו לנו מק״ט, תמונה או מספר רכב — נאתר את החלק.</p>
+            <p className="mb-4 text-muted">שלחו לנו מק״ט או תמונה בוואטסאפ — נאתר את השמן.</p>
             <div className="flex flex-col items-center justify-center gap-2 sm:flex-row">
-              <Link to="/results">
-                <Button variant="ghost">נקה סינון</Button>
+              <Link to="/results" search={{ category: "fluids" }}>
+                <Button variant="ghost">כל השמנים</Button>
               </Link>
               <Link to="/help">
                 <Button variant="accent">לא מצאת? דברו איתנו</Button>
