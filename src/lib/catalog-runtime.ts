@@ -1,4 +1,4 @@
-import { canonicalModel, dedupeModels } from "@/lib/model-names";
+import { canonicalModel, dedupeModels, sameModel } from "@/lib/model-names";
 import {
   brand,
   categories,
