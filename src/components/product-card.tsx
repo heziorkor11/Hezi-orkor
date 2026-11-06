@@ -38,10 +38,10 @@ export function ProductCard({
   const extraLabel = shown.extraCount > 0 ? `+${shown.extraCount} רכבים` : null;
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-card transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-ember motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-card transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-lift motion-reduce:transition-none motion-reduce:hover:translate-y-0">
       <Link to="/product/$id" params={{ id: product.id }} className="block">
-        <div className="relative grid h-52 place-items-center overflow-hidden bg-[radial-gradient(120px_80px_at_50%_60%,rgb(226_59_18_/_0.14),transparent),linear-gradient(180deg,#1a1410,#0e0c0b)]">
-          <span className="absolute top-2.5 right-2.5 z-10 rounded-full border border-line-strong bg-chip px-2 py-0.5 text-[11px] font-bold text-accent-warm">
+        <div className="relative grid h-52 place-items-center overflow-hidden bg-elevated">
+          <span className="absolute top-2.5 right-2.5 z-10 rounded-full border border-line bg-card px-2 py-0.5 text-[11px] font-bold text-accent">
             מק״ט {product.sku}
           </span>
           {showImage ? (
@@ -53,11 +53,11 @@ export function ProductCard({
               className="h-full w-full object-contain p-3 pb-16"
             />
           ) : (
-            <div className="mb-10 grid size-24 place-items-center rounded-3xl border border-line-strong bg-elevated">
+            <div className="mb-10 grid size-24 place-items-center rounded-3xl border border-line bg-card">
               <PartIcon type={product.type} size={72} />
             </div>
           )}
-          <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-ink via-ink/80 to-transparent px-3 pt-10 pb-2.5">
+          <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-card via-card/90 to-transparent px-3 pt-10 pb-2.5">
             <p className="truncate text-sm font-bold text-fg">
               {car || product.vehicleFitment || "יש לאשר לפי מספר רכב"}
               {extraLabel ? (
@@ -113,7 +113,7 @@ export function ProductCard({
             </>
           ) : null}
         </dl>
-        <p className="mt-auto text-sm font-bold text-accent-warm">צור קשר להצעת מחיר</p>
+        <p className="mt-auto text-sm font-bold text-accent">צור קשר להצעת מחיר</p>
         <div className="flex gap-2">
           <Button
             className="flex-1"
