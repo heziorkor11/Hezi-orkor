@@ -47,24 +47,7 @@ export type PartTypeId =
 
 export const PAGE_SIZE = 60;
 
-export const brand = {
-  name: "Hezi Orkor",
-  nameHe: "חזי אורקור",
-  tagline: "WE FIX EVERYTHING",
-  taglineHe: "חלפים ואביזרים לרכב — מוצאים מהר",
-  phone: "052-485-8516",
-  phoneTel: "972524858516",
-  whatsapp: "972524858516",
-  freeShipFrom: 299,
-  shipping: 49,
-  hours: "א׳–ה׳ 08:00–17:00",
-  city: "נהריה",
-  street: "לוחמי הגטאות 24",
-  address: "לוחמי הגטאות 24, נהריה",
-  lat: 33.0058,
-  lng: 35.0989,
-  mapsQuery: "לוחמי הגטאות 24 נהריה",
-} as const;
+export { brand } from "./brand";
 
 export type CatalogCategory = {
   id: string;

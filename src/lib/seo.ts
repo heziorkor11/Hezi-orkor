@@ -1,7 +1,10 @@
-import { brand, type Product } from "@/lib/catalog";
+import { brand } from "@/lib/brand";
+import type { Product } from "@/lib/catalog";
 import { primaryOeLine, yearsFromTitle } from "@/lib/part-display";
 
-export const SITE_NAME = `${brand.nameHe} | ${brand.name}`;
+export function siteName() {
+  return `${brand.nameHe} | ${brand.name}`;
+}
 
 export function pageTitle(topic: string) {
   return `${topic} | ${brand.nameHe} | ${brand.city}`;
@@ -50,7 +53,7 @@ export function websiteJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: SITE_NAME,
+    name: siteName(),
     inLanguage: "he",
     publisher: { "@type": "AutoPartsStore", name: brand.nameHe },
   };

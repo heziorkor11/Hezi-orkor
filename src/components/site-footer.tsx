@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { HoursWidget } from "@/components/hours-widget";
-import { brand } from "@/lib/catalog";
+import { brand } from "@/lib/brand";
 import { legalNav } from "@/lib/legal";
 
 export function SiteFooter() {
