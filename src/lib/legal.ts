@@ -1,4 +1,4 @@
-import { brand } from "@/lib/catalog";
+import { brand } from "@/lib/brand";
 
 export const legalMeta = {
   lastUpdated: "2 בספטמבר 2026",

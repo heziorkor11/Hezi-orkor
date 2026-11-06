@@ -1,6 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { LegalDoc, LegalList, LegalSection } from "@/components/legal-doc";
-import { brand } from "@/lib/catalog";
+import { brand } from "@/lib/brand";
 import { isLegalSlug, legalMeta, type LegalSlug } from "@/lib/legal";
 import { pageDescription, pageTitle } from "@/lib/seo";
 

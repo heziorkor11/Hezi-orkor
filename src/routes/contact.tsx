@@ -7,7 +7,8 @@ import { JsonLd } from "@/components/json-ld";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
-import { brand, waLink } from "@/lib/catalog";
+import { brand } from "@/lib/brand";
+import { waLink } from "@/lib/catalog";
 import { pageDescription, pageTitle } from "@/lib/seo";
 
 export const Route = createFileRoute("/contact")({

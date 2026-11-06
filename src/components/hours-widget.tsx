@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Clock } from "lucide-react";
-import { brand } from "@/lib/catalog";
+import { brand } from "@/lib/brand";
 import { shopStatus, type ShopStatus } from "@/lib/hours";
 
 export function HoursWidget({ compact = false }: { compact?: boolean }) {

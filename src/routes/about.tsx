@@ -4,7 +4,8 @@ import { FaqList } from "@/components/faq-list";
 import { HoursWidget } from "@/components/hours-widget";
 import { JsonLd } from "@/components/json-ld";
 import { Button } from "@/components/ui/button";
-import { brand, faqs } from "@/lib/catalog";
+import { brand } from "@/lib/brand";
+import { faqs } from "@/lib/catalog";
 import { localBusinessJsonLd, pageDescription, pageTitle } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({

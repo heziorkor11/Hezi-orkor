@@ -3,7 +3,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { FormField } from "@/components/form-field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { brand, waLink } from "@/lib/catalog";
+import { brand } from "@/lib/brand";
+import { waLink } from "@/lib/catalog";
 import { pageDescription, pageTitle } from "@/lib/seo";
 
 export const Route = createFileRoute("/help")({

@@ -3,7 +3,7 @@ import { Toaster } from "sonner";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
-import { brand } from "@/lib/catalog";
+import { brand } from "@/lib/brand";
 
 export function ShopShell({ children }: { children: ReactNode }) {
   return (
