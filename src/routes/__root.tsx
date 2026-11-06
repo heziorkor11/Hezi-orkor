@@ -19,7 +19,7 @@ export const Route = createRootRoute({
         content:
           "חזי אורקור בנהריה — חלקי חילוף ואביזרים לרכב. חיפוש לפי סוג חלק, יצרן, דגם ושנה או לפי מק״ט.",
       },
-      { name: "theme-color", content: "#0a0a0b" },
+      { name: "theme-color", content: "#f7f7f5" },
       { name: "robots", content: "index, follow" },
     ],
     links: [

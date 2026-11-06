@@ -1,14 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { DemoBanner } from "@/components/demo-banner";
 import { FaqList } from "@/components/faq-list";
 import { Finder } from "@/components/finder";
+import { HomeSearchHero, VISUAL_CATEGORIES } from "@/components/home-search-hero";
 import { JsonLd } from "@/components/json-ld";
 import { ProductCard } from "@/components/product-card";
 import { brand } from "@/lib/brand";
-import { faqs, loadFeatured } from "@/lib/catalog";
+import { categoryName, faqs, loadFeatured } from "@/lib/catalog";
 import { reviews } from "@/lib/reviews";
 import { localBusinessJsonLd, pageDescription, websiteJsonLd } from "@/lib/seo";
-import { money } from "@/lib/utils";
 import { Star } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -37,49 +37,77 @@ function Home() {
     <>
       <JsonLd data={localBusinessJsonLd()} />
       <JsonLd data={websiteJsonLd()} />
-      <section className="relative isolate flex flex-col items-center justify-end overflow-hidden px-5 pt-8 pb-6 text-center">
-        <div className="pointer-events-none absolute inset-0 -z-10">
-          <video autoPlay muted loop playsInline poster="/brand/logo.jpg" className="h-full w-full object-cover object-[center_35%] motion-reduce:hidden">
-            <source src="/brand/logo-loop.mp4" type="video/mp4" />
-          </video>
-          <img src="/brand/logo.jpg" alt="" className="hidden h-full w-full object-cover object-[center_35%] motion-reduce:block" />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(5_5_6_/_0.15)_0%,rgb(5_5_6_/_0.45)_52%,rgb(5_5_6_/_0.94)_100%),radial-gradient(700px_260px_at_50%_28%,rgb(226_59_18_/_0.16),transparent)]" />
+
+      <HomeSearchHero />
+
+      <section className="px-3.5 pt-[18px] md:px-5">
+        <div className="mx-auto max-w-[720px]">
+          <h2 className="mb-1 text-[17px] font-extrabold md:text-2xl">לפי הרכב</h2>
+          <p className="mb-3 text-xs text-muted md:text-sm">כשאין מק״ט — יצרן ← דגם ← שנה</p>
+          <Finder compact />
         </div>
-        <h1 className="sr-only">חזי אורקור — חלקי חילוף לרכב בנהריה</h1>
-        <p className="mb-2 text-lg font-bold text-fg">חלקי חילוף לרכב בנהריה</p>
-        <p className="mb-4 text-base text-fg-soft">
-          מוצאים לפי מק״ט, OE או לפי יצרן־דגם־שנה. בלי מחיר באתר — שולחים הצעת מחיר אחרי אישור התאמה.
-        </p>
-        <Finder />
       </section>
 
-      <div className="grid grid-cols-2 border-y border-line bg-panel lg:grid-cols-4">
-        <Trust k="משלוח נוח" v={`₪${brand.shipping} · חינם מ־${money(brand.freeShipFrom)}`} />
-        <Trust k="אספקה מהירה" v="איסוף מנהריה או שליח" />
-        <Trust k="התאמה לפי רכב" v="קטגוריה ← יצרן ← דגם ← שנה" />
-        <Trust k="אדם בצד השני" v={`וואטסאפ ${brand.phone}`} />
-      </div>
-
-      <div className="mx-auto max-w-[1180px] px-5 pt-7 pb-16">
-        <DemoBanner />
-        <div className="mb-4.5">
-          <h2 className="text-[26px] tracking-tight">חלקים שמוצאים בעין</h2>
-          <p className="text-muted">תמונה, מק״ט, צד ושנים — בלי לנחש. בלי מחיר באתר, רק הצעת מחיר.</p>
+      <section id="categories" className="scroll-mt-20 px-3.5 pt-[18px] md:px-5">
+        <div className="mx-auto max-w-[720px] md:max-w-[1180px]">
+          <h2 className="mb-1 text-[17px] font-extrabold md:text-2xl">קטגוריות בתמונה</h2>
+          <p className="mb-3 text-xs text-muted md:text-sm">זיהוי מהיר בעין</p>
+          <div className="grid grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-5">
+            {VISUAL_CATEGORIES.map((c) => (
+              <Link
+                key={c.id}
+                to="/results"
+                search={{ category: c.id }}
+                className="overflow-hidden rounded-2xl border border-line bg-card"
+              >
+                <div className="grid h-[88px] place-items-center bg-elevated p-2">
+                  <img src={c.image} alt={c.name} className="max-h-[72px] object-contain" loading="lazy" />
+                </div>
+                <div className="border-t border-line px-2.5 py-2.5">
+                  <b className="block text-[13px] font-bold">{c.name}</b>
+                  <span className="text-[11px] text-muted">{c.sub}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      </section>
+
+      <div className="mx-auto max-w-[1180px] px-3.5 pt-7 pb-8 md:px-5 md:pb-16">
+        <DemoBanner />
+        <div className="mb-3">
+          <h2 className="text-[17px] font-extrabold tracking-tight md:text-[26px]">מהקטלוג</h2>
+          <p className="text-xs text-muted md:text-sm">תמונה · מק״ט · הצעת מחיר בוואטסאפ</p>
+        </div>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {featured.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
         </div>
 
+        <div className="mt-6 grid grid-cols-2 gap-2 md:mt-8 md:gap-3">
+          <div className="rounded-[14px] border border-line bg-card p-2.5 text-xs font-bold md:p-3.5 md:text-sm">
+            בלי מחיר באתר
+            <span className="mt-1 block text-[10.5px] font-normal leading-snug text-muted md:text-xs">
+              רק הצעה אחרי התאמה
+            </span>
+          </div>
+          <div className="rounded-[14px] border border-line bg-card p-2.5 text-xs font-bold md:p-3.5 md:text-sm">
+            {brand.city}
+            <span className="mt-1 block text-[10.5px] font-normal leading-snug text-muted md:text-xs">
+              {brand.street}
+            </span>
+          </div>
+        </div>
+
         <div className="mt-9 mb-4.5">
-          <h2 className="text-[26px] tracking-tight">מה אומרים לקוחות</h2>
+          <h2 className="text-[17px] font-extrabold tracking-tight md:text-[26px]">מה אומרים לקוחות</h2>
           <p className="text-muted">מצאו חלק לפי דגם ושנה, בלי לנחש.</p>
         </div>
         <div className="grid grid-cols-1 gap-3.5 md:grid-cols-3">
           {reviews.map((r) => (
-            <div key={r.name} className="rounded-xl border border-line bg-card p-4">
-              <div className="mb-2 flex gap-0.5 text-accent-hot">
+            <div key={r.name} className="rounded-2xl border border-line bg-card p-4 shadow-lift">
+              <div className="mb-2 flex gap-0.5 text-accent">
                 {Array.from({ length: r.stars }).map((_, i) => (
                   <Star key={i} className="size-4 fill-current" />
                 ))}
@@ -91,16 +119,19 @@ function Home() {
         </div>
 
         <FaqList items={[...faqs]} />
+
+        <p className="mt-6 text-center text-[11px] text-muted md:hidden">
+          קטגוריות נוספות:{" "}
+          {["lights", "brakes", "filters"].map((id, i) => (
+            <span key={id}>
+              {i ? " · " : null}
+              <Link to="/results" search={{ category: id }} className="underline">
+                {categoryName(id) || id}
+              </Link>
+            </span>
+          ))}
+        </p>
       </div>
     </>
-  );
-}
-
-function Trust({ k, v }: { k: string; v: string }) {
-  return (
-    <div className="border-line px-4 py-4 text-center text-sm font-bold lg:border-l">
-      {k}
-      <span className="mt-1 block text-xs font-normal text-muted">{v}</span>
-    </div>
   );
 }

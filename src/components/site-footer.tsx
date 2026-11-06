@@ -5,7 +5,7 @@ import { legalNav } from "@/lib/legal";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line bg-ink px-7 py-9 text-muted">
+    <footer className="border-t border-line bg-panel px-7 py-9 text-muted">
       <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-6 md:grid-cols-[2fr_1fr_1fr_1fr]">
         <div>
           <div className="mb-2.5 flex items-center gap-3">

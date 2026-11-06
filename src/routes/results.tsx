@@ -69,7 +69,7 @@ function ResultsPage() {
 
   return (
     <>
-      <section className="flex justify-center bg-panel px-5 py-7">
+      <section className="flex justify-center border-b border-line bg-panel px-3.5 py-5 md:px-5 md:py-7" id="search">
         <Finder key={JSON.stringify({ ...state, page: undefined })} state={state} />
       </section>
       <div className="mx-auto max-w-[1180px] px-5 pt-7 pb-16">

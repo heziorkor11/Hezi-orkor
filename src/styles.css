@@ -1,30 +1,32 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #0a0a0b;
-  --color-ink: #050506;
-  --color-panel: #121214;
-  --color-card: #161311;
-  --color-elevated: #1c1814;
-  --color-line: #2b2018;
-  --color-line-strong: #3a2418;
-  --color-fg: #f6efe6;
-  --color-fg-soft: #d7cfc6;
-  --color-muted: #9a8f86;
-  --color-subtle: #7c726b;
+  /* Light Clean theme */
+  --color-paper: #f7f7f5;
+  --color-ink: #ffffff;
+  --color-panel: #ffffff;
+  --color-card: #ffffff;
+  --color-elevated: #fafafa;
+  --color-line: #e5e5e0;
+  --color-line-strong: #d8d8d0;
+  --color-fg: #111111;
+  --color-fg-soft: #333333;
+  --color-muted: #666666;
+  --color-subtle: #888888;
   --color-accent: #e23b12;
-  --color-accent-hot: #ff7a1a;
-  --color-accent-warm: #ffb347;
-  --color-ok: #3dcc7a;
+  --color-accent-hot: #ff5a2a;
+  --color-accent-warm: #c2410c;
+  --color-ok: #0f7a3a;
   --color-whatsapp: #25d366;
-  --color-chip: #1c1612;
+  --color-chip: #f3f3f0;
+  --color-on-accent: #ffffff;
   --font-sans: "Heebo", "Arial Hebrew", Arial, sans-serif;
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
-  --shadow-lift: 0 18px 40px rgb(0 0 0 / 0.45);
-  --shadow-ember: 0 0 0 1px rgb(226 59 18 / 0.25), 0 18px 40px rgb(0 0 0 / 0.45);
+  --shadow-lift: 0 8px 24px rgb(0 0 0 / 0.06);
+  --shadow-ember: 0 0 0 1px rgb(226 59 18 / 0.18), 0 12px 28px rgb(226 59 18 / 0.12);
   --z-index-float: 60;
   --motion-quick: 150ms;
   --motion-fast: 250ms;
@@ -73,7 +75,7 @@
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--color-accent) 40%, transparent);
+    background: color-mix(in oklab, var(--color-accent) 28%, transparent);
     color: var(--color-fg);
   }
 }
@@ -96,7 +98,7 @@
   z-index: 100;
   border-radius: var(--radius-md);
   background: var(--color-accent);
-  color: var(--color-fg);
+  color: var(--color-on-accent);
   padding: 0.75rem 1.1rem;
   font-weight: 700;
 }
@@ -106,7 +108,7 @@
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent-hot);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
@@ -117,4 +119,11 @@
 
 details summary::-webkit-details-marker {
   display: none;
+}
+
+/* Mobile bottom tab bar clearance */
+@media (max-width: 767px) {
+  .has-mobile-tabbar {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  }
 }
