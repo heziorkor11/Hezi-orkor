@@ -37,7 +37,7 @@ export function quoteMessage(product: { sku: string; name: string }) {
 const SHORTHAND: Array<[RegExp, string]> = [
   [/\bז\.\u05e4רונט\b/g, "זרוע קדמית"],
   [/\bז\.\u05d0חור\b/g, "זרוע אחורית"],
-  [/\bק\.\u05d4גה\b/g, "קופסת הגה"],
+  [/\bק\.\u05d4גה\b/g, "קצה הגה"],
   [/\bקדL\b/g, "קדמי שמאל"],
   [/\bקדR\b/g, "קדמי ימין"],
   [/\bאחL\b/g, "אחורי שמאל"],

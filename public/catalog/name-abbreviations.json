@@ -1,5 +1,5 @@
 {
-  "description": "High-confidence Hebrew catalog name expansions. Original kept as nameOriginal; search matches both.",
+  "description": "High-confidence Hebrew catalog name expansions. Original kept as nameOriginal; search matches both. קס׳ intentionally not expanded.",
   "applied": [
     {
       "abbr": "מ.דלק",
@@ -33,7 +33,7 @@
     },
     {
       "abbr": "ק.הגה",
-      "full": "קופסת הגה",
+      "full": "קצה הגה",
       "count": 613,
       "examples": [
         "copy of ק.הגה טוי אבנסיס R מ09",
@@ -93,7 +93,7 @@
     },
     {
       "abbr": "ת.פרונט",
-      "full": "תותב פרונט",
+      "full": "תפוח פרונט",
       "count": 239,
       "examples": [
         "משולש סקו יטי תח R מ10 עד13 ללא ת.פרונט",
@@ -139,7 +139,7 @@
     },
     {
       "abbr": "מ.מצמד",
-      "full": "מאחז מצמד",
+      "full": "משאבת מצמד",
       "count": 118,
       "examples": [
         "מ.מצמד אופ אדם 1.4 AT מ13",
@@ -257,16 +257,6 @@
       ]
     },
     {
-      "abbr": "קס'",
-      "full": "קסנון",
-      "count": 188,
-      "examples": [
-        "פנס ראשי 00>01 A6 קס' L",
-        "פנס ראשי 00>01 A6 קס' R",
-        "פנס ראשי מרצדס CLK 98> 208 קס' L"
-      ]
-    },
-    {
       "abbr": "קד'",
       "full": "קדמי",
       "count": 2,
@@ -332,7 +322,7 @@
     },
     {
       "abbr": "ת.פרונט",
-      "full": "תותב פרונט",
+      "full": "תפוח פרונט",
       "mode": "literal"
     },
     {
@@ -372,7 +362,7 @@
     },
     {
       "abbr": "מ.מצמד",
-      "full": "מאחז מצמד",
+      "full": "משאבת מצמד",
       "mode": "literal"
     },
     {
@@ -397,7 +387,7 @@
     },
     {
       "abbr": "ק.הגה",
-      "full": "קופסת הגה",
+      "full": "קצה הגה",
       "mode": "literal"
     },
     {
@@ -451,11 +441,6 @@
       "mode": "literal"
     },
     {
-      "abbr": "קס'",
-      "full": "קסנון",
-      "mode": "literal"
-    },
-    {
       "abbr": "קד'",
       "full": "קדמי",
       "mode": "literal"
@@ -480,5 +465,6 @@
       "full": "תחתון",
       "mode": "token"
     }
-  ]
+  ],
+  "reason": " Matan corrections 2026-11-06: ק.הגה→קצה הגה, ת.פרונט→תפוח פרונט, מ.מצמד→משאבת מצמד; קס׳ not expanded (pending supplier)."
 }
