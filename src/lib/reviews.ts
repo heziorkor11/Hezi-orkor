@@ -1,5 +1,3 @@
-export const reviews = [
-  { name: "לקוח מנהריה", text: "מצאתי פנס לפי דגם ושנה בלי להתקשר שלוש פעמים. הגיע מהר.", stars: 5 },
-  { name: "מוסך בגליל המערבי", text: "שלחנו מק״ט בוואטסאפ ואישרו התאמה לפני תשלום. ככה צריך.", stars: 5 },
-  { name: "לקוח חוזר", text: "ברור מה צד ומה שנים. חוסך טעויות הזמנה.", stars: 5 },
-];
+/** Home-page named testimonials removed — not verified. Link to Google Maps instead. */
+export const GOOGLE_MAPS_PROFILE_URL =
+  "https://www.google.com/maps/place/%D7%97%D7%96%D7%99+%D7%90%D7%95%D7%A8%D7%A7%D7%95%D7%A8/@33.002921,35.097601,17z";

@@ -52,6 +52,9 @@ const CATEGORY_SLUGS = {
   "מנועים קטנים": "small-engine",
   "משאבת דלק": "fuel-pump",
   "בולם זעזועים": "shocks",
+  היגוי: "steering",
+  מתלים: "suspension",
+  מצמד: "clutch",
 };
 
 const CATEGORY_ORDER = Object.keys(CATEGORY_SLUGS);
@@ -216,6 +219,24 @@ const products = rows.map((row) => {
     ) {
       categoryName = "תאורה ונורות";
       category = "lighting";
+    } else if (
+      /משאבת מצמד|מ\.מצמד|סט מצמד|ס\.מצמד|גלגל תנופה|ג\.תנופה/.test(name)
+    ) {
+      categoryName = "מצמד";
+      category = "clutch";
+    } else if (
+      /קצה הגה|ק\.הגה|מוט קישור|מ\.קישור/.test(name) ||
+      name.startsWith("משאבת הגה") ||
+      name.includes("משאבת הגה")
+    ) {
+      categoryName = "היגוי";
+      category = "steering";
+    } else if (
+      !/^בולם\b/.test(name) &&
+      /תפוח פרונט|ת\.פרונט|גומי מייצב|זרוע קדמית|ז\.פרונט|תושבת בולם|ת\.בולם/.test(name)
+    ) {
+      categoryName = "מתלים";
+      category = "suspension";
     }
   }
 

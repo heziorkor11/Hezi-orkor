@@ -64,7 +64,10 @@ function cardToProduct(card: ListingCard & Partial<Product>): Product {
   // High-confidence name corrections (SKU/name/price unchanged).
   if (/מדחס/.test(nm) && category === "lights") category = "ac-compressor";
   else if ((/\bמ\.דלק\b/.test(nm) || nm.startsWith("מ.דלק") || nm.includes("משאבת דלק")) && !/(מסנן|פילטר).{0,12}(מ\.?דלק|דלק)|(מ\.?דלק|דלק).{0,12}(מסנן|פילטר)/.test(nm) && category === "filters") category = "fuel-pump";
-  else if ((/גומי מייצב/.test(nm) || /^בולם\b/.test(nm)) && category === "general") category = "shocks";
+  else if (/משאבת מצמד|מ\.מצמד|סט מצמד|ס\.מצמד|גלגל תנופה|ג\.תנופה/.test(nm) && (category === "general" || category === "shocks")) category = "clutch";
+  else if ((/קצה הגה|ק\.הגה|מוט קישור|מ\.קישור|משאבת הגה/.test(nm)) && (category === "general" || category === "shocks")) category = "steering";
+  else if (!/^בולם\b/.test(nm) && /תפוח פרונט|ת\.פרונט|גומי מייצב|זרוע קדמית|ז\.פרונט|תושבת בולם|ת\.בולם/.test(nm) && (category === "general" || category === "shocks")) category = "suspension";
+  else if (/^בולם\b/.test(nm) && category === "general") category = "shocks";
   return {
     id: card.id || card.sku,
     sku: card.sku,
