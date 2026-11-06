@@ -1,10 +1,16 @@
 import pricesBySku from "../../public/catalog/prices.json";
+import priceHideOverrides from "../../public/catalog/price-hide-overrides.json";
 
 const map = pricesBySku as Record<string, number>;
+const hidden = new Set(
+  (priceHideOverrides as { skus?: string[] }).skus?.filter(Boolean) ?? [],
+);
 
 /** Price from Matan's לאתר sheet, exact numeric as given. null = show quote CTA. */
 export function catalogPrice(sku: string | undefined | null): number | null {
   if (!sku) return null;
+  // Override: hide price for severe outliers (source map untouched)
+  if (hidden.has(sku)) return null;
   const v = map[sku];
   return typeof v === "number" && Number.isFinite(v) && v > 0 ? v : null;
 }
@@ -22,4 +28,8 @@ export function priceOrQuoteLabel(sku: string | undefined | null): string {
 
 export function hasCatalogPrice(sku: string | undefined | null): boolean {
   return catalogPrice(sku) != null;
+}
+
+export function isPriceHiddenOverride(sku: string | undefined | null): boolean {
+  return Boolean(sku && hidden.has(sku));
 }
