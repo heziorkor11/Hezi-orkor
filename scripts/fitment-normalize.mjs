@@ -3,7 +3,7 @@
  * Designed to apply catalog-wide; callers opt in per category via `enabled`.
  */
 
-/** Categories that use multi-fitment + full normalize today (verify before expanding). */
+/** Historical allow-list; process-catalog now enables parseFitments catalog-wide. Kept for callers/tests. */
 export const NORMALIZE_CATEGORIES = new Set(["spark-plugs", "small-engine"]);
 
 /** [alias, canonical] — longer / more specific aliases first when scanning. */
@@ -20,6 +20,7 @@ export const MAKE_ALIASES = [
   ["פולקס ", "פולקסווגן"],
   ["מיצובישי", "מיצובישי"],
   ["שברולט", "שברולט"],
+  ["שבר ", "שברולט"],
   ["דייהטסו", "דייהטסו"],
   ["דייהצו", "דייהטסו"],
   ["דיהטסו", "דייהטסו"],
@@ -136,6 +137,7 @@ export const MODEL_ALIASES = {
   טורנו: "טורנאו",
   מאליבו: "מליבו",
   ספרק: "ספארק",
+  קאמרו: "קמרו",
   "טרייל בליזר": "טרייל בלייזר",
   טריילבלייזר: "טרייל בלייזר",
   היילוקס: "היילקס",
@@ -229,7 +231,7 @@ export const MODEL_ALIASES = {
  * map unambiguous model tokens → real make. Otherwise needsReview.
  */
 export const AMERICAN_MODEL_MAKE = [
-  { re: /סילברדו|טרייל\s*בלייזר|מליבו|קבליר|אקסליד|ספארק|אוואו|אורלנדו|קרוז(?!ר)|אסטרו|סואנה|ק[אמ]ארו|קמרו|אימפלה|אקווינוקס|טראוורס|בלייזר/i, make: "שברולט" },
+  { re: /סילברדו|טרייל\s*בלייזר|מליבו|קבליר|אקסליד|ספארק|ספרק|סוניק|אוואו|אורלנדו|קרוז(?!ר)|אסטרו|סואנה|ק[אמ]ארו|קמרו|אימפלה|אקווינוקס|טראוורס|בלייזר/i, make: "שברולט" },
   { re: /לקרוס|לה\s*קרוס|לוצרן|לה\s*סייבר/i, make: "ביואיק" },
   { re: /מוסטנג|פוקוס|פיאסטה|אדג|טורנאו|קוריר|F-?150/i, make: "פורד" },
   { re: /ויאגר|גרנד\s*וי[אגי]?ר?|פיטי\s*קרוזר|פיטי\s*קרוז|PT\s*קרוז|300C|\bC300\b|טאון\s*קנטרי/i, make: "קרייזלר" },
@@ -274,6 +276,7 @@ export function normalizeModel(make, model) {
   }
   // marketing / junk prefixes
   s = s.replace(/^להט\s+/i, "");
+  s = s.replace(/^אמר\s+/i, "");
   // Collapse "קדL" / "קד R" side noise left in model tokens
   s = s.replace(/\s*קד\s*[LR]\b/gi, " ").replace(/\s*אח\s*[LR]\b/gi, " ");
   s = s.replace(/\s+עד\s*(\d{2})\b/gi, " עד $1");
@@ -286,13 +289,17 @@ export function normalizeModel(make, model) {
     .replace(/\bBMW\b/gi, "")
     .replace(/\s+\d+\.\d+[TDtd]?\s*$/g, " ")
     .replace(/\s+נ?\d+\.\d+\s*$/g, " ")
+    .replace(/\s+\d\s+\d\b/g, " ") // "2 0" engine leftovers after decimal strip
     .replace(/\b\d{4}\b/g, " ")
-    .replace(/\b(קד|אח|דיזל|בנזין|טורבו|היבריד|היברידי|4X4|4X2|אוטומט|ידני|אירדיום|פלטיניום)\b/gi, " ")
+    .replace(/\b(קד|אח|תח|על|דיזל|בנזין|טורבו|היבריד|היברידי|4X4|4X2|אוטומט|ידני|אירדיום|פלטיניום)\b/gi, " ")
+    .replace(/\s+[LR]\b/gi, " ")
     .replace(/[-_/.,]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
   if (!s || /^(גימי|חלק|כללי|universal|שמן מנוע)$/i.test(s)) return "";
   if (/^\d+\.\d+$/.test(s)) return "";
+  if (/^[^\p{L}\p{N}]+$/u.test(s)) return ""; // punctuation-only
+  if (/^[\u05D0-\u05EA]$/.test(s)) return ""; // lone Hebrew letter
   return MODEL_ALIASES[s] || s;
 }
 
@@ -379,8 +386,11 @@ function isJunkModel(model) {
   if (/\d{5,}/.test(m)) return true; // part-number-ish
   if ((m.match(/\d/g) || []).length >= 6) return true;
   if (/^(MS|Z2|WR|U|BOSCH|NGK|ACDelco)\b/i.test(m)) return true;
-  // Product-name leftovers mistaken as models (shock/filter/light rows)
-  if (/^(בולם|פנס|פילטר|מצת|מדחס|מעבה|רפיד|דיסק|חיישן|סליל)/.test(m)) return true;
+  // Product-name leftovers mistaken as models (shock/brake/filter/light rows)
+  if (/^(?:ת\.?|נ\.?|צ\.?|ר\.?|מ\.?|פ\.?|ז\.?)?\s*(?:בולם|בלם|נאבה|פרונט|פנס|פילטר|מצת|מדחס|מעבה|רפיד|דיסק|חיישן|סליל|גומי|מצמד)/.test(m)) return true;
+  if (/אמר/.test(m) && /(?:בלם|בולם|נאבה|פרונט|מצמד|שמן|פילטר|מצת)/.test(m)) return true;
+  // Too many tokens usually means unsplit multi-vehicle / title dump
+  if (m.split(/\s+/).length >= 6) return true;
   return false;
 }
 
@@ -503,15 +513,22 @@ export function parseFitments(vehicleFitment, name, { enabled = true } = {}) {
     }
   }
 
-  // «אמר» handling
+  // «אמר» handling — only invent a vehicle when none were parsed from explicit makes.
+  // Product titles like «צ.בלם אמר C300» must not become the model when VF already lists makes.
   if (hasAmar) {
     const resolved = resolveAmerican(fitRaw || hay, nameRaw);
-    if (resolved.make) {
+    const haveModel = fitments.some((f) => f.model);
+    if (resolved.make && !haveModel) {
       const { yearFrom, yearTo } = parseYearsIn(fitRaw || hay);
-      const after = (fitRaw || hay).split(/אמר/)[1] || "";
-      const model = modelFromSegment(resolved.make, after) || modelFromSegment(resolved.make, nameRaw.replace(/^מצת\s*אמר\s*/i, ""));
+      const amarSource = /אמר/.test(fitRaw) ? fitRaw : /אמר/.test(nameRaw) ? nameRaw : hay;
+      const after = amarSource.split(/אמר/).slice(1).join(" ") || "";
+      const strippedName = nameRaw
+        .replace(/^(?:ת\.?|נ\.?|צ\.?|ר\.?|מ\.?|פ\.?|ז\.?)?\s*(?:בולם|בלם|נאבה|פרונט|פנס|פילטר|מצת|מדחס|מעבה|רפיד|דיסק|גומי|מצמד|שמן)?\s*אמר\s*/i, "")
+        .replace(/^מצת\s*אמר\s*/i, "");
+      let model = modelFromSegment(resolved.make, after) || modelFromSegment(resolved.make, strippedName);
+      if (model && isJunkModel(model)) model = "";
       push(resolved.make, model, yearFrom, yearTo);
-    } else if (!fitments.length) {
+    } else if (!resolved.make && !fitments.length) {
       // Multi-brand American mix with no parseable vehicles — leave for review
       needsReview.push(resolved.reason || "אמר-ambiguous");
     }
