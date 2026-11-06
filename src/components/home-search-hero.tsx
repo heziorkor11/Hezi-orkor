@@ -13,6 +13,12 @@ export const VISUAL_CATEGORIES: {
   type?: import("@/lib/catalog-types").PartTypeId;
 }[] = [
   {
+    id: "workshop-packs",
+    name: "מחירי מוסך / מארזים",
+    sub: "חביות · מארזים · כמות",
+    image: "/catalog/images/A0834_HZ-OIL-00001_102888.jpg",
+  },
+  {
     id: "steering",
     name: "היגוי",
     sub: "קצה הגה · מוט קישור",

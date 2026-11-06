@@ -11,6 +11,7 @@ import { categoryName, loadProduct, loadRelated, quoteMessage, waLink } from "@/
 import { displayYears, primaryOeLine, splitOe } from "@/lib/part-display";
 import { breadcrumbJsonLd, pageDescription, pageTitle, productJsonLd } from "@/lib/seo";
 import { priceOrQuoteLabel } from "@/lib/prices";
+import { packUnitPriceLabel } from "@/lib/pack-price";
 
 export const Route = createFileRoute("/product/$id")({
   loader: async ({ params }) => {
@@ -76,6 +77,9 @@ function ProductPage() {
           <h1 className="mt-2 mb-2 text-[28px] leading-snug">{product.name}</h1>
           <div className="mb-4 flex items-baseline gap-2">
             <span className="text-lg font-bold text-accent-warm tabular-nums">{priceOrQuoteLabel(product.sku)}</span>
+            {packUnitPriceLabel(product.sku, product.name) ? (
+              <span className="mr-2 text-xs text-muted tabular-nums">{packUnitPriceLabel(product.sku, product.name)}</span>
+            ) : null}
           </div>
           <dl className="mb-4 grid grid-cols-[7.5rem_1fr] gap-x-2.5 gap-y-2 text-sm">
             <dt className="text-muted">מק״ט חנות</dt>

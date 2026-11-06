@@ -1,6 +1,6 @@
 {
   "description": "SKU category overrides applied by process-catalog.mjs. Does not change SKU ids, names, or prices.",
-  "reason": "Matan approved 2026-11-06: fuel pumps, stabilizer bushings, HDL accessories + high-confidence catalog-wide name rules. + Matan 2026-11-06: היגוי/מתלים/מצמד categories.",
+  "reason": "Matan approved 2026-11-06: fuel pumps, stabilizer bushings, HDL accessories + high-confidence catalog-wide name rules. + Matan 2026-11-06: היגוי/מתלים/מצמד categories. + Matan 2026-11-07: מחירי מוסך / מארזים bulk packs moved.",
   "bySku": {
     "HZ-FLT-00671": {
       "category": "fuel-pump",
@@ -13725,6 +13725,2562 @@
     "HZ-HDL-03796": {
       "category": "ac-compressor",
       "categoryName": "מדחס מזגן"
+    },
+    "HZ-GEN-00010": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "general",
+      "reasons": [
+        "pack-100"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 100
+      }
+    },
+    "HZ-GEN-00011": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "general",
+      "reasons": [
+        "pack-100"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 100
+      }
+    },
+    "HZ-GEN-00012": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "general",
+      "reasons": [
+        "pack-100"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 100
+      }
+    },
+    "HZ-GEN-00013": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "general",
+      "reasons": [
+        "pack-100"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 100
+      }
+    },
+    "HZ-GEN-00014": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "general",
+      "reasons": [
+        "pack-100"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 100
+      }
+    },
+    "HZ-GEN-00015": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "general",
+      "reasons": [
+        "pack-100"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 100
+      }
+    },
+    "HZ-GEN-00016": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "general",
+      "reasons": [
+        "pack-100"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 100
+      }
+    },
+    "HZ-GEN-00017": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "general",
+      "reasons": [
+        "pack-100"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 100
+      }
+    },
+    "HZ-GEN-00018": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "general",
+      "reasons": [
+        "pack-100"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 100
+      }
+    },
+    "HZ-GEN-00019": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "general",
+      "reasons": [
+        "pack-100"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 100
+      }
+    },
+    "HZ-OIL-00001": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00002": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00003": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00004": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00005": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00006": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00007": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00008": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00009": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00010": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00016": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00017": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00018": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00019": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00020": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00021": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00022": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00023": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00024": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00025": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00026": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00027": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00028": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00029": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00030": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00031": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00032": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-208L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 208
+      }
+    },
+    "HZ-OIL-00033": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00034": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00035": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00036": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00037": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-10"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 10
+      }
+    },
+    "HZ-OIL-00038": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00039": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00040": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00041": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00042": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00043": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00044": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00045": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00046": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00047": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00048": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-208L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 208
+      }
+    },
+    "HZ-OIL-00066": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00071": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00072": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00073": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-10"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 10
+      }
+    },
+    "HZ-OIL-00074": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-10"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 10
+      }
+    },
+    "HZ-OIL-00075": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-10"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 10
+      }
+    },
+    "HZ-OIL-00076": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-10"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 10
+      }
+    },
+    "HZ-OIL-00077": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-10"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 10
+      }
+    },
+    "HZ-OIL-00078": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-10"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 10
+      }
+    },
+    "HZ-OIL-00079": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-10"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 10
+      }
+    },
+    "HZ-OIL-00080": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-10"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 10
+      }
+    },
+    "HZ-OIL-00081": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-10"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 10
+      }
+    },
+    "HZ-OIL-00082": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00083": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00084": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00085": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00086": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00087": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00088": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00089": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00090": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00091": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00092": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00093": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-60L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 60
+      }
+    },
+    "HZ-OIL-00094": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-60L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 60
+      }
+    },
+    "HZ-OIL-00095": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00096": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00097": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00098": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00100": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00122": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-10"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 10
+      }
+    },
+    "HZ-OIL-00128": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-60L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 60
+      }
+    },
+    "HZ-OIL-00129": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-60L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 60
+      }
+    },
+    "HZ-OIL-00130": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00131": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00132": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00133": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00134": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00135": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00136": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00137": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00138": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00139": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00140": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00141": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00143": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00144": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00145": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00146": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00147": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00148": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00149": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00151": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-60L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 60
+      }
+    },
+    "HZ-OIL-00152": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00153": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00154": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00155": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00157": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00158": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00159": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00160": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00161": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00162": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00163": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00164": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00165": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-208L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 208
+      }
+    },
+    "HZ-OIL-00167": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00169": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00170": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00171": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00172": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00173": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00174": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00175": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00176": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00178": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00180": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00181": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00182": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00183": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00184": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00185": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00186": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00187": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00189": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00190": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00191": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00192": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00193": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00194": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00195": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00196": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00198": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00199": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00200": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00201": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00202": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00204": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00205": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00206": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00207": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00208": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00209": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00210": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00211": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00212": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00213": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00214": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00215": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00216": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-1000L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 1000
+      }
+    },
+    "HZ-OIL-00217": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00218": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-208L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 208
+      }
+    },
+    "HZ-OIL-00219": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00220": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00221": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00222": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00223": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00224": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00225": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-208L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 208
+      }
+    },
+    "HZ-OIL-00226": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00244": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00245": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-208L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 208
+      }
+    },
+    "HZ-OIL-00246": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-20L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 20
+      }
+    },
+    "HZ-OIL-00247": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00249": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00250": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-10"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 10
+      }
+    },
+    "HZ-OIL-00251": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00252": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00253": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00254": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00255": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-208L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 208
+      }
+    },
+    "HZ-OIL-00256": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00258": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00259": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00260": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00262": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00263": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00264": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00265": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00266": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00268": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00269": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00270": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00271": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00272": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00273": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00274": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "drum-60L"
+      ],
+      "pack": {
+        "kind": "liter",
+        "qty": 60
+      }
+    },
+    "HZ-OIL-00275": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00276": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00277": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00278": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00280": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00281": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00283": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00284": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
+    },
+    "HZ-OIL-00285": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00286": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00287": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-10"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 10
+      }
+    },
+    "HZ-OIL-00288": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-4"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 4
+      }
+    },
+    "HZ-OIL-00289": {
+      "category": "workshop-packs",
+      "categoryName": "מחירי מוסך / מארזים",
+      "fromCategory": "fluids",
+      "reasons": [
+        "pack-12"
+      ],
+      "pack": {
+        "kind": "unit",
+        "qty": 12
+      }
     }
   }
 }

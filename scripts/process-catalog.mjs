@@ -55,6 +55,7 @@ const CATEGORY_SLUGS = {
   היגוי: "steering",
   מתלים: "suspension",
   מצמד: "clutch",
+  "מחירי מוסך / מארזים": "workshop-packs",
 };
 
 const CATEGORY_ORDER = Object.keys(CATEGORY_SLUGS);

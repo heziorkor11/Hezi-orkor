@@ -159,6 +159,7 @@ const CATEGORY_TYPE: Record<string, PartTypeId> = {
   suspension: "suspension",
   clutch: "clutch",
   "fuel-pump": "general",
+  "workshop-packs": "fluid",
   mirrors: "mirror",
   body: "fender",
   bumper: "bumper",

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Trash2 } from "lucide-react";
 import { FormField } from "@/components/form-field";
@@ -9,7 +9,15 @@ import { useCart } from "@/lib/cart";
 import { loadProduct, type Product } from "@/lib/catalog";
 import { useOrderForm } from "@/lib/order-form";
 import {
-  buildCartOrderMessageFitting,
+  canSharePdfFile,
+  downloadBlob,
+  buildOrderPdfBlob,
+  buildOrderShareText,
+  ORDER_SHARE_HINT,
+  preloadOrderPdf,
+  waMeUrlForShareText,
+} from "@/lib/order-pdf";
+import {
   isValidIlPhone,
   isValidIlPlate,
   type OrderCustomer,
@@ -22,12 +30,20 @@ export const Route = createFileRoute("/cart")({
       { title: "סל הקניות | חזי אורקור | נהריה" },
       {
         name: "description",
-        content: "סל הקניות של חזי אורקור. בקשת הצעת מחיר מפורטת בוואטסאפ, בלי סליקה באתר.",
+        content: "סל הקניות של חזי אורקור. שליחת הזמנה כ־PDF בוואטסאפ, בלי סליקה באתר.",
       },
     ],
   }),
   component: CartPage,
 });
+
+type PdfCache = {
+  key: string;
+  blob: Blob;
+  orderRef: string;
+  subtotal: number;
+  quoteCount: number;
+};
 
 function CartPage() {
   const items = useCart((s) => s.items);
@@ -35,6 +51,11 @@ function CartPage() {
   const setQty = useCart((s) => s.setQty);
   const [products, setProducts] = useState<Record<string, Product>>({});
   const [touched, setTouched] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [pdfReady, setPdfReady] = useState(false);
+  const [shareError, setShareError] = useState<string | null>(null);
+  const pdfCacheRef = useRef<PdfCache | null>(null);
+  const genSeq = useRef(0);
 
   const form = useOrderForm();
   const setField = useOrderForm((s) => s.setField);
@@ -43,6 +64,13 @@ function CartPage() {
   useEffect(() => {
     prefillVehicleFromSaved();
   }, [prefillVehicleFromSaved]);
+
+  // Preload PDF lib + Hebrew fonts as soon as cart opens
+  useEffect(() => {
+    void preloadOrderPdf().catch(() => {
+      /* will retry on send */
+    });
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -64,18 +92,32 @@ function CartPage() {
     .map((c) => ({ ...c, product: products[c.id] }))
     .filter((x): x is typeof x & { product: Product } => Boolean(x.product));
 
-  const customer: OrderCustomer = {
-    name: form.name,
-    phone: form.phone,
-    city: form.city,
-    delivery: form.delivery,
-    plate: form.plate,
-    make: form.make,
-    model: form.model,
-    year: form.year,
-    engine: form.engine,
-    notes: form.notes,
-  };
+  const customer: OrderCustomer = useMemo(
+    () => ({
+      name: form.name,
+      phone: form.phone,
+      city: form.city,
+      delivery: form.delivery,
+      plate: form.plate,
+      make: form.make,
+      model: form.model,
+      year: form.year,
+      engine: form.engine,
+      notes: form.notes,
+    }),
+    [
+      form.name,
+      form.phone,
+      form.city,
+      form.delivery,
+      form.plate,
+      form.make,
+      form.model,
+      form.year,
+      form.engine,
+      form.notes,
+    ],
+  );
 
   const errors = useMemo(() => {
     const e: Record<string, string> = {};
@@ -87,24 +129,130 @@ function CartPage() {
 
   const valid = Object.keys(errors).length === 0;
 
-  const orderBundle = useMemo(() => {
-    if (!rows.length || !valid) return null;
-    return buildCartOrderMessageFitting(
-      customer,
+  const orderLines = useMemo(
+    () =>
       rows.map((x) => ({
         sku: x.product.sku,
         name: x.product.name,
         qty: x.qty,
         oe: x.product.oe,
       })),
-    );
-  }, [rows, customer, valid]);
+    [rows],
+  );
+
+  const cacheKey = useMemo(() => {
+    if (!valid || !orderLines.length) return "";
+    return JSON.stringify({ customer, lines: orderLines });
+  }, [customer, orderLines, valid]);
+
+  // Pre-generate + cache PDF Blob whenever the form is valid
+  useEffect(() => {
+    if (!cacheKey) {
+      pdfCacheRef.current = null;
+      setPdfReady(false);
+      return;
+    }
+    if (pdfCacheRef.current?.key === cacheKey) {
+      setPdfReady(true);
+      return;
+    }
+    const seq = ++genSeq.current;
+    setPdfReady(false);
+    void (async () => {
+      try {
+        const result = await buildOrderPdfBlob({ customer, lines: orderLines });
+        if (seq !== genSeq.current) return;
+        pdfCacheRef.current = {
+          key: cacheKey,
+          blob: result.blob,
+          orderRef: result.orderRef,
+          subtotal: result.subtotal,
+          quoteCount: result.quoteCount,
+        };
+        setPdfReady(true);
+      } catch {
+        if (seq !== genSeq.current) return;
+        pdfCacheRef.current = null;
+        setPdfReady(false);
+      }
+    })();
+  }, [cacheKey, customer, orderLines]);
+
+  const fallbackSend = useCallback((blob: Blob, orderRef: string, subtotal: number) => {
+    downloadBlob(blob, `${orderRef}.pdf`);
+    const text = buildOrderShareText({
+      orderRef,
+      customer,
+      itemCount: orderLines.length,
+      subtotal,
+    });
+    window.open(waMeUrlForShareText(text), "_blank", "noopener,noreferrer");
+  }, [customer, orderLines.length]);
+
+  const onSendOrder = useCallback(async () => {
+    setShareError(null);
+    if (!valid) {
+      setTouched(true);
+      return;
+    }
+    if (!orderLines.length) return;
+
+    setSending(true);
+    try {
+      let cache = pdfCacheRef.current;
+      if (!cache || cache.key !== cacheKey) {
+        const result = await buildOrderPdfBlob({ customer, lines: orderLines });
+        cache = {
+          key: cacheKey,
+          blob: result.blob,
+          orderRef: result.orderRef,
+          subtotal: result.subtotal,
+          quoteCount: result.quoteCount,
+        };
+        pdfCacheRef.current = cache;
+        setPdfReady(true);
+      }
+
+      const file = new File([cache.blob], `${cache.orderRef}.pdf`, {
+        type: "application/pdf",
+      });
+      const text = buildOrderShareText({
+        orderRef: cache.orderRef,
+        customer,
+        itemCount: orderLines.length,
+        subtotal: cache.subtotal,
+      });
+
+      if (canSharePdfFile(file)) {
+        try {
+          await navigator.share({
+            files: [file],
+            text,
+            title: `הזמנה ${cache.orderRef}`,
+          });
+          return;
+        } catch (err) {
+          // Cancel or share failure → fallback
+          const name = err instanceof Error ? err.name : "";
+          if (name !== "AbortError") {
+            setShareError("השיתוף לא הושלם — מורידים PDF ופותחים וואטסאפ.");
+          }
+        }
+      }
+
+      fallbackSend(cache.blob, cache.orderRef, cache.subtotal);
+    } catch {
+      setShareError("לא הצלחנו ליצור את ה־PDF. נסו שוב.");
+    } finally {
+      setSending(false);
+    }
+  }, [valid, orderLines, cacheKey, customer, fallbackSend]);
 
   return (
     <div className="mx-auto max-w-[1180px] px-3.5 pt-7 pb-16 md:px-5">
       <div className="mb-4.5">
         <h1 className="text-[26px] tracking-tight">סל הקניות</h1>
-        <p className="text-muted">{rows.length} פריטים · שליחה להצעת מחיר מפורטת בוואטסאפ</p>
+        <p className="text-muted">{rows.length} פריטים · שליחת הזמנה כ־PDF בוואטסאפ</p>
       </div>
 
       {items.length && !rows.length ? <p className="text-muted">טוען פריטים מהקטלוג…</p> : null}
@@ -162,7 +310,7 @@ function CartPage() {
           <section className="mt-5 rounded-2xl border border-line bg-card p-3.5 shadow-lift md:p-5">
             <h2 className="mb-1 text-[17px] font-extrabold tracking-tight">פרטי הזמנה</h2>
             <p className="mb-3.5 text-xs text-muted md:text-sm">
-              השדות עם * חובה. הפרטים נשמרים במכשיר שלכם ונשלחים בהודעת הוואטסאפ.
+              השדות עם * חובה. בלחיצה נוצר PDF ונפתח שיתוף לוואטסאפ.
             </p>
             <div className="grid gap-3 sm:grid-cols-2">
               <FormField label="שם מלא *">
@@ -289,29 +437,23 @@ function CartPage() {
                   תנאי שימוש
                 </Link>
               </p>
-              {orderBundle ? (
-                <a
-                  className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 text-sm font-extrabold text-on-accent hover:bg-accent-hot sm:w-auto"
-                  target="_blank"
-                  rel="noreferrer"
-                  href={orderBundle.url}
-                >
-                  <WhatsAppIcon className="size-4" />
-                  שליחה להצעת מחיר בוואטסאפ
-                </a>
-              ) : (
-                <Button
-                  type="button"
-                  className="h-12 w-full rounded-xl text-sm font-extrabold sm:w-auto"
-                  onClick={() => setTouched(true)}
-                >
-                  <WhatsAppIcon className="size-4" />
-                  שליחה להצעת מחיר בוואטסאפ
-                </Button>
-              )}
+              <Button
+                type="button"
+                className="h-12 w-full rounded-xl text-sm font-extrabold sm:w-auto"
+                disabled={sending}
+                onClick={() => void onSendOrder()}
+              >
+                <WhatsAppIcon className="size-4" />
+                {sending ? "יוצר PDF…" : "שלח הזמנה"}
+              </Button>
+              <p className="mt-2 text-xs text-muted">{ORDER_SHARE_HINT}</p>
+              {valid && !pdfReady ? (
+                <p className="mt-1 text-xs text-muted">מכין את קובץ ההזמנה ברקע…</p>
+              ) : null}
               {touched && !valid ? (
                 <p className="mt-2 text-xs text-accent-hot">נא להשלים את שדות החובה לפני השליחה.</p>
               ) : null}
+              {shareError ? <p className="mt-2 text-xs text-accent-hot">{shareError}</p> : null}
             </div>
           </section>
         </>
