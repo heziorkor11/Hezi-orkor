@@ -1,6 +1,5 @@
 import { canonicalModel, dedupeModels, sameModel } from "@/lib/model-names";
 import {
-  brand,
   categories,
   type CatalogFacets,
   type CatalogManifest,
@@ -9,6 +8,7 @@ import {
   type VehicleFitment,
 } from "@/lib/catalog-types";
 import { catalogJson } from "@/lib/catalog-io";
+import { buildQuickQuoteMessage, waLinkForText } from "@/lib/order-quote";
 
 type Cache = {
   manifest?: CatalogManifest;
@@ -27,11 +27,11 @@ export function categoryName(id?: string) {
 }
 
 export function waLink(text: string) {
-  return `https://wa.me/${brand.whatsapp}?text=${encodeURIComponent(text)}`;
+  return waLinkForText(text);
 }
 
-export function quoteMessage(product: { sku: string; name: string }) {
-  return `שלום, אשמח להצעת מחיר ולבירור מלאי עבור מק״ט ${product.sku} — ${product.name}`;
+export function quoteMessage(product: { sku: string; name: string; oe?: string }) {
+  return buildQuickQuoteMessage(product);
 }
 
 const SHORTHAND: Array<[RegExp, string]> = [

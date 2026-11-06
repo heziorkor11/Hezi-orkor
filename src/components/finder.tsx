@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { categories, loadFacets, type CatalogFacets, type ProductFilter } from "@/lib/catalog";
+import { writeSavedVehicle } from "@/lib/order-form";
 
 export function Finder({
   state = {},
@@ -35,6 +36,7 @@ export function Finder({
   const years = facets?.yearsByMakeModel[yearKey] ?? (draft.year ? [Number(draft.year)] : []);
 
   function submit() {
+    writeSavedVehicle({ make: draft.make, model: draft.model, year: draft.year });
     navigate({
       to: "/results",
       search: {
