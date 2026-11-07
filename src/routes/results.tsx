@@ -1,3 +1,4 @@
+import { subcategories, normalizeDisplayCategory } from "@/lib/display-taxonomy";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ActiveFilters } from "@/components/active-filters";
 import { DemoBanner } from "@/components/demo-banner";
@@ -28,7 +29,8 @@ export const Route = createFileRoute("/results")({
     model: str(search.model),
     year: str(search.year),
     q: str(search.q),
-    category: str(search.category),
+    category: normalizeDisplayCategory(str(search.category)),
+    sub: str(search.sub),
     fluidKind: str(search.fluidKind),
     oilBrand: str(search.oilBrand),
     page: num(search.page),
@@ -104,6 +106,18 @@ function ResultsPage() {
           </p>
         </div>
         {isFluids ? <FluidsFilters state={{ ...state, category: state.category || "fluids" }} /> : null}
+        {state.category && state.category !== "fluids" && subcategories[state.category] ? (
+          <nav aria-label="תתי קטגוריות" className="mb-5 flex flex-wrap gap-2">
+            <Link to="/results" search={{ ...state, sub: undefined, fluidKind: undefined, page: undefined }}
+              className={`rounded-full border px-4 py-2 text-sm ${!state.sub ? "bg-accent text-on-accent" : "bg-card"}`}>הכל</Link>
+            {subcategories[state.category].filter(s => s.count > 0).map(s => (
+              <Link key={s.id} to="/results" search={{ ...state, sub: s.id, fluidKind: undefined, page: undefined }}
+                className={`rounded-full border px-4 py-2 text-sm ${state.sub === s.id ? "bg-accent text-on-accent" : "bg-card"}`}>
+                {s.name} ({s.count})
+              </Link>
+            ))}
+          </nav>
+        ) : null}
         <ActiveFilters state={state} />
         {listing.items.length ? (
           <>

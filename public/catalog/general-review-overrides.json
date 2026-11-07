@@ -1,0 +1,253 @@
+{
+  "description": "Owner-approved per-SKU display-only review of all 77 residual general products; no source/price changes.",
+  "bySku": {
+    "HZ-GEN-00001": {
+      "category": "fluids",
+      "reason": "נוזל בלמים / נוזל קירור מפורש בשם"
+    },
+    "HZ-GEN-00002": {
+      "category": "fluids",
+      "reason": "נוזל בלמים / נוזל קירור מפורש בשם"
+    },
+    "HZ-GEN-00003": {
+      "category": "fluids",
+      "reason": "נוזל בלמים / נוזל קירור מפורש בשם"
+    },
+    "HZ-GEN-00004": {
+      "category": "fluids",
+      "reason": "נוזל בלמים / נוזל קירור מפורש בשם"
+    },
+    "HZ-GEN-00005": {
+      "category": "fluids",
+      "reason": "נוזל בלמים / נוזל קירור מפורש בשם"
+    },
+    "HZ-GEN-00006": {
+      "category": "fluids",
+      "reason": "נוזל בלמים / נוזל קירור מפורש בשם"
+    },
+    "HZ-GEN-02311": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02312": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02313": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02314": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02315": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02316": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02317": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02318": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02319": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02320": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02321": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02322": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02323": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02324": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02325": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02326": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02327": {
+      "category": "steering",
+      "reason": "גומיית הגה — אביזר היגוי, לא מסרק שלם"
+    },
+    "HZ-GEN-02328": {
+      "category": "suspension",
+      "reason": "גומי קפיץ אחורי — רכיב מתלה, לא בולם שלם"
+    },
+    "HZ-GEN-03044": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03045": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03046": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03047": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03048": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03049": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03050": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03051": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03052": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03053": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03054": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03055": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03056": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03057": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03058": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03059": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03060": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03061": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03062": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-03063": {
+      "category": "driveshaft",
+      "reason": "גומיית ציריה — חלק ממשפחת ציריות, לא ציריה שלמה"
+    },
+    "HZ-GEN-04071": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04072": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04073": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04074": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04075": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04076": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04077": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04078": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04079": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04080": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04081": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04082": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04083": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04084": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04085": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04086": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04087": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-04088": {
+      "category": "throttle-body",
+      "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    }
+  }
+}

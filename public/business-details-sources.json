@@ -1,0 +1,67 @@
+{
+  "checkedAt": "2026-11-07 Asia/Jerusalem",
+  "primarySource": "https://www.google.com/maps?cid=14144033757848644460",
+  "evidenceFiles": [
+    "/workspace/designs/review/google-maps-visible.txt",
+    "/workspace/designs/review/google-maps-hours.txt",
+    "/workspace/designs/review/google-maps-hours.png"
+  ],
+  "fields": {
+    "name": {
+      "value": "חזי אורקור",
+      "status": "verified-google",
+      "siteChanged": false
+    },
+    "address": {
+      "value": "לוחמי הגטאות 24, נהריה, ישראל",
+      "status": "verified-google",
+      "siteChanged": false
+    },
+    "phone": {
+      "value": "+972524858516",
+      "status": "verified-google",
+      "siteChanged": false
+    },
+    "coordinates": {
+      "value": [
+        33.0029355,
+        35.0975967
+      ],
+      "status": "verified-google",
+      "siteChanged": true
+    },
+    "mapsLink": {
+      "value": "https://www.google.com/maps?cid=14144033757848644460",
+      "status": "verified-google-business-cid"
+    },
+    "rating": {
+      "value": 4.7,
+      "status": "verified-google",
+      "reviewCount": "unverified-not-exposed-in-limited-view",
+      "displayedOnSite": false
+    },
+    "ratingLink": {
+      "value": "https://www.google.com/maps?cid=14144033757848644460",
+      "status": "same-verified-business-profile; not a separately verified write-review URL"
+    },
+    "hours": {
+      "status": "partially-verified-google",
+      "verified": "Saturday closed; next opening Sunday 08:00",
+      "unverified": "Full weekly opening/closing times not exposed by Google limited view. Third-party sources conflict: 16:00 vs16:30 vs18:00; Friday closed vs14:00 vs15:00. No schedule guessed. Removed unverified 17:00 claim/status/SEO and replaced with call-to-confirm text."
+    },
+    "businessNumber": {
+      "value": null,
+      "status": "missing-not-publicly-verified"
+    },
+    "googleWebsite": {
+      "value": "https://haziorkor-s2ici53.public.builtwithrocket.new",
+      "status": "observed-google-current-external-website-not-changed-on-google"
+    }
+  },
+  "secondarySources": [
+    "https://exa.ai/library/place/wn2xh1c9q0d",
+    "https://www.d.co.il/80387238/28080/",
+    "https://openinghours.co.il/חזי-אורקור-לוחמי-הגטאות-24-נהריה"
+  ],
+  "limitations": "Direct Google profile loaded using public unsigned browser. No account access or business-profile edits. Hours incomplete; user confirmation needed."
+}

@@ -1,0 +1,465 @@
+{
+  "version": 1,
+  "date": "2026-11-07 Asia/Jerusalem",
+  "noAIGeneration": true,
+  "externalPhotoRights": "Reuse licence not independently verified. Designer-supplied polished variants applied; see designer summary for non-generative background/watermark processing. Original source files retained.",
+  "subcategories": "Text-only chips; no images to replace.",
+  "missing": [
+    "general"
+  ],
+  "tiles": [
+    {
+      "category": "driveshaft",
+      "status": "real-product-photo",
+      "sourceUrl": "https://cdn.autodoc.de/thumb?id=14971&m=0&n=0&lng=en",
+      "sourcePage": "https://www.autodoc.co.uk/skf/14971",
+      "brand": "skf",
+      "partNumber": "VKJC 6995",
+      "ownSku": null,
+      "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
+      "categoryName": "ציריות",
+      "image": "/catalog/category-photos/driveshaft.webp",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "b78c30cc074cd5b0bb34bc047b7901a21e01e379239bddf6611c72b06bda1b0e",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/driveshaft-original.jpg"
+    },
+    {
+      "category": "hub",
+      "status": "real-product-photo",
+      "sourceUrl": "https://cdn.autodoc.de/thumb?id=1362743&m=0&n=0&lng=en",
+      "sourcePage": "https://www.autodoc.co.uk/skf/1362743",
+      "brand": "skf",
+      "partNumber": "VKBA 3643",
+      "ownSku": null,
+      "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
+      "categoryName": "נאבות",
+      "image": "/catalog/category-photos/hub.webp",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "9ffde968535ba4bd945ab55fc4ca20751f62e56a1f47e5fa63f2933eb2e46ab6",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/hub-original.jpg"
+    },
+    {
+      "category": "clutch",
+      "status": "real-product-photo",
+      "sourceUrl": "https://cdn.autodoc.de/thumb?id=13581290&m=0&n=0&lng=en",
+      "sourcePage": "https://www.autodoc.co.uk/sachs/13581290",
+      "brand": "sachs",
+      "partNumber": "3000 990 490",
+      "ownSku": null,
+      "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
+      "categoryName": "מצמד",
+      "image": "/catalog/category-photos/clutch.webp",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "b855d8f02e59daec8104f3609231b4646cdbf8985b4dbbfbbd55364fcf528e9e",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/clutch-original.jpg"
+    },
+    {
+      "category": "steering",
+      "status": "real-product-photo",
+      "sourceUrl": "https://cdn.autodoc.de/thumb?id=7004383&m=0&n=0&lng=en",
+      "sourcePage": "https://www.autodoc.co.uk/lemforder/7004383",
+      "brand": "lemforder",
+      "partNumber": "35282 02",
+      "ownSku": null,
+      "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
+      "categoryName": "היגוי",
+      "image": "/catalog/category-photos/steering.webp",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "7b6fb2eaef719e7497de59a1923a6ac1cd63255fa50a72515ef44b9c7ac976e6",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/steering-original.jpg"
+    },
+    {
+      "category": "suspension",
+      "status": "real-product-photo",
+      "sourceUrl": "https://cdn.autodoc.de/thumb?id=18117829&m=0&n=0&lng=en",
+      "sourcePage": "https://www.autodoc.co.uk/trw/18117829",
+      "brand": "trw",
+      "partNumber": "JTC3864",
+      "ownSku": null,
+      "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
+      "categoryName": "מתלים",
+      "image": "/catalog/category-photos/suspension.webp",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "cec12c815a708b11a52fe644b06d9028092bd3f66427052f8ad589c70ce98b8c",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/suspension-original.jpg"
+    },
+    {
+      "category": "steering-rack",
+      "status": "real-product-photo",
+      "sourceUrl": "https://cdn.autodoc.de/thumb?id=2200415&m=0&n=0&lng=en",
+      "sourcePage": "https://www.autodoc.co.uk/trw/2200415",
+      "brand": "trw",
+      "partNumber": "JRM453",
+      "ownSku": null,
+      "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
+      "categoryName": "מסרקי הגה",
+      "image": "/catalog/category-photos/steering-rack.webp",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "f83adf363cf7bd38e7b94904f46ced6421bcb6f57a9f0e180d5415824ed20257",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/steering-rack-original.jpg"
+    },
+    {
+      "category": "timing",
+      "status": "real-product-photo",
+      "sourceUrl": "https://cdn.autodoc.de/thumb?id=18255462&m=0&n=0&lng=en",
+      "sourcePage": "https://www.autodoc.co.uk/skf/18255462",
+      "brand": "skf",
+      "partNumber": "VKMA 01276",
+      "ownSku": null,
+      "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
+      "categoryName": "טיימינג",
+      "image": "/catalog/category-photos/timing.webp",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "88a9a6535e1d2ba3e3d0f4e5c1be27d43487835105be8f6e0379ace9908354f1",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/timing-original.jpg"
+    },
+    {
+      "category": "ac-compressor",
+      "status": "real-product-photo",
+      "sourceUrl": "https://cdn.autodoc.de/thumb?id=12812708&m=0&n=0&lng=en",
+      "sourcePage": "https://www.autodoc.co.uk/denso/12812708",
+      "brand": "denso",
+      "partNumber": "DCP21024",
+      "ownSku": null,
+      "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
+      "categoryName": "מדחס מזגן",
+      "image": "/catalog/category-photos/ac-compressor.webp",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "756a0a5c7f287e8f640b0b0949c54a635be05fcad11c62b46006133d0b8a59d5",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/ac-compressor-original.jpg"
+    },
+    {
+      "category": "ac-condenser",
+      "status": "real-product-photo",
+      "sourceUrl": "https://cdn.autodoc.de/thumb?id=10530269&m=0&n=0&lng=en",
+      "sourcePage": "https://www.autodoc.co.uk/nissens/10530269",
+      "brand": "nissens",
+      "partNumber": "94961",
+      "ownSku": null,
+      "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
+      "categoryName": "מעבה מזגן",
+      "image": "/catalog/category-photos/ac-condenser.webp",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "f63c31ecff03d2c34fe17a30e53f05bf325b159ad1c349a9331fcb0050828bd6",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/ac-condenser-original.jpg"
+    },
+    {
+      "category": "fuel-pump",
+      "status": "real-product-photo",
+      "sourceUrl": "https://cdn.autodoc.de/thumb?id=8461635&m=0&n=0&lng=en",
+      "sourcePage": "https://www.autodoc.co.uk/bosch/8461635",
+      "brand": "bosch",
+      "partNumber": "0 580 453 440",
+      "ownSku": null,
+      "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
+      "categoryName": "משאבת דלק",
+      "image": "/catalog/category-photos/fuel-pump.webp",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "92b69035d0b1a19d1f2ace037e05b14e2c4e0fede8f1e9cb32c1e91020c4a9be",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/fuel-pump-original.jpg"
+    },
+    {
+      "category": "throttle-body",
+      "status": "real-product-photo",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/4821aa2/public/catalog/images/A0426_HZ-GEN-04071_96394330AO.jpg",
+      "ownSku": "HZ-GEN-04071",
+      "note": "Actual throttle body from our catalog, SKU HZ-GEN-04071. General tile is now text-only because the product moved out of general.",
+      "categoryName": "בתי מצערת",
+      "image": "/catalog/category-photos/throttle-body.webp",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Existing visually verified real catalog photo derivative, WebP q90; no AI.",
+      "sha256": "a300b668ad39f75d8eff9cfc1f307876a3ebc8cd545f10558be4fdd9b0232822"
+    },
+    {
+      "category": "brakes",
+      "status": "real-product-photo",
+      "sourceUrl": "https://static.wixstatic.com/media/4fddcd_38313162ebdb4f41bc1050a5b854fbe2~mv2.jpg/v1/fit/w_600,h_600,q_80/file.jpg",
+      "ownSku": "HZ-BRK-00035",
+      "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
+      "categoryName": "בלמים",
+      "image": "/catalog/category-photos/brakes.jpg",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
+      "sha256": "80b925e6ddade46c866eada31848e86bc374d633e9aad30c6592c7bcb3a38540"
+    },
+    {
+      "category": "water-pump",
+      "status": "real-product-photo",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/4821aa2/public/catalog/images/A0444_HZ-GEN-05088_FWS020.jpg",
+      "ownSku": "HZ-GEN-05088",
+      "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
+      "categoryName": "משאבות מים",
+      "image": "/catalog/category-photos/water-pump.jpg",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
+      "sha256": "f4684cfc7521a6b412ec0c1e182abf527b00053f0a12e62b3fdf7572a41d8115"
+    },
+    {
+      "category": "radiator",
+      "status": "real-product-photo",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/4821aa2/public/products/2015012381.jpg",
+      "ownSku": null,
+      "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
+      "categoryName": "רדיאטורים",
+      "image": "/catalog/category-photos/radiator.jpg",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
+      "sha256": "61500ef9cb32a86e45ddc84882acaca044e8d9890da540e6c528e0cbe5d5dd03"
+    },
+    {
+      "category": "shocks",
+      "status": "real-product-photo",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/4821aa2/public/products/3418006.jpg",
+      "ownSku": null,
+      "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
+      "categoryName": "בולם זעזועים",
+      "image": "/catalog/category-photos/shocks.jpg",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
+      "sha256": "be76b1a71bcfcfa2165fe043082f07459db758eab674949ae2147fb578e42acc"
+    },
+    {
+      "category": "sensors",
+      "status": "real-product-photo",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/4821aa2/public/products/12671387.jpg",
+      "ownSku": null,
+      "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
+      "categoryName": "חיישן חמצן",
+      "image": "/catalog/category-photos/sensors.jpg",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
+      "sha256": "093ff89da65a798893a16fd2c5c11bc0889fb89a769eda31a146345b2960c97d"
+    },
+    {
+      "category": "spark-plugs",
+      "status": "real-product-photo",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/4821aa2/public/catalog/images/A1338_HZ-PLUG-00001_SILZKR7E11.jpg",
+      "ownSku": "HZ-PLUG-00001",
+      "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
+      "categoryName": "מצתים",
+      "image": "/catalog/category-photos/spark-plugs.jpg",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
+      "sha256": "31f22a70f693f95844d8c64020e22a6ca76b3661090f95724939163674045dd8"
+    },
+    {
+      "category": "fluids",
+      "status": "real-product-photo",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0834_HZ-OIL-00001_102888.jpg",
+      "ownSku": null,
+      "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
+      "categoryName": "שמנים ונוזלים",
+      "image": "/catalog/category-photos/fluids.jpg",
+      "verifiedVisually": true,
+      "visualVerification": "Real product photos; composition verified visually. Filters includes cabin and oil filters. No AI.",
+      "transforms": "Manual non-generative collage of real catalog product photos; boundary-connected black background whitened where present, whitespace crop, contain on 640x640 white canvas",
+      "sha256": "cc82293c4200a96463d56c56eeeb3ad1d8026393ad53d0a56e2e12ead37bd94a",
+      "compositionSources": [
+        {
+          "ownSku": "HZ-OIL-00001",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0834_HZ-OIL-00001_102888.jpg",
+          "sourceImage": "/catalog/images/A0834_HZ-OIL-00001_102888.jpg"
+        },
+        {
+          "ownSku": "HZ-OIL-00054",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0877_HZ-OIL-00054_MOBIL1-0W20-AFE-5Q.jpg",
+          "sourceImage": "/catalog/images/A0877_HZ-OIL-00054_MOBIL1-0W20-AFE-5Q.jpg"
+        }
+      ]
+    },
+    {
+      "category": "filters",
+      "status": "real-product-photo",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A1074_HZ-OILF-00002_OX1137D.jpg",
+      "ownSku": null,
+      "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
+      "categoryName": "פילטרים",
+      "image": "/catalog/category-photos/filters.jpg",
+      "verifiedVisually": true,
+      "visualVerification": "Real product photos; composition verified visually. Filters includes cabin and oil filters. No AI.",
+      "transforms": "Manual non-generative collage of real catalog product photos; boundary-connected black background whitened where present, whitespace crop, contain on 640x640 white canvas",
+      "sha256": "faf33120efe93601fa32c543b49e1b90f302e7f884797980bb4a5caad06bbc88",
+      "compositionSources": [
+        {
+          "ownSku": "HZ-OILF-00002",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A1074_HZ-OILF-00002_OX1137D.jpg",
+          "sourceImage": "/catalog/images/A1074_HZ-OILF-00002_OX1137D.jpg"
+        },
+        {
+          "ownSku": "HZ-OILF-00130",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A1196_HZ-OILF-00130_OC607.jpg",
+          "sourceImage": "/catalog/images/A1196_HZ-OILF-00130_OC607.jpg"
+        },
+        {
+          "ownSku": "HZ-CAF-00049",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0132_HZ-CAF-00049_8697E.jpg",
+          "sourceImage": "/catalog/images/A0132_HZ-CAF-00049_8697E.jpg"
+        }
+      ]
+    },
+    {
+      "category": "ignition-coils",
+      "status": "real-product-photo",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/4821aa2/public/catalog/images/A0249_HZ-COIL-00001_IC526.jpg",
+      "ownSku": "HZ-COIL-00001",
+      "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
+      "categoryName": "סליל הצתה",
+      "image": "/catalog/category-photos/ignition-coils.jpg",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
+      "sha256": "b783aa86ef106fe474d791fa55954f3d35afd7321bd8181cf2e2e1141ba0ba68"
+    },
+    {
+      "category": "workshop-packs",
+      "status": "real-product-photo",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/4821aa2/public/catalog/images/A1014_HZ-OIL-00218_109764.jpg",
+      "ownSku": "HZ-OIL-00218",
+      "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
+      "categoryName": "מחירי מוסך / מארזים",
+      "image": "/catalog/category-photos/workshop-packs.jpg",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
+      "sha256": "a001ed4a6643e6ea4de5fececb1cc9a0211773f53540ba056484e00d7f84c62c"
+    },
+    {
+      "category": "lighting",
+      "status": "real-product-photo",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg",
+      "ownSku": null,
+      "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
+      "categoryName": "תאורה ונורות",
+      "image": "/catalog/category-photos/lighting.jpg",
+      "verifiedVisually": true,
+      "visualVerification": "Option 3 chosen by owner: real OSRAM boxed bulb and real exposed xenon bulb; visually checked, no AI.",
+      "transforms": "Non-generative composition; green/black boundary background normalized to white; product shapes retained",
+      "sha256": "25a1157eea6bc6fc2da9f6a22bc66b9e68bcdfc843c6c1ae8f8d57f05f02bca4",
+      "compositionSources": [
+        {
+          "ownSku": "HZ-LMP-00184",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg",
+          "sourceImage": "/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg"
+        },
+        {
+          "ownSku": "HZ-LMP-00188",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0833_HZ-LMP-00188_OSR66540.jpg",
+          "sourceImage": "/catalog/images/A0833_HZ-LMP-00188_OSR66540.jpg"
+        }
+      ],
+      "selectedOption": 3
+    },
+    {
+      "category": "additives",
+      "status": "real-product-photo",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0004_HZ-ADD-00022_FRO55041.jpg",
+      "ownSku": null,
+      "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
+      "categoryName": "תוספים",
+      "image": "/catalog/category-photos/additives.jpg",
+      "verifiedVisually": true,
+      "visualVerification": "Real product photos; composition verified visually. Filters includes cabin and oil filters. No AI.",
+      "transforms": "Manual non-generative collage of real catalog product photos; boundary-connected black background whitened where present, whitespace crop, contain on 640x640 white canvas",
+      "sha256": "d413b5675151a250f7d73ac754ed67063e3f29e2a13b2f29dfc5c76f35254505",
+      "compositionSources": [
+        {
+          "ownSku": "HZ-ADD-00022",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0004_HZ-ADD-00022_FRO55041.jpg",
+          "sourceImage": "/catalog/images/A0004_HZ-ADD-00022_FRO55041.jpg"
+        },
+        {
+          "ownSku": "HZ-ADD-00021",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0003_HZ-ADD-00021_FRO54701.jpg",
+          "sourceImage": "/catalog/images/A0003_HZ-ADD-00021_FRO54701.jpg"
+        }
+      ]
+    },
+    {
+      "category": "small-engine",
+      "status": "real-product-photo",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/4821aa2/public/catalog/images/A1404_HZ-PLUG-00071_4629N.jpg",
+      "ownSku": "HZ-PLUG-00071",
+      "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
+      "categoryName": "מנועים קטנים",
+      "image": "/catalog/category-photos/small-engine.jpg",
+      "verifiedVisually": true,
+      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
+      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
+      "sha256": "c69d0bfd4d7ef249b9710e9b17668e0e6ce95442725d2821a934f413b79bcb65"
+    }
+  ],
+  "lightingOptions": [
+    {
+      "option": 1,
+      "applied": false,
+      "file": "/workspace/designs/cat-images/lighting-options/option-1.png",
+      "sources": [
+        {
+          "ownSku": "HZ-LMP-00184",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg",
+          "sourceImage": "/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg"
+        }
+      ],
+      "transforms": "Non-generative composition; green/black boundary background normalized to white; product shapes retained"
+    },
+    {
+      "option": 2,
+      "applied": false,
+      "file": "/workspace/designs/cat-images/lighting-options/option-2.png",
+      "sources": [
+        {
+          "ownSku": "HZ-LMP-00188",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0833_HZ-LMP-00188_OSR66540.jpg",
+          "sourceImage": "/catalog/images/A0833_HZ-LMP-00188_OSR66540.jpg"
+        }
+      ],
+      "transforms": "Non-generative composition; green/black boundary background normalized to white; product shapes retained"
+    },
+    {
+      "option": 3,
+      "applied": true,
+      "file": "/workspace/designs/cat-images/lighting-options/option-3.png",
+      "sources": [
+        {
+          "ownSku": "HZ-LMP-00184",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg",
+          "sourceImage": "/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg"
+        },
+        {
+          "ownSku": "HZ-LMP-00188",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0833_HZ-LMP-00188_OSR66540.jpg",
+          "sourceImage": "/catalog/images/A0833_HZ-LMP-00188_OSR66540.jpg"
+        }
+      ],
+      "transforms": "Non-generative composition; green/black boundary background normalized to white; product shapes retained"
+    }
+  ],
+  "missingNote": "Residual general category has diverse workshop supplies; text-only rather than depicting a throttle body no longer in that category."
+}

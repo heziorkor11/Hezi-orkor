@@ -3,7 +3,6 @@ import { DemoBanner } from "@/components/demo-banner";
 import { FaqList } from "@/components/faq-list";
 import { Finder } from "@/components/finder";
 import { HomeSearchHero, VISUAL_CATEGORIES } from "@/components/home-search-hero";
-import { PartIcon } from "@/components/part-icon";
 import { JsonLd } from "@/components/json-ld";
 import { ProductCard } from "@/components/product-card";
 import { brand } from "@/lib/brand";
@@ -59,12 +58,12 @@ function Home() {
                 search={{ category: c.id }}
                 className="overflow-hidden rounded-2xl border border-line bg-card"
               >
-                <div className="grid h-[88px] place-items-center bg-elevated p-2">
+                <div className="grid h-[88px] place-items-center bg-white p-2">
                   {c.image ? (
                     <img src={c.image} alt={c.name} className="max-h-[72px] object-contain" loading="lazy" />
                   ) : (
                     <div className="flex h-[72px] w-full items-center justify-center">
-                      <PartIcon type={c.type ?? "general"} className="h-16 w-16" />
+                      <span className="text-xs text-muted">תמונה חסרה</span>
                     </div>
                   )}
                 </div>
@@ -111,7 +110,7 @@ function Home() {
             קראו ביקורות אמיתיות של לקוחות על חזי אורקור בנהריה במפות Google.
           </p>
           <a
-            href="https://www.google.com/maps/place/%D7%97%D7%96%D7%99+%D7%90%D7%95%D7%A8%D7%A7%D7%95%D7%A8/@33.002921,35.097601,17z"
+            href={brand.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-3 inline-flex items-center justify-center rounded-xl bg-accent px-4 py-2.5 text-sm font-bold text-on-accent"
@@ -124,7 +123,7 @@ function Home() {
 
         <p className="mt-6 text-center text-[11px] text-muted md:hidden">
           קטגוריות נוספות:{" "}
-          {["lights", "brakes", "filters"].map((id, i) => (
+          {["radiator", "brakes", "filters"].map((id, i) => (
             <span key={id}>
               {i ? " · " : null}
               <Link to="/results" search={{ category: id }} className="underline">

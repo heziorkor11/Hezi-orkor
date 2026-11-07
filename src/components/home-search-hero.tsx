@@ -1,48 +1,18 @@
+import photoSources from "../../public/catalog/category-photo-sources.json";
+import { visibleCategories } from "@/lib/catalog-types";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { loadListing } from "@/lib/catalog";
 import type { Product } from "@/lib/catalog-types";
-import { PartIcon } from "@/components/part-icon";
 
 /** Visual category chips — eye-first entry (Light Clean D). */
-export const VISUAL_CATEGORIES: {
-  id: string;
-  name: string;
-  sub: string;
-  image?: string;
-  type?: import("@/lib/catalog-types").PartTypeId;
-}[] = [
-  {
-    id: "spark-plugs",
-    name: "מצתים",
-    sub: "NGK ועוד",
-    image: "/catalog/images/A1338_HZ-PLUG-00001_SILZKR7E11.jpg",
-  },
-  {
-    id: "fluids",
-    name: "שמנים ונוזלים",
-    sub: "מנוע · גיר",
-    image: "/catalog/images/A0834_HZ-OIL-00001_102888.jpg",
-  },
-  {
-    id: "cabin-filter",
-    name: "פילטר מזגן",
-    sub: "תא נוסעים",
-    image: "/catalog/images/A0084_HZ-CAF-00001_97133WJS2E200.jpg",
-  },
-  {
-    id: "oil-filter",
-    name: "מסנן שמן",
-    sub: "החלפת שמן",
-    image: "/catalog/images/A1074_HZ-OILF-00002_OX1137D.jpg",
-  },
-  {
-    id: "ignition-coils",
-    name: "סליל הצתה",
-    sub: "הצתה",
-    image: "/catalog/images/A0249_HZ-COIL-00001_IC526.jpg",
-  },
-];
+const categoryPhotos = new Map(photoSources.tiles.map(p => [p.category, p.image]));
+export const VISUAL_CATEGORIES = visibleCategories.map(c => ({
+  id: c.id,
+  name: c.name,
+  sub: c.id === "general" ? "ציוד וחומרים נוספים" : "חלפים ואביזרים",
+  image: categoryPhotos.get(c.id),
+}));
 
 export function HomeSearchHero() {
   const navigate = useNavigate();
@@ -165,7 +135,7 @@ export function HomeSearchHero() {
                     />
                   ) : (
                     <div className="mx-auto mb-1.5 flex h-14 w-14 items-center justify-center">
-                      <PartIcon type={c.type ?? "general"} className="h-12 w-12" />
+                      <span className="text-xs text-muted">תמונה חסרה</span>
                     </div>
                   )}
                   <b className="block text-[11px] font-bold">{c.name}</b>
