@@ -10,7 +10,7 @@ export function MobileTabBar() {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-[70] flex h-16 border-t border-line bg-panel pb-[env(safe-area-inset-bottom,0px)] md:hidden"
+      className="fixed inset-x-0 bottom-0 z-[70] flex h-[calc(4rem+env(safe-area-inset-bottom,0px))] border-t border-line bg-panel pb-[env(safe-area-inset-bottom,0px)] md:hidden"
       aria-label="ניווט תחתון"
     >
       <Link

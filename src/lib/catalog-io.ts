@@ -3,13 +3,17 @@
 function originCandidates(): string[] {
   const out: string[] = [];
   const envOrigin =
-    typeof process !== "undefined" ? process.env.CATALOG_ORIGIN || process.env.VITE_SITE_ORIGIN || "" : "";
+    typeof process !== "undefined"
+      ? process.env.CATALOG_ORIGIN || process.env.VITE_SITE_ORIGIN || ""
+      : "";
   if (envOrigin) out.push(String(envOrigin).replace(/\/$/, ""));
   // Prefer this deployment (preview/prod) before the hard-coded production host,
   // otherwise preview SSR silently loads stale production catalog JSON.
   const vercel = typeof process !== "undefined" ? process.env.VERCEL_URL || "" : "";
   if (vercel) {
-    const host = String(vercel).replace(/^https?:\/\//, "").replace(/\/$/, "");
+    const host = String(vercel)
+      .replace(/^https?:\/\//, "")
+      .replace(/\/$/, "");
     if (host && !out.some((o) => o.includes(host))) out.push(`https://${host}`);
   }
   out.push("https://hezi-orkor.vercel.app");
@@ -27,6 +31,18 @@ export async function readCatalogText(rel: string): Promise<string> {
     try {
       const { readFile } = await import("node:fs/promises");
       const { join } = await import("node:path");
+      // Function-relative assets survive a read-only/arbitrary cwd and avoid
+      // fetching our own protected Preview (which can return checkpoint HTML).
+      const moduleUrl = import.meta.url;
+      for (const prefix of ["./catalog-data/", "../catalog-data/", "../../catalog-data/"]) {
+        if (!/^[a-zA-Z0-9_./-]+\.json$/.test(rel) || rel.includes(".."))
+          throw new Error("Invalid catalog asset");
+        try {
+          return await readFile(new URL(prefix + rel, moduleUrl), "utf8");
+        } catch {
+          /* next location */
+        }
+      }
       const cwd = typeof process !== "undefined" ? process.cwd() : ".";
       const candidates = [
         join(cwd, "public", "catalog", rel),
@@ -45,6 +61,9 @@ export async function readCatalogText(rel: string): Promise<string> {
       /* fall through to fetch */
     }
 
+    if (typeof process !== "undefined" && process.env.VERCEL) {
+      throw new Error(`Bundled catalog asset missing: ${rel}`);
+    }
     const errors: string[] = [];
     for (const origin of originCandidates()) {
       try {
