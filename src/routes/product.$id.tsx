@@ -76,7 +76,7 @@ function ProductPage() {
       <div className="grid grid-cols-1 gap-7 rounded-xl border border-line bg-card p-5 md:grid-cols-[1.1fr_0.9fr] md:p-6">
         <div
           data-product-photo
-          className="relative grid aspect-[4/5] w-full place-items-center rounded-lg border border-line bg-white"
+          className="relative grid aspect-[4/5] max-h-[300px] w-full place-items-center rounded-lg border border-line bg-white"
         >
           <ProductImage
             src={product.image}

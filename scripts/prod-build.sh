@@ -12,4 +12,5 @@ node scripts/check-cart-links.mjs
 node scripts/check-hidden-products.mjs
 node scripts/check-cleaning-maintenance.mjs
 node scripts/check-matan-notes.mjs
+node scripts/check-mobile-image-balance.mjs
 npm run db:migrate

@@ -103,7 +103,11 @@ export function HomeSearchHero() {
 
         <p className="mt-3 mb-1 text-xs font-semibold text-muted">{suggestLabel}</p>
         <div
-          className="flex gap-2 overflow-x-auto pb-1 hezi-scroll"
+          className={
+            showLive
+              ? "flex gap-2 overflow-x-auto pb-1 hezi-scroll"
+              : "grid grid-cols-2 gap-2.5 sm:grid-cols-3"
+          }
           aria-label={showLive ? "הצעות חיפוש" : "הצעות ויזואליות"}
         >
           {showLive
@@ -130,17 +134,22 @@ export function HomeSearchHero() {
                   <span className="mt-0.5 block truncate text-[10px] text-muted">{p.sku}</span>
                 </Link>
               ))
-            : VISUAL_CATEGORIES.map((c) => (
+            : VISUAL_CATEGORIES.slice(0, 6).map((c) => (
                 <Link
                   key={c.id}
                   to="/results"
                   search={{ category: c.id }}
-                  className="min-w-[110px] rounded-[14px] border border-line bg-card p-2 text-center"
+                  className="min-w-0 rounded-[14px] border border-line bg-card p-1 text-center"
                 >
-                  <CategoryImage
-                    src={c.image}
-                    className="mx-auto mb-1.5 h-20 w-full object-contain"
-                  />
+                  <div
+                    data-home-category-photo
+                    className="relative mb-1.5 aspect-square w-full bg-white"
+                  >
+                    <CategoryImage
+                      src={c.image}
+                      className="absolute inset-0 h-full w-full object-contain"
+                    />
+                  </div>
                   <b className="block text-[11px] font-bold">{c.name}</b>
                 </Link>
               ))}
@@ -148,6 +157,14 @@ export function HomeSearchHero() {
             <p className="py-4 text-sm text-muted">לא נמצאו הצעות — נסו מק״ט מלא או חפשו.</p>
           ) : null}
         </div>
+        {!showLive && (
+          <a
+            href="#categories"
+            className="mt-3 inline-block text-sm font-bold text-accent underline"
+          >
+            כל הקטגוריות
+          </a>
+        )}
       </div>
     </section>
   );
