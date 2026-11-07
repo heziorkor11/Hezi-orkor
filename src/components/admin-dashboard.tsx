@@ -145,12 +145,23 @@ function Loading() {
 function Denied() {
   return <Empty text="אין לך הרשאה למסך הזה. פנו לבעלים לשינוי הרשאות." />;
 }
-function Login({ onLogin, notice }: { onLogin: (u: SafeUser) => void; notice: Notice }) {
-  const [username, setUsername] = useState("owner");
+function Login({
+  onLogin,
+  notice,
+  checking = false,
+}: {
+  onLogin: (u: SafeUser) => void;
+  notice: Notice;
+  checking?: boolean;
+}) {
+  const [username, setUsername] = useState(
+    adminSnapshot().mode === "preview-demo" ? "preview-owner" : "owner",
+  );
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   async function submit(e: FormEvent) {
     e.preventDefault();
+    if (checking || busy) return;
     setBusy(true);
     try {
       const r = await adminRequest<{ user: SafeUser }>("login", "POST", { username, password });
@@ -170,6 +181,7 @@ function Login({ onLogin, notice }: { onLogin: (u: SafeUser) => void; notice: No
       <form onSubmit={submit}>
         <Field label="שם משתמש">
           <input
+            disabled={checking}
             autoComplete="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -179,6 +191,7 @@ function Login({ onLogin, notice }: { onLogin: (u: SafeUser) => void; notice: No
         </Field>
         <Field label="סיסמה">
           <input
+            disabled={checking}
             type="password"
             autoComplete="current-password"
             value={password}
@@ -187,8 +200,8 @@ function Login({ onLogin, notice }: { onLogin: (u: SafeUser) => void; notice: No
             maxLength={128}
           />
         </Field>
-        <Action type="submit" disabled={busy}>
-          {busy ? "מתחבר…" : "כניסה לניהול"}
+        <Action type="submit" disabled={busy || checking}>
+          {checking ? "בודק התחברות…" : busy ? "מתחבר…" : "כניסה לניהול"}
         </Action>
       </form>
       <p className="ad-note">
@@ -275,7 +288,7 @@ export function AdminDashboard() {
         )}
         {readyError && !user && <div className="ad-alert">{readyError}</div>}
         {user === undefined ? (
-          <Loading />
+          <Login checking onLogin={setUser} notice={notice} />
         ) : !user ? (
           <Login onLogin={setUser} notice={notice} />
         ) : (
