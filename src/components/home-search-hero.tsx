@@ -1,4 +1,5 @@
-import photoSources from "../../public/catalog/category-photo-sources.json";
+import { categoryImage } from "@/lib/category-images";
+import { CategoryImage } from "@/components/category-image";
 import { visibleCategories } from "@/lib/catalog-types";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
@@ -6,12 +7,17 @@ import { loadListing } from "@/lib/catalog";
 import type { Product } from "@/lib/catalog-types";
 
 /** Visual category chips — eye-first entry (Light Clean D). */
-const categoryPhotos = new Map(photoSources.tiles.map(p => [p.category, p.image]));
-export const VISUAL_CATEGORIES = visibleCategories.map(c => ({
+
+export const VISUAL_CATEGORIES = visibleCategories.map((c) => ({
   id: c.id,
   name: c.name,
-  sub: c.id === "cleaning-maintenance" ? "חומרי ניקוי, גריז וציוד תחזוקה" : c.id === "general" ? "ציוד וחומרים נוספים" : "חלפים ואביזרים",
-  image: categoryPhotos.get(c.id),
+  sub:
+    c.id === "cleaning-maintenance"
+      ? "חומרי ניקוי, גריז וציוד תחזוקה"
+      : c.id === "general"
+        ? "ציוד וחומרים נוספים"
+        : "חלפים ואביזרים",
+  image: categoryImage(c.id),
 }));
 
 export function HomeSearchHero() {
@@ -110,7 +116,12 @@ export function HomeSearchHero() {
                 >
                   <div className="mb-1.5 grid h-14 place-items-center overflow-hidden rounded-lg bg-elevated">
                     {p.image ? (
-                      <img src={p.image} alt="" className="max-h-14 object-contain" loading="lazy" />
+                      <img
+                        src={p.image}
+                        alt=""
+                        className="max-h-14 object-contain"
+                        loading="lazy"
+                      />
                     ) : (
                       <span className="text-[10px] text-muted">ללא תמונה</span>
                     )}
@@ -126,18 +137,10 @@ export function HomeSearchHero() {
                   search={{ category: c.id }}
                   className="min-w-[110px] rounded-[14px] border border-line bg-card p-2 text-center"
                 >
-                  {c.image ? (
-                    <img
-                      src={c.image}
-                      alt=""
-                      className="mx-auto mb-1.5 h-14 object-contain"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="mx-auto mb-1.5 flex h-14 w-14 items-center justify-center">
-                      <span className="text-xs text-muted">תמונה חסרה</span>
-                    </div>
-                  )}
+                  <CategoryImage
+                    src={c.image}
+                    className="mx-auto mb-1.5 h-14 w-20 object-contain"
+                  />
                   <b className="block text-[11px] font-bold">{c.name}</b>
                 </Link>
               ))}

@@ -1,3 +1,4 @@
+import { languageMatches, VEHICLE_OPTIONAL_CATEGORIES } from "./search-language";
 import { displayCategory, displayOverride, isHiddenProduct, normalizeDisplayCategory } from "@/lib/display-taxonomy";
 import { sameModel } from "@/lib/model-names";
 import {
@@ -70,6 +71,7 @@ function queryMatchesHit(hit: SearchHit, raw: string) {
     if (qKey.length >= 6 && normalizePartKey(hit.oe).includes(qKey)) return true;
     return titles.some((t) => tokenHit(t, q) || (qKey.length >= 6 && normalizePartKey(t).includes(qKey)));
   }
+  if (languageMatches(title, titleOriginal, displayCategory(hit.sku, hit.category), q)) return true;
   if (titles.some((t) => tokenHit(t, q)) || tokenHit(make, q) || tokenHit(model, q)) return true;
   if (s.length >= 3 && titles.some((t) => t.toLowerCase().includes(s))) return true;
   if (s.length >= 4 && (sku === s || sku.startsWith(s) || partKeyMatches(skuKey, qKey))) return true;
@@ -104,7 +106,7 @@ function filterHit(hit: SearchHit, state: ProductFilter) {
   } else {
     if (state.category && hit.category !== state.category) return false;
   }
-  if (!fluidsBrowse && (state.make || state.model || state.year)) {
+  if (!fluidsBrowse && !VEHICLE_OPTIONAL_CATEGORIES.includes(state.category || "") && (state.make || state.model || state.year)) {
     const entries = fitmentEntries(hit);
     if (!entries.length) return false;
     const y = state.year ? Number(String(state.year).replace(/["']/g, "")) : NaN;

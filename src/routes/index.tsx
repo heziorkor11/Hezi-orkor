@@ -1,3 +1,4 @@
+import { CategoryImage } from "@/components/category-image";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { DemoBanner } from "@/components/demo-banner";
 import { FaqList } from "@/components/faq-list";
@@ -40,8 +41,10 @@ function Home() {
 
       <section className="px-3.5 pt-[18px] md:px-5">
         <div className="mx-auto max-w-[720px]">
-          <h2 className="mb-1 text-[17px] font-extrabold md:text-2xl">לפי הרכב</h2>
-          <p className="mb-3 text-xs text-muted md:text-sm">כשאין מק״ט — יצרן ← דגם ← שנה</p>
+          <h2 className="mb-1 text-[17px] font-extrabold md:text-2xl">לפי קטגוריה או רכב</h2>
+          <p className="mb-3 text-xs text-muted md:text-sm">
+            אפשר לחפש בלי רכב. להתאמה מדויקת: יצרן ← דגם ← שנה
+          </p>
           <Finder compact />
         </div>
       </section>
@@ -59,13 +62,7 @@ function Home() {
                 className="overflow-hidden rounded-2xl border border-line bg-card"
               >
                 <div className="grid h-[88px] place-items-center bg-white p-2">
-                  {c.image ? (
-                    <img src={c.image} alt={c.name} className="max-h-[72px] object-contain" loading="lazy" />
-                  ) : (
-                    <div className="flex h-[72px] w-full items-center justify-center">
-                      <span className="text-xs text-muted">תמונה חסרה</span>
-                    </div>
-                  )}
+                  <CategoryImage src={c.image} className="h-[72px] w-full object-contain" />
                 </div>
                 <div className="border-t border-line px-2.5 py-2.5">
                   <b className="block text-[13px] font-bold">{c.name}</b>
@@ -105,7 +102,9 @@ function Home() {
         </div>
 
         <div className="mt-9 mb-4.5 rounded-2xl border border-line bg-card p-4 shadow-lift md:p-5">
-          <h2 className="text-[17px] font-extrabold tracking-tight md:text-[22px]">ביקורות בגוגל</h2>
+          <h2 className="text-[17px] font-extrabold tracking-tight md:text-[22px]">
+            ביקורות בגוגל
+          </h2>
           <p className="mt-1.5 text-sm text-muted md:text-[15px]">
             קראו ביקורות אמיתיות של לקוחות על חזי אורקור בנהריה במפות Google.
           </p>

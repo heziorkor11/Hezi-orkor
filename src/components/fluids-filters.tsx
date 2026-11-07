@@ -36,6 +36,7 @@ export function FluidsFilters({ state }: { state: ListingSearch }) {
 
   return (
     <div className="mb-5 space-y-4 rounded-2xl border border-line bg-card p-3.5 shadow-lift md:p-4">
+      <p className="text-xs text-muted">שמנים ונוזלים — ללא צורך בבחירת רכב</p>
       <div>
         <p className="mb-2 text-[11px] font-bold text-muted">סוג</p>
         <div className="flex flex-wrap gap-2">
@@ -64,7 +65,7 @@ export function FluidsFilters({ state }: { state: ListingSearch }) {
                   : "border-line bg-elevated text-fg-soft hover:border-accent",
               )}
             >
-              {FLUID_KIND_LABELS[k]} ({subcategories.fluids?.find(s => s.id === k)?.count || 0})
+              {FLUID_KIND_LABELS[k]} ({subcategories.fluids?.find((s) => s.id === k)?.count || 0})
             </Link>
           ))}
         </div>

@@ -1,5 +1,7 @@
+import { CategoryImage } from "@/components/category-image";
+import { categoryImage } from "@/lib/category-images";
 import { FormEvent, useEffect, useState } from "react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Phone, Search, ShoppingBag } from "lucide-react";
 import { visibleCategories } from "@/lib/catalog";
 import { useCart } from "@/lib/cart";
@@ -7,6 +9,11 @@ import { brand } from "@/lib/brand";
 
 export function SiteHeader() {
   const navigate = useNavigate();
+  const packsActive = useRouterState({
+    select: (s) =>
+      s.location.pathname === "/results" &&
+      (s.location.search as { category?: string }).category === "workshop-packs",
+  });
   const items = useCart((s) => s.items);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -68,7 +75,10 @@ export function SiteHeader() {
             >
               וואטסאפ
             </a>
-            <a href={`tel:${brand.phoneTel}`} className="hidden items-center gap-1.5 hover:text-fg sm:flex">
+            <a
+              href={`tel:${brand.phoneTel}`}
+              className="hidden items-center gap-1.5 hover:text-fg sm:flex"
+            >
               <Phone className="size-4" />
               <span>{brand.phone}</span>
             </a>
@@ -94,11 +104,30 @@ export function SiteHeader() {
 
       <div className="border-b border-line bg-panel px-3.5 py-2 md:px-5">
         <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-2">
-          <Link to="/results" search={{ category: "workshop-packs" }}
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-accent px-4 py-2 text-sm font-extrabold text-accent hover:bg-accent hover:text-on-accent">
-            <img src="/catalog/category-photos/workshop-packs.jpg" alt="" className="size-9 rounded object-contain" />
+          <button
+            type="button"
+            role="switch"
+            aria-checked={packsActive}
+            aria-label="מחירי מוסך / מארזים"
+            data-packs-toggle
+            data-active={packsActive}
+            onClick={() =>
+              navigate({
+                to: "/results",
+                search: packsActive ? {} : { category: "workshop-packs" },
+              })
+            }
+            className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm font-bold ${packsActive ? "border-accent bg-accent text-on-accent" : "border-line bg-card text-fg"}`}
+          >
+            <CategoryImage
+              src={categoryImage("workshop-packs")}
+              className="size-9 rounded object-contain"
+            />
             מחירי מוסך / מארזים
-          </Link>
+            <span aria-hidden="true" className="text-xs">
+              {packsActive ? "פעיל · כיבוי" : "הצגה"}
+            </span>
+          </button>
           <span className="text-xs text-muted">המחירים כוללים מע״מ</span>
         </div>
       </div>
