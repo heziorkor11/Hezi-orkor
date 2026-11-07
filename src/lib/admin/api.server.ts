@@ -1,5 +1,12 @@
 import { adminRuntimeMode, adminRequestHostAllowed } from "./config";
-import { createHash, randomBytes, randomUUID, scryptSync, timingSafeEqual } from "node:crypto";
+import {
+  createHmac,
+  createHash,
+  randomBytes,
+  randomUUID,
+  scryptSync,
+  timingSafeEqual,
+} from "node:crypto";
 import { z } from "zod";
 import { adminStorage, adminServerEnabled } from "./storage.server";
 import {
@@ -145,8 +152,59 @@ async function bootstrap() {
       });
   });
 }
+// Preview has no durable/shared session store. Authenticate a deployment-scoped,
+// signed demo cookie across cold instances, still checking active user/version.
+// Local/production-policy sessions remain server-side and unchanged.
+const demoRevocations = new Map<string, number>();
+function demoKey() {
+  return createHmac("sha256", process.env.ADMIN_OWNER_PASSWORD_HASH || "")
+    .update(
+      "hezi-admin-preview:" +
+        (process.env.VERCEL_URL || "") +
+        ":" +
+        (process.env.ADMIN_EMPLOYEE_PASSWORD_HASH || ""),
+    )
+    .digest();
+}
+function demoToken(user: AdminUser) {
+  const payload = Buffer.from(
+    JSON.stringify({
+      userId: user.id,
+      version: authVersion(user),
+      expires: Date.now() + 8 * HOUR,
+      nonce: randomBytes(16).toString("hex"),
+    }),
+  ).toString("base64url");
+  return "demo." + payload + "." + createHmac("sha256", demoKey()).update(payload).digest("hex");
+}
+function demoIdentity(token: string) {
+  const [, payload, mac] = token.split(".");
+  if (!token.startsWith("demo.") || !payload || !/^[a-f0-9]{64}$/.test(mac || "")) return null;
+  const expected = createHmac("sha256", demoKey()).update(payload).digest();
+  if (!timingSafeEqual(expected, Buffer.from(mac, "hex"))) return null;
+  try {
+    const claim = JSON.parse(Buffer.from(payload, "base64url").toString());
+    for (const [key, until] of demoRevocations)
+      if (until <= Date.now()) demoRevocations.delete(key);
+    if (
+      !Number.isFinite(claim.expires) ||
+      claim.expires <= Date.now() ||
+      demoRevocations.has(digest(token))
+    )
+      return null;
+    return claim;
+  } catch {
+    return null;
+  }
+}
 function authenticated(req: Request, s: AdminState) {
   const token = cookie(req);
+  if (adminRuntimeMode() === "preview-demo") {
+    const claim = demoIdentity(token);
+    const u = s.users.find((u) => u.id === claim?.userId && u.active);
+    assert(u && claim && claim.version === authVersion(u), 401, "יש להתחבר לניהול");
+    return u;
+  }
   const sess = s.sessions.find((x) => x.hash === digest(token) && x.expires > Date.now());
   const u = s.users.find((u) => u.id === sess?.userId && u.active);
   assert(token && sess && u && sess.authVersion === authVersion(u), 401, "יש להתחבר לניהול");
@@ -460,7 +518,7 @@ export async function adminApi(req: Request): Promise<Response> {
       const valid = checkPassword(input.password, hash || dummy);
       assert(user && valid, 401, "פרטי התחברות שגויים");
       if (preview) counters.delete(loginKey);
-      const token = randomBytes(32).toString("hex");
+      const token = preview ? demoToken(user) : randomBytes(32).toString("hex");
       await storage.transaction((s) => {
         s.sessions = s.sessions.filter((x) => x.expires > Date.now());
         s.sessions.push({
@@ -478,6 +536,8 @@ export async function adminApi(req: Request): Promise<Response> {
     const user = authenticated(req, state);
     if (path === "session" && req.method === "GET") return json({ user: safeUser(user) });
     if (path === "logout" && req.method === "POST") {
+      if (adminRuntimeMode() === "preview-demo")
+        demoRevocations.set(digest(cookie(req)), Date.now() + 8 * HOUR);
       await storage.transaction((s) => {
         s.sessions = s.sessions.filter((x) => x.hash !== digest(cookie(req)));
       });
@@ -778,6 +838,14 @@ export async function adminApi(req: Request): Promise<Response> {
         422,
       );
     console.error("[admin] request failed", e instanceof Error ? e.message : "unknown");
-    return json({ error: "הפעולה לא הושלמה. בדקו את הגדרות האחסון המקומי ונסו שוב." }, 503);
+    return json(
+      {
+        error:
+          adminRuntimeMode() === "preview-demo"
+            ? "הפעולה לא הושלמה במצב בדיקה. רעננו את הדף ונסו שוב; הנתונים זמניים."
+            : "הפעולה לא הושלמה. בדקו את הגדרות האחסון המקומי ונסו שוב.",
+      },
+      503,
+    );
   }
 }

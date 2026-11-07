@@ -98,7 +98,7 @@ ADMIN_TEST_OUTPUT=/workspace/designs/dashboard-build npm run test:admin
 
 ששת המשתנים, כולם target=preview + gitBranch=feature/admin-dashboard: `ADMIN_PREVIEW_DEMO`, `ADMIN_STORAGE`, `ADMIN_OWNER_USERNAME`, `ADMIN_OWNER_PASSWORD_HASH` (Secret), `ADMIN_EMPLOYEE_USERNAME`, `ADMIN_EMPLOYEE_PASSWORD_HASH` (Secret). סיסמאות זמניות בלבד; ללא סודות אמיתיים. חשבונות owner/employee מאותחלים בתוך האפליקציה. העובד מקבל מוצרים/הזמנות בלבד, ללא מחירים/מבצעים/בית/משתמשים.
 
-האחסון נאלץ ל־`/tmp/hezi-admin-preview-<deployment-id>`; אינו משתמש ב־ADMIN_DATA_DIR המקומי, לא בקטלוג המקור ולא בשירות חיצוני. כל מופע serverless עשוי לקבל State משלו. נתונים, תמונות, בקשות הזמנה ומפגשי כניסה עשויים להיעלם באתחול/cold start או בהחלפת instance. זה **לא persistence לפרודקשן**. באנר ״מצב בדיקה״ מוצג בניהול ובחנות. אין להזין פרטי לקוחות אמיתיים.
+האחסון נאלץ ל־`/tmp/hezi-admin-preview-<deployment-id>`; אינו משתמש ב־ADMIN_DATA_DIR המקומי, לא בקטלוג המקור ולא בשירות חיצוני. כל מופע serverless עשוי לקבל State משלו. נתונים, תמונות ובקשות הזמנה עשויים להיעלם באתחול/cold start או בהחלפת instance. כניסת בדיקה משתמשת כעת ב־cookie חתום המוגבל ל־deployment ושורד החלפת instance למשך שמונה שעות. זה **לא persistence לפרודקשן**. באנר ״מצב בדיקה״ מוצג בניהול ובחנות. אין להזין פרטי לקוחות אמיתיים.
 
 הגנת האימות של Vercel נשארת ללא שינוי. Automation secret הוא project-wide ולכן לא ניצור אותו במסגרת הרשאה זו; עדיף Shareable Link מוגבל לזמן ול־deployment Preview מסוים (`?_vercel_share=...`), בלי לגעת בדומיין/הגנות Production. קישור זה עוקף את שער האירוח בלבד: עדיין צריך את טופס שם המשתמש והסיסמה **של האתר** כדי להיכנס לניהול.
 
@@ -137,3 +137,32 @@ The emitted-handler build regression covers HTML 429/403/503/malformed success,
 JSON rate limits, successful login reset, username/IP isolation, timed expiry,
 and absence of the storefront bubble in admin HTML. Real mobile-browser
 visual validation remains necessary behind the checkpoint.
+
+## תיקון קריאת קטלוג ומפגשי Preview (7.11.2026)
+
+בלוגי Preview נראתה `Unexpected token '<', "<!DOCTYPE " ... is not valid JSON`
+ב־dashboard/products וביצירת מבצע, וכן `catalogJson` בדף הבית. הסיבה אינה
+כתיבה ל־/tmp: JSON הקטלוג לא צורף ל־function, וה־fallback ניסה HTTP ל־Preview
+המוגן וקיבל HTML במקום JSON. הודעת ״אחסון מקומי״ הייתה הודעת שגיאה כללית ומטעה.
+
+ה־build מעתיק את קובצי JSON הקיימים בלבד אל `__server.func/catalog-data`
+(ללא שינוי נתוני מקור), והקריאה בשרת היא יחסית למודול שנבנה ולא ל־cwd.
+ב־Vercel אין עוד fallback של HTTP לקטלוג; asset חסר נכשל מפורשות. כתיבות
+ה־demo ממשיכות רק ל־/tmp. הודעת 503 ב־Preview מתייחסת כעת למצב בדיקה.
+
+Cookie נשאר HttpOnly, Secure ב־HTTPS, SameSite=Strict, Path=/api/admin,
+Max-Age=28800. נתיב ה־cookie אינו חוסם fetch ל־session לאחר חזרה מהחנות.
+הבעיה האפשרית הייתה ש־session בצד שרת נשמר ב־/tmp של instance אחר. ב־demo
+בלבד, cookie חתום ב־HMAC כולל זהות/גרסת משתמש/תפוגה וקשור ל־deployment
+ול־hashes הבדיקה; בכל בקשה נבדקים גם active וגרסת המשתמש. אין secret חדש,
+שירות חיצוני או שינוי ב־auth המקומי/Production. התנתקות מנקה cookie ומבטלת
+אותו ב־instance הנוכחי; כמו הרשאות/משתמשים במצב זה, ביטול token גנוב בכל
+המופעים אינו מובטח בלי אחסון משותף. אין להשתמש במצב הדגמה לנתונים אמיתיים.
+
+בדיקת `scripts/check-built-admin-readonly.mjs` רצה על handler שנבנה בפועל
+בשני תהליכים קרים עם תיקיות /tmp שונות, ללא fetch לרשת, ועם הרשאות Node
+האוסרות כל כתיבה מחוץ ל־/tmp (כולל ניסיון כתיבה ל־cwd שנכשל כמצופה).
+היא בודקת session לאחר החלפת instance, admin→storefront→admin, dashboard,
+products/detail, GET/POST promotions, overlay והתנתקות.
+שדות תאריכי מבצע מוצגים בעמודה מלאה בטלפון, dir=ltr וגופן 16px; בדיקת
+מיקוד ויזואלית בדפדפן הטלפון מאחורי ה־checkpoint נשארת לבדיקה אנושית.

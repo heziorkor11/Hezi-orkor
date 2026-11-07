@@ -912,10 +912,11 @@ function Promotions({ user, notice }: { user: SafeUser; notice: Notice }) {
             />
           </Field>
         </div>
-        <div className="ad-grid">
+        <div className="ad-grid ad-promo-dates">
           <Field label="התחלה · שעון ישראל">
             <input
               type="datetime-local"
+              dir="ltr"
               value={israelInput(form.start)}
               required
               onChange={(e) => e.target.value && update("start", israelIso(e.target.value))}
@@ -924,6 +925,7 @@ function Promotions({ user, notice }: { user: SafeUser; notice: Notice }) {
           <Field label="סיום · שעון ישראל">
             <input
               type="datetime-local"
+              dir="ltr"
               value={israelInput(form.end)}
               required
               onChange={(e) => e.target.value && update("end", israelIso(e.target.value))}
