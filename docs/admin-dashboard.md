@@ -279,3 +279,6 @@ aria-describedby וטקסט שגיאה צמוד. לאחר שגיאה הטופס 
 מחיר כמחרוזת, שדות חסרים/null, שם קצר/מחיר שגוי עם הודעות עבריות, מעבר
 שגיאות דרך ה־client וגלילה/מיקוד לפי סדר DOM. אינטראקציה אמיתית במקלדת
 טלפון טרם אומתה. מגבלות האחסון הזמני של Preview לא השתנו.
+
+### Product creation list context
+After creation, Products clears both the query and status filter, returns to page one, and requests the newly created SKU pinned in the full result (no extra/duplicate row and unchanged totals/pagination). The row is highlighted with `חדש`; the success message links to its storefront product page. Active search/status filters have an explicit `מסונן: … · נקה` control. Counts use `1 מוצר` versus `N מוצרים`. Stale query responses cannot replace the current list.

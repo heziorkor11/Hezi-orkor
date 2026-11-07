@@ -777,6 +777,12 @@ export async function adminApi(req: Request): Promise<Response> {
         } else rows.push(h);
       }
       hits = rows.filter((h): h is SearchHit => !!h);
+      // Pin only within the unfiltered result; never narrow the list or alter totals.
+      const pin = url.searchParams.get("pin");
+      if (pin && !q && !filter) {
+        const position = hits.findIndex((h) => h.sku === pin);
+        if (position > 0) hits.unshift(...hits.splice(position, 1));
+      }
       const items = await Promise.all(
         hits.slice((page - 1) * 20, page * 20).map((h) => productForAdmin(h.sku, state)),
       );

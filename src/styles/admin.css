@@ -743,3 +743,26 @@
     font-size: 16px;
   }
 }
+
+/* Make post-create context and active filtering unmistakable on phones. */
+.admin-app .ad-product-new {
+  background: #effcf5;
+  border-inline-start: 4px solid #168454;
+}
+.admin-app .ad-filter-indicator {
+  display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  margin: 12px 0;
+  padding: 10px 14px;
+  border: 1px solid #168454;
+  border-radius: 20px;
+  background: #effcf5;
+  color: #145c3e;
+  font-weight: 700;
+  text-align: start;
+}
+.admin-app .ad-alert a {
+  text-decoration: underline;
+  font-weight: 700;
+}

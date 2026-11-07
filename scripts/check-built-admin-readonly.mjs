@@ -65,6 +65,8 @@ if (!process.env.ADMIN_READONLY_PHASE) {
     statuses: second.statuses,
     storefrontRoundtrip: true,
     exactBgInputsWithFreeSku: true,
+    postCreatePinPreservesTotalAndPagination: true,
+    searchRemainsIndependentOfPin: true,
     blockedAdd00018HasSkuError: true,
     numericStringAndOptionalFields: true,
     hebrewFieldErrors: true,
@@ -229,6 +231,25 @@ if (!process.env.ADMIN_READONLY_PHASE) {
     ).result;
     assert.equal(optionalResult.regularPrice, null);
     assert.equal(optionalResult.description, "");
+    const unfiltered = JSON.parse((await call("/api/admin/products")).text);
+    const pinned = JSON.parse((await call(`/api/admin/products?pin=${available}`)).text);
+    assert.equal(pinned.items[0].sku, available);
+    assert.equal(pinned.total, unfiltered.total);
+    assert.equal(pinned.pages, unfiltered.pages);
+    assert.ok(pinned.total > 10000, "pinning must preserve all products");
+    assert.equal(new Set(pinned.items.map((p) => p.sku)).size, pinned.items.length);
+    const pinnedCatalog = JSON.parse((await call("/api/admin/products?pin=HZ-BRK-00001")).text);
+    assert.equal(pinnedCatalog.items[0].sku, "HZ-BRK-00001");
+    const searched = JSON.parse(
+      (await call(`/api/admin/products?q=${available}&pin=HZ-BRK-00001`)).text,
+    );
+    assert.equal(searched.total, 1);
+    assert.equal(searched.items[0].sku, available);
+    const missingPin = JSON.parse(
+      (await call("/api/admin/products?pin=HZ-NONEXISTENT-99999")).text,
+    );
+    assert.equal(missingPin.total, unfiltered.total);
+
     assert.equal((await raw("products", "POST", { ...newItem, sku: "HZ-BRK-00001" })).status, 409);
     assert.equal((await raw("products", "POST", { ...newItem, sub: "invalid" })).status, 422);
     assert.equal((await raw("products", "POST", { ...newItem, sku: "not-a-sku" })).status, 422);

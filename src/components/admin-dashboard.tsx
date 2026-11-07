@@ -1,6 +1,6 @@
 import { AdminCreateProduct } from "./admin-create-product";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useCallback, useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import {
   Bell,
@@ -46,7 +46,7 @@ const labels: Record<Permission, string> = {
   orders: "טיפול בהזמנות",
   homepage: "פרסום שינויים בדף הבית",
 };
-type Notice = (text: string) => void;
+type Notice = (text: ReactNode) => void;
 const money = (v: number | null | undefined) =>
   v == null
     ? "הצעת מחיר"
@@ -217,9 +217,9 @@ export function AdminDashboard() {
   const location = useLocation();
   const section = location.pathname.split("/")[2] || "home";
   const [user, setUser] = useState<SafeUser | null | undefined>(undefined);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<ReactNode>("");
   const [readyError, setReadyError] = useState("");
-  const notice = useCallback((s: string) => setMessage(s), []);
+  const notice = useCallback((s: ReactNode) => setMessage(s), []);
   useEffect(() => {
     let active = true;
     adminRequest<{ user: SafeUser }>("session")
@@ -450,6 +450,7 @@ function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
   const [vehicleFitment, setVehicleFitment] = useState("");
   const [inStock, setInStock] = useState(true);
   const [q, setQ] = useState("");
+  const [newSku, setNewSku] = useState("");
   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(1);
   const [list, setList] = useState<{ items: AdminProduct[]; total: number; pages: number }>();
@@ -461,12 +462,17 @@ function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
   const [price, setPrice] = useState("");
   const [hidden, setHidden] = useState(false);
   const [busy, setBusy] = useState(false);
+  const listQuery = `products?q=${encodeURIComponent(q)}&filter=${filter}&page=${page}&pin=${encodeURIComponent(newSku)}`;
+  const latestQuery = useRef(listQuery);
+  latestQuery.current = listQuery;
   const reload = useCallback(
     () =>
-      adminRequest<typeof list>(`products?q=${encodeURIComponent(q)}&filter=${filter}&page=${page}`)
-        .then(setList)
+      adminRequest<typeof list>(listQuery)
+        .then((result) => {
+          if (latestQuery.current === listQuery) setList(result);
+        })
         .catch((e) => notice(e.message)),
-    [q, filter, page, notice],
+    [listQuery, notice],
   );
   useEffect(() => {
     if (!allowed(user, "products")) return;
@@ -557,9 +563,19 @@ function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
           onClose={() => setCreating(false)}
           onCreated={(sku) => {
             setCreating(false);
-            setQ(sku);
+            setQ("");
+            setFilter("");
             setPage(1);
-            notice("המוצר נוסף בשכבת הניהול");
+            setNewSku(sku);
+            setList(undefined);
+            notice(
+              <>
+                המוצר נוסף; כל המוצרים עדיין ברשימה.{" "}
+                <Link to="/product/$id" params={{ id: sku }}>
+                  הצג מוצר
+                </Link>
+              </>,
+            );
           }}
         />
       )}
@@ -594,17 +610,45 @@ function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
           </button>
         ))}
       </div>
-      <p className="ad-note">
-        {list ? `${list.total.toLocaleString("he-IL")} מוצרים` : "טוען מוצרים…"}
+      {(q.trim() || filter) && (
+        <button
+          className="ad-filter-indicator"
+          onClick={() => {
+            setQ("");
+            setFilter("");
+            setPage(1);
+          }}
+        >
+          מסונן:{" "}
+          <bdi>
+            {q.trim() ||
+              (
+                { "no-image": "חסרה תמונה", "no-price": "חסר מחיר", hidden: "מוסתרים" } as Record<
+                  string,
+                  string
+                >
+              )[filter]}
+          </bdi>
+          {q.trim() && filter ? " · מסנן נוסף" : ""} · נקה
+        </button>
+      )}
+      <p className="ad-note" aria-live="polite">
+        {list
+          ? `${list.total.toLocaleString("he-IL")} ${list.total === 1 ? "מוצר" : "מוצרים"}`
+          : "טוען מוצרים…"}
       </p>
       <div className="ad-card ad-product-list">
         {list?.items.map((p) => (
-          <button className="ad-product-row" onClick={() => edit(p)} key={p.sku}>
+          <button
+            className={`ad-product-row ${p.sku === newSku ? "ad-product-new" : ""}`}
+            onClick={() => edit(p)}
+            key={p.sku}
+          >
             <div className="ad-product-photo">
               {p.image ? <img src={p.image} alt="" /> : <ImagePlus size={25} />}
             </div>
             <div>
-              <b>{p.name}</b>
+              <b>{p.name}</b> {p.sku === newSku && <span className="ad-badge">חדש</span>}
               <small>
                 <bdi>{p.sku}</bdi> · {p.brand || "מותג לא צוין"}
               </small>
