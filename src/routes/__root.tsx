@@ -1,3 +1,4 @@
+import { NotFoundComponent } from "@/components/not-found";
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
 import { AppErrorComponent } from "@/lib/error-component";
@@ -9,6 +10,7 @@ const APP_NAME = "חזי אורקור | חלקי חילוף לרכב בנהרי�
 
 export const Route = createRootRoute({
   errorComponent: AppErrorComponent,
+  notFoundComponent: NotFoundComponent,
   head: () => ({
     meta: [
       { charSet: "utf-8" },
