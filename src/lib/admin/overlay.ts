@@ -1,3 +1,4 @@
+import { adminRuntimeMode, adminRuntimeDirectory } from "./config";
 import {
   emptyPublicState,
   type PublicAdminState,
@@ -19,23 +20,16 @@ let fetchedAt = 0;
 let sequence = 0;
 export async function refreshAdminOverlay(force = false): Promise<PublicAdminState> {
   if (typeof window === "undefined") {
-    if (
-      typeof process === "undefined" ||
-      process.env.ADMIN_LOCAL_ENABLED !== "1" ||
-      process.env.ADMIN_STORAGE !== "local" ||
-      process.env.VERCEL
-    )
-      return (snapshot = emptyPublicState());
+    const mode = adminRuntimeMode();
+    if (mode === "disabled") return (snapshot = emptyPublicState());
     try {
       const { readFile } = await import("node:fs/promises");
       const { resolve, join } = await import("node:path");
       const s = JSON.parse(
-        await readFile(
-          join(resolve(process.env.ADMIN_DATA_DIR || ".data/admin"), "state.json"),
-          "utf8",
-        ),
+        await readFile(join(resolve(adminRuntimeDirectory()), "state.json"), "utf8"),
       );
       snapshot = {
+        mode,
         enabled: true,
         revision: s.revision,
         products: s.products,
@@ -44,7 +38,7 @@ export async function refreshAdminOverlay(force = false): Promise<PublicAdminSta
       };
     } catch (e) {
       if ((e as { code?: string }).code === "ENOENT")
-        snapshot = { ...emptyPublicState(), enabled: true };
+        snapshot = { ...emptyPublicState(), mode, enabled: true };
       else throw e;
     }
   } else {

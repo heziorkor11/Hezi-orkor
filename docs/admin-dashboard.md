@@ -8,7 +8,7 @@
 
 ## הפעלה מקומית בלבד
 
-לא נוצר ולא חובר שום DB, ספק Auth, Blob, שירות בתשלום או אינטגרציית Marketplace. הגדרות Vercel לא שונו. ברירת המחדל: הניהול **כבוי**. גם כשמשתני הסביבה המקומיים מוגדרים, `VERCEL` משבית אותו במפורש. קטלוג החנות הרגיל ממשיך לפעול ללא ניהול.
+לא נוצר ולא חובר שום DB, ספק Auth, Blob, שירות בתשלום או אינטגרציית Marketplace. הגדרות Production לא שונו. משתני QA ל־Preview ולענף אחד בלבד אושרו ונוספו בנפרד, כמפורט בהמשך. ברירת המחדל: הניהול **כבוי**. גם כשמשתני הסביבה המקומיים מוגדרים, `VERCEL` משבית את המצב המקומי במפורש. חריג QA נפרד ומאושר: מצב בדיקה זמני ב־Preview בלבד, כמפורט להלן. קטלוג החנות הרגיל ממשיך לפעול ללא ניהול.
 
 מחשב מקומי, Node ו־`npm ci`:
 
@@ -91,3 +91,13 @@ ADMIN_TEST_OUTPUT=/workspace/designs/dashboard-build npm run test:admin
 ### השוואה מאומתת מול main
 
 ב־7.11.2026 (שעון ישראל) הורצה אותה `npm test` על main נקי בקומיט `952b047382f55f165c9f8e5957b5fb5cc5a1ccae` ועל ענף הניהול: בשניהם 195 בדיקות, 179 עוברות ו־16 נכשלות, עם **אותם 16 שמות בדיקה בדיוק**. אין כישלון חדש בענף זה. הדוחות המלאים וההשוואה ב־`/workspace/designs/dashboard-build/{main-existing-tests.log,branch-existing-tests.log,main-vs-branch-tests.json}`. בדיקות ה־app-data שבשלב השני של `npm test` אינן רצות כאשר שלב הסקריפטים הראשון נכשל; אין לטעון שכל חבילת הבדיקות ירוקה.
+
+## Preview QA זמני — אושר בנפרד
+
+מצב `preview-demo` מותר **רק** כאשר כל התנאים מתקיימים: `VERCEL_ENV=preview`, `VERCEL_GIT_COMMIT_REF=feature/admin-dashboard`, `ADMIN_PREVIEW_DEMO=1`, `ADMIN_STORAGE=ephemeral`. Production וכל ענף אחר נשארים כבויים גם אם דגלי הבדיקה הועתקו בטעות. אין להגדיר אף משתנה להלן ל־Production/Development.
+
+ששת המשתנים, כולם target=preview + gitBranch=feature/admin-dashboard: `ADMIN_PREVIEW_DEMO`, `ADMIN_STORAGE`, `ADMIN_OWNER_USERNAME`, `ADMIN_OWNER_PASSWORD_HASH` (Secret), `ADMIN_EMPLOYEE_USERNAME`, `ADMIN_EMPLOYEE_PASSWORD_HASH` (Secret). סיסמאות זמניות בלבד; ללא סודות אמיתיים. חשבונות owner/employee מאותחלים בתוך האפליקציה. העובד מקבל מוצרים/הזמנות בלבד, ללא מחירים/מבצעים/בית/משתמשים.
+
+האחסון נאלץ ל־`/tmp/hezi-admin-preview-<deployment-id>`; אינו משתמש ב־ADMIN_DATA_DIR המקומי, לא בקטלוג המקור ולא בשירות חיצוני. כל מופע serverless עשוי לקבל State משלו. נתונים, תמונות, בקשות הזמנה ומפגשי כניסה עשויים להיעלם באתחול/cold start או בהחלפת instance. זה **לא persistence לפרודקשן**. באנר ״מצב בדיקה״ מוצג בניהול ובחנות. אין להזין פרטי לקוחות אמיתיים.
+
+הגנת האימות של Vercel נשארת ללא שינוי. Automation secret הוא project-wide ולכן לא ניצור אותו במסגרת הרשאה זו; עדיף Shareable Link מוגבל לזמן ול־deployment Preview מסוים (`?_vercel_share=...`), בלי לגעת בדומיין/הגנות Production. קישור זה עוקף את שער האירוח בלבד: עדיין צריך את טופס שם המשתמש והסיסמה **של האתר** כדי להיכנס לניהול.

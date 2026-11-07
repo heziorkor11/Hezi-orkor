@@ -22,7 +22,7 @@ import {
   X,
 } from "lucide-react";
 import { adminRequest, readUpload } from "@/lib/admin/client";
-import { refreshAdminOverlay } from "@/lib/admin/overlay";
+import { refreshAdminOverlay, adminSnapshot } from "@/lib/admin/overlay";
 import { regularCatalogPrice } from "@/lib/prices";
 import { loadProduct } from "@/lib/catalog";
 import { displayCategories } from "@/lib/display-taxonomy";
@@ -192,7 +192,7 @@ function Login({ onLogin, notice }: { onLogin: (u: SafeUser) => void; notice: No
         </Action>
       </form>
       <p className="ad-note">
-        מצב מקומי בלבד. ללא הגדרות סביבה מתאימות הניהול נשאר כבוי; אין סיסמת ברירת מחדל.
+        כניסה בתוך האתר בלבד. ללא הגדרות סביבה מתאימות הניהול נשאר כבוי; אין סיסמת ברירת מחדל.
       </p>
     </div>
   );
@@ -259,7 +259,11 @@ export function AdminDashboard() {
           </button>
         )}
       </header>
-      <div className="ad-local">מצב מקומי · הנתונים נשמרים במחשב השרת בלבד · לא מחובר לפרודקשן</div>
+      <div className="ad-local">
+        {adminSnapshot().mode === "preview-demo"
+          ? "מצב בדיקה · נתונים וסשנים זמניים בלבד, עשויים להתאפס · ללא נתוני לקוחות אמיתיים"
+          : "מצב מקומי · הנתונים נשמרים במחשב השרת בלבד · לא מחובר לפרודקשן"}
+      </div>
       <main className="ad-main">
         {message && (
           <div role="status" className="ad-alert">

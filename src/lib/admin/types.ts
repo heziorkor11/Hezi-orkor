@@ -31,6 +31,7 @@ export type Banner = {
 };
 export type HomeSettings = { banners: Banner[]; featuredSkus?: string[]; categoryOrder: string[] };
 export type PublicAdminState = {
+  mode?: "disabled" | "local" | "preview-demo";
   enabled: boolean;
   revision: number;
   products: Record<string, ProductOverride>;
@@ -38,6 +39,7 @@ export type PublicAdminState = {
   home: HomeSettings;
 };
 export const emptyPublicState = (): PublicAdminState => ({
+  mode: "disabled",
   enabled: false,
   revision: 0,
   products: {},
@@ -112,8 +114,12 @@ export const initialAdminState = (): AdminState => ({
   orders: [],
   audit: [],
 });
-export function toPublicState(s: AdminState): PublicAdminState {
+export function toPublicState(
+  s: AdminState,
+  mode: "local" | "preview-demo" = "local",
+): PublicAdminState {
   return {
+    mode,
     enabled: true,
     revision: s.revision,
     products: s.products,

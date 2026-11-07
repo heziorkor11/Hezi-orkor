@@ -1,3 +1,4 @@
+import { adminSnapshot } from "@/lib/admin/overlay";
 import { useLocation } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
@@ -16,6 +17,11 @@ export function ShopShell({ children }: { children: ReactNode }) {
         דלג לתוכן הראשי
       </a>
       <SiteHeader />
+      {adminSnapshot().mode === "preview-demo" && (
+        <div className="bg-amber-100 px-4 py-2 text-center text-xs text-amber-950">
+          מצב בדיקה · נתונים זמניים בלבד · אין להזין פרטי לקוחות אמיתיים
+        </div>
+      )}
       <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
         {children}
       </main>

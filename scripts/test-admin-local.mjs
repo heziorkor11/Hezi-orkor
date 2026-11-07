@@ -431,6 +431,55 @@ try {
     "Simulated Vercel environment fails closed: local admin disabled and base storefront unaffected",
   );
 
+  env.ADMIN_PREVIEW_DEMO = "1";
+  env.ADMIN_STORAGE = "ephemeral";
+  env.VERCEL_GIT_COMMIT_REF = "feature/admin-dashboard";
+  env.VERCEL_ENV = "production";
+  await restart();
+  assert.equal((await api("storefront", { auth: "" })).body.enabled, false);
+  check("Even valid demo flags cannot enable admin in Production");
+  env.VERCEL_ENV = "preview";
+  env.VERCEL_GIT_COMMIT_REF = "some-other-branch";
+  await restart();
+  assert.equal((await api("storefront", { auth: "" })).body.enabled, false);
+  check("Preview demo cannot activate on any other branch");
+  env.VERCEL_GIT_COMMIT_REF = "feature/admin-dashboard";
+  env.VERCEL_URL = `127.0.0.1:${port}`;
+  env.VERCEL_DEPLOYMENT_ID = "local-preview-" + randomUUID();
+  env.ADMIN_OWNER_USERNAME = "preview-owner";
+  env.ADMIN_EMPLOYEE_USERNAME = "preview-employee";
+  const previewEmployeePassword = randomBytes(24).toString("base64url"),
+    previewSalt = randomBytes(16).toString("hex");
+  env.ADMIN_EMPLOYEE_PASSWORD_HASH = `scrypt:${previewSalt}:${scryptSync(previewEmployeePassword, previewSalt, 64).toString("hex")}`;
+  await restart();
+  assert.equal((await api("storefront", { auth: "" })).body.mode, "preview-demo");
+  const previewLogin = await api("login", {
+    method: "POST",
+    auth: "",
+    data: { username: "preview-owner", password },
+  });
+  const previewCookie = previewLogin.r.headers.get("set-cookie").split(";")[0];
+  const previewEmployee = await api("login", {
+    method: "POST",
+    auth: "",
+    data: { username: "preview-employee", password: previewEmployeePassword },
+  });
+  const previewEmployeeCookie = previewEmployee.r.headers.get("set-cookie").split(";")[0];
+  await api(`products/${sku}`, {
+    method: "PATCH",
+    auth: previewEmployeeCookie,
+    data: { price: 1 },
+    expected: 403,
+  });
+  assert.equal((await api("orders", { auth: previewCookie })).body.length, 0);
+  assert.equal(
+    (await api(`products/${sku}`, { auth: previewCookie })).body.regularPrice,
+    product.basePrice,
+  );
+  assert((await (await fetch(origin + "/admin")).text()).includes("מצב בדיקה"));
+  check(
+    "Exact preview branch seeds in-app owner/employee login, restricts employee, banners demo and isolates /tmp state from local data",
+  );
   await writeFile(
     join(out, "http-test-results.json"),
     JSON.stringify(

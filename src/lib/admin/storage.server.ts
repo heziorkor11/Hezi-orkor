@@ -1,3 +1,4 @@
+import { adminRuntimeMode, adminRuntimeDirectory } from "./config";
 /** Server-only storage boundary. Local JSON is NOT a production database. */
 import { readFile, writeFile, mkdir, rename, open, unlink } from "node:fs/promises";
 import { resolve, join } from "node:path";
@@ -9,15 +10,11 @@ export interface AdminStorageAdapter {
   putFile(bytes: Uint8Array, extension: string): Promise<string>;
   getFile(id: string): Promise<Uint8Array>;
 }
-export function localAdminEnabled() {
-  return (
-    process.env.ADMIN_LOCAL_ENABLED === "1" &&
-    process.env.ADMIN_STORAGE === "local" &&
-    !process.env.VERCEL
-  );
+export function adminServerEnabled() {
+  return adminRuntimeMode() !== "disabled";
 }
 export function localDataDirectory() {
-  return resolve(process.env.ADMIN_DATA_DIR || ".data/admin");
+  return resolve(adminRuntimeDirectory());
 }
 export class LocalJsonAdminAdapter implements AdminStorageAdapter {
   constructor(readonly directory = localDataDirectory()) {}
@@ -76,7 +73,7 @@ export class LocalJsonAdminAdapter implements AdminStorageAdapter {
   }
 }
 export function adminStorage(): AdminStorageAdapter {
-  if (!localAdminEnabled())
+  if (!adminServerEnabled())
     throw new Error(
       "Admin storage not configured; external production services require owner approval",
     );

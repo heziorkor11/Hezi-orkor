@@ -1,6 +1,7 @@
+import { adminRuntimeMode, adminRequestHostAllowed } from "./config";
 import { createHash, randomBytes, randomUUID, scryptSync, timingSafeEqual } from "node:crypto";
 import { z } from "zod";
-import { adminStorage, localAdminEnabled } from "./storage.server";
+import { adminStorage, adminServerEnabled } from "./storage.server";
 import {
   safeUser,
   toPublicState,
@@ -100,8 +101,16 @@ async function bootstrap() {
   assert(
     /^scrypt:[a-f0-9]{32}:[a-f0-9]{128}$/.test(hash),
     503,
-    "ניהול מקומי דורש הגדרת ADMIN_OWNER_PASSWORD_HASH",
+    "ניהול דורש הגדרת ADMIN_OWNER_PASSWORD_HASH",
   );
+  const demo = adminRuntimeMode() === "preview-demo";
+  const employeeHash = process.env.ADMIN_EMPLOYEE_PASSWORD_HASH || "";
+  if (demo)
+    assert(
+      /^scrypt:[a-f0-9]{32}:[a-f0-9]{128}$/.test(employeeHash),
+      503,
+      "מצב בדיקה דורש hash לעובד",
+    );
   await storage.transaction((s) => {
     if (s.users.length) return;
     s.users.push({
@@ -114,6 +123,17 @@ async function bootstrap() {
       version: 1,
       passwordHash: "",
     });
+    if (demo)
+      s.users.push({
+        id: "demo-employee",
+        username: process.env.ADMIN_EMPLOYEE_USERNAME || "preview-employee",
+        name: "עובד בדיקה",
+        role: "employee",
+        permissions: ["products", "orders"],
+        active: true,
+        version: 1,
+        passwordHash: employeeHash,
+      });
   });
 }
 function authenticated(req: Request, s: AdminState) {
@@ -303,10 +323,10 @@ export async function adminApi(req: Request): Promise<Response> {
     const url = new URL(req.url);
     const path = url.pathname.replace(/^\/api\/admin\/?/, "");
     const host = url.hostname;
-    if (path === "storefront" && req.method === "GET" && !localAdminEnabled())
+    if (path === "storefront" && req.method === "GET" && !adminServerEnabled())
       return json(emptyPublicState());
     assert(
-      localAdminEnabled() && ["localhost", "127.0.0.1", "[::1]"].includes(host),
+      adminServerEnabled() && adminRequestHostAllowed(host),
       503,
       "הניהול המקומי כבוי. אחסון ואימות לפרודקשן דורשים אישור נפרד.",
     );
@@ -316,7 +336,12 @@ export async function adminApi(req: Request): Promise<Response> {
       assert(req.headers.get("content-type")?.startsWith("application/json"), 415, "נדרש JSON");
     }
     if (path === "storefront" && req.method === "GET")
-      return json(toPublicState(await storage.read()));
+      return json(
+        toPublicState(
+          await storage.read(),
+          adminRuntimeMode() === "preview-demo" ? "preview-demo" : "local",
+        ),
+      );
     if (path.startsWith("media/") && req.method === "GET") {
       const id = path.slice(6);
       assert(!id.endsWith(".pdf"), 404, "לא נמצא");
