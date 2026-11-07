@@ -58,8 +58,9 @@ function cardToProduct(card: ListingCard & Partial<Product>): Product {
   const make = collapseRepeatedWords(card.make || "");
   const model = displayModel(make, card.model || "");
   const named = yearsFromTitle(card.name);
-  const yearFrom = named?.from || card.yearFrom || 0;
-  const yearTo = named?.to || card.yearTo || 0;
+  const hasVehicleYears = Boolean((card.make || card.model) && card.yearFrom);
+  const yearFrom = (hasVehicleYears ? card.yearFrom : named?.from) || card.yearFrom || 0;
+  const yearTo = (hasVehicleYears ? card.yearTo || card.yearFrom : named?.to) || card.yearTo || 0;
   let category = card.category && card.category !== "general" ? card.category : inferCategory(card.name, card.category);
   const nm = card.name || "";
   // High-confidence name corrections (SKU/name/price unchanged).

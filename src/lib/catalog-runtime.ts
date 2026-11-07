@@ -23,7 +23,7 @@ export function unique<T>(arr: T[]): T[] {
 
 export function categoryName(id?: string) {
   if (!id) return undefined;
-  return categories.find((c) => c.id === id)?.name;
+  return categories.find((c) => c.id === id)?.name || (id === "lights" ? "פנסים ראשיים" : undefined);
 }
 
 export function waLink(text: string) {

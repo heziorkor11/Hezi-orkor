@@ -73,7 +73,8 @@ function PendingResults() {
 function ResultsPage() {
   const state = Route.useSearch();
   const listing = Route.useLoaderData();
-  const isFluids = state.category === "fluids" || Boolean(state.fluidKind) || Boolean(state.oilBrand);
+  const isFluids =
+    state.category === "fluids" || Boolean(state.fluidKind) || Boolean(state.oilBrand);
   const kindLabel =
     state.fluidKind && FLUID_KIND_LABELS[state.fluidKind as FluidKind]
       ? FLUID_KIND_LABELS[state.fluidKind as FluidKind]
@@ -105,17 +106,30 @@ function ResultsPage() {
             {listing.pages > 1 ? ` · עמוד ${listing.page} מתוך ${listing.pages}` : ""}
           </p>
         </div>
-        {isFluids ? <FluidsFilters state={{ ...state, category: state.category || "fluids" }} /> : null}
+        {isFluids ? (
+          <FluidsFilters state={{ ...state, category: state.category || "fluids" }} />
+        ) : null}
         {state.category && state.category !== "fluids" && subcategories[state.category] ? (
           <nav aria-label="תתי קטגוריות" className="mb-5 flex flex-wrap gap-2">
-            <Link to="/results" search={{ ...state, sub: undefined, fluidKind: undefined, page: undefined }}
-              className={`rounded-full border px-4 py-2 text-sm ${!state.sub ? "bg-accent text-on-accent" : "bg-card"}`}>הכל</Link>
-            {subcategories[state.category].filter(s => s.count > 0).map(s => (
-              <Link key={s.id} to="/results" search={{ ...state, sub: s.id, fluidKind: undefined, page: undefined }}
-                className={`rounded-full border px-4 py-2 text-sm ${state.sub === s.id ? "bg-accent text-on-accent" : "bg-card"}`}>
-                {s.name} ({s.count})
-              </Link>
-            ))}
+            <Link
+              to="/results"
+              search={{ ...state, sub: undefined, fluidKind: undefined, page: undefined }}
+              className={`rounded-full border px-4 py-2 text-sm ${!state.sub ? "bg-accent text-on-accent" : "bg-card"}`}
+            >
+              הכל
+            </Link>
+            {subcategories[state.category]
+              .filter((s) => s.count > 0)
+              .map((s) => (
+                <Link
+                  key={s.id}
+                  to="/results"
+                  search={{ ...state, sub: s.id, fluidKind: undefined, page: undefined }}
+                  className={`rounded-full border px-4 py-2 text-sm ${state.sub === s.id ? "bg-accent text-on-accent" : "bg-card"}`}
+                >
+                  {s.name} ({s.count})
+                </Link>
+              ))}
           </nav>
         ) : null}
         <ActiveFilters state={state} />
@@ -128,6 +142,16 @@ function ResultsPage() {
             </div>
             <Pagination page={listing.page} total={listing.total} search={state} />
           </>
+        ) : state.category === "lights" ? (
+          <section className="rounded-xl border border-line bg-card p-7 text-center">
+            <h2 className="mb-2 text-lg font-semibold">פנסים ראשיים אינם מוצגים כרגע באתר</h2>
+            <p className="mb-4 text-muted">
+              לפנייה לגבי פנס ראשי שלחו מק״ט או מספר רכב לחנות. אין כאן מוצרים מקטגוריית רדיאטורים.
+            </p>
+            <Link to="/help">
+              <Button>דברו איתנו</Button>
+            </Link>
+          </section>
         ) : (
           <div className="rounded-xl border border-line bg-card p-7 text-center">
             <h2 className="mb-2 text-lg font-semibold">לא מצאנו התאמה בקטלוג</h2>
