@@ -3,7 +3,6 @@ import { DemoBanner } from "@/components/demo-banner";
 import { FaqList } from "@/components/faq-list";
 import { Finder } from "@/components/finder";
 import { HomeSearchHero, VISUAL_CATEGORIES } from "@/components/home-search-hero";
-import { PartIcon } from "@/components/part-icon";
 import { JsonLd } from "@/components/json-ld";
 import { ProductCard } from "@/components/product-card";
 import { brand } from "@/lib/brand";
@@ -59,12 +58,12 @@ function Home() {
                 search={{ category: c.id }}
                 className="overflow-hidden rounded-2xl border border-line bg-card"
               >
-                <div className="grid h-[88px] place-items-center bg-elevated p-2">
+                <div className="grid h-[88px] place-items-center bg-white p-2">
                   {c.image ? (
                     <img src={c.image} alt={c.name} className="max-h-[72px] object-contain" loading="lazy" />
                   ) : (
                     <div className="flex h-[72px] w-full items-center justify-center">
-                      <PartIcon type={c.type ?? "general"} className="h-16 w-16" />
+                      <span className="text-xs text-muted">תמונה חסרה</span>
                     </div>
                   )}
                 </div>

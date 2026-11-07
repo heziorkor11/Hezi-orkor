@@ -95,7 +95,8 @@ export function SiteHeader() {
       <div className="border-b border-line bg-panel px-3.5 py-2 md:px-5">
         <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-2">
           <Link to="/results" search={{ category: "workshop-packs" }}
-            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-accent px-4 py-2 text-sm font-extrabold text-accent hover:bg-accent hover:text-on-accent">
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-accent px-4 py-2 text-sm font-extrabold text-accent hover:bg-accent hover:text-on-accent">
+            <img src="/catalog/category-photos/workshop-packs.jpg" alt="" className="size-9 rounded object-contain" />
             מחירי מוסך / מארזים
           </Link>
           <span className="text-xs text-muted">המחירים כוללים מע״מ</span>
