@@ -1,3 +1,4 @@
+import reservations from "./sku-reservations.json";
 import { createdProduct, createdHits } from "./products";
 import { adminRuntimeMode, adminRequestHostAllowed } from "./config";
 import {
@@ -38,6 +39,7 @@ class ApiError extends Error {
     readonly status: number,
     message: string,
     readonly retryAfter?: number,
+    readonly field?: string,
   ) {
     super(message);
   }
@@ -228,6 +230,25 @@ const patchSchema = z
     inStock: z.boolean().optional(),
   })
   .strict();
+const optionalProductText = (max: number) =>
+  z.preprocess((v) => (v == null ? "" : v), z.string().trim().max(max)).default("");
+const productPrice = z
+  .preprocess(
+    (value) => {
+      if (value == null || (typeof value === "string" && !value.trim())) return null;
+      if (typeof value !== "string") return value;
+      let text = value.trim().replace(/[₪\s]/g, "");
+      if (/^[0-9]{1,3}(,[0-9]{3})+(\.[0-9]+)?$/.test(text)) text = text.replaceAll(",", "");
+      else if (/^[0-9]+,[0-9]{1,2}$/.test(text)) text = text.replace(",", ".");
+      return /^[0-9]+(\.[0-9]+)?$/.test(text) ? Number(text) : NaN;
+    },
+    z
+      .number({ error: "יש להזין מחיר מספרי תקין" })
+      .positive("המחיר חייב להיות גדול מאפס, או להשאיר ריק להצעת מחיר")
+      .max(1_000_000, "המחיר המרבי הוא מיליון ₪")
+      .nullable(),
+  )
+  .default(null);
 const createProductSchema = z
   .object({
     sku: z
@@ -235,16 +256,23 @@ const createProductSchema = z
       .trim()
       .toUpperCase()
       .regex(/^HZ-[A-Z0-9]{2,12}-[0-9]{5}$/, "מק״ט בתבנית HZ-CAT-00001"),
-    name: cleanText(300).regex(/[א-ת]/, "יש להזין שם מוצר בעברית"),
+    name: z
+      .string()
+      .trim()
+      .min(2, "שם המוצר חייב להכיל לפחות 2 תווים")
+      .max(300, "שם המוצר ארוך מדי (עד 300 תווים)"),
     category: z.string().refine((c) => categories.has(c), "קטגוריה לא תקינה"),
-    sub: z.string().max(60).default(""),
-    price: z.number().positive().max(1_000_000).nullable(),
-    brand: z.string().trim().max(60).default(""),
-    description: z.string().trim().max(3000).default(""),
-    vehicleFitment: z.string().trim().max(1000).default(""),
+    sub: optionalProductText(60),
+    price: productPrice,
+    brand: optionalProductText(60),
+    description: optionalProductText(3000),
+    vehicleFitment: optionalProductText(1000),
     inStock: z.boolean().default(true),
     hidden: z.boolean().default(false),
-    photoBase64: z.string().max(2_800_000).optional(),
+    photoBase64: z.preprocess(
+      (v) => (v == null || v === "" ? undefined : v),
+      z.string().max(2_800_000).optional(),
+    ),
   })
   .strict();
 function validSub(category: string, sub?: string) {
@@ -633,6 +661,7 @@ export async function adminApi(req: Request): Promise<Response> {
           .toUpperCase();
       let max = 0;
       for (const sku of [
+        ...reservations.skus,
         ...Object.keys(map),
         ...Object.keys(rawPrices),
         ...Object.keys(state.products),
@@ -647,20 +676,34 @@ export async function adminApi(req: Request): Promise<Response> {
       requirePermission(user, "products");
       requirePermission(user, "add-products");
       const input = createProductSchema.parse(await body(req));
-      assert(validSub(input.category, input.sub), 422, "תת־קטגוריה אינה שייכת לקטגוריה");
+      if (!validSub(input.category, input.sub))
+        throw new ApiError(422, "תת־קטגוריה אינה שייכת לקטגוריה", undefined, "sub");
       const source = await catalogJson<Record<string, string>>("sku-map.json");
-      const photo = input.photoBase64 ? imageBytes(input.photoBase64) : undefined;
+      let photo: ReturnType<typeof imageBytes> | undefined;
+      try {
+        photo = input.photoBase64 ? imageBytes(input.photoBase64) : undefined;
+      } catch (e) {
+        if (e instanceof ApiError)
+          throw new ApiError(e.status, e.message, e.retryAfter, "photoBase64");
+        throw e;
+      }
       await storage.transaction(async (s) => {
         const current = authenticated(req, s);
         requirePermission(current, "products");
         requirePermission(current, "add-products");
-        assert(
-          !Object.hasOwn(source, input.sku) &&
-            !Object.hasOwn(rawPrices, input.sku) &&
-            !Object.hasOwn(s.products, input.sku),
-          409,
-          "המק״ט כבר קיים. בחרו מק״ט אחר",
-        );
+        if (
+          reservations.skus.includes(input.sku) ||
+          Object.hasOwn(source, input.sku) ||
+          Object.hasOwn(rawPrices, input.sku) ||
+          Object.hasOwn(s.products, input.sku)
+        ) {
+          throw new ApiError(
+            409,
+            "המק״ט כבר קיים או שמור (כולל מוצרים מוסתרים). בחרו מק״ט פנוי חדש",
+            undefined,
+            "sku",
+          );
+        }
         const { sku, photoBase64: ignoredPhoto, ...fields } = input;
         const image = photo
           ? `/api/admin/media/${await storage.putFile(photo.bytes, photo.ext)}`
@@ -968,7 +1011,7 @@ export async function adminApi(req: Request): Promise<Response> {
           JSON.stringify({ event: "admin_rate_limit", path: new URL(req.url).pathname }),
         );
       return json(
-        { error: e.message },
+        { error: e.message, ...(e.field ? { fieldErrors: { [e.field]: e.message } } : {}) },
         e.status,
         e.status === 429
           ? {
@@ -978,14 +1021,37 @@ export async function adminApi(req: Request): Promise<Response> {
           : undefined,
       );
     }
-    if (e instanceof z.ZodError)
-      return json(
-        {
-          error: "נתונים לא תקינים",
-          issues: e.issues.map((i) => ({ path: i.path, message: i.message })),
-        },
-        422,
+    if (e instanceof z.ZodError) {
+      const names: Record<string, string> = {
+        name: "שם מוצר",
+        sku: "מק״ט",
+        category: "קטגוריה",
+        sub: "תת־קטגוריה",
+        price: "מחיר",
+        brand: "מותג",
+        description: "תיאור",
+        vehicleFitment: "התאמה לרכב",
+        photoBase64: "צילום",
+        hidden: "הסתרה",
+        inStock: "מלאי",
+      };
+      const issues = e.issues.map((i) => ({
+        path: i.path,
+        message: /[א-ת]/.test(i.message)
+          ? i.message
+          : `${names[String(i.path[0])] || "השדה"}: ערך לא תקין או ארוך מדי`,
+      }));
+      const fieldErrors: Record<string, string> = {};
+      for (const i of issues) fieldErrors[String(i.path[0] || "_form")] ||= i.message;
+      console.warn(
+        JSON.stringify({
+          event: "admin_validation_failed",
+          path: new URL(req.url).pathname,
+          fields: Object.keys(fieldErrors),
+        }),
       );
+      return json({ error: "בדקו את השדות המסומנים", fieldErrors, issues }, 422);
+    }
     console.error("[admin] request failed", e instanceof Error ? e.message : "unknown");
     return json(
       {

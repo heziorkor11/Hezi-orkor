@@ -83,7 +83,7 @@ clientSource = clientSource.replace(
 const clientJs = ts.default.transpileModule(clientSource, {
   compilerOptions: { target: ts.default.ScriptTarget.ES2022, module: ts.default.ModuleKind.ESNext },
 }).outputText;
-const { adminRequest } = await import(
+const { adminRequest, AdminRequestError } = await import(
   "data:text/javascript;base64," + Buffer.from(clientJs).toString("base64")
 );
 const realFetch = globalThis.fetch;
@@ -105,6 +105,18 @@ try {
       { status: 429, headers: { "x-admin-error": "rate-limit" } },
     );
   await assert.rejects(adminRequest("login", "POST", {}), /30 שניות/);
+  globalThis.fetch = async () =>
+    Response.json(
+      {
+        error: "בדקו את השדות המסומנים",
+        fieldErrors: { name: "שם המוצר חייב להכיל לפחות 2 תווים" },
+      },
+      { status: 422 },
+    );
+  await assert.rejects(
+    adminRequest("products", "POST", {}),
+    (e) => e instanceof AdminRequestError && e.status === 422 && /2 תווים/.test(e.fieldErrors.name),
+  );
   globalThis.fetch = async () => Response.json({ user: { role: "owner" } });
   assert.equal((await adminRequest("login", "POST", {})).user.role, "owner");
   globalThis.fetch = async () =>
@@ -183,8 +195,29 @@ try {
 } finally {
   Date.now = realNow;
 }
+const focusSource = await readFile("src/lib/admin/form-errors.ts", "utf8");
+const focusJs = ts.default.transpileModule(focusSource, {
+  compilerOptions: { target: ts.default.ScriptTarget.ES2022, module: ts.default.ModuleKind.ESNext },
+}).outputText;
+const { focusFirstInvalidField } = await import(
+  "data:text/javascript;base64," + Buffer.from(focusJs).toString("base64")
+);
+const actions = [];
+const elements = ["name", "sku"].map((name) => ({
+  name,
+  scrollIntoView: (opts) => actions.push([name, "scroll", opts.block]),
+  focus: (opts) => actions.push([name, "focus", opts.preventScroll]),
+}));
+focusFirstInvalidField({ querySelectorAll: () => elements }, { sku: "reserved", name: "short" });
+assert.deepEqual(actions, [
+  ["name", "scroll", "center"],
+  ["name", "focus", true],
+]);
+focusFirstInvalidField(null, {});
 const result = {
   passed: true,
+  typedHebrewFieldErrors: true,
+  firstInvalidFieldScrollAndFocus: true,
   checkpointErrorUi: true,
   previewLoginThrottleAndSuccessReset: true,
   usernameAndIpIsolation: true,

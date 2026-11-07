@@ -1,7 +1,8 @@
+import { focusFirstInvalidField } from "@/lib/admin/form-errors";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { X } from "lucide-react";
-import { adminRequest, readUpload } from "@/lib/admin/client";
+import { adminRequest, AdminRequestError, readUpload } from "@/lib/admin/client";
 import { displayCategories, subcategories } from "@/lib/display-taxonomy";
 
 export function AdminCreateProduct({
@@ -25,6 +26,52 @@ export function AdminCreateProduct({
   const [busy, setBusy] = useState(false);
   const [suggesting, setSuggesting] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const formRef = useRef<HTMLFormElement>(null);
+  useEffect(() => {
+    if (!Object.keys(fieldErrors).length) return;
+    const id = requestAnimationFrame(() => focusFirstInvalidField(formRef.current, fieldErrors));
+    return () => cancelAnimationFrame(id);
+  }, [fieldErrors]);
+  const fieldAttrs = (field: string) => ({
+    name: field,
+    "aria-invalid": Boolean(fieldErrors[field]),
+    "aria-describedby": fieldErrors[field] ? `new-product-${field}-error` : undefined,
+    onInput: () => {
+      setFieldErrors((prev) => {
+        if (!prev[field]) return prev;
+        const next = { ...prev };
+        delete next[field];
+        return next;
+      });
+      setError("");
+    },
+  });
+  const feedback = (field: string) =>
+    fieldErrors[field] ? (
+      <span id={`new-product-${field}-error`} className="ad-field-error" role="alert">
+        {fieldErrors[field]}
+      </span>
+    ) : null;
+  async function suggestAgain() {
+    setSuggesting(true);
+    try {
+      const result = await adminRequest<{ sku: string }>(
+        `products/suggest-sku?category=${encodeURIComponent(category)}`,
+      );
+      setSku(result.sku);
+      setFieldErrors((prev) => {
+        const next = { ...prev };
+        delete next.sku;
+        return next;
+      });
+      setError("");
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setSuggesting(false);
+    }
+  }
   useEffect(() => {
     let active = true;
     setSuggesting(true);
@@ -46,7 +93,8 @@ export function AdminCreateProduct({
   async function upload(file?: File) {
     if (!file) return;
     if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-      setError("מותר JPEG, PNG או WebP בלבד");
+      setError("בדקו את קובץ הצילום");
+      setFieldErrors({ photoBase64: "מותר JPEG, PNG או WebP בלבד" });
       return;
     }
     setBusy(true);
@@ -56,6 +104,7 @@ export function AdminCreateProduct({
       setPhoto({ base64, preview: `data:${file.type};base64,${base64}` });
     } catch (e) {
       setError((e as Error).message);
+      setFieldErrors({ photoBase64: (e as Error).message });
     } finally {
       setBusy(false);
     }
@@ -64,13 +113,14 @@ export function AdminCreateProduct({
     e.preventDefault();
     setBusy(true);
     setError("");
+    setFieldErrors({});
     try {
       const product = await adminRequest<{ sku: string }>("products", "POST", {
         sku,
         name,
         category,
         sub,
-        price: price === "" ? null : Number(price),
+        price,
         brand,
         description,
         vehicleFitment,
@@ -81,6 +131,7 @@ export function AdminCreateProduct({
       onCreated(product.sku);
     } catch (e) {
       setError((e as Error).message);
+      if (e instanceof AdminRequestError) setFieldErrors(e.fieldErrors);
     } finally {
       setBusy(false);
     }
@@ -115,29 +166,36 @@ export function AdminCreateProduct({
                 {error}
               </p>
             )}
-            <form onSubmit={submit}>
+            <form ref={formRef} onSubmit={submit} noValidate>
               <label className="ad-field">
-                שם מוצר בעברית
+                שם מוצר · לפחות 2 תווים
                 <textarea
+                  {...fieldAttrs("name")}
                   required
                   maxLength={300}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
+                {feedback("name")}
               </label>
               <label className="ad-field">
                 קטגוריה
-                <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                <select
+                  {...fieldAttrs("category")}
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
                   {displayCategories.map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.name}
                     </option>
                   ))}
                 </select>
+                {feedback("category")}
               </label>
               <label className="ad-field">
                 תת־קטגוריה
-                <select value={sub} onChange={(e) => setSub(e.target.value)}>
+                <select {...fieldAttrs("sub")} value={sub} onChange={(e) => setSub(e.target.value)}>
                   <option value="">ללא תת־קטגוריה · יוצג בהכול</option>
                   {(subcategories[category] || []).map((s) => (
                     <option key={s.id} value={s.id}>
@@ -145,73 +203,103 @@ export function AdminCreateProduct({
                     </option>
                   ))}
                 </select>
+                {feedback("sub")}
               </label>
               <label className="ad-field">
                 מק״ט שלנו · הצעה ייחודית, ניתן לעריכה
                 <input
+                  {...fieldAttrs("sku")}
                   dir="ltr"
                   required
                   pattern="HZ-[A-Z0-9]{2,12}-[0-9]{5}"
                   maxLength={21}
+                  aria-label="מק״ט שלנו"
                   value={sku}
                   disabled={suggesting}
                   onChange={(e) => setSku(e.target.value.toUpperCase())}
                 />
+                {feedback("sku")}
+                <button
+                  type="button"
+                  className="ad-button ad-secondary"
+                  disabled={busy || suggesting}
+                  onClick={() => {
+                    void suggestAgain();
+                  }}
+                >
+                  הצע מק״ט פנוי חדש
+                </button>
               </label>
               <label className="ad-field">
                 מחיר כולל מע״מ
                 <input
-                  type="number"
+                  {...fieldAttrs("price")}
+                  type="text"
+                  inputMode="decimal"
                   dir="ltr"
-                  min="0.01"
-                  step="0.01"
-                  max="1000000"
+                  maxLength={30}
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   placeholder="ריק = הצעת מחיר"
                 />
+                {feedback("price")}
               </label>
               <label className="ad-field">
                 מותג / יצרן · אופציונלי
-                <input maxLength={60} value={brand} onChange={(e) => setBrand(e.target.value)} />
+                <input
+                  {...fieldAttrs("brand")}
+                  maxLength={60}
+                  value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                />
+                {feedback("brand")}
               </label>
               <label className="ad-field">
                 תיאור
                 <textarea
+                  {...fieldAttrs("description")}
                   maxLength={3000}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
+                {feedback("description")}
               </label>
               <label className="ad-field">
                 התאמה לרכב · יש להזין רק מידע מאומת
                 <textarea
+                  {...fieldAttrs("vehicleFitment")}
                   maxLength={1000}
                   value={vehicleFitment}
                   onChange={(e) => setFitment(e.target.value)}
                 />
+                {feedback("vehicleFitment")}
               </label>
               <label className="ad-row ad-switch-row">
                 <span>במלאי</span>
                 <input
+                  {...fieldAttrs("inStock")}
                   type="checkbox"
                   checked={inStock}
                   onChange={(e) => setInStock(e.target.checked)}
                 />
+                {feedback("inStock")}
               </label>
               <label className="ad-row ad-switch-row">
                 <span>הסתר מהאתר</span>
                 <input
+                  {...fieldAttrs("hidden")}
                   type="checkbox"
                   checked={hidden}
                   onChange={(e) => setHidden(e.target.checked)}
                 />
+                {feedback("hidden")}
               </label>
               <div className="ad-upload">
                 {photo && <img alt="תצוגת צילום המוצר החדש" src={photo.preview} />}
                 <label>
                   צילום אמיתי · עד 2MB
                   <input
+                    {...fieldAttrs("photoBase64")}
                     type="file"
                     accept="image/jpeg,image/png,image/webp"
                     disabled={busy}
@@ -219,6 +307,7 @@ export function AdminCreateProduct({
                       void upload(e.target.files?.[0]);
                     }}
                   />
+                  {feedback("photoBase64")}
                 </label>
               </div>
               <button className="ad-button" type="submit" disabled={busy || suggesting}>

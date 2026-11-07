@@ -1,5 +1,14 @@
 import type { OrderCustomer } from "../order-quote";
 import { adminSnapshot, publishAdminMutation } from "./overlay";
+export class AdminRequestError extends Error {
+  constructor(
+    message: string,
+    readonly status: number,
+    readonly fieldErrors: Record<string, string> = {},
+  ) {
+    super(message);
+  }
+}
 export async function adminRequest<T>(path: string, method = "GET", body?: unknown): Promise<T> {
   const r = await fetch(`/api/admin/${path}`, {
     method,
@@ -31,7 +40,11 @@ export async function adminRequest<T>(path: string, method = "GET", body?: unkno
   }
   if (!r.ok) {
     if (r.status === 401) window.dispatchEvent(new Event("admin:unauthorized"));
-    throw new Error(data?.error || "הפעולה לא הושלמה");
+    throw new AdminRequestError(
+      data?.error || "הפעולה לא הושלמה",
+      r.status,
+      (data as { fieldErrors?: Record<string, string> }).fieldErrors || {},
+    );
   }
   const projection = (data as { storefront?: import("./types").PublicAdminState }).storefront;
   if (method !== "GET" && projection?.enabled) {

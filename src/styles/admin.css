@@ -6,7 +6,7 @@
   font-family: Heebo, sans-serif;
   padding-bottom: 100px;
 }
-.admin-app * {
+:is(.admin-app, .ad-sheet) * {
   box-sizing: border-box;
 }
 .ad-header {
@@ -27,7 +27,7 @@
   font-size: 17px;
 }
 .ad-header small,
-.admin-app small {
+:is(.admin-app, .ad-sheet) small {
   display: block;
   color: #666;
   font-size: 11px;
@@ -173,9 +173,9 @@
   color: #e23b12;
   font-weight: 800;
 }
-.admin-app input:not([type="checkbox"]):not([type="file"]),
-.admin-app textarea,
-.admin-app select {
+:is(.admin-app, .ad-sheet) input:not([type="checkbox"]):not([type="file"]),
+:is(.admin-app, .ad-sheet) textarea,
+:is(.admin-app, .ad-sheet) select {
   width: 100%;
   min-width: 0;
   border: 1px solid #deded8;
@@ -187,21 +187,21 @@
   font-size: 14px;
   color: #111;
 }
-.admin-app input:focus,
-.admin-app textarea:focus,
-.admin-app select:focus {
+:is(.admin-app, .ad-sheet) input:focus,
+:is(.admin-app, .ad-sheet) textarea:focus,
+:is(.admin-app, .ad-sheet) select:focus {
   outline: 2px solid #e23b12;
   outline-offset: 1px;
 }
-.admin-app input:disabled {
+:is(.admin-app, .ad-sheet) input:disabled {
   color: #777;
   background: #f3f3f1;
 }
-.admin-app button {
+:is(.admin-app, .ad-sheet) button {
   font-family: inherit;
   cursor: pointer;
 }
-.admin-app button:disabled {
+:is(.admin-app, .ad-sheet) button:disabled {
   cursor: not-allowed;
   opacity: 0.45;
 }
@@ -723,5 +723,23 @@
 @media (min-width: 640px) {
   .admin-app .ad-promo-dates {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+:is(.admin-app, .ad-sheet) .ad-field-error {
+  color: #a3200a;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+:is(.admin-app, .ad-sheet) [aria-invalid="true"] {
+  border-color: #a3200a !important;
+}
+
+@media (max-width: 639px) {
+  .ad-sheet input:not([type="checkbox"]):not([type="file"]),
+  .ad-sheet textarea,
+  .ad-sheet select {
+    font-size: 16px;
   }
 }

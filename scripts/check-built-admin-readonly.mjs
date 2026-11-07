@@ -64,6 +64,10 @@ if (!process.env.ADMIN_READONLY_PHASE) {
     coldInstanceSession: true,
     statuses: second.statuses,
     storefrontRoundtrip: true,
+    exactBgInputsWithFreeSku: true,
+    blockedAdd00018HasSkuError: true,
+    numericStringAndOptionalFields: true,
+    hebrewFieldErrors: true,
     createdProductCrudAndPhoto: true,
     createdProductStorefrontSearchCategoryDetail: true,
     createdProductPromo: true,
@@ -174,6 +178,57 @@ if (!process.env.ADMIN_READONLY_PHASE) {
         }),
       );
     }
+    const bg = {
+      name: "BG",
+      category: "additives",
+      sub: "",
+      sku: "HZ-ADD-00018",
+      price: "89",
+      brand: "Bg",
+      description: "Bg",
+    };
+    const reservedBg = await raw("products", "POST", bg);
+    assert.equal(reservedBg.status, 409);
+    const reservedError = await reservedBg.json();
+    assert.match(reservedError.fieldErrors.sku, /[א-ת]/);
+    assert.equal(reservedError.fieldErrors.name, undefined);
+    const available = JSON.parse(
+      (await call("/api/admin/products/suggest-sku?category=additives")).text,
+    ).sku;
+    assert.notEqual(available, "HZ-ADD-00018");
+    assert.ok(Number(available.split("-").at(-1)) > 18);
+    const bgResult = JSON.parse(
+      (await call("/api/admin/products", "POST", { ...bg, sku: available })).text,
+    ).result;
+    assert.equal(bgResult.name, "BG");
+    assert.equal(bgResult.brand, "Bg");
+    assert.equal(bgResult.description, "Bg");
+    assert.equal(bgResult.regularPrice, 89);
+    assert.equal(bgResult.vehicleFitment, "");
+    const invalidBg = await raw("products", "POST", { ...bg, name: "B", price: "not-a-number" });
+    assert.equal(invalidBg.status, 422);
+    const invalidFields = await invalidBg.json();
+    assert.match(invalidFields.fieldErrors.name, /[א-ת]/);
+    assert.match(invalidFields.fieldErrors.price, /[א-ת]/);
+    const emptySku = JSON.parse(
+      (await call("/api/admin/products/suggest-sku?category=additives")).text,
+    ).sku;
+    const optionalResult = JSON.parse(
+      (
+        await call("/api/admin/products", "POST", {
+          name: "BG",
+          sku: emptySku,
+          category: "additives",
+          sub: null,
+          brand: null,
+          description: null,
+          vehicleFitment: null,
+          photoBase64: "",
+        })
+      ).text,
+    ).result;
+    assert.equal(optionalResult.regularPrice, null);
+    assert.equal(optionalResult.description, "");
     assert.equal((await raw("products", "POST", { ...newItem, sku: "HZ-BRK-00001" })).status, 409);
     assert.equal((await raw("products", "POST", { ...newItem, sub: "invalid" })).status, 422);
     assert.equal((await raw("products", "POST", { ...newItem, sku: "not-a-sku" })).status, 422);
