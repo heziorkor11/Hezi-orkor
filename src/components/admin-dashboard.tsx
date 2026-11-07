@@ -1,3 +1,4 @@
+import { AdminCreateProduct } from "./admin-create-product";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useCallback, useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
@@ -25,7 +26,7 @@ import { adminRequest, readUpload } from "@/lib/admin/client";
 import { refreshAdminOverlay, adminSnapshot } from "@/lib/admin/overlay";
 import { regularCatalogPrice } from "@/lib/prices";
 import { loadProduct } from "@/lib/catalog";
-import { displayCategories } from "@/lib/display-taxonomy";
+import { displayCategories, subcategories } from "@/lib/display-taxonomy";
 import {
   PERMISSIONS,
   type Permission,
@@ -39,6 +40,7 @@ import {
 import type { Product } from "@/lib/catalog-types";
 const labels: Record<Permission, string> = {
   products: "עריכת מוצרים והעלאת תמונות",
+  "add-products": "הוספת מוצרים חדשים (בנוסף לעריכת מוצרים)",
   prices: "עדכון מחירים (בנוסף לעריכת מוצרים)",
   promotions: "יצירת ועדכון מבצעים",
   orders: "טיפול בהזמנות",
@@ -61,6 +63,7 @@ const time = (iso: string) =>
   }).format(new Date(iso));
 const actionLabels: Record<string, string> = {
   "auth.login": "כניסה לניהול",
+  "product.create": "הוספת מוצר",
   "product.update": "עדכון מוצר ומחיר",
   "product.image": "עדכון תמונת מוצר",
   "promotion.save": "שמירת מבצע",
@@ -441,6 +444,11 @@ type AdminProduct = Product & {
   priceProtected: boolean;
 };
 function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
+  const [creating, setCreating] = useState(false);
+  const [sub, setSub] = useState("");
+  const [description, setDescription] = useState("");
+  const [vehicleFitment, setVehicleFitment] = useState("");
+  const [inStock, setInStock] = useState(true);
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(1);
@@ -475,6 +483,10 @@ function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
     setCategory(p.category);
     setPrice(p.regularPrice == null ? "" : String(p.regularPrice));
     setHidden(p.hidden);
+    setSub(p.subcategory || "");
+    setDescription(p.description || "");
+    setVehicleFitment(p.vehicleFitment || "");
+    setInStock(p.inStock ?? true);
   }
   async function save(e: FormEvent) {
     e.preventDefault();
@@ -483,6 +495,7 @@ function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
     try {
       const nextPrice = price === "" ? null : Number(price);
       const patch = {
+        ...(selected.adminCreated ? { sub, description, vehicleFitment, inStock } : {}),
         ...(name !== selected.name ? { name } : {}),
         ...(category !== selected.category ? { category } : {}),
         ...(hidden !== selected.hidden ? { hidden } : {}),
@@ -533,6 +546,23 @@ function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
   return (
     <>
       <Heading title="מוצרים" sub="חיפוש, תמונות ועדכונים מהירים." />
+      {allowed(user, "add-products") && (
+        <Action onClick={() => setCreating(true)}>
+          <Plus size={18} />
+          הוסף מוצר
+        </Action>
+      )}
+      {creating && (
+        <AdminCreateProduct
+          onClose={() => setCreating(false)}
+          onCreated={(sku) => {
+            setCreating(false);
+            setQ(sku);
+            setPage(1);
+            notice("המוצר נוסף בשכבת הניהול");
+          }}
+        />
+      )}
       <div className="ad-search">
         <Search size={19} />
         <input
@@ -658,7 +688,13 @@ function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
                       />
                     </Field>
                     <Field label="קטגוריה">
-                      <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                      <select
+                        value={category}
+                        onChange={(e) => {
+                          setCategory(e.target.value);
+                          setSub("");
+                        }}
+                      >
                         {displayCategories.map((c) => (
                           <option value={c.id} key={c.id}>
                             {c.name}
@@ -667,6 +703,35 @@ function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
                       </select>
                     </Field>
                   </div>
+                  {selected.adminCreated && (
+                    <>
+                      <Field label="תת־קטגוריה">
+                        <select value={sub} onChange={(e) => setSub(e.target.value)}>
+                          <option value="">ללא תת־קטגוריה</option>
+                          {(subcategories[category] || []).map((s) => (
+                            <option key={s.id} value={s.id}>
+                              {s.name}
+                            </option>
+                          ))}
+                        </select>
+                      </Field>
+                      <Field label="תיאור">
+                        <textarea
+                          maxLength={3000}
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                        />
+                      </Field>
+                      <Field label="התאמה לרכב">
+                        <textarea
+                          maxLength={1000}
+                          value={vehicleFitment}
+                          onChange={(e) => setVehicleFitment(e.target.value)}
+                        />
+                      </Field>
+                      <Toggle checked={inStock} onChange={setInStock} label="במלאי" />
+                    </>
+                  )}
                   <Field label="מותג יצרן מאומת (לא מותג חלופי מרשימת OE)">
                     <input
                       value={brand}
@@ -1573,20 +1638,26 @@ function UserPermissions({ user, notice }: { user: SafeUser; notice: Notice }) {
             key={p}
             label={labels[p]}
             checked={form.permissions.includes(p)}
-            disabled={p === "prices" && !form.permissions.includes("products")}
+            disabled={
+              (p === "prices" || p === "add-products") && !form.permissions.includes("products")
+            }
             onChange={(v) =>
               setForm({
                 ...form,
                 permissions: v
                   ? [...form.permissions, p]
                   : form.permissions.filter(
-                      (x) => x !== p && !(p === "products" && x === "prices"),
+                      (x) =>
+                        x !== p && !(p === "products" && (x === "prices" || x === "add-products")),
                     ),
               })
             }
           />
         ))}
-        <p className="ad-note">ניהול משתמשים והרשאות שמור לבעלים בלבד; ההרשאות נאכפות גם בשרת.</p>
+        <p className="ad-note">
+          ניהול משתמשים והרשאות שמור לבעלים בלבד; ההרשאות נאכפות גם בשרת. הוספת מוצרים כוללת מחיר
+          ראשוני למוצר חדש בלבד; שינוי מחיר קיים דורש הרשאת מחירים.
+        </p>
         <Action type="submit">
           <Check size={18} />
           שמירת הרשאות

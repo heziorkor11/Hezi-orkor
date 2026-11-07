@@ -1,6 +1,19 @@
-export type Permission = "products" | "prices" | "promotions" | "orders" | "homepage";
-export const PERMISSIONS: Permission[] = ["products", "prices", "promotions", "orders", "homepage"];
+export type Permission =
+  "products" | "add-products" | "prices" | "promotions" | "orders" | "homepage";
+export const PERMISSIONS: Permission[] = [
+  "products",
+  "add-products",
+  "prices",
+  "promotions",
+  "orders",
+  "homepage",
+];
 export type ProductOverride = {
+  created?: true;
+  sub?: string;
+  description?: string;
+  vehicleFitment?: string;
+  inStock?: boolean;
   name?: string;
   category?: string;
   price?: number | null;

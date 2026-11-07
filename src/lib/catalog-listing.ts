@@ -1,3 +1,4 @@
+import { createdProduct, createdHits } from "./admin/products";
 import { refreshAdminOverlay, adminProductOverride, adminSnapshot } from "./admin/overlay";
 import { displayCategory, isHiddenProduct } from "@/lib/display-taxonomy";
 import {
@@ -208,6 +209,8 @@ export async function loadFeaturedImpl(): Promise<Product[]> {
 export async function loadBaseProductImpl(sku: string): Promise<Product | undefined> {
   const id = decodeURIComponent(sku || "").trim();
   if (!id || isHiddenProduct(id)) return undefined;
+  const custom = createdProduct(id, adminProductOverride(id));
+  if (custom) return custom;
   const map = await loadSkuMap();
   const chunkId = map[id];
   if (!chunkId) return undefined;
@@ -223,6 +226,11 @@ function applyAdminProduct(p: Product): Product | undefined {
     ...(o?.name ? { name: o.name } : {}),
     ...(o?.category ? { category: o.category, type: typeFromCategory(o.category) } : {}),
     ...(o?.image ? { image: o.image } : {}),
+    ...(o?.brand !== undefined ? { brand: o.brand } : {}),
+    ...(o?.description !== undefined ? { description: o.description } : {}),
+    ...(o?.vehicleFitment !== undefined ? { vehicleFitment: o.vehicleFitment } : {}),
+    ...(o?.sub !== undefined ? { subcategory: o.sub } : {}),
+    ...(o?.inStock !== undefined ? { inStock: o.inStock } : {}),
   };
 }
 export async function loadProductImpl(sku: string): Promise<Product | undefined> {
@@ -257,7 +265,7 @@ export async function loadListingImpl(
   const page = Math.max(1, state.page ?? 1);
   if (!cache.searchIndex) cache.searchIndex = await catalogJson<SearchHit[]>("search-index.json");
   await refreshAdminOverlay();
-  const hits = cache.searchIndex
+  const hits = [...createdHits(adminSnapshot().products), ...cache.searchIndex]
     .map((hit) => ({ ...hit, title: adminProductOverride(hit.sku)?.name || hit.title }))
     .filter((hit) => !adminProductOverride(hit.sku)?.hidden && opts.filterHit(hit, state));
   const pages = Math.max(1, Math.ceil(hits.length / PAGE_SIZE));
@@ -269,7 +277,9 @@ export async function loadListingImpl(
   const items: Product[] = [];
   for (const hit of slice) {
     const chunk = cache.chunks.get(map[hit.sku]);
-    const product = chunk?.find((p) => p.sku === hit.sku);
+    const product =
+      createdProduct(hit.sku, adminProductOverride(hit.sku)) ||
+      chunk?.find((p) => p.sku === hit.sku);
     const display = product ? applyAdminProduct(product) : undefined;
     if (display) items.push(display);
   }

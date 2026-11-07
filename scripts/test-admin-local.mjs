@@ -382,6 +382,28 @@ try {
   const homeHtml = await (await fetch(origin + "/")).text();
   assert(!/<a[^>]+href="\/admin/.test(homeHtml));
   check("Admin noindex and no storefront navigation link");
+  const customSku = (await api("products/suggest-sku?category=brakes")).body.sku;
+  await api("products", {
+    method: "POST",
+    data: {
+      sku: customSku,
+      name: "מוצר אישי לבדיקת שמירה",
+      category: "brakes",
+      sub: "pads",
+      price: 77,
+      brand: "DENSO",
+      description: "תיאור אישי נשמר",
+      vehicleFitment: "טקסט התאמה מאומת",
+      hidden: false,
+      inStock: true,
+    },
+  });
+  assert.equal((await api(`products/${customSku}`)).body.adminCreated, true);
+  assert.match(
+    cleanHtml(await (await fetch(origin + `/product/${customSku}`)).text()),
+    /מוצר אישי לבדיקת שמירה/,
+  );
+  check("Owner creates unique product in adapter and storefront without changing source files");
   await api("logout", { method: "POST", data: {} });
   await api("session", { expected: 401 });
   check("Logout invalidates server session");
@@ -409,6 +431,11 @@ try {
   assert.equal((await api("orders")).body.length, 1);
   assert.equal((await api(`products/${sku}`)).body.regularPrice, 123.45);
   check("Orders, hashed employees and overrides survive a full server restart");
+  const persistedCustom = (await api(`products/${customSku}`)).body;
+  assert.equal(persistedCustom.adminCreated, true);
+  assert.equal(persistedCustom.regularPrice, 77);
+  assert.equal(persistedCustom.description, "תיאור אישי נשמר");
+  check("Admin-created product, price and description survive a full local server restart");
   await Promise.all(
     Array.from({ length: 8 }, (_, i) =>
       api(`products/${sku}`, { method: "PATCH", data: { name: `שינוי מקביל ${i}` } }),

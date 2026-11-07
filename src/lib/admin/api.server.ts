@@ -1,3 +1,4 @@
+import { createdProduct, createdHits } from "./products";
 import { adminRuntimeMode, adminRequestHostAllowed } from "./config";
 import {
   createHmac,
@@ -221,8 +222,39 @@ const patchSchema = z
     price: z.number().positive().max(1_000_000).nullable().optional(),
     hidden: z.boolean().optional(),
     brand: z.string().trim().max(60).optional(),
+    sub: z.string().max(60).optional(),
+    description: z.string().trim().max(3000).optional(),
+    vehicleFitment: z.string().trim().max(1000).optional(),
+    inStock: z.boolean().optional(),
   })
   .strict();
+const createProductSchema = z
+  .object({
+    sku: z
+      .string()
+      .trim()
+      .toUpperCase()
+      .regex(/^HZ-[A-Z0-9]{2,12}-[0-9]{5}$/, "מק״ט בתבנית HZ-CAT-00001"),
+    name: cleanText(300).regex(/[א-ת]/, "יש להזין שם מוצר בעברית"),
+    category: z.string().refine((c) => categories.has(c), "קטגוריה לא תקינה"),
+    sub: z.string().max(60).default(""),
+    price: z.number().positive().max(1_000_000).nullable(),
+    brand: z.string().trim().max(60).default(""),
+    description: z.string().trim().max(3000).default(""),
+    vehicleFitment: z.string().trim().max(1000).default(""),
+    inStock: z.boolean().default(true),
+    hidden: z.boolean().default(false),
+    photoBase64: z.string().max(2_800_000).optional(),
+  })
+  .strict();
+function validSub(category: string, sub?: string) {
+  return (
+    !sub ||
+    ((tax.subcategories as Record<string, { id: string }[]>)[category] || []).some(
+      (s) => s.id === sub,
+    )
+  );
+}
 const promoSchema = z
   .object({
     id: z.string().uuid().optional(),
@@ -271,7 +303,7 @@ const homeSchema = z
       )
       .max(5),
     featuredSkus: z
-      .array(z.string().regex(/^HZ-[A-Z]+-\d{5}$/))
+      .array(z.string().regex(/^HZ-[A-Z0-9]+-\d{5}$/))
       .max(24)
       .optional(),
     categoryOrder: z.array(z.string().refine((c) => categories.has(c))).max(30),
@@ -283,14 +315,19 @@ const userSchema = z
     username: z.string().regex(/^[a-zA-Z0-9_-]{3,40}$/),
     name: cleanText(80),
     role: z.enum(["owner", "employee"]),
-    permissions: z.array(z.enum(PERMISSIONS)).max(5),
+    permissions: z.array(z.enum(PERMISSIONS)).max(PERMISSIONS.length),
     active: z.boolean(),
     password: z.string().min(12).max(128).optional(),
   })
   .strict()
-  .refine((u) => !u.permissions.includes("prices") || u.permissions.includes("products"), {
-    message: "הרשאת מחירים דורשת גם הרשאת עריכת מוצרים",
-  });
+  .refine(
+    (u) =>
+      (!u.permissions.includes("prices") && !u.permissions.includes("add-products")) ||
+      u.permissions.includes("products"),
+    {
+      message: "הרשאות מחירים והוספת מוצרים דורשות גם הרשאת עריכת מוצרים",
+    },
+  );
 const customerSchema = z
   .object({
     name: cleanText(100),
@@ -317,7 +354,7 @@ const orderSchema = z
       .array(
         z
           .object({
-            sku: z.string().regex(/^HZ-[A-Z]+-\d{5}$/),
+            sku: z.string().regex(/^HZ-[A-Z0-9]+-\d{5}$/),
             qty: z.number().int().min(1).max(999),
           })
           .strict(),
@@ -373,7 +410,7 @@ async function jsonWithStorefront(data: Record<string, unknown>) {
   });
 }
 async function productForAdmin(sku: string, s: AdminState) {
-  const p = await loadProductImpl(sku);
+  const p = createdProduct(sku, s.products[sku]) || (await loadProductImpl(sku));
   if (!p) return undefined;
   const o = s.products[sku] || {};
   const base = hiddenPrices.has(sku) ? null : basePrices[sku] || null;
@@ -447,7 +484,7 @@ export async function adminApi(req: Request): Promise<Response> {
       const lines: StoredOrder["lines"] = [];
       for (const line of input.lines) {
         const p = await productForAdmin(line.sku, state);
-        assert(p && !state.products[line.sku]?.hidden, 422, "פריט לא זמין");
+        assert(p && !state.products[line.sku]?.hidden && p.inStock !== false, 422, "פריט לא זמין");
         lines.push({
           sku: p.sku,
           name: p.name,
@@ -554,8 +591,92 @@ export async function adminApi(req: Request): Promise<Response> {
         "set-cookie": `${COOKIE}=; HttpOnly; SameSite=Strict; Path=/api/admin; Max-Age=0`,
       });
     }
+    if (path === "products/suggest-sku" && req.method === "GET") {
+      requirePermission(user, "products");
+      requirePermission(user, "add-products");
+      const category = url.searchParams.get("category") || "general";
+      assert(categories.has(category), 422, "קטגוריה לא תקינה");
+      const map = await catalogJson<Record<string, string>>("sku-map.json");
+      const codes: Record<string, string> = {
+        general: "GEN",
+        brakes: "BRK",
+        "ac-compressor": "CMP",
+        filters: "FLT",
+        "ac-condenser": "CND",
+        "spark-plugs": "PLG",
+        fluids: "OIL",
+        lighting: "LGT",
+        "ignition-coils": "IGN",
+        sensors: "SNS",
+        additives: "ADD",
+        "small-engine": "ENG",
+        "fuel-pump": "FUP",
+        shocks: "SHK",
+        steering: "STR",
+        suspension: "SUS",
+        clutch: "CLT",
+        "workshop-packs": "PCK",
+        radiator: "RAD",
+        "water-pump": "WTP",
+        driveshaft: "DRV",
+        hub: "HUB",
+        "steering-rack": "RCK",
+        timing: "TIM",
+        "throttle-body": "THR",
+      };
+      const prefix =
+        codes[category] ||
+        category
+          .replace(/[^a-z]/gi, " ")
+          .replaceAll(" ", "")
+          .slice(0, 6)
+          .toUpperCase();
+      let max = 0;
+      for (const sku of [
+        ...Object.keys(map),
+        ...Object.keys(rawPrices),
+        ...Object.keys(state.products),
+      ]) {
+        if (sku.startsWith(`HZ-${prefix}-`))
+          max = Math.max(max, Number(sku.split("-").at(-1)) || 0);
+      }
+      assert(max < 99999, 409, "אין מק״ט פנוי בקידומת זו; בחרו קידומת אחרת");
+      return json({ sku: `HZ-${prefix}-${String(max + 1).padStart(5, "0")}` });
+    }
+    if (path === "products" && req.method === "POST") {
+      requirePermission(user, "products");
+      requirePermission(user, "add-products");
+      const input = createProductSchema.parse(await body(req));
+      assert(validSub(input.category, input.sub), 422, "תת־קטגוריה אינה שייכת לקטגוריה");
+      const source = await catalogJson<Record<string, string>>("sku-map.json");
+      const photo = input.photoBase64 ? imageBytes(input.photoBase64) : undefined;
+      await storage.transaction(async (s) => {
+        const current = authenticated(req, s);
+        requirePermission(current, "products");
+        requirePermission(current, "add-products");
+        assert(
+          !Object.hasOwn(source, input.sku) &&
+            !Object.hasOwn(rawPrices, input.sku) &&
+            !Object.hasOwn(s.products, input.sku),
+          409,
+          "המק״ט כבר קיים. בחרו מק״ט אחר",
+        );
+        const { sku, photoBase64: ignoredPhoto, ...fields } = input;
+        const image = photo
+          ? `/api/admin/media/${await storage.putFile(photo.bytes, photo.ext)}`
+          : undefined;
+        s.products[sku] = { ...fields, created: true, ...(image ? { image } : {}) };
+        audit(s, current, "product.create", sku, null, s.products[sku]);
+      });
+      const product = await productForAdmin(input.sku, await storage.read());
+      assert(product, 500, "המוצר החדש לא נטען");
+      return jsonWithStorefront(product);
+    }
     if (path === "dashboard" && req.method === "GET") {
-      const hits = await catalogJson<SearchHit[]>("search-index.json");
+      const hits = [
+        ...createdHits(state.products),
+        ...(await catalogJson<SearchHit[]>("search-index.json")),
+      ];
       const visible = hits.filter(
         (p) =>
           !(tax.bySku as Record<string, { hidden?: boolean }>)[p.sku]?.hidden &&
@@ -580,7 +701,10 @@ export async function adminApi(req: Request): Promise<Response> {
       requirePermission(user, "products");
       const q = (url.searchParams.get("q") || "").trim().toLowerCase();
       const filter = url.searchParams.get("filter");
-      const index = await catalogJson<SearchHit[]>("search-index.json");
+      const index = [
+        ...createdHits(state.products),
+        ...(await catalogJson<SearchHit[]>("search-index.json")),
+      ];
       let hits = index.filter(
         (h) =>
           !(tax.bySku as Record<string, { hidden?: boolean }>)[h.sku]?.hidden &&
@@ -647,6 +771,11 @@ export async function adminApi(req: Request): Promise<Response> {
       }
       if (parts.length === 2 && req.method === "PATCH") {
         const input = patchSchema.parse(await body(req));
+        assert(
+          validSub(input.category || product.category, input.sub ?? product.subcategory),
+          422,
+          "תת־קטגוריה אינה שייכת לקטגוריה; בחרו תת־קטגוריה מתאימה",
+        );
         if (Object.hasOwn(input, "price")) {
           requirePermission(user, "prices");
           assert(
@@ -685,7 +814,12 @@ export async function adminApi(req: Request): Promise<Response> {
         if (input.targetType === "category")
           assert(categories.has(input.target), 422, "קטגוריה לא תקינה");
         if (input.targetType === "product")
-          assert(await loadProductImpl(input.target), 422, "מק״ט לא קיים");
+          assert(
+            createdProduct(input.target, state.products[input.target]) ||
+              (await loadProductImpl(input.target)),
+            422,
+            "מק״ט לא קיים",
+          );
         const p = { ...input, id: input.id || randomUUID() };
         await storage.transaction((s) => {
           const u = authenticated(req, s);
@@ -720,7 +854,11 @@ export async function adminApi(req: Request): Promise<Response> {
       if (req.method === "PUT") {
         const input = homeSchema.parse(await body(req));
         for (const sku of input.featuredSkus || [])
-          assert(await loadProductImpl(sku), 422, "מק״ט מומלץ לא קיים");
+          assert(
+            createdProduct(sku, state.products[sku]) || (await loadProductImpl(sku)),
+            422,
+            "מק״ט מומלץ לא קיים",
+          );
         assert(
           new Set(input.categoryOrder).size === input.categoryOrder.length,
           422,

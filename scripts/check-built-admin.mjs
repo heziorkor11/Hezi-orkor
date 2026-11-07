@@ -78,7 +78,7 @@ const { readFile } = await import("node:fs/promises");
 let clientSource = await readFile("src/lib/admin/client.ts", "utf8");
 clientSource = clientSource.replace(
   'import { adminSnapshot, publishAdminMutation } from "./overlay";',
-  "const adminSnapshot = () => ({enabled:false}); const publishAdminMutation = () => {};",
+  "const adminSnapshot = () => ({enabled:false}); const publishAdminMutation = (path) => { globalThis.__testMutationPath = path; };",
 );
 const clientJs = ts.default.transpileModule(clientSource, {
   compilerOptions: { target: ts.default.ScriptTarget.ES2022, module: ts.default.ModuleKind.ESNext },
@@ -126,6 +126,20 @@ try {
     false,
     "Edit forms never receive receipt metadata as entity fields",
   );
+  globalThis.fetch = async () =>
+    Response.json({
+      result: { sku: "HZ-TST-90003" },
+      storefront: {
+        enabled: true,
+        mode: "preview-demo",
+        revision: 3,
+        products: {},
+        promotions: [],
+        home: {},
+      },
+    });
+  assert.equal((await adminRequest("products", "POST", {})).sku, "HZ-TST-90003");
+  assert.equal(globalThis.__testMutationPath, "products/HZ-TST-90003");
 } finally {
   globalThis.fetch = realFetch;
 }

@@ -145,6 +145,9 @@ export function ProductCard({
           )}
         </dl>
         <div className="mt-auto">
+          {product.inStock === false && (
+            <p className="text-sm font-semibold text-muted">אזל מהמלאי</p>
+          )}
           {catalogPromotion(product.sku) && (
             <div className="mb-1 flex items-center gap-2">
               <span className="rounded-md bg-accent px-2 py-0.5 text-xs font-bold text-white">
@@ -167,6 +170,7 @@ export function ProductCard({
         <div className="flex gap-2">
           <Button
             className="flex-1"
+            disabled={product.inStock === false}
             onClick={() => {
               add(product.id, 1);
               toast.success("נוסף לרשימת הצעת מחיר", { description: product.name });

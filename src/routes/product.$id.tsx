@@ -114,6 +114,14 @@ function ProductPage() {
             ) : null}
           </div>
           <dl className="mb-4 grid grid-cols-[7.5rem_1fr] gap-x-2.5 gap-y-2 text-sm">
+            {product.brand && (
+              <>
+                <dt className="text-muted">מותג / יצרן</dt>
+                <dd className="font-semibold">
+                  <bdi>{product.brand}</bdi>
+                </dd>
+              </>
+            )}
             <dt className="text-muted">מק״ט חנות</dt>
             <dd className="font-semibold">{product.sku}</dd>
             {oeLine ? (
@@ -163,6 +171,12 @@ function ProductPage() {
                 <dd className="font-semibold">יש לאשר לפי מספר רכב</dd>
               </>
             )}
+            {product.adminCreated && years && product.vehicleFitment && (
+              <>
+                <dt className="text-muted">התאמה לרכב</dt>
+                <dd className="font-semibold">{product.vehicleFitment}</dd>
+              </>
+            )}
           </dl>
           <p className="mb-4 leading-relaxed text-fg-soft">{product.description}</p>
           <p className="mb-4 rounded-md border border-line bg-elevated px-3 py-2.5 text-sm text-muted">
@@ -175,9 +189,11 @@ function ProductPage() {
               אחריות והתאמה
             </Link>
           </p>
+          {product.inStock === false && <p className="mb-3 font-semibold text-muted">אזל מהמלאי</p>}
           <div className="flex flex-col gap-2 sm:flex-row">
             <Button
               className="flex-1"
+              disabled={product.inStock === false}
               onClick={() => {
                 add(product.id, 1);
                 toast.success("נוסף לרשימת הצעת מחיר", { description: product.name });

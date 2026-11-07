@@ -35,8 +35,13 @@ export async function adminRequest<T>(path: string, method = "GET", body?: unkno
   }
   const projection = (data as { storefront?: import("./types").PublicAdminState }).storefront;
   if (method !== "GET" && projection?.enabled) {
-    publishAdminMutation(path, projection);
-    return (data as unknown as { result: T }).result;
+    const result = (data as unknown as { result: T }).result;
+    const sku = (result as { sku?: string })?.sku;
+    publishAdminMutation(
+      path === "products" && method === "POST" && sku ? `products/${sku}` : path,
+      projection,
+    );
+    return result;
   }
   return data as T;
 }

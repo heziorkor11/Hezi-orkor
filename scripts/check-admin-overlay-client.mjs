@@ -67,9 +67,27 @@ assert.equal(notifications, 2);
 overlay.adoptAdminOverlay(empty); // stale root render must not revert prices
 await overlay.refreshAdminOverlay(true); // empty cold instance must not erase own QA writes
 assert.equal(overlay.effectivePrice("HZ-BRK-00001", 817, "brakes", "").price, 736.2);
+overlay.publishAdminMutation("products/HZ-TST-90003", {
+  ...empty,
+  revision: 3,
+  products: {
+    "HZ-TST-90003": {
+      created: true,
+      name: "מוצר אישי",
+      category: "brakes",
+      sub: "pads",
+      price: 100,
+      description: "תיאור",
+      inStock: true,
+    },
+  },
+});
+assert.equal(overlay.adminProductOverride("HZ-TST-90003").created, true);
 // A full-page/new-tab runtime reads only public edit receipts, not auth/session data.
 const fresh = await import(uri(source + "\n// fresh browser runtime"));
 fresh.adoptAdminOverlay(empty);
+assert.equal(fresh.adminProductOverride("HZ-TST-90003").created, true);
+assert.equal(fresh.effectivePrice("HZ-TST-90003", null, "brakes", "").price, 100);
 assert.equal(fresh.effectivePrice("HZ-BRK-00001", 817, "brakes", "").price, 736.2);
 fresh.adoptAdminOverlay({ ...empty, mode: "local" });
 assert.equal(
@@ -91,6 +109,7 @@ const result = {
   coldInstanceWriteReceipts: true,
   newTabReceipt: true,
   previewOnly: true,
+  createdProductReceiptAndPrice: true,
 };
 const out = resolve(process.env.ADMIN_TEST_OUTPUT || ".data/admin-test-results");
 await mkdir(out, { recursive: true });

@@ -8,6 +8,10 @@ export type VehicleFitment = {
 };
 
 export type Product = {
+  brand?: string;
+  adminCreated?: boolean;
+  subcategory?: string;
+  inStock?: boolean;
   id: string;
   sku: string;
   oe: string;
@@ -179,7 +183,7 @@ export function typeFromCategory(category?: string): PartTypeId {
   return CATEGORY_TYPE[category] || "general";
 }
 
-export const categories: {id:string;name:string}[] = displayCategories;
+export const categories: { id: string; name: string }[] = displayCategories;
 export const visibleCategories = categories.filter((c) => c.id !== "workshop-packs");
 
 export const partTypes: { id: PartTypeId; name: string; category: string }[] = [

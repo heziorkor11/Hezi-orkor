@@ -120,8 +120,10 @@ function filterHit(hit: SearchHit, state: ProductFilter) {
   state = { ...state, category: normalizeDisplayCategory(state.category) };
   if (
     state.sub &&
-    ((categoryOverride && categoryOverride !== sourceCategory) ||
-      displayOverride(hit.sku)?.sub !== state.sub)
+    (adminProductOverride(hit.sku)?.sub !== undefined
+      ? adminProductOverride(hit.sku)?.sub !== state.sub
+      : (categoryOverride && categoryOverride !== sourceCategory) ||
+        displayOverride(hit.sku)?.sub !== state.sub)
   )
     return false;
   if (state.category && categoryOverride && categoryOverride !== state.category) return false;

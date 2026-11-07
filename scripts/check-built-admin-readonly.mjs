@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { mkdir, writeFile } from "node:fs/promises";
-import { randomBytes, scryptSync } from "node:crypto";
+import { randomBytes, scryptSync, randomUUID } from "node:crypto";
 import assert from "node:assert/strict";
 const fn = resolve(".vercel/output/functions/__server.func");
 const out = resolve(process.env.ADMIN_TEST_OUTPUT || ".data/admin-test-results");
@@ -64,6 +64,11 @@ if (!process.env.ADMIN_READONLY_PHASE) {
     coldInstanceSession: true,
     statuses: second.statuses,
     storefrontRoundtrip: true,
+    createdProductCrudAndPhoto: true,
+    createdProductStorefrontSearchCategoryDetail: true,
+    createdProductPromo: true,
+    skuCollisionAndConcurrentDuplicate: true,
+    employeeCreateFlagDefaultDeniedThenGranted: true,
   };
   await writeFile(out + "/built-readonly-test.json", JSON.stringify(result, null, 2));
   console.log(JSON.stringify(result, null, 2));
@@ -143,6 +148,142 @@ if (!process.env.ADMIN_READONLY_PHASE) {
     const category = await call("/results?category=brakes");
     assert.match(category.text, /736\.2/);
     assert.match(category.text, /מבצע בדיקה/);
+    // Created products use only adapter state; exact catalog collision check is atomic.
+    const suggested = JSON.parse(
+      (await call("/api/admin/products/suggest-sku?category=brakes")).text,
+    ).sku;
+    assert.match(suggested, /^HZ-BRK-[0-9]{5}$/);
+    const newItem = {
+      sku: suggested,
+      name: "רפידת בלם אישית לבדיקה",
+      category: "brakes",
+      sub: "pads",
+      price: 100,
+      brand: "DENSO",
+      description: "תיאור מוצר אישי מאומת",
+      vehicleFitment: "התאמה מאומתת לדוגמה בלבד",
+      inStock: true,
+      hidden: false,
+    };
+    async function raw(path, method, body, auth = cookie) {
+      return app.fetch(
+        new Request(origin + "/api/admin/" + path, {
+          method,
+          headers: { origin, "content-type": "application/json", cookie: auth },
+          body: body ? JSON.stringify(body) : undefined,
+        }),
+      );
+    }
+    assert.equal((await raw("products", "POST", { ...newItem, sku: "HZ-BRK-00001" })).status, 409);
+    assert.equal((await raw("products", "POST", { ...newItem, sub: "invalid" })).status, 422);
+    assert.equal((await raw("products", "POST", { ...newItem, sku: "not-a-sku" })).status, 422);
+    assert.equal((await raw("products", "POST", { ...newItem, created: true })).status, 422);
+    const pixel =
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/a9sAAAAASUVORK5CYII=";
+    const created = JSON.parse(
+      (await call("/api/admin/products", "POST", { ...newItem, photoBase64: pixel })).text,
+    );
+    assert.equal(created.result.sku, suggested);
+    assert.equal(created.result.adminCreated, true);
+    assert.equal(created.storefront.products[suggested].created, true);
+    const image = await app.fetch(new Request(origin + created.result.image));
+    assert.equal(image.status, 200);
+    assert.equal((await raw("products", "POST", newItem)).status, 409);
+    assert.equal(JSON.parse((await call("/api/admin/products?q=" + suggested)).text).total, 1);
+    const newDetail = await call("/product/" + suggested);
+    assert.match(newDetail.text, /רפידת בלם אישית לבדיקה/);
+    assert.match(newDetail.text, /מותג \/ יצרן/);
+    const newSearch = await call("/results?q=" + suggested);
+    assert.match(newSearch.text, /רפידת בלם אישית לבדיקה/);
+    const newSub = await call("/results?category=brakes&sub=pads");
+    assert.match(newSub.text, /רפידת בלם אישית לבדיקה/);
+    await call("/api/admin/promotions", "POST", {
+      title: "מבצע אישי",
+      targetType: "product",
+      target: suggested,
+      kind: "percent",
+      value: 10,
+      start: new Date(Date.now() - 60000).toISOString(),
+      end: new Date(Date.now() + 86400000).toISOString(),
+      badge: "מבצע מוצר אישי",
+      homepage: false,
+      enabled: true,
+    });
+    assert.equal(JSON.parse((await call("/api/admin/products/" + suggested)).text).price, 90);
+    assert.match((await call("/product/" + suggested)).text, /מבצע מוצר אישי/);
+    const customOrder = {
+      requestId: randomUUID(),
+      ref: "HZ-ORD-20261107-1415",
+      customer: { name: "לקוח בדיקה", phone: "0501234567", plate: "12345678" },
+      lines: [{ sku: suggested, qty: 2 }],
+    };
+    assert.equal((await raw("orders/capture", "POST", customOrder)).status, 201);
+    const storedOrder = JSON.parse((await call("/api/admin/orders")).text).find(
+      (o) => o.requestId === customOrder.requestId,
+    );
+    assert.equal(storedOrder.lines[0].price, 90);
+    assert.equal(storedOrder.subtotal, 180);
+
+    await call("/api/admin/products/" + suggested, "PATCH", {
+      description: "תיאור אישי מעודכן",
+      vehicleFitment: "התאמה מעודכנת",
+      sub: "discs",
+      inStock: false,
+    });
+    assert.match((await call("/product/" + suggested)).text, /אזל מהמלאי/);
+    assert.equal(
+      (await raw("orders/capture", "POST", { ...customOrder, requestId: randomUUID() })).status,
+      422,
+    );
+
+    await call("/api/admin/products/" + suggested, "PATCH", { hidden: true });
+    assert.equal((await app.fetch(new Request(origin + "/product/" + suggested))).status, 404);
+    assert.equal(JSON.parse((await call("/api/admin/products/" + suggested)).text).hidden, true);
+    const audits = JSON.parse((await call("/api/admin/audit")).text);
+    assert.ok(
+      audits.some(
+        (a) => a.action === "product.create" && a.target === suggested && a.before === null,
+      ),
+    );
+    const race = await Promise.all([
+      raw("products", "POST", { ...newItem, sku: "HZ-TST-90001" }),
+      raw("products", "POST", { ...newItem, sku: "HZ-TST-90001" }),
+    ]);
+    assert.deepEqual(race.map((r) => r.status).sort(), [200, 409]);
+    let staffLogin = await raw("login", "POST", {
+      username: "preview-employee",
+      password: process.env.ADMIN_READONLY_PASSWORD,
+    });
+    let staffCookie = staffLogin.headers.get("set-cookie").split(";")[0];
+    assert.equal(
+      (await raw("products", "POST", { ...newItem, sku: "HZ-TST-90002" }, staffCookie)).status,
+      403,
+    );
+    assert.equal(
+      (await raw("products/suggest-sku?category=brakes", "GET", undefined, staffCookie)).status,
+      403,
+    );
+    await call("/api/admin/users", "POST", {
+      id: "demo-employee",
+      username: "preview-employee",
+      name: "עובד בדיקה",
+      role: "employee",
+      active: true,
+      permissions: ["products", "orders", "add-products"],
+    });
+    staffLogin = await raw("login", "POST", {
+      username: "preview-employee",
+      password: process.env.ADMIN_READONLY_PASSWORD,
+    });
+    staffCookie = staffLogin.headers.get("set-cookie").split(";")[0];
+    assert.equal(
+      (await raw("products", "POST", { ...newItem, sku: "HZ-TST-90002" }, staffCookie)).status,
+      200,
+    );
+    assert.equal(
+      (await raw("products/HZ-BRK-00001", "PATCH", { price: 1 }, staffCookie)).status,
+      403,
+    );
     await call("/api/admin/logout", "POST", {});
     const revoked = await app.fetch(
       new Request(origin + "/api/admin/session", { headers: { cookie } }),
