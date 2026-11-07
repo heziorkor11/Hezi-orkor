@@ -341,15 +341,28 @@
     {
       "category": "lighting",
       "status": "real-product-photo",
-      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/4821aa2/public/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg",
-      "ownSku": "HZ-LMP-00184",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg",
+      "ownSku": null,
       "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
       "categoryName": "תאורה ונורות",
       "image": "/catalog/category-photos/lighting.jpg",
       "verifiedVisually": true,
-      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
-      "sha256": "95d9ec621de45cf3c6ba0182de642e83e03045c54fb0ef94007fa2d2e107ca26"
+      "visualVerification": "Option 3 chosen by owner: real OSRAM boxed bulb and real exposed xenon bulb; visually checked, no AI.",
+      "transforms": "Non-generative composition; green/black boundary background normalized to white; product shapes retained",
+      "sha256": "25a1157eea6bc6fc2da9f6a22bc66b9e68bcdfc843c6c1ae8f8d57f05f02bca4",
+      "compositionSources": [
+        {
+          "ownSku": "HZ-LMP-00184",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg",
+          "sourceImage": "/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg"
+        },
+        {
+          "ownSku": "HZ-LMP-00188",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0833_HZ-LMP-00188_OSR66540.jpg",
+          "sourceImage": "/catalog/images/A0833_HZ-LMP-00188_OSR66540.jpg"
+        }
+      ],
+      "selectedOption": 3
     },
     {
       "category": "additives",
@@ -419,7 +432,7 @@
     },
     {
       "option": 3,
-      "applied": false,
+      "applied": true,
       "file": "/workspace/designs/cat-images/lighting-options/option-3.png",
       "sources": [
         {
