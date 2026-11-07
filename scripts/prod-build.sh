@@ -9,4 +9,5 @@ node scripts/check-storefront-catalog-readonly.mjs
 node scripts/check-storefront-qa.mjs
 node scripts/check-cart-links.mjs
 node scripts/check-hidden-products.mjs
+node scripts/check-cleaning-maintenance.mjs
 npm run db:migrate
