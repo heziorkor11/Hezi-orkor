@@ -17,12 +17,9 @@ import {
   preloadOrderPdf,
   waMeUrlForShareText,
 } from "@/lib/order-pdf";
-import {
-  isValidIlPhone,
-  isValidIlPlate,
-  type OrderCustomer,
-} from "@/lib/order-quote";
-import { priceOrQuoteLabel } from "@/lib/prices";
+import { isValidIlPhone, isValidIlPlate, type OrderCustomer } from "@/lib/order-quote";
+import { priceOrQuoteLabel, catalogPrice, formatCatalogPrice } from "@/lib/prices";
+import { summarizeCart } from "@/lib/cart-pricing";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
@@ -140,6 +137,8 @@ function CartPage() {
     [rows],
   );
 
+  const cartSummary = useMemo(() => summarizeCart(orderLines, catalogPrice), [orderLines]);
+
   const cacheKey = useMemo(() => {
     if (!valid || !orderLines.length) return "";
     return JSON.stringify({ customer, lines: orderLines });
@@ -178,16 +177,19 @@ function CartPage() {
     })();
   }, [cacheKey, customer, orderLines]);
 
-  const fallbackSend = useCallback((blob: Blob, orderRef: string, subtotal: number) => {
-    downloadBlob(blob, `${orderRef}.pdf`);
-    const text = buildOrderShareText({
-      orderRef,
-      customer,
-      itemCount: orderLines.length,
-      subtotal,
-    });
-    window.open(waMeUrlForShareText(text), "_blank", "noopener,noreferrer");
-  }, [customer, orderLines.length]);
+  const fallbackSend = useCallback(
+    (blob: Blob, orderRef: string, subtotal: number) => {
+      downloadBlob(blob, `${orderRef}.pdf`);
+      const text = buildOrderShareText({
+        orderRef,
+        customer,
+        itemCount: orderLines.length,
+        subtotal,
+      });
+      window.open(waMeUrlForShareText(text), "_blank", "noopener,noreferrer");
+    },
+    [customer, orderLines.length],
+  );
 
   const onSendOrder = useCallback(async () => {
     setShareError(null);
@@ -296,8 +298,20 @@ function CartPage() {
                     </button>
                   </div>
                 </div>
-                <div className="text-sm font-bold text-accent-warm tabular-nums">
-                  {priceOrQuoteLabel(x.product.sku)}
+                <div className="space-y-1 text-sm tabular-nums" aria-live="polite">
+                  <p>
+                    <span className="text-muted">מחיר ליחידה: </span>
+                    <bdi>{priceOrQuoteLabel(x.product.sku)}</bdi>
+                  </p>
+                  <p className="font-bold text-accent-warm">
+                    סה״כ שורה:{" "}
+                    <bdi>
+                      {cartSummary.bySku[x.product.sku].lineTotal == null
+                        ? "לפי הצעת מחיר"
+                        : formatCatalogPrice(cartSummary.bySku[x.product.sku].lineTotal!)}
+                    </bdi>
+                  </p>
+                  <p className="text-xs text-muted">כמות: {x.qty} · המחיר כולל מע״מ</p>
                 </div>
                 <Button variant="ghost" size="sm" onClick={() => remove(x.id)}>
                   <Trash2 className="size-4" />
@@ -306,6 +320,25 @@ function CartPage() {
               </div>
             ))}
           </div>
+
+          <section
+            aria-label="סיכום מחירי הסל"
+            className="mt-5 rounded-xl border-2 border-accent/30 bg-card p-4"
+            aria-live="polite"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-2 text-lg font-bold">
+              <h2>{cartSummary.quoteCount ? "סה״כ פריטים עם מחיר" : "סה״כ סל"}</h2>
+              <bdi>{formatCatalogPrice(cartSummary.subtotal)}</bdi>
+            </div>
+            <p className="mt-2 text-sm text-muted">
+              כולל מע״מ · לפני דמי משלוח, אם יחולו. המחיר הסופי יאושר בוואטסאפ.
+            </p>
+            {cartSummary.quoteCount > 0 && (
+              <p className="mt-2 text-sm font-semibold">
+                {cartSummary.quoteCount} שורות להצעת מחיר אינן כלולות בסכום.
+              </p>
+            )}
+          </section>
 
           <section className="mt-5 rounded-2xl border border-line bg-card p-3.5 shadow-lift md:p-5">
             <h2 className="mb-1 text-[17px] font-extrabold tracking-tight">פרטי הזמנה</h2>
@@ -433,7 +466,11 @@ function CartPage() {
                   ביטול עסקה
                 </Link>
                 {" · "}
-                <Link to="/legal/$slug" params={{ slug: "terms" }} className="underline hover:text-fg">
+                <Link
+                  to="/legal/$slug"
+                  params={{ slug: "terms" }}
+                  className="underline hover:text-fg"
+                >
                   תנאי שימוש
                 </Link>
               </p>

@@ -1,4 +1,4 @@
-import { subcategories, normalizeDisplayCategory, displayCategories } from "@/lib/display-taxonomy";
+import { subcategories, normalizeDisplayCategory } from "@/lib/display-taxonomy";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ActiveFilters } from "@/components/active-filters";
 import { DemoBanner } from "@/components/demo-banner";
@@ -37,7 +37,7 @@ export const Route = createFileRoute("/results")({
   }),
   loaderDeps: ({ search }) => search,
   loader: ({ deps }) =>
-    deps.category && !displayCategories.some((c) => c.id === deps.category)
+    deps.category && !categoryName(deps.category)
       ? { items: [], total: 0, page: 1, pages: 0 }
       : loadListing(deps),
   pendingComponent: PendingResults,
@@ -47,7 +47,7 @@ export const Route = createFileRoute("/results")({
       s.fluidKind && FLUID_KIND_LABELS[s.fluidKind as FluidKind]
         ? FLUID_KIND_LABELS[s.fluidKind as FluidKind]
         : undefined;
-    const unknownCategory = s.category && !displayCategories.some((c) => c.id === s.category);
+    const unknownCategory = s.category && !categoryName(s.category);
     const topic = unknownCategory
       ? "קטגוריה לא נמצאה"
       : s.q
@@ -97,7 +97,7 @@ function ResultsPage() {
         ? `${categoryName(state.category) || "קטגוריה"}${state.oilBrand ? ` · ${state.oilBrand}` : ""}`
         : "תוצאות לפי הרכב";
 
-  if (state.category && !displayCategories.some((c) => c.id === state.category)) {
+  if (state.category && !categoryName(state.category)) {
     return (
       <section className="mx-auto max-w-xl px-5 py-16 text-center">
         <h1 className="mb-3 text-2xl">קטגוריה לא נמצאה</h1>
@@ -165,6 +165,16 @@ function ResultsPage() {
             </div>
             <Pagination page={listing.page} total={listing.total} search={state} />
           </>
+        ) : state.category === "lights" ? (
+          <section className="rounded-xl border border-line bg-card p-7 text-center">
+            <h2 className="mb-2 text-lg font-semibold">פנסים ראשיים אינם מוצגים כרגע באתר</h2>
+            <p className="mb-4 text-muted">
+              לפנייה לגבי פנס ראשי שלחו מק״ט או מספר רכב לחנות. אין כאן מוצרים מקטגוריית רדיאטורים.
+            </p>
+            <Link to="/help">
+              <Button>דברו איתנו</Button>
+            </Link>
+          </section>
         ) : (
           <div className="rounded-xl border border-line bg-card p-7 text-center">
             <h2 className="mb-2 text-lg font-semibold">לא מצאנו התאמה בקטלוג</h2>

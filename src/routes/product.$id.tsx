@@ -1,3 +1,4 @@
+import { pickDisplayedFitment } from "@/lib/catalog-runtime";
 import { ProductImage } from "@/components/product-image";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -8,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { useCart } from "@/lib/cart";
 import { categoryName, loadProduct, loadRelated, quoteMessage, waLink } from "@/lib/catalog";
-import { displayYears, primaryOeLine, splitOe } from "@/lib/part-display";
+import { displayYears, yearsFromTitle, primaryOeLine, splitOe } from "@/lib/part-display";
 import { breadcrumbJsonLd, pageDescription, pageTitle, productJsonLd } from "@/lib/seo";
 import { priceOrQuoteLabel } from "@/lib/prices";
 import { packUnitPriceLabel } from "@/lib/pack-price";
@@ -40,7 +41,13 @@ function ProductPage() {
   const { product, related } = Route.useLoaderData();
   const add = useCart((s) => s.add);
   const cat = categoryName(product.category) || "קטגוריה";
-  const years = displayYears(product.name, product.yearFrom, product.yearTo);
+  const shownFitment = pickDisplayedFitment(product);
+  const years = displayYears("", shownFitment.yearFrom, shownFitment.yearTo);
+  const titleYears = yearsFromTitle(product.name);
+  const conflictingYears =
+    titleYears &&
+    shownFitment.yearFrom &&
+    (titleYears.from !== shownFitment.yearFrom || titleYears.to !== shownFitment.yearTo);
   const oeLine = primaryOeLine(product.oe);
   const extraAfter = splitOe(product.oe).aftermarket.length;
 
@@ -111,16 +118,16 @@ function ProductPage() {
                 <dd className="font-semibold">{product.side}</dd>
               </>
             ) : null}
-            {product.make ? (
+            {shownFitment.make ? (
               <>
                 <dt className="text-muted">יצרן</dt>
-                <dd className="font-semibold">{product.make}</dd>
+                <dd className="font-semibold">{shownFitment.make}</dd>
               </>
             ) : null}
-            {product.model ? (
+            {shownFitment.model ? (
               <>
                 <dt className="text-muted">דגם</dt>
-                <dd className="font-semibold">{product.model}</dd>
+                <dd className="font-semibold">{shownFitment.model}</dd>
               </>
             ) : null}
             {years ? (
@@ -140,6 +147,15 @@ function ProductPage() {
               </>
             )}
           </dl>
+          {conflictingYears ? (
+            <p
+              className="mb-4 rounded-md border border-line bg-elevated px-3 py-2.5 text-sm"
+              role="note"
+            >
+              שנות הכותרת שונות מנתוני ההתאמה של הספק. אין לראות בכך אישור התאמה; חובה לבדוק לפי VIN
+              ומק״ט יצרן.
+            </p>
+          ) : null}
           <p className="mb-4 leading-relaxed text-fg-soft">{product.description}</p>
           <p className="mb-4 rounded-md border border-line bg-elevated px-3 py-2.5 text-sm text-muted">
             לפני התקנה יש לאשר התאמה לפי מספר רכב או מק״ט יצרן. חלק חליפי אינו בהכרח מקורי.{" "}
