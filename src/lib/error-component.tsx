@@ -9,7 +9,9 @@ export function AppErrorComponent({ error }: ErrorComponentProps) {
       </span>
       <h1 className="text-lg font-semibold">משהו השתבש</h1>
       <p className="max-w-md text-sm break-words text-muted">
-        {error.message || "שגיאה לא צפויה. נסו לרענן את העמוד."}
+        {error instanceof Error
+          ? error.message
+          : String(error) || "שגיאה לא צפויה. נסו לרענן את העמוד."}
       </p>
     </main>
   );

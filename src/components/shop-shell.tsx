@@ -1,3 +1,4 @@
+import { useLocation } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
 import { MobileTabBar } from "@/components/mobile-tabbar";
@@ -7,6 +8,8 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { brand } from "@/lib/brand";
 
 export function ShopShell({ children }: { children: ReactNode }) {
+  const path = useLocation({ select: (l) => l.pathname });
+  if (path === "/admin" || path.startsWith("/admin/")) return <>{children}</>;
   return (
     <div className="has-mobile-tabbar flex min-h-dvh flex-col bg-paper text-fg">
       <a href="#main-content" className="skip-link">

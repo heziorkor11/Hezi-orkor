@@ -1,3 +1,4 @@
+import { adminSnapshot } from "@/lib/admin/overlay";
 import photoSources from "../../public/catalog/category-photo-sources.json";
 import { visibleCategories } from "@/lib/catalog-types";
 import { FormEvent, useEffect, useMemo, useState } from "react";
@@ -6,13 +7,22 @@ import { loadListing } from "@/lib/catalog";
 import type { Product } from "@/lib/catalog-types";
 
 /** Visual category chips — eye-first entry (Light Clean D). */
-const categoryPhotos = new Map(photoSources.tiles.map(p => [p.category, p.image]));
-export const VISUAL_CATEGORIES = visibleCategories.map(c => ({
+const categoryPhotos = new Map(photoSources.tiles.map((p) => [p.category, p.image]));
+export const VISUAL_CATEGORIES = visibleCategories.map((c) => ({
   id: c.id,
   name: c.name,
   sub: c.id === "general" ? "ציוד וחומרים נוספים" : "חלפים ואביזרים",
   image: categoryPhotos.get(c.id),
 }));
+
+export function orderedVisualCategories() {
+  const order = adminSnapshot().home.categoryOrder;
+  return [...VISUAL_CATEGORIES].sort(
+    (a, b) =>
+      (order.includes(a.id) ? order.indexOf(a.id) : 999) -
+      (order.includes(b.id) ? order.indexOf(b.id) : 999),
+  );
+}
 
 export function HomeSearchHero() {
   const navigate = useNavigate();
@@ -110,7 +120,12 @@ export function HomeSearchHero() {
                 >
                   <div className="mb-1.5 grid h-14 place-items-center overflow-hidden rounded-lg bg-elevated">
                     {p.image ? (
-                      <img src={p.image} alt="" className="max-h-14 object-contain" loading="lazy" />
+                      <img
+                        src={p.image}
+                        alt=""
+                        className="max-h-14 object-contain"
+                        loading="lazy"
+                      />
                     ) : (
                       <span className="text-[10px] text-muted">ללא תמונה</span>
                     )}
@@ -119,7 +134,7 @@ export function HomeSearchHero() {
                   <span className="mt-0.5 block truncate text-[10px] text-muted">{p.sku}</span>
                 </Link>
               ))
-            : VISUAL_CATEGORIES.map((c) => (
+            : orderedVisualCategories().map((c) => (
                 <Link
                   key={c.id}
                   to="/results"

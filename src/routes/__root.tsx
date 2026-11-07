@@ -1,13 +1,16 @@
+import { refreshAdminOverlay, adoptAdminOverlay } from "@/lib/admin/overlay";
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
 import { AppErrorComponent } from "@/lib/error-component";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { ShopShell } from "@/components/shop-shell";
+import { AdminOverlaySync } from "@/components/admin-overlay-sync";
 import appCss from "../styles.css?url";
 
 const APP_NAME = "חזי אורקור | חלקי חילוף לרכב בנהריה";
 
 export const Route = createRootRoute({
+  loader: () => refreshAdminOverlay(),
   errorComponent: AppErrorComponent,
   head: () => ({
     meta: [
@@ -38,6 +41,7 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+  adoptAdminOverlay(Route.useLoaderData());
   return (
     <html lang="he" dir="rtl" className="antialiased" suppressHydrationWarning>
       <head>
@@ -45,6 +49,7 @@ function RootComponent() {
       </head>
       <body className="bg-paper text-fg">
         <PreviewHostBridge />
+        <AdminOverlaySync />
         <AuthProvider>
           <ShopShell>
             <Outlet />

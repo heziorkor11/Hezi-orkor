@@ -1,3 +1,5 @@
+import { capturePdfOrder } from "@/lib/admin/client";
+import { adminSnapshot } from "@/lib/admin/overlay";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Trash2 } from "lucide-react";
@@ -17,12 +19,8 @@ import {
   preloadOrderPdf,
   waMeUrlForShareText,
 } from "@/lib/order-pdf";
-import {
-  isValidIlPhone,
-  isValidIlPlate,
-  type OrderCustomer,
-} from "@/lib/order-quote";
-import { priceOrQuoteLabel } from "@/lib/prices";
+import { isValidIlPhone, isValidIlPlate, type OrderCustomer } from "@/lib/order-quote";
+import { priceOrQuoteLabel, catalogPrice } from "@/lib/prices";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
@@ -38,6 +36,7 @@ export const Route = createFileRoute("/cart")({
 });
 
 type PdfCache = {
+  requestId: string;
   key: string;
   blob: Blob;
   orderRef: string;
@@ -46,6 +45,7 @@ type PdfCache = {
 };
 
 function CartPage() {
+  const revision = adminSnapshot().revision;
   const items = useCart((s) => s.items);
   const remove = useCart((s) => s.remove);
   const setQty = useCart((s) => s.setQty);
@@ -86,11 +86,15 @@ function CartPage() {
     return () => {
       cancelled = true;
     };
-  }, [items]);
+  }, [items, revision]);
 
-  const rows = items
-    .map((c) => ({ ...c, product: products[c.id] }))
-    .filter((x): x is typeof x & { product: Product } => Boolean(x.product));
+  const rows = useMemo(
+    () =>
+      items
+        .map((c) => ({ ...c, product: products[c.id] }))
+        .filter((x): x is typeof x & { product: Product } => Boolean(x.product)),
+    [items, products],
+  );
 
   const customer: OrderCustomer = useMemo(
     () => ({
@@ -140,10 +144,11 @@ function CartPage() {
     [rows],
   );
 
+  const priceFingerprint = orderLines.map((l) => `${l.sku}:${catalogPrice(l.sku)}`).join("|");
   const cacheKey = useMemo(() => {
     if (!valid || !orderLines.length) return "";
-    return JSON.stringify({ customer, lines: orderLines });
-  }, [customer, orderLines, valid]);
+    return JSON.stringify({ customer, lines: orderLines, revision, priceFingerprint });
+  }, [customer, orderLines, valid, revision, priceFingerprint]);
 
   // Pre-generate + cache PDF Blob whenever the form is valid
   useEffect(() => {
@@ -163,6 +168,7 @@ function CartPage() {
         const result = await buildOrderPdfBlob({ customer, lines: orderLines });
         if (seq !== genSeq.current) return;
         pdfCacheRef.current = {
+          requestId: crypto.randomUUID(),
           key: cacheKey,
           blob: result.blob,
           orderRef: result.orderRef,
@@ -178,16 +184,19 @@ function CartPage() {
     })();
   }, [cacheKey, customer, orderLines]);
 
-  const fallbackSend = useCallback((blob: Blob, orderRef: string, subtotal: number) => {
-    downloadBlob(blob, `${orderRef}.pdf`);
-    const text = buildOrderShareText({
-      orderRef,
-      customer,
-      itemCount: orderLines.length,
-      subtotal,
-    });
-    window.open(waMeUrlForShareText(text), "_blank", "noopener,noreferrer");
-  }, [customer, orderLines.length]);
+  const fallbackSend = useCallback(
+    (blob: Blob, orderRef: string, subtotal: number) => {
+      downloadBlob(blob, `${orderRef}.pdf`);
+      const text = buildOrderShareText({
+        orderRef,
+        customer,
+        itemCount: orderLines.length,
+        subtotal,
+      });
+      window.open(waMeUrlForShareText(text), "_blank", "noopener,noreferrer");
+    },
+    [customer, orderLines.length],
+  );
 
   const onSendOrder = useCallback(async () => {
     setShareError(null);
@@ -203,6 +212,7 @@ function CartPage() {
       if (!cache || cache.key !== cacheKey) {
         const result = await buildOrderPdfBlob({ customer, lines: orderLines });
         cache = {
+          requestId: crypto.randomUUID(),
           key: cacheKey,
           blob: result.blob,
           orderRef: result.orderRef,
@@ -223,6 +233,16 @@ function CartPage() {
         subtotal: cache.subtotal,
       });
 
+      // Start capture without awaiting: the share sheet must remain in the tap gesture.
+      void capturePdfOrder({
+        requestId: cache.requestId,
+        ref: cache.orderRef,
+        customer,
+        lines: orderLines,
+        blob: cache.blob,
+      }).catch(() =>
+        setShareError("ה־PDF מוכן לשיתוף, אך רישום הבקשה בניהול נכשל. נסו שוב כדי לשמור אותה."),
+      );
       if (canSharePdfFile(file)) {
         try {
           await navigator.share({
@@ -250,6 +270,12 @@ function CartPage() {
 
   return (
     <div className="mx-auto max-w-[1180px] px-3.5 pt-7 pb-16 md:px-5">
+      {adminSnapshot().enabled && (
+        <p className="mb-3 text-xs text-muted">
+          בעת ניסיון השליחה נשמרת בקשת ההזמנה בניהול המקומי, כולל פרטי קשר ו־PDF. הרישום אינו אישור
+          מסירה בוואטסאפ.
+        </p>
+      )}
       <div className="mb-4.5">
         <h1 className="text-[26px] tracking-tight">סל הקניות</h1>
         <p className="text-muted">{rows.length} פריטים · שליחת הזמנה כ־PDF בוואטסאפ</p>
@@ -433,7 +459,11 @@ function CartPage() {
                   ביטול עסקה
                 </Link>
                 {" · "}
-                <Link to="/legal/$slug" params={{ slug: "terms" }} className="underline hover:text-fg">
+                <Link
+                  to="/legal/$slug"
+                  params={{ slug: "terms" }}
+                  className="underline hover:text-fg"
+                >
                   תנאי שימוש
                 </Link>
               </p>
