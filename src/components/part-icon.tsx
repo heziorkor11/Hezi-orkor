@@ -103,6 +103,34 @@ function paths(type: PartTypeId) {
           <path d="M40 46h8M38 54h12" stroke={stroke} strokeWidth="1.6" />
         </>
       );
+    case "steering":
+      return (
+        <>
+          <circle cx="44" cy="44" r="14" stroke={stroke} strokeWidth="2.2" />
+          <circle cx="44" cy="44" r="4" stroke={stroke} strokeWidth="1.8" />
+          <path d="M44 18v8M44 62v8M18 44h8M62 44h8" stroke={stroke} strokeWidth="2" />
+          <path d="M28 28l6 6M54 54l6 6M54 28l-6 6M28 54l6-6" stroke={stroke} strokeWidth="1.6" />
+        </>
+      );
+    case "suspension":
+      return (
+        <>
+          <circle cx="30" cy="58" r="10" stroke={stroke} strokeWidth="2" />
+          <circle cx="58" cy="58" r="10" stroke={stroke} strokeWidth="2" />
+          <path d="M30 48c8-18 20-18 28 0" stroke={stroke} strokeWidth="2.2" />
+          <path d="M44 20v16M38 28h12" stroke={stroke} strokeWidth="2" />
+          <path d="M34 48h20" stroke={stroke} strokeWidth="1.6" />
+        </>
+      );
+    case "clutch":
+      return (
+        <>
+          <circle cx="44" cy="44" r="22" stroke={stroke} strokeWidth="2.2" />
+          <circle cx="44" cy="44" r="12" stroke={stroke} strokeWidth="1.8" />
+          <circle cx="44" cy="44" r="4" fill={stroke} />
+          <path d="M44 22v8M44 58v8M22 44h8M58 44h8" stroke={stroke} strokeWidth="1.6" />
+        </>
+      );
     case "sensor":
       return (
         <>

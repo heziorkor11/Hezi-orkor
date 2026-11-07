@@ -1,0 +1,227 @@
+{
+  "description": "Ambiguous bulk-pack detections — NOT moved. Review manually.",
+  "count": 17,
+  "items": [
+    {
+      "sku": "HZ-OIL-00099",
+      "name": "שמן מנוע 501 01/505 00 A3/B3 5L 10W40 TOTAL-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00150",
+      "name": "שמן מנוע ACEA A5/B5-10 API SL/CF 5L 5W30 TOTAL-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00156",
+      "name": "שמן מנוע ACEA C2-12 API SN/CF 5L 5W30 TOTAL-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00166",
+      "name": "שמן מנוע ACEA C3-10 API SN/CF 5L 5W30 TOTAL-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00168",
+      "name": "שמן מנוע ACEA C3-10 API SN/CF 5L 5W40 TOTAL-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00177",
+      "name": "שמן מנוע ACEA E7-8 API CI-4/SL 5L 15W40 TOTAL-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00179",
+      "name": "שמן מנוע ACEA E9 API CK-4/SM MB 228.51 TOTAL 10W40 5L-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00188",
+      "name": "שמן מנוע API SL/CF ACEA A3/B3 5L 15W40 TOTAL-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00197",
+      "name": "שמן מנוע DEX1GEN3 API SN 5L 5W30 TOTAL-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00203",
+      "name": "שמן מנוע FIAT 9.55535-GS1 C2-12 5L 0W30 TOTAL-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00227",
+      "name": "שמן מנוע PSA B712297 C3 SN PLUS 5L 5W30 TOTAL-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00248",
+      "name": "שמן מנוע RN17 ACEA C3 5L 5W30 TOTAL-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00257",
+      "name": "שמן מנוע SPECIFIC 0720 ACEA C4-10 5L 5W30 TOTAL-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00261",
+      "name": "שמן מנוע SPECIFIC 913D 5L 5W30 TOTAL-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00267",
+      "name": "שמן מנוע TOTAL 15W40 CK-4 E9 5L-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00279",
+      "name": "שמן מנוע VW508 00/509 00 5L TOTAL 0W20-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    },
+    {
+      "sku": "HZ-OIL-00282",
+      "name": "שמן מנוע WSS-M2C947-A DEX1GEN2 5L 0W20 TOTAL-מארז 3 יח'",
+      "fromCategory": "fluids",
+      "confidence": "review",
+      "pack": {
+        "kind": "unit",
+        "qty": 3
+      },
+      "reasons": [
+        "tiny-pack-3"
+      ]
+    }
+  ]
+}

@@ -1,6 +1,5 @@
 import { canonicalModel, dedupeModels, sameModel } from "@/lib/model-names";
 import {
-  brand,
   categories,
   type CatalogFacets,
   type CatalogManifest,
@@ -9,6 +8,7 @@ import {
   type VehicleFitment,
 } from "@/lib/catalog-types";
 import { catalogJson } from "@/lib/catalog-io";
+import { buildQuickQuoteMessage, waLinkForText } from "@/lib/order-quote";
 
 type Cache = {
   manifest?: CatalogManifest;
@@ -27,17 +27,17 @@ export function categoryName(id?: string) {
 }
 
 export function waLink(text: string) {
-  return `https://wa.me/${brand.whatsapp}?text=${encodeURIComponent(text)}`;
+  return waLinkForText(text);
 }
 
-export function quoteMessage(product: { sku: string; name: string }) {
-  return `שלום, אשמח להצעת מחיר ולבירור מלאי עבור מק״ט ${product.sku} — ${product.name}`;
+export function quoteMessage(product: { sku: string; name: string; oe?: string }) {
+  return buildQuickQuoteMessage(product);
 }
 
 const SHORTHAND: Array<[RegExp, string]> = [
   [/\bז\.\u05e4רונט\b/g, "זרוע קדמית"],
   [/\bז\.\u05d0חור\b/g, "זרוע אחורית"],
-  [/\bק\.\u05d4גה\b/g, "קופסת הגה"],
+  [/\bק\.\u05d4גה\b/g, "קצה הגה"],
   [/\bקדL\b/g, "קדמי שמאל"],
   [/\bקדR\b/g, "קדמי ימין"],
   [/\bאחL\b/g, "אחורי שמאל"],

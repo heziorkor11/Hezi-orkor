@@ -15,6 +15,7 @@ import {
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { hideVehicleFitmentForFluid } from "@/lib/fluid-classify";
 import { priceOrQuoteLabel } from "@/lib/prices";
+import { packUnitPriceLabel } from "@/lib/pack-price";
 import { useState } from "react";
 
 function yearRange(from?: number, to?: number) {
@@ -131,7 +132,12 @@ export function ProductCard({
             </>
           )}
         </dl>
-        <p className="mt-auto text-sm font-bold text-accent tabular-nums">{priceOrQuoteLabel(product.sku)}</p>
+        <div className="mt-auto">
+          <p className="text-sm font-bold text-accent tabular-nums">{priceOrQuoteLabel(product.sku)}</p>
+          {packUnitPriceLabel(product.sku, product.name) ? (
+            <p className="text-[11px] text-muted tabular-nums">{packUnitPriceLabel(product.sku, product.name)}</p>
+          ) : null}
+        </div>
         <div className="flex gap-2">
           <Button
             className="flex-1"

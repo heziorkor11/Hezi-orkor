@@ -14,6 +14,7 @@ import {
   parseYearsIn,
   isSmallEngineText,
 } from "./fitment-normalize.mjs";
+import { expandProductName } from "./name-expand.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "public", "catalog");
@@ -49,6 +50,12 @@ const CATEGORY_SLUGS = {
   "חיישן חמצן": "sensors",
   תוספים: "additives",
   "מנועים קטנים": "small-engine",
+  "משאבת דלק": "fuel-pump",
+  "בולם זעזועים": "shocks",
+  היגוי: "steering",
+  מתלים: "suspension",
+  מצמד: "clutch",
+  "מחירי מוסך / מארזים": "workshop-packs",
 };
 
 const CATEGORY_ORDER = Object.keys(CATEGORY_SLUGS);
@@ -164,20 +171,78 @@ const products = rows.map((row) => {
   let categoryName = row.category || "כללי";
   let category = slugifyCategory(categoryName);
 
-  // Explicit SKU overrides (e.g. HZ-HDL compressors misfiled as headlights).
+  // Explicit SKU overrides (category-overrides.json).
   const ov = categoryOverridesBySku[row.sku];
   if (ov?.category && ov?.categoryName) {
     category = ov.category;
     categoryName = ov.categoryName;
-  } else if (/מדחס/.test(String(row.name || "")) && category === "lights") {
-    // Name-based safety: מדחס under פנס ראשי → מדחס מזגן (same as HZ-CMP).
-    categoryName = "מדחס מזגן";
-    category = "ac-compressor";
+  } else {
+    // High-confidence name rules (never invent; careful with fuel filters).
+    const name = String(row.name || "");
+    const isFuelFilter = /(מסנן|פילטר).{0,12}(מ\.?דלק|דלק)|(מ\.?דלק|דלק).{0,12}(מסנן|פילטר)/.test(name);
+    if ((/\bמ\.דלק\b/.test(name) || name.startsWith("מ.דלק") || name.includes("משאבת דלק")) && !isFuelFilter) {
+      categoryName = "משאבת דלק";
+      category = "fuel-pump";
+    } else if (/מדחס/.test(name) && category === "lights") {
+      categoryName = "מדחס מזגן";
+      category = "ac-compressor";
+    } else if (/גומי מייצב/.test(name) || /^בולם\b/.test(name)) {
+      categoryName = "בולם זעזועים";
+      category = "shocks";
+    } else if (/^רפיד/.test(name) || name.includes("רפידות בלם")) {
+      categoryName = "בלמים";
+      category = "brakes";
+    } else if (/^מעבה\b/.test(name)) {
+      categoryName = "מעבה מזגן";
+      category = "ac-condenser";
+    } else if (/^סליל(י)? הצתה/.test(name)) {
+      categoryName = "סליל הצתה";
+      category = "ignition-coils";
+    } else if (/^מצת/.test(name) && category !== "small-engine") {
+      categoryName = "מצתים";
+      category = "spark-plugs";
+    } else if (/חיישן חמצן/.test(name)) {
+      categoryName = "חיישן חמצן";
+      category = "sensors";
+    } else if (/^(פילטר|מסנן) שמן/.test(name)) {
+      categoryName = "מסנן שמן";
+      category = "oil-filter";
+    } else if (/^(פילטר|מסנן) מזגן/.test(name)) {
+      categoryName = "פילטר מזגן";
+      category = "cabin-filter";
+    } else if (/^נור(ה|ת|ות|ית)\b/.test(name) && category === "lights") {
+      categoryName = "תאורה ונורות";
+      category = "lighting";
+    } else if (
+      category === "lights" &&
+      !/פנס|מדחס|^(ראשי|נס ראשי|סט ראשי)\b/.test(name) &&
+      /(זכוכית|רפלקטור|בורג כוון|ברגים כוון|מסגרת לראשי|כסוי|כיסוי)/.test(name)
+    ) {
+      categoryName = "תאורה ונורות";
+      category = "lighting";
+    } else if (
+      /משאבת מצמד|מ\.מצמד|סט מצמד|ס\.מצמד|גלגל תנופה|ג\.תנופה/.test(name)
+    ) {
+      categoryName = "מצמד";
+      category = "clutch";
+    } else if (
+      /קצה הגה|ק\.הגה|מוט קישור|מ\.קישור/.test(name) ||
+      name.startsWith("משאבת הגה") ||
+      name.includes("משאבת הגה")
+    ) {
+      categoryName = "היגוי";
+      category = "steering";
+    } else if (
+      !/^בולם\b/.test(name) &&
+      /תפוח פרונט|ת\.פרונט|גומי מייצב|זרוע קדמית|ז\.פרונט|תושבת בולם|ת\.בולם/.test(name)
+    ) {
+      categoryName = "מתלים";
+      category = "suspension";
+    }
   }
 
   const side = parseSide(row.vehicleFitment);
   const image = matchImage(row.sku, row.oe, images);
-  const description = row.description || defaultDescription(row.name, row.sku, row.vehicleFitment);
 
   // Catalog-wide multi-fitment normalize (shared table). Small-engine reclass only from plugs.
   const isPlug = category === "spark-plugs";
@@ -232,10 +297,17 @@ const products = rows.map((row) => {
     }
   }
 
+  const expanded = expandProductName(row.name);
+  const displayName = expanded.name;
+  const descriptionExpanded = row.description
+    ? expandProductName(row.description).name
+    : defaultDescription(displayName, row.sku, row.vehicleFitment);
+
   const record = compact({
     id: row.sku,
     sku: row.sku,
-    name: row.name,
+    name: displayName,
+    nameOriginal: expanded.nameOriginal,
     category,
     categoryName,
     vehicleFitment: row.vehicleFitment,
@@ -246,7 +318,7 @@ const products = rows.map((row) => {
     side,
     image,
     oe: row.oe,
-    description,
+    description: descriptionExpanded,
     condition: "חלק חדש",
     fitments: fitments && fitments.length ? fitments : undefined,
   });
@@ -296,6 +368,7 @@ for (let i = 0; i < chunkCount; i += 1) {
       id: rest.id,
       sku: rest.sku,
       name: rest.name,
+      nameOriginal: rest.nameOriginal,
       category: rest.category,
       vehicleFitment: rest.vehicleFitment || "",
       make: rest.make || "",
@@ -324,6 +397,7 @@ for (let i = 0; i < pageCount; i += 1) {
       id: p.id,
       sku: p.sku,
       name: p.name,
+      nameOriginal: p.nameOriginal,
       category: p.category,
       vehicleFitment: p.vehicleFitment || "",
       make: p.make || "",
@@ -345,6 +419,7 @@ const searchIndex = products.map((p) =>
   compact({
     sku: p.sku,
     title: p.name,
+    titleOriginal: p.nameOriginal,
     category: p.category,
     oe: p.oe || "",
     make: p.make || undefined,
@@ -366,6 +441,7 @@ const featured = (withImage.length >= FEATURED_COUNT ? withImage : [...withImage
       id: p.id,
       sku: p.sku,
       name: p.name,
+      nameOriginal: p.nameOriginal,
       category: p.category,
       vehicleFitment: p.vehicleFitment || "",
       make: p.make || "",

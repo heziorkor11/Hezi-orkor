@@ -11,6 +11,7 @@ export type Product = {
   sku: string;
   oe: string;
   name: string;
+  nameOriginal?: string;
   type: PartTypeId;
   category: string;
   make: string;
@@ -37,6 +38,9 @@ export type PartTypeId =
   | "condenser"
   | "radiator"
   | "shock"
+  | "steering"
+  | "suspension"
+  | "clutch"
   | "sensor"
   | "fender"
   | "bumper"
@@ -80,6 +84,7 @@ export type CatalogManifest = {
 export type SearchHit = {
   sku: string;
   title: string;
+  titleOriginal?: string;
   category: string;
   oe: string;
   make?: string;
@@ -93,6 +98,7 @@ export type ListingCard = {
   id: string;
   sku: string;
   name: string;
+  nameOriginal?: string;
   category: string;
   vehicleFitment?: string;
   make?: string;
@@ -153,6 +159,11 @@ const CATEGORY_TYPE: Record<string, PartTypeId> = {
   general: "general",
   radiator: "radiator",
   shocks: "shock",
+  steering: "steering",
+  suspension: "suspension",
+  clutch: "clutch",
+  "fuel-pump": "general",
+  "workshop-packs": "fluid",
   mirrors: "mirror",
   body: "fender",
   bumper: "bumper",
@@ -170,6 +181,11 @@ export const categories: { id: string; name: string }[] = (catalogManifest.categ
   (c) => ({ id: c.id, name: c.name }),
 );
 
+/** Display-only filtering: products and search remain untouched. */
+export const visibleCategories = categories.filter(
+  (c) => !["steering", "suspension", "clutch", "workshop-packs"].includes(c.id),
+);
+
 export const partTypes: { id: PartTypeId; name: string; category: string }[] = [
   { id: "headlight", name: "פנס ראשי", category: "lights" },
   { id: "taillight", name: "פנס אחורי", category: "lights" },
@@ -183,6 +199,9 @@ export const partTypes: { id: PartTypeId; name: string; category: string }[] = [
   { id: "brake", name: "בלמים", category: "brakes" },
   { id: "radiator", name: "רדיאטור", category: "radiator" },
   { id: "shock", name: "בולם זעזועים", category: "shocks" },
+  { id: "steering", name: "היגוי", category: "steering" },
+  { id: "suspension", name: "מתלים", category: "suspension" },
+  { id: "clutch", name: "מצמד", category: "clutch" },
   { id: "sensor", name: "חיישן", category: "sensors" },
   { id: "spark-plug", name: "מצת", category: "spark-plugs" },
   { id: "small-engine", name: "מנועים קטנים", category: "small-engine" },
@@ -196,11 +215,7 @@ export const partTypes: { id: PartTypeId; name: string; category: string }[] = [
   { id: "general", name: "כללי", category: "general" },
 ];
 
-export const reviews = [
-  { name: "אורן כ.", text: "מצאתי פנס לפי דגם ושנה בלי להתקשר שלוש פעמים. הגיע מהר.", stars: 5 },
-  { name: "דנה ל.", text: "שלחתי מק״ט בוואטסאפ ואישרו התאמה לפני ששילמתי. ככה צריך.", stars: 5 },
-  { name: "מוסך ר.", text: "ברור מה צד ומה שנים. חוסך טעויות הזמנה.", stars: 5 },
-];
+export const reviews: { name: string; text: string; stars: number }[] = [];
 
 export const faqs = [
   {

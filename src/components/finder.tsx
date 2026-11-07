@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { categories, loadFacets, type CatalogFacets, type ProductFilter } from "@/lib/catalog";
+import { visibleCategories, loadFacets, type CatalogFacets, type ProductFilter } from "@/lib/catalog";
+import { writeSavedVehicle } from "@/lib/order-form";
 
 export function Finder({
   state = {},
@@ -35,6 +36,7 @@ export function Finder({
   const years = facets?.yearsByMakeModel[yearKey] ?? (draft.year ? [Number(draft.year)] : []);
 
   function submit() {
+    writeSavedVehicle({ make: draft.make, model: draft.model, year: draft.year });
     const fluids = draft.category === "fluids";
     navigate({
       to: "/results",
@@ -73,7 +75,7 @@ export function Finder({
               onChange={(e) => setDraft((d) => ({ ...d, category: e.target.value || undefined }))}
             >
               <option value="">הכל</option>
-              {categories.map((t) => (
+              {visibleCategories.map((t) => (
                 <option key={t.id} value={t.id}>
                   {t.name}
                 </option>

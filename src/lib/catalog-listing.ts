@@ -2,6 +2,7 @@ import { typeFromCategory, PAGE_SIZE, type ListingCard, type ListingResult, type
 import { displayModel, polishText, unique } from "@/lib/catalog-runtime";
 import { catalogJson } from "@/lib/catalog-io";
 import { imageLooksLikeSharedOe, inferCategory, yearsFromTitle } from "@/lib/part-display";
+import { expandProductName } from "@/lib/name-expand";
 
 const cache = {
   searchIndex: undefined as SearchHit[] | undefined,
@@ -59,13 +60,20 @@ function cardToProduct(card: ListingCard & Partial<Product>): Product {
   const yearFrom = named?.from || card.yearFrom || 0;
   const yearTo = named?.to || card.yearTo || 0;
   let category = card.category && card.category !== "general" ? card.category : inferCategory(card.name, card.category);
-  // Compressors misfiled under lights (HZ-HDL SKUs named מדחס) — name wins.
-  if (/מדחס/.test(card.name || "") && category === "lights") category = "ac-compressor";
+  const nm = card.name || "";
+  // High-confidence name corrections (SKU/name/price unchanged).
+  if (/מדחס/.test(nm) && category === "lights") category = "ac-compressor";
+  else if ((/\bמ\.דלק\b/.test(nm) || nm.startsWith("מ.דלק") || nm.includes("משאבת דלק")) && !/(מסנן|פילטר).{0,12}(מ\.?דלק|דלק)|(מ\.?דלק|דלק).{0,12}(מסנן|פילטר)/.test(nm) && category === "filters") category = "fuel-pump";
+  else if (/משאבת מצמד|מ\.מצמד|סט מצמד|ס\.מצמד|גלגל תנופה|ג\.תנופה/.test(nm) && (category === "general" || category === "shocks")) category = "clutch";
+  else if ((/קצה הגה|ק\.הגה|מוט קישור|מ\.קישור|משאבת הגה/.test(nm)) && (category === "general" || category === "shocks")) category = "steering";
+  else if (!/^בולם\b/.test(nm) && /תפוח פרונט|ת\.פרונט|גומי מייצב|זרוע קדמית|ז\.פרונט|תושבת בולם|ת\.בולם/.test(nm) && (category === "general" || category === "shocks")) category = "suspension";
+  else if (/^בולם\b/.test(nm) && category === "general") category = "shocks";
   return {
     id: card.id || card.sku,
     sku: card.sku,
     oe: card.oe || "",
-    name: polishText(card.name),
+    name: polishText(expandProductName(card.name).name),
+    nameOriginal: card.nameOriginal || expandProductName(card.name).nameOriginal,
     type: typeFromCategory(category),
     category,
     make,

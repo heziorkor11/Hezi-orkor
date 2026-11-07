@@ -3,13 +3,12 @@ import { DemoBanner } from "@/components/demo-banner";
 import { FaqList } from "@/components/faq-list";
 import { Finder } from "@/components/finder";
 import { HomeSearchHero, VISUAL_CATEGORIES } from "@/components/home-search-hero";
+import { PartIcon } from "@/components/part-icon";
 import { JsonLd } from "@/components/json-ld";
 import { ProductCard } from "@/components/product-card";
 import { brand } from "@/lib/brand";
 import { categoryName, faqs, loadFeatured } from "@/lib/catalog";
-import { reviews } from "@/lib/reviews";
 import { localBusinessJsonLd, pageDescription, websiteJsonLd } from "@/lib/seo";
-import { Star } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   loader: () => loadFeatured(),
@@ -61,7 +60,13 @@ function Home() {
                 className="overflow-hidden rounded-2xl border border-line bg-card"
               >
                 <div className="grid h-[88px] place-items-center bg-elevated p-2">
-                  <img src={c.image} alt={c.name} className="max-h-[72px] object-contain" loading="lazy" />
+                  {c.image ? (
+                    <img src={c.image} alt={c.name} className="max-h-[72px] object-contain" loading="lazy" />
+                  ) : (
+                    <div className="flex h-[72px] w-full items-center justify-center">
+                      <PartIcon type={c.type ?? "general"} className="h-16 w-16" />
+                    </div>
+                  )}
                 </div>
                 <div className="border-t border-line px-2.5 py-2.5">
                   <b className="block text-[13px] font-bold">{c.name}</b>
@@ -100,22 +105,19 @@ function Home() {
           </div>
         </div>
 
-        <div className="mt-9 mb-4.5">
-          <h2 className="text-[17px] font-extrabold tracking-tight md:text-[26px]">מה אומרים לקוחות</h2>
-          <p className="text-muted">מצאו חלק לפי דגם ושנה, בלי לנחש.</p>
-        </div>
-        <div className="grid grid-cols-1 gap-3.5 md:grid-cols-3">
-          {reviews.map((r) => (
-            <div key={r.name} className="rounded-2xl border border-line bg-card p-4 shadow-lift">
-              <div className="mb-2 flex gap-0.5 text-accent">
-                {Array.from({ length: r.stars }).map((_, i) => (
-                  <Star key={i} className="size-4 fill-current" />
-                ))}
-              </div>
-              <p className="mb-3 leading-relaxed text-fg-soft">{r.text}</p>
-              <strong>{r.name}</strong>
-            </div>
-          ))}
+        <div className="mt-9 mb-4.5 rounded-2xl border border-line bg-card p-4 shadow-lift md:p-5">
+          <h2 className="text-[17px] font-extrabold tracking-tight md:text-[22px]">ביקורות בגוגל</h2>
+          <p className="mt-1.5 text-sm text-muted md:text-[15px]">
+            קראו ביקורות אמיתיות של לקוחות על חזי אורקור בנהריה במפות Google.
+          </p>
+          <a
+            href="https://www.google.com/maps/place/%D7%97%D7%96%D7%99+%D7%90%D7%95%D7%A8%D7%A7%D7%95%D7%A8/@33.002921,35.097601,17z"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex items-center justify-center rounded-xl bg-accent px-4 py-2.5 text-sm font-bold text-on-accent"
+          >
+            לצפייה בביקורות בגוגל
+          </a>
         </div>
 
         <FaqList items={[...faqs]} />
