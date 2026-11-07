@@ -12,3 +12,5 @@ node scripts/check-admin-overlay-client.mjs
 npm run db:migrate
 
 node scripts/test-bulk-tiers.mjs
+
+node scripts/test-bulk-unit-value.mjs
