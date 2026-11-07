@@ -1,6 +1,7 @@
 /** Run after npm run build: real emitted Vercel request handler, no browser emulation. */
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+const visibility = JSON.parse(await readFile(new URL("../public/catalog/display-taxonomy.json", import.meta.url), "utf8")).bySku;
 const { default: app } = await import("../.vercel/output/functions/__server.func/index.mjs");
 async function page(path, status = 200) {
  const r = await app.fetch(new Request("http://localhost:3200" + path));
@@ -19,6 +20,7 @@ const general = await page("/results?category=general");
 assert.match(general, /data-product-placeholder/);
 assert.doesNotMatch(general, /<img[^>]+src=["'](?:["']|[^"']*placeholder)/);
 for (const [sku, expected] of [["HZ-GEN-00005", "אנטיראסט אדום 4 ליטר"], ["HZ-GEN-01392", "בולם שברולט קרוז קדמי L מ 08 עד 11 אסטרה מ 11"]]) {
+ if (visibility[sku]?.hidden) { await page("/product/" + sku, 404); continue; }
  const html = await page("/product/" + sku);
  assert.ok(html.includes(">" + expected + "</h1>"));
  assert.match(html, /data-product-placeholder/); // related cards use the same neutral component
