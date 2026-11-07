@@ -20,7 +20,7 @@ export function ShopShell({ children }: { children: ReactNode }) {
       <SiteHeader />
       {adminSnapshot().mode === "preview-demo" && (
         <div className="bg-amber-100 px-4 py-2 text-center text-xs text-amber-950">
-          מצב בדיקה · נתונים זמניים בלבד · אין להזין פרטי לקוחות אמיתיים
+          מצב בדיקה · עריכות זמניות בדפדפן הזה · אין להזין פרטי לקוחות אמיתיים
         </div>
       )}
       <main id="main-content" tabIndex={-1} className="flex-1 outline-none">

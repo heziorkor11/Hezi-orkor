@@ -1,5 +1,5 @@
 import type { OrderCustomer } from "../order-quote";
-import { adminSnapshot } from "./overlay";
+import { adminSnapshot, publishAdminMutation } from "./overlay";
 export async function adminRequest<T>(path: string, method = "GET", body?: unknown): Promise<T> {
   const r = await fetch(`/api/admin/${path}`, {
     method,
@@ -32,6 +32,11 @@ export async function adminRequest<T>(path: string, method = "GET", body?: unkno
   if (!r.ok) {
     if (r.status === 401) window.dispatchEvent(new Event("admin:unauthorized"));
     throw new Error(data?.error || "הפעולה לא הושלמה");
+  }
+  const projection = (data as { storefront?: import("./types").PublicAdminState }).storefront;
+  if (method !== "GET" && projection?.enabled) {
+    publishAdminMutation(path, projection);
+    return (data as unknown as { result: T }).result;
   }
   return data as T;
 }

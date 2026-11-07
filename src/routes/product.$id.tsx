@@ -1,3 +1,4 @@
+import { useAdminOverlay } from "@/lib/admin/use-overlay";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { DemoBanner } from "@/components/demo-banner";
@@ -42,6 +43,7 @@ export const Route = createFileRoute("/product/$id")({
 });
 
 function ProductPage() {
+  useAdminOverlay();
   const { product, related } = Route.useLoaderData();
   const add = useCart((s) => s.add);
   const cat = categoryName(product.category) || "קטגוריה";

@@ -77,8 +77,8 @@ const ts = await import("typescript");
 const { readFile } = await import("node:fs/promises");
 let clientSource = await readFile("src/lib/admin/client.ts", "utf8");
 clientSource = clientSource.replace(
-  'import { adminSnapshot } from "./overlay";',
-  "const adminSnapshot = () => ({enabled:false});",
+  'import { adminSnapshot, publishAdminMutation } from "./overlay";',
+  "const adminSnapshot = () => ({enabled:false}); const publishAdminMutation = () => {};",
 );
 const clientJs = ts.default.transpileModule(clientSource, {
   compilerOptions: { target: ts.default.ScriptTarget.ES2022, module: ts.default.ModuleKind.ESNext },
@@ -107,6 +107,25 @@ try {
   await assert.rejects(adminRequest("login", "POST", {}), /30 שניות/);
   globalThis.fetch = async () => Response.json({ user: { role: "owner" } });
   assert.equal((await adminRequest("login", "POST", {})).user.role, "owner");
+  globalThis.fetch = async () =>
+    Response.json({
+      result: { price: 818 },
+      storefront: {
+        enabled: true,
+        mode: "preview-demo",
+        revision: 1,
+        products: {},
+        promotions: [],
+        home: {},
+      },
+    });
+  const edited = await adminRequest("products/HZ-BRK-00001", "PATCH", { price: 818 });
+  assert.equal(edited.price, 818);
+  assert.equal(
+    Object.hasOwn(edited, "storefront"),
+    false,
+    "Edit forms never receive receipt metadata as entity fields",
+  );
 } finally {
   globalThis.fetch = realFetch;
 }

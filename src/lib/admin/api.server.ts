@@ -363,6 +363,15 @@ function json(data: unknown, status = 200, headers?: HeadersInit) {
     },
   });
 }
+async function jsonWithStorefront(data: Record<string, unknown>) {
+  return json({
+    result: data,
+    storefront: toPublicState(
+      await adminStorage().read(),
+      adminRuntimeMode() === "preview-demo" ? "preview-demo" : "local",
+    ),
+  });
+}
 async function productForAdmin(sku: string, s: AdminState) {
   const p = await loadProductImpl(sku);
   if (!p) return undefined;
@@ -634,7 +643,7 @@ export async function adminApi(req: Request): Promise<Response> {
             { image: s.products[sku].image },
           );
         });
-        return json({ image: `/api/admin/media/${file}` });
+        return jsonWithStorefront({ image: `/api/admin/media/${file}` });
       }
       if (parts.length === 2 && req.method === "PATCH") {
         const input = patchSchema.parse(await body(req));
@@ -663,7 +672,9 @@ export async function adminApi(req: Request): Promise<Response> {
           audit(s, current, "product.update", sku, before, { ...before, ...input });
         });
         state = await storage.read();
-        return json(await productForAdmin(sku, state));
+        const updated = await productForAdmin(sku, state);
+        assert(updated, 404, "מוצר לא נמצא");
+        return jsonWithStorefront(updated);
       }
     }
     if (path === "promotions") {
@@ -684,7 +695,7 @@ export async function adminApi(req: Request): Promise<Response> {
           s.promotions.push(p);
           audit(s, u, "promotion.save", p.id, old || null, p);
         });
-        return json(p);
+        return jsonWithStorefront(p);
       }
     }
     if (path === "homepage/image" && req.method === "POST") {
@@ -701,7 +712,7 @@ export async function adminApi(req: Request): Promise<Response> {
         s.assets = [...(s.assets || []), file];
         audit(s, u, "homepage.image", "home", null, { image: `/api/admin/media/${file}` });
       });
-      return json({ image: `/api/admin/media/${file}` });
+      return jsonWithStorefront({ image: `/api/admin/media/${file}` });
     }
     if (path === "homepage") {
       requirePermission(user, "homepage");
@@ -722,7 +733,7 @@ export async function adminApi(req: Request): Promise<Response> {
           s.home = input;
           audit(s, u, "homepage.publish", "home", old, input);
         });
-        return json(input);
+        return jsonWithStorefront(input);
       }
     }
     if (path === "users") {

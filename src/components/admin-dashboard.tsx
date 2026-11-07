@@ -274,7 +274,7 @@ export function AdminDashboard() {
       </header>
       <div className="ad-local">
         {adminSnapshot().mode === "preview-demo"
-          ? "מצב בדיקה · נתונים וסשנים זמניים בלבד, עשויים להתאפס · ללא נתוני לקוחות אמיתיים"
+          ? "מצב בדיקה · עריכות חנות זמניות בדפדפן הזה · ללא נתוני לקוחות אמיתיים"
           : "מצב מקומי · הנתונים נשמרים במחשב השרת בלבד · לא מחובר לפרודקשן"}
       </div>
       <main className="ad-main">

@@ -111,14 +111,19 @@ if (!process.env.ADMIN_READONLY_PHASE) {
     await call("/admin");
     await call("/api/admin/session");
     await call("/api/admin/dashboard");
-    const products = await call("/api/admin/products?q=HZ-GEN-00266");
+    const products = await call("/api/admin/products?q=HZ-BRK-00001");
     assert.ok(JSON.parse(products.text).total > 0);
-    await call("/api/admin/products/HZ-GEN-00266");
+    await call("/api/admin/products/HZ-BRK-00001");
+    const editResponse = await call("/api/admin/products/HZ-BRK-00001", "PATCH", { price: 818 });
+    const writeReceipt = JSON.parse(editResponse.text);
+    assert.equal(writeReceipt.result.regularPrice, 818);
+    assert.equal(writeReceipt.storefront.products["HZ-BRK-00001"].price, 818);
+    assert.equal(Object.hasOwn(writeReceipt.storefront, "users"), false);
     await call("/api/admin/promotions");
     await call("/api/admin/promotions", "POST", {
       title: "בדיקת קטלוג ארוז",
       targetType: "product",
-      target: "HZ-GEN-00266",
+      target: "HZ-BRK-00001",
       kind: "percent",
       value: 10,
       start: new Date(Date.now() - 60000).toISOString(),
@@ -129,6 +134,15 @@ if (!process.env.ADMIN_READONLY_PHASE) {
     });
     const overlay = await call("/api/admin/storefront");
     assert.equal(JSON.parse(overlay.text).promotions.length, 1);
+    const detail = await call("/product/HZ-BRK-00001");
+    assert.match(detail.text, /736\.2/);
+    assert.match(detail.text, /מבצע בדיקה/);
+    const search = await call("/results?q=HZ-BRK-00001");
+    assert.match(search.text, /736\.2/);
+    assert.match(search.text, /מבצע בדיקה/);
+    const category = await call("/results?category=brakes");
+    assert.match(category.text, /736\.2/);
+    assert.match(category.text, /מבצע בדיקה/);
     await call("/api/admin/logout", "POST", {});
     const revoked = await app.fetch(
       new Request(origin + "/api/admin/session", { headers: { cookie } }),

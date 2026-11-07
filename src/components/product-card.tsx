@@ -1,3 +1,4 @@
+import { useAdminOverlay } from "@/lib/admin/use-overlay";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { PartIcon } from "@/components/part-icon";
@@ -36,6 +37,7 @@ export function ProductCard({
   /** Active finder filters — when set, card shows the matching fitment. */
   filter?: ProductFilter;
 }) {
+  useAdminOverlay();
   const add = useCart((s) => s.add);
   const shown = pickDisplayedFitment(product, filter);
   const car = displayVehicle(shown.make, shown.model);

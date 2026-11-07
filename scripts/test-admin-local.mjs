@@ -95,6 +95,7 @@ async function api(
   } catch {
     body = text;
   }
+  if (body?.storefront && Object.hasOwn(body, "result")) body = body.result;
   return { r, body };
 }
 const check = (name) => {

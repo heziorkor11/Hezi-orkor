@@ -6,6 +6,98 @@ import {
   type ProductOverride,
 } from "./types";
 let snapshot: PublicAdminState = emptyPublicState();
+const listeners = new Set<() => void>();
+function storageChanged(event: StorageEvent) {
+  if (event.key === "hezi-admin-demo-public-edits-v1" && snapshot.mode === "preview-demo") {
+    receipts = undefined;
+    publish(snapshot);
+  }
+}
+export function subscribeAdminOverlay(listener: () => void) {
+  listeners.add(listener);
+  if (listeners.size === 1 && typeof window !== "undefined")
+    window.addEventListener("storage", storageChanged);
+  return () => {
+    listeners.delete(listener);
+    if (!listeners.size && typeof window !== "undefined")
+      window.removeEventListener("storage", storageChanged);
+  };
+}
+type DemoReceipts = {
+  products: PublicAdminState["products"];
+  promotions: PublicAdminState["promotions"];
+  home?: PublicAdminState["home"];
+  at: number;
+};
+let receipts: DemoReceipts | undefined;
+function demoReceipts() {
+  if (!receipts) {
+    try {
+      const saved = JSON.parse(
+        window.localStorage.getItem("hezi-admin-demo-public-edits-v1") || "null",
+      );
+      if (
+        saved &&
+        Date.now() - saved.at < 8 * 3600_000 &&
+        saved.products &&
+        Array.isArray(saved.promotions)
+      )
+        receipts = saved;
+    } catch {
+      /* memory-only fallback */
+    }
+    receipts ||= { products: {}, promotions: [], at: Date.now() };
+  }
+  return receipts;
+}
+function withDemoReceipts(state: PublicAdminState): PublicAdminState {
+  if (typeof window === "undefined" || state.mode !== "preview-demo" || !state.enabled)
+    return state;
+  const edits = demoReceipts();
+  const products = { ...state.products };
+  for (const [sku, patch] of Object.entries(edits.products))
+    products[sku] = { ...products[sku], ...patch };
+  const promos = new Map(state.promotions.map((p) => [p.id, p]));
+  for (const p of edits.promotions) promos.set(p.id, p);
+  return { ...state, products, promotions: [...promos.values()], home: edits.home || state.home };
+}
+function publish(state: PublicAdminState, notify = true) {
+  // Render-time root loader adoption must not roll back a fresher local projection.
+  if (
+    typeof window !== "undefined" &&
+    state.enabled &&
+    snapshot.enabled &&
+    state.mode === snapshot.mode &&
+    state.revision < snapshot.revision
+  )
+    state = snapshot;
+  const next = withDemoReceipts(state);
+  if (JSON.stringify(next) === JSON.stringify(snapshot)) return;
+  snapshot = next;
+  if (notify) for (const listener of listeners) listener();
+}
+/** Public write receipt from the SAME handler that committed the edit. No auth data. */
+export function publishAdminMutation(path: string, state: PublicAdminState) {
+  if (typeof window !== "undefined" && state.enabled && state.mode === "preview-demo") {
+    const edits = demoReceipts();
+    if (path.startsWith("products/")) {
+      const sku = decodeURIComponent(path.split("/")[1]);
+      if (state.products[sku])
+        edits.products[sku] = { ...edits.products[sku], ...state.products[sku] };
+    } else if (path === "promotions") {
+      const map = new Map(edits.promotions.map((p) => [p.id, p]));
+      for (const p of state.promotions) map.set(p.id, p);
+      edits.promotions = [...map.values()];
+    } else if (path === "homepage") edits.home = state.home;
+    edits.at = Date.now();
+    try {
+      window.localStorage.setItem("hezi-admin-demo-public-edits-v1", JSON.stringify(edits));
+    } catch {
+      /* memory-only fallback */
+    }
+  }
+  publish(state);
+}
 export function adminSnapshot() {
   return snapshot;
 }
@@ -13,7 +105,7 @@ export function adminProductOverride(sku: string): ProductOverride | undefined {
   return snapshot.products[sku];
 }
 export function adoptAdminOverlay(state: PublicAdminState) {
-  snapshot = state;
+  publish(state, false);
 }
 let inFlight: Promise<PublicAdminState> | undefined;
 let fetchedAt = 0;
@@ -50,7 +142,7 @@ export async function refreshAdminOverlay(force = false): Promise<PublicAdminSta
         if (!r.ok) throw new Error("לא ניתן לטעון עדכוני ניהול");
         const next = (await r.json()) as PublicAdminState;
         if (seq === sequence) {
-          snapshot = next;
+          publish(next);
           fetchedAt = Date.now();
         }
         return snapshot;
