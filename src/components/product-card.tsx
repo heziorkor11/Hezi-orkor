@@ -41,33 +41,36 @@ export function ProductCard({
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-card transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-lift motion-reduce:transition-none motion-reduce:hover:translate-y-0">
       <Link to="/product/$id" params={{ id: product.id }} className="block">
-        <div className="relative grid h-52 place-items-center overflow-hidden bg-elevated">
-          <span className="absolute top-2.5 right-2.5 z-10 rounded-full border border-line bg-card px-2 py-0.5 text-[11px] font-bold text-accent">
-            מק״ט {product.sku}
-          </span>
+        <div className="border-b border-line bg-card px-3 py-2">
+          <span className="text-[11px] font-bold text-accent">מק״ט {product.sku}</span>
+        </div>
+        <div
+          data-product-photo
+          className="relative grid aspect-[4/5] w-full place-items-center bg-white"
+        >
           <ProductImage
             src={product.image}
             alt={product.name}
-            className="h-full w-full object-contain p-3 pb-16"
+            className="absolute inset-0 h-full w-full object-contain p-3"
           />
-          <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-card via-card/90 to-transparent px-3 pt-10 pb-2.5">
-            {hideFit ? (
-              <p className="truncate text-sm font-bold text-fg">שמן / נוזל · בלי התאמת רכב</p>
-            ) : (
-              <>
-                <p className="truncate text-sm font-bold text-fg">
-                  {car || product.vehicleFitment || "יש לאשר לפי מספר רכב"}
-                  {extraLabel ? (
-                    <span className="mr-1.5 text-[11px] font-bold text-accent-warm">
-                      {" "}
-                      {extraLabel}
-                    </span>
-                  ) : null}
-                </p>
-                {years ? <p className="text-xs font-semibold text-accent-warm">{years}</p> : null}
-              </>
-            )}
-          </div>
+        </div>
+        <div data-product-fitment className="border-t border-line bg-card px-3 py-2.5">
+          {hideFit ? (
+            <p className="truncate text-sm font-bold text-fg">שמן / נוזל · בלי התאמת רכב</p>
+          ) : (
+            <>
+              <p className="truncate text-sm font-bold text-fg">
+                {car || product.vehicleFitment || "יש לאשר לפי מספר רכב"}
+                {extraLabel ? (
+                  <span className="mr-1.5 text-[11px] font-bold text-accent-warm">
+                    {" "}
+                    {extraLabel}
+                  </span>
+                ) : null}
+              </p>
+              {years ? <p className="text-xs font-semibold text-accent-warm">{years}</p> : null}
+            </>
+          )}
         </div>
       </Link>
       <div className="flex flex-1 flex-col gap-2 p-3.5">

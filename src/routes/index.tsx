@@ -61,8 +61,8 @@ function Home() {
                 search={{ category: c.id }}
                 className="overflow-hidden rounded-2xl border border-line bg-card"
               >
-                <div className="grid h-[88px] place-items-center bg-white p-2">
-                  <CategoryImage src={c.image} className="h-[72px] w-full object-contain" />
+                <div className="grid h-40 place-items-center bg-white p-1 sm:h-44">
+                  <CategoryImage src={c.image} className="h-full w-full object-contain" />
                 </div>
                 <div className="border-t border-line px-2.5 py-2.5">
                   <b className="block text-[13px] font-bold">{c.name}</b>

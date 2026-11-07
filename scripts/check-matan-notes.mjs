@@ -30,6 +30,16 @@ async function page(path) {
   assert.equal(r.status, 200, path);
   return r.text();
 }
+const cardSource = await readFile(
+  new URL("../src/components/product-card.tsx", import.meta.url),
+  "utf8",
+);
+assert.ok(cardSource.includes("aspect-[4/5]"));
+assert.ok(!cardSource.includes("bg-gradient-to-t") && !cardSource.includes("pb-16"));
+assert.ok(
+  cardSource.includes('data-product-fitment className="border-t'),
+  "fitment must be outside photo flow, not an absolute overlay",
+);
 const home = await page("/");
 assert.match(home, /role="switch"[^>]*aria-checked="false"/);
 const packs = await page("/results?category=workshop-packs");

@@ -139,7 +139,7 @@ export function HomeSearchHero() {
                 >
                   <CategoryImage
                     src={c.image}
-                    className="mx-auto mb-1.5 h-14 w-20 object-contain"
+                    className="mx-auto mb-1.5 h-20 w-full object-contain"
                   />
                   <b className="block text-[11px] font-bold">{c.name}</b>
                 </Link>
