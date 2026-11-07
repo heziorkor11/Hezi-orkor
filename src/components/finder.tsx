@@ -1,6 +1,12 @@
+import { VEHICLE_OPTIONAL_CATEGORIES } from "@/lib/search-language";
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { visibleCategories, loadFacets, type CatalogFacets, type ProductFilter } from "@/lib/catalog";
+import {
+  visibleCategories,
+  loadFacets,
+  type CatalogFacets,
+  type ProductFilter,
+} from "@/lib/catalog";
 import { writeSavedVehicle } from "@/lib/order-form";
 
 export function Finder({
@@ -25,6 +31,7 @@ export function Finder({
     };
   }, []);
 
+  const vehicleOptional = VEHICLE_OPTIONAL_CATEGORIES.includes(draft.category || "");
   const makes = facets?.makes ?? (draft.make ? [draft.make] : []);
   const models =
     draft.make && facets?.modelsByMake[draft.make]
@@ -37,7 +44,7 @@ export function Finder({
 
   function submit() {
     writeSavedVehicle({ make: draft.make, model: draft.model, year: draft.year });
-    const fluids = draft.category === "fluids";
+    const fluids = vehicleOptional;
     navigate({
       to: "/results",
       search: {
@@ -82,58 +89,65 @@ export function Finder({
               ))}
             </select>
           </Field>
-          <Field label="יצרן" compact={compact}>
-            <select
-              value={draft.make ?? ""}
-              className={selectClass(compact)}
-              onChange={(e) =>
-                setDraft((d) => ({
-                  ...d,
-                  make: e.target.value || undefined,
-                  model: undefined,
-                  year: undefined,
-                }))
-              }
-            >
-              <option value="">יצרן</option>
-              {makes.map((m) => (
-                <option key={m} value={m}>
-                  {m}
-                </option>
-              ))}
-            </select>
-          </Field>
-          <Field label="דגם" compact={compact}>
-            <select
-              value={draft.model ?? ""}
-              className={selectClass(compact)}
-              onChange={(e) =>
-                setDraft((d) => ({ ...d, model: e.target.value || undefined, year: undefined }))
-              }
-            >
-              <option value="">דגם</option>
-              {models.map((m) => (
-                <option key={m} value={m}>
-                  {m}
-                </option>
-              ))}
-            </select>
-          </Field>
-          <Field label="שנה" compact={compact}>
-            <select
-              value={draft.year ?? ""}
-              className={selectClass(compact)}
-              onChange={(e) => setDraft((d) => ({ ...d, year: e.target.value || undefined }))}
-            >
-              <option value="">שנה</option>
-              {years.map((y) => (
-                <option key={y} value={String(y)}>
-                  {y}
-                </option>
-              ))}
-            </select>
-          </Field>
+          {!vehicleOptional && (
+            <>
+              <Field label="יצרן" compact={compact}>
+                <select
+                  value={draft.make ?? ""}
+                  className={selectClass(compact)}
+                  onChange={(e) =>
+                    setDraft((d) => ({
+                      ...d,
+                      make: e.target.value || undefined,
+                      model: undefined,
+                      year: undefined,
+                    }))
+                  }
+                >
+                  <option value="">יצרן</option>
+                  {makes.map((m) => (
+                    <option key={m} value={m}>
+                      {m}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+              <Field label="דגם" compact={compact}>
+                <select
+                  value={draft.model ?? ""}
+                  className={selectClass(compact)}
+                  onChange={(e) =>
+                    setDraft((d) => ({ ...d, model: e.target.value || undefined, year: undefined }))
+                  }
+                >
+                  <option value="">דגם</option>
+                  {models.map((m) => (
+                    <option key={m} value={m}>
+                      {m}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+              <Field label="שנה" compact={compact}>
+                <select
+                  value={draft.year ?? ""}
+                  className={selectClass(compact)}
+                  onChange={(e) => setDraft((d) => ({ ...d, year: e.target.value || undefined }))}
+                >
+                  <option value="">שנה</option>
+                  {years.map((y) => (
+                    <option key={y} value={String(y)}>
+                      {y}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+            </>
+          )}
         </div>
+        <p className="px-2 pb-2 text-xs text-muted">
+          {vehicleOptional ? "קטגוריה זו זמינה ללא בחירת רכב" : "בחירת רכב היא מסנן אופציונלי"}
+        </p>
         <button
           type="submit"
           id="finder-submit"
@@ -143,7 +157,7 @@ export function Finder({
               : "h-12 min-w-22 rounded-xl bg-accent px-5 text-sm font-extrabold text-on-accent lg:my-0.5 lg:h-auto"
           }
         >
-          {compact ? "מצאו לפי רכב" : "חפש"}
+          {compact ? "מצאו מוצרים" : "חפש"}
         </button>
       </form>
       {!compact ? (

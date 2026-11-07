@@ -1,5 +1,6 @@
 #!/bin/sh
 set -e
+node scripts/sync-category-photos.mjs
 node scripts/validate-catalog.mjs
 node scripts/with-app-env.mjs vite build
 node scripts/bundle-server-catalog.mjs
@@ -10,4 +11,5 @@ node scripts/check-storefront-qa.mjs
 node scripts/check-cart-links.mjs
 node scripts/check-hidden-products.mjs
 node scripts/check-cleaning-maintenance.mjs
+node scripts/check-matan-notes.mjs
 npm run db:migrate

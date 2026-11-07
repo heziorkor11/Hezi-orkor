@@ -74,11 +74,14 @@ function ProductPage() {
         <span className="text-fg-soft">{product.sku}</span>
       </nav>
       <div className="grid grid-cols-1 gap-7 rounded-xl border border-line bg-card p-5 md:grid-cols-[1.1fr_0.9fr] md:p-6">
-        <div className="grid min-h-80 place-items-center overflow-hidden rounded-lg border border-line bg-[radial-gradient(180px_120px_at_50%_50%,rgb(226_59_18_/_0.14),transparent),#100e0c]">
+        <div
+          data-product-photo
+          className="relative grid aspect-[4/5] w-full place-items-center rounded-lg border border-line bg-white"
+        >
           <ProductImage
             src={product.image}
             alt={product.name}
-            className="h-full max-h-[420px] w-full object-contain p-4"
+            className="absolute inset-0 h-full w-full object-contain p-3"
           />
         </div>
         <div>
