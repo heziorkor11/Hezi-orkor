@@ -260,28 +260,57 @@
     {
       "category": "fluids",
       "status": "real-product-photo",
-      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/4821aa2/public/catalog/images/A0843_HZ-OIL-00011_ATF91001.jpg",
-      "ownSku": "HZ-OIL-00011",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0834_HZ-OIL-00001_102888.jpg",
+      "ownSku": null,
       "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
       "categoryName": "שמנים ונוזלים",
       "image": "/catalog/category-photos/fluids.jpg",
       "verifiedVisually": true,
-      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
-      "sha256": "30183b66e7da09238167799694100f7aa41678850484ba65acfee770b2a14f2d"
+      "visualVerification": "Real product photos; composition verified visually. Filters includes cabin and oil filters. No AI.",
+      "transforms": "Manual non-generative collage of real catalog product photos; boundary-connected black background whitened where present, whitespace crop, contain on 640x640 white canvas",
+      "sha256": "cc82293c4200a96463d56c56eeeb3ad1d8026393ad53d0a56e2e12ead37bd94a",
+      "compositionSources": [
+        {
+          "ownSku": "HZ-OIL-00001",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0834_HZ-OIL-00001_102888.jpg",
+          "sourceImage": "/catalog/images/A0834_HZ-OIL-00001_102888.jpg"
+        },
+        {
+          "ownSku": "HZ-OIL-00054",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0877_HZ-OIL-00054_MOBIL1-0W20-AFE-5Q.jpg",
+          "sourceImage": "/catalog/images/A0877_HZ-OIL-00054_MOBIL1-0W20-AFE-5Q.jpg"
+        }
+      ]
     },
     {
       "category": "filters",
       "status": "real-product-photo",
-      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/4821aa2/public/catalog/images/A1074_HZ-OILF-00002_OX1137D.jpg",
-      "ownSku": "HZ-OILF-00002",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A1074_HZ-OILF-00002_OX1137D.jpg",
+      "ownSku": null,
       "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
       "categoryName": "פילטרים",
       "image": "/catalog/category-photos/filters.jpg",
       "verifiedVisually": true,
-      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
-      "sha256": "65da62298fc73696b64b5f202158eb12fd1b7507fc75ea156abb7291b67def64"
+      "visualVerification": "Real product photos; composition verified visually. Filters includes cabin and oil filters. No AI.",
+      "transforms": "Manual non-generative collage of real catalog product photos; boundary-connected black background whitened where present, whitespace crop, contain on 640x640 white canvas",
+      "sha256": "faf33120efe93601fa32c543b49e1b90f302e7f884797980bb4a5caad06bbc88",
+      "compositionSources": [
+        {
+          "ownSku": "HZ-OILF-00002",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A1074_HZ-OILF-00002_OX1137D.jpg",
+          "sourceImage": "/catalog/images/A1074_HZ-OILF-00002_OX1137D.jpg"
+        },
+        {
+          "ownSku": "HZ-OILF-00130",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A1196_HZ-OILF-00130_OC607.jpg",
+          "sourceImage": "/catalog/images/A1196_HZ-OILF-00130_OC607.jpg"
+        },
+        {
+          "ownSku": "HZ-CAF-00049",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0132_HZ-CAF-00049_8697E.jpg",
+          "sourceImage": "/catalog/images/A0132_HZ-CAF-00049_8697E.jpg"
+        }
+      ]
     },
     {
       "category": "ignition-coils",
@@ -325,15 +354,27 @@
     {
       "category": "additives",
       "status": "real-product-photo",
-      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/4821aa2/public/catalog/images/A0002_HZ-ADD-00019_FRO58050.jpg",
-      "ownSku": "HZ-ADD-00019",
+      "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0004_HZ-ADD-00022_FRO55041.jpg",
+      "ownSku": null,
       "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
       "categoryName": "תוספים",
       "image": "/catalog/category-photos/additives.jpg",
       "verifiedVisually": true,
-      "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing; boundary-connected black background whitened",
-      "sha256": "20b58013ebba7d8151fa02c5fe6e22affaef51a23d777d011f1f0c35dab7ef13"
+      "visualVerification": "Real product photos; composition verified visually. Filters includes cabin and oil filters. No AI.",
+      "transforms": "Manual non-generative collage of real catalog product photos; boundary-connected black background whitened where present, whitespace crop, contain on 640x640 white canvas",
+      "sha256": "d413b5675151a250f7d73ac754ed67063e3f29e2a13b2f29dfc5c76f35254505",
+      "compositionSources": [
+        {
+          "ownSku": "HZ-ADD-00022",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0004_HZ-ADD-00022_FRO55041.jpg",
+          "sourceImage": "/catalog/images/A0004_HZ-ADD-00022_FRO55041.jpg"
+        },
+        {
+          "ownSku": "HZ-ADD-00021",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0003_HZ-ADD-00021_FRO54701.jpg",
+          "sourceImage": "/catalog/images/A0003_HZ-ADD-00021_FRO54701.jpg"
+        }
+      ]
     },
     {
       "category": "small-engine",
@@ -347,6 +388,52 @@
       "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
       "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
       "sha256": "c69d0bfd4d7ef249b9710e9b17668e0e6ce95442725d2821a934f413b79bcb65"
+    }
+  ],
+  "lightingOptions": [
+    {
+      "option": 1,
+      "applied": false,
+      "file": "/workspace/designs/cat-images/lighting-options/option-1.png",
+      "sources": [
+        {
+          "ownSku": "HZ-LMP-00184",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg",
+          "sourceImage": "/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg"
+        }
+      ],
+      "transforms": "Non-generative composition; green/black boundary background normalized to white; product shapes retained"
+    },
+    {
+      "option": 2,
+      "applied": false,
+      "file": "/workspace/designs/cat-images/lighting-options/option-2.png",
+      "sources": [
+        {
+          "ownSku": "HZ-LMP-00188",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0833_HZ-LMP-00188_OSR66540.jpg",
+          "sourceImage": "/catalog/images/A0833_HZ-LMP-00188_OSR66540.jpg"
+        }
+      ],
+      "transforms": "Non-generative composition; green/black boundary background normalized to white; product shapes retained"
+    },
+    {
+      "option": 3,
+      "applied": false,
+      "file": "/workspace/designs/cat-images/lighting-options/option-3.png",
+      "sources": [
+        {
+          "ownSku": "HZ-LMP-00184",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg",
+          "sourceImage": "/catalog/images/A0832_HZ-LMP-00184_OSR66240.jpg"
+        },
+        {
+          "ownSku": "HZ-LMP-00188",
+          "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/c26a7c9/public/catalog/images/A0833_HZ-LMP-00188_OSR66540.jpg",
+          "sourceImage": "/catalog/images/A0833_HZ-LMP-00188_OSR66540.jpg"
+        }
+      ],
+      "transforms": "Non-generative composition; green/black boundary background normalized to white; product shapes retained"
     }
   ]
 }
