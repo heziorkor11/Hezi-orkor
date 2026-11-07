@@ -247,10 +247,12 @@ export function AdminDashboard() {
             aria-label="התנתקות"
             className="ad-icon"
             onClick={() => {
-              void adminRequest("logout", "POST", {}).then(() => {
-                setUser(null);
-                setMessage("");
-              });
+              void adminRequest("logout", "POST", {})
+                .then(() => {
+                  setUser(null);
+                  setMessage("");
+                })
+                .catch((e) => notice((e as Error).message));
             }}
           >
             <LogOut size={18} />
@@ -427,6 +429,7 @@ function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
   const [page, setPage] = useState(1);
   const [list, setList] = useState<{ items: AdminProduct[]; total: number; pages: number }>();
   const [selected, setSelected] = useState<AdminProduct>();
+  const [editMessage, setEditMessage] = useState("");
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
@@ -448,6 +451,7 @@ function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
     return () => clearTimeout(t);
   }, [reload, user]);
   function edit(p: AdminProduct) {
+    setEditMessage("");
     setSelected(p);
     setName(p.name);
     setBrand(p.brand);
@@ -483,6 +487,7 @@ function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
       setSelected(undefined);
       await reload();
     } catch (e) {
+      setEditMessage((e as Error).message);
       notice((e as Error).message);
     } finally {
       setBusy(false);
@@ -497,9 +502,11 @@ function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
       });
       setSelected({ ...selected, image: r.image });
       await refreshAdminOverlay(true);
+      setEditMessage("תמונת המוצר נשמרה");
       notice("תמונת המוצר נשמרה");
       await reload();
     } catch (e) {
+      setEditMessage((e as Error).message);
       notice((e as Error).message);
     } finally {
       setBusy(false);
@@ -606,6 +613,11 @@ function Products({ user, notice }: { user: SafeUser; notice: Notice }) {
                     <X />
                   </button>
                 </div>
+                {editMessage && (
+                  <p className="ad-alert" role="alert">
+                    {editMessage}
+                  </p>
+                )}
                 <form onSubmit={save}>
                   <Field label="שם מוצר">
                     <textarea

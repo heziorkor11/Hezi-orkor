@@ -81,3 +81,7 @@ ADMIN_TEST_OUTPUT=/workspace/designs/dashboard-build npm run test:admin
 בדיקת HTTP מריצה שרת loopback זמני עם hash/סיסמה אקראיים בזיכרון ונתונים בתיקייה זמנית, ללא חיבור שירותים. בודקת CRUD/הרשאות/CSRF/מבצעים/הסתרה/העלאה/SSR/capture/idempotency/PDF פרטי/audit ו־hash של קובצי המקור. תוצאות כברירת מחדל ב־`.data/admin-test-results/`; בהרצה לעיל נשמרות ב־`/workspace/designs/dashboard-build/` (אפשר לשנות `ADMIN_TEST_OUTPUT`, `ADMIN_TEST_PORT`). אין סודות בפלט ואין תמונות בדיקה שמתווספות לריפו.
 
 בדיקות HTTP אינן תחליף לבדיקת טאצ׳/פוקוס/Share Sheet ולצילומי מסך 390px: אלו דורשים סוכן דפדפן נפרד. לא נטען שבוצעה בדיקת דפדפן כשהיא לא בוצעה. אין בדיקת Vercel/live במסגרת המשימה.
+
+### השוואה מאומתת מול main
+
+ב־7.11.2026 (שעון ישראל) הורצה אותה `npm test` על main נקי בקומיט `952b047382f55f165c9f8e5957b5fb5cc5a1ccae` ועל ענף הניהול: בשניהם 195 בדיקות, 179 עוברות ו־16 נכשלות, עם **אותם 16 שמות בדיקה בדיוק**. אין כישלון חדש בענף זה. הדוחות המלאים וההשוואה ב־`/workspace/designs/dashboard-build/{main-existing-tests.log,branch-existing-tests.log,main-vs-branch-tests.json}`. בדיקות ה־app-data שבשלב השני של `npm test` אינן רצות כאשר שלב הסקריפטים הראשון נכשל; אין לטעון שכל חבילת הבדיקות ירוקה.
