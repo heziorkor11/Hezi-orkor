@@ -9,6 +9,11 @@ import {
 } from "@/lib/catalog-types";
 import { loadFacets, unique } from "@/lib/catalog-runtime";
 import { namePartNumberTokens, normalizePartKey, oeSearchTokens, yearBounds } from "@/lib/part-display";
+import {
+  classifyFluidKind,
+  classifyOilBrand,
+  isFluidsBrowseItem,
+} from "@/lib/fluid-classify";
 
 function escapeReg(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -79,8 +84,22 @@ function fitmentEntries(hit: SearchHit) {
 }
 
 function filterHit(hit: SearchHit, state: ProductFilter) {
-  if (state.category && hit.category !== state.category) return false;
-  if (state.make || state.model || state.year) {
+  const fluidsBrowse = state.category === "fluids" || Boolean(state.fluidKind) || Boolean(state.oilBrand);
+  if (fluidsBrowse) {
+    // Fluids UI: classify from title; include brake-fluid SKUs outside category=fluids.
+    if (!isFluidsBrowseItem(hit.category, hit.title)) return false;
+    if (state.fluidKind) {
+      if (classifyFluidKind(hit.title) !== state.fluidKind) return false;
+    } else if (state.category === "fluids") {
+      // Default fluids landing = oils category only (not stray brake SKU), unless kind/brand set.
+      if (hit.category !== "fluids") return false;
+    }
+    if (state.oilBrand && classifyOilBrand(hit.title) !== state.oilBrand) return false;
+    // Do not apply vehicle make/model/year to fluids — OEM labels leaked into fitment.
+  } else {
+    if (state.category && hit.category !== state.category) return false;
+  }
+  if (!fluidsBrowse && (state.make || state.model || state.year)) {
     const entries = fitmentEntries(hit);
     if (!entries.length) return false;
     const y = state.year ? Number(String(state.year).replace(/["']/g, "")) : NaN;

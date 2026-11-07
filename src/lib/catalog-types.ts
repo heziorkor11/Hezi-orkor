@@ -126,6 +126,10 @@ export type ProductFilter = {
   year?: string;
   q?: string;
   category?: string;
+  /** Fluids subcategory: engine | gear | brake | other */
+  fluidKind?: string;
+  /** Lubricant brand filter (MOTUL, TOTAL, …, אחר) */
+  oilBrand?: string;
 };
 
 export type ListingSearch = ProductFilter & { page?: number };

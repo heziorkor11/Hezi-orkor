@@ -37,15 +37,18 @@ export function Finder({
 
   function submit() {
     writeSavedVehicle({ make: draft.make, model: draft.model, year: draft.year });
+    const fluids = draft.category === "fluids";
     navigate({
       to: "/results",
       search: {
         category: draft.category || undefined,
-        make: draft.make || undefined,
-        model: draft.model || undefined,
-        year: draft.year || undefined,
+        make: fluids ? undefined : draft.make || undefined,
+        model: fluids ? undefined : draft.model || undefined,
+        year: fluids ? undefined : draft.year || undefined,
         type: undefined,
         q: undefined,
+        fluidKind: undefined,
+        oilBrand: undefined,
       },
     });
   }
