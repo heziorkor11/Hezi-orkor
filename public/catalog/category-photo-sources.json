@@ -2,7 +2,7 @@
   "version": 1,
   "date": "2026-11-07 Asia/Jerusalem",
   "noAIGeneration": true,
-  "externalPhotoRights": "Source attribution recorded. Copyright/reuse licence not independently verified. Manufacturer/distributor marks preserved.",
+  "externalPhotoRights": "Reuse licence not independently verified. Designer-supplied polished variants applied; see designer summary for non-generative background/watermark processing. Original source files retained.",
   "subcategories": "Text-only chips; no images to replace.",
   "missing": [],
   "tiles": [
@@ -16,11 +16,12 @@
       "ownSku": null,
       "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
       "categoryName": "ציריות",
-      "image": "/catalog/category-photos/driveshaft.jpg",
+      "image": "/catalog/category-photos/driveshaft.webp",
       "verifiedVisually": true,
       "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
-      "sha256": "14ce0e0b1d774ab4742ed18b1a67b6be9efcba08d7fb244b15c13415517c5dd8"
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "b78c30cc074cd5b0bb34bc047b7901a21e01e379239bddf6611c72b06bda1b0e",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/driveshaft-original.jpg"
     },
     {
       "category": "hub",
@@ -32,11 +33,12 @@
       "ownSku": null,
       "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
       "categoryName": "נאבות",
-      "image": "/catalog/category-photos/hub.jpg",
+      "image": "/catalog/category-photos/hub.webp",
       "verifiedVisually": true,
       "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
-      "sha256": "d90c9c2b55a6b8b0a2535f0cf17467ec7a2075d4af766202edde460b91c084e1"
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "9ffde968535ba4bd945ab55fc4ca20751f62e56a1f47e5fa63f2933eb2e46ab6",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/hub-original.jpg"
     },
     {
       "category": "clutch",
@@ -48,11 +50,12 @@
       "ownSku": null,
       "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
       "categoryName": "מצמד",
-      "image": "/catalog/category-photos/clutch.jpg",
+      "image": "/catalog/category-photos/clutch.webp",
       "verifiedVisually": true,
       "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
-      "sha256": "87aa96af67df649eae1b0de50f267b8d2db3c029298963cff8d6cde85972218a"
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "b855d8f02e59daec8104f3609231b4646cdbf8985b4dbbfbbd55364fcf528e9e",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/clutch-original.jpg"
     },
     {
       "category": "steering",
@@ -64,11 +67,12 @@
       "ownSku": null,
       "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
       "categoryName": "היגוי",
-      "image": "/catalog/category-photos/steering.jpg",
+      "image": "/catalog/category-photos/steering.webp",
       "verifiedVisually": true,
       "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
-      "sha256": "adfe171481ff915f8d7d957c8b182c7e2054f07a0e98f6ac188dd504ea2ca21c"
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "7b6fb2eaef719e7497de59a1923a6ac1cd63255fa50a72515ef44b9c7ac976e6",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/steering-original.jpg"
     },
     {
       "category": "suspension",
@@ -80,11 +84,12 @@
       "ownSku": null,
       "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
       "categoryName": "מתלים",
-      "image": "/catalog/category-photos/suspension.jpg",
+      "image": "/catalog/category-photos/suspension.webp",
       "verifiedVisually": true,
       "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
-      "sha256": "b57077d5776bf2507f1eb744ceb2d6847c1fb116d24e3e3fe94c5b0e6c895a08"
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "cec12c815a708b11a52fe644b06d9028092bd3f66427052f8ad589c70ce98b8c",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/suspension-original.jpg"
     },
     {
       "category": "steering-rack",
@@ -96,11 +101,12 @@
       "ownSku": null,
       "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
       "categoryName": "מסרקי הגה",
-      "image": "/catalog/category-photos/steering-rack.jpg",
+      "image": "/catalog/category-photos/steering-rack.webp",
       "verifiedVisually": true,
       "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
-      "sha256": "cdaaedec29db6baee027d570c168f08ca74f7cb66c5b9255fc7e6a8b4a304264"
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "f83adf363cf7bd38e7b94904f46ced6421bcb6f57a9f0e180d5415824ed20257",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/steering-rack-original.jpg"
     },
     {
       "category": "timing",
@@ -112,11 +118,12 @@
       "ownSku": null,
       "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
       "categoryName": "טיימינג",
-      "image": "/catalog/category-photos/timing.jpg",
+      "image": "/catalog/category-photos/timing.webp",
       "verifiedVisually": true,
       "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
-      "sha256": "a281b3d5424248beac34ee81e3934eae84adf98b08160c8e776eeedbbfedaeb0"
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "88a9a6535e1d2ba3e3d0f4e5c1be27d43487835105be8f6e0379ace9908354f1",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/timing-original.jpg"
     },
     {
       "category": "ac-compressor",
@@ -128,11 +135,12 @@
       "ownSku": null,
       "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
       "categoryName": "מדחס מזגן",
-      "image": "/catalog/category-photos/ac-compressor.jpg",
+      "image": "/catalog/category-photos/ac-compressor.webp",
       "verifiedVisually": true,
       "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
-      "sha256": "cc2f0ac3070d85edaf6e4f4b675eaf8c7b3459f8d5c6bac5a115e30036083383"
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "756a0a5c7f287e8f640b0b0949c54a635be05fcad11c62b46006133d0b8a59d5",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/ac-compressor-original.jpg"
     },
     {
       "category": "ac-condenser",
@@ -144,11 +152,12 @@
       "ownSku": null,
       "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
       "categoryName": "מעבה מזגן",
-      "image": "/catalog/category-photos/ac-condenser.jpg",
+      "image": "/catalog/category-photos/ac-condenser.webp",
       "verifiedVisually": true,
       "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
-      "sha256": "4ab5e0d6100bfaf041582e7a660c6d902faa9bc3c624f1f0f64ac8a9372974c4"
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "f63c31ecff03d2c34fe17a30e53f05bf325b159ad1c349a9331fcb0050828bd6",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/ac-condenser-original.jpg"
     },
     {
       "category": "fuel-pump",
@@ -160,11 +169,12 @@
       "ownSku": null,
       "note": "Representative real product photograph; not a fitment/product claim for our SKU.",
       "categoryName": "משאבת דלק",
-      "image": "/catalog/category-photos/fuel-pump.jpg",
+      "image": "/catalog/category-photos/fuel-pump.webp",
       "verifiedVisually": true,
       "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
-      "sha256": "414350041351920bf56c14b841b5f20d58dbdbb1d7e227094b84fa8ad42721b5"
+      "transforms": "Designer-supplied white square polished photo, resized640px, WebP q90. See designer SUMMARY_he.txt; original source retained.",
+      "sha256": "92b69035d0b1a19d1f2ace037e05b14e2c4e0fede8f1e9cb32c1e91020c4a9be",
+      "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/fuel-pump-original.jpg"
     },
     {
       "category": "general",
