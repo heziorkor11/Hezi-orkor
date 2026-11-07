@@ -4,7 +4,9 @@
   "noAIGeneration": true,
   "externalPhotoRights": "Reuse licence not independently verified. Designer-supplied polished variants applied; see designer summary for non-generative background/watermark processing. Original source files retained.",
   "subcategories": "Text-only chips; no images to replace.",
-  "missing": [],
+  "missing": [
+    "general"
+  ],
   "tiles": [
     {
       "category": "driveshaft",
@@ -177,17 +179,17 @@
       "designerPolishedSource": "/workspace/designs/cat-images/to-designer/polished/fuel-pump-original.jpg"
     },
     {
-      "category": "general",
+      "category": "throttle-body",
       "status": "real-product-photo",
       "sourceUrl": "https://github.com/heziorkor11/Hezi-orkor/blob/4821aa2/public/catalog/images/A0426_HZ-GEN-04071_96394330AO.jpg",
       "ownSku": "HZ-GEN-04071",
-      "note": "Existing catalog product photo; category illustration only, not fitment evidence.",
-      "categoryName": "כללי",
-      "image": "/catalog/category-photos/general.jpg",
+      "note": "Actual throttle body from our catalog, SKU HZ-GEN-04071. General tile is now text-only because the product moved out of general.",
+      "categoryName": "בתי מצערת",
+      "image": "/catalog/category-photos/throttle-body.webp",
       "verifiedVisually": true,
       "visualVerification": "Part type checked on contact sheet; product photo, not AI. Representative category illustration, no vehicle-fitment assertion.",
-      "transforms": "Whitespace crop, contain on 640x640 white canvas; no generative image processing",
-      "sha256": "d47e507faf073e8b5b2a16ca8fb600c8dbffe2473f3af8170fe2c92d35fa87c1"
+      "transforms": "Existing visually verified real catalog photo derivative, WebP q90; no AI.",
+      "sha256": "a300b668ad39f75d8eff9cfc1f307876a3ebc8cd545f10558be4fdd9b0232822"
     },
     {
       "category": "brakes",
@@ -458,5 +460,6 @@
       ],
       "transforms": "Non-generative composition; green/black boundary background normalized to white; product shapes retained"
     }
-  ]
+  ],
+  "missingNote": "Residual general category has diverse workshop supplies; text-only rather than depicting a throttle body no longer in that category."
 }

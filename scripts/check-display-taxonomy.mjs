@@ -14,6 +14,8 @@ try{
  for(const [sku,ov] of Object.entries(tax.bySku).filter(([,ov])=>ov.hidden).slice(0,3)){
   assert.equal(await loadProduct(sku),undefined);assert.equal((await loadListing({q:sku})).total,0);
  }
+ assert.equal((await loadListing({category:'throttle-body'})).total,18,'18 throttle bodies');
+ assert.equal(tax.categories.find(c=>c.id==='general').count,15,'residual general');
  assert.equal((await loadListing({category:'lights'})).total,0);
  assert.equal((await loadListing({category:'oil-filter'})).total,tax.categories.find(c=>c.id==='filters').count);
  assert.ok((await loadListing({q:'04152YZZA6'})).total>0,'OE search');
