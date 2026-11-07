@@ -18,6 +18,7 @@ const generalRules=[['radiator',/רדיאטור/],['water-pump',/משאבת מי
 const manifest=JSON.parse(fs.readFileSync(root+'manifest.json','utf8'));
 const categories=manifest.categories.filter(c=>!['lights','oil-filter','cabin-filter'].includes(c.id)).map(c=>({id:c.id,name:c.name})).concat(newCategories.map(([id,name])=>({id,name})));
 const reviewed=JSON.parse(fs.readFileSync(root+'general-review-overrides.json','utf8')).bySku;
+const visibility=JSON.parse(fs.readFileSync(root+'visibility-overrides.json','utf8')).bySku;
 const bySku={};
 for(const p of products){
  const text=p.name+' '+(p.nameOriginal||'');let category=p.category;
@@ -25,7 +26,7 @@ for(const p of products){
  if(['oil-filter','cabin-filter'].includes(category))category='filters';
  if(reviewed[p.sku])category=reviewed[p.sku].category;
  const sub=definitions[category]?.find(([, , re])=>re.test(text))?.[0];
- bySku[p.sku]={category,...(sub?{sub}:{}),...(p.category==='lights'?{hidden:true}:{})};
+ bySku[p.sku]={category,...(sub?{sub}:{}),...(p.category==='lights'||visibility[p.sku]?.hidden?{hidden:true}:{})};
 }
 for(const c of categories)c.count=products.filter(p=>bySku[p.sku].category===c.id&&!bySku[p.sku].hidden).length;
 const subcategories=Object.fromEntries(Object.entries(definitions).map(([category,defs])=>[category,defs.map(([id,name,re])=>({id,name,rule:re.source,count:products.filter(p=>bySku[p.sku].category===category&&bySku[p.sku].sub===id&&!bySku[p.sku].hidden).length}))]));

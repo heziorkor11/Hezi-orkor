@@ -1,15 +1,17 @@
+import { readFile } from "node:fs/promises";
 /** Reproduce Vercel: cwd has no project assets and outbound catalog fetch is forbidden. */
 import assert from "node:assert/strict";
 const handler = new URL("../.vercel/output/functions/__server.func/index.mjs", import.meta.url);
+const visibility = JSON.parse(await readFile(new URL("../public/catalog/display-taxonomy.json", import.meta.url), "utf8")).bySku;
 process.env.VERCEL = "1";
 process.env.VERCEL_URL = "protected-preview.invalid";
 process.chdir("/proc"); // read-only on Linux, outside the checkout
 let outbound = 0;
 globalThis.fetch = async () => { outbound++; throw new Error("Outbound HTTP forbidden in catalog regression test"); };
 const { default: app } = await import(handler.href);
-async function page(path) {
+async function page(path, status = 200) {
  const response = await app.fetch(new Request("https://protected-preview.invalid" + path));
- assert.equal(response.status, 200, path);
+ assert.equal(response.status, status, path);
  return response.text();
 }
 const general = await page("/results?category=general");
@@ -19,7 +21,8 @@ assert.doesNotMatch(general, /לא מצאנו התאמה בקטלוג/);
 const search = await page("/results?q=HZ-GEN-00005");
 assert.match(search, /אנטיראסט אדום 4 ליטר/);
 assert.match(await page("/product/HZ-GEN-00005"), /<h1[^>]*>אנטיראסט אדום 4 ליטר<\/h1>/);
-assert.match(await page("/product/HZ-GEN-01392"), /<h1[^>]*>בולם שברולט קרוז קדמי L מ 08 עד 11 אסטרה מ 11<\/h1>/);
+if (visibility["HZ-GEN-01392"]?.hidden) await page("/product/HZ-GEN-01392", 404);
+else assert.match(await page("/product/HZ-GEN-01392"), /<h1[^>]*>בולם שברולט קרוז קדמי L מ 08 עד 11 אסטרה מ 11<\/h1>/);
 const missingImage = await page("/product/HZ-GEN-00023");
 assert.match(missingImage.split("<h1")[0], /data-product-placeholder/);
 assert.equal(outbound, 0, "Server must not self-fetch a protected or stale catalog");
