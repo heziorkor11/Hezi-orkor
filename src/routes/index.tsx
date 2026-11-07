@@ -1,8 +1,9 @@
+import { adminSnapshot, activePromotions } from "@/lib/admin/overlay";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { DemoBanner } from "@/components/demo-banner";
 import { FaqList } from "@/components/faq-list";
 import { Finder } from "@/components/finder";
-import { HomeSearchHero, VISUAL_CATEGORIES } from "@/components/home-search-hero";
+import { HomeSearchHero, orderedVisualCategories } from "@/components/home-search-hero";
 import { JsonLd } from "@/components/json-ld";
 import { ProductCard } from "@/components/product-card";
 import { brand } from "@/lib/brand";
@@ -37,6 +38,52 @@ function Home() {
       <JsonLd data={websiteJsonLd()} />
 
       <HomeSearchHero />
+      {(adminSnapshot().home.banners.some((b) => b.enabled) ||
+        activePromotions().some((p) => p.homepage)) && (
+        <section
+          aria-label="עדכונים ומבצעים"
+          className="mx-auto grid max-w-[1180px] gap-3 px-3.5 pt-4 md:grid-cols-2 md:px-5"
+        >
+          {adminSnapshot()
+            .home.banners.filter((b) => b.enabled)
+            .map((b) => (
+              <a key={b.id} href={b.href} className="rounded-2xl bg-fg p-5 text-white">
+                {b.image && (
+                  <img
+                    src={b.image}
+                    alt=""
+                    className="float-left h-24 w-24 rounded-xl object-contain"
+                  />
+                )}
+                <h2 className="text-xl font-bold">{b.title}</h2>
+                <p className="mt-2 text-sm">{b.text}</p>
+                <span className="mt-3 block text-xs">למוצרים ←</span>
+              </a>
+            ))}
+          {activePromotions()
+            .filter((p) => p.homepage)
+            .map((p) => (
+              <a
+                key={p.id}
+                href={
+                  p.targetType === "product"
+                    ? `/product/${encodeURIComponent(p.target)}`
+                    : p.targetType === "category"
+                      ? `/results?category=${encodeURIComponent(p.target)}`
+                      : `/results?q=${encodeURIComponent(p.target)}`
+                }
+                className="rounded-2xl border border-accent bg-card p-5"
+              >
+                <span className="rounded-md bg-accent px-2 py-1 text-xs text-white">{p.badge}</span>
+                <h2 className="mt-3 text-xl font-bold">{p.title}</h2>
+                <p className="mt-2 text-sm">
+                  {p.kind === "percent" ? `${p.value}% הנחה` : `מחיר מיוחד ${p.value} ₪`} · בכפוף
+                  לתוקף ולמחיר המוצר
+                </p>
+              </a>
+            ))}
+        </section>
+      )}
 
       <section className="px-3.5 pt-[18px] md:px-5">
         <div className="mx-auto max-w-[720px]">
@@ -51,7 +98,7 @@ function Home() {
           <h2 className="mb-1 text-[17px] font-extrabold md:text-2xl">קטגוריות בתמונה</h2>
           <p className="mb-3 text-xs text-muted md:text-sm">זיהוי מהיר בעין</p>
           <div className="grid grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-5">
-            {VISUAL_CATEGORIES.map((c) => (
+            {orderedVisualCategories().map((c) => (
               <Link
                 key={c.id}
                 to="/results"
@@ -60,7 +107,12 @@ function Home() {
               >
                 <div className="grid h-[88px] place-items-center bg-white p-2">
                   {c.image ? (
-                    <img src={c.image} alt={c.name} className="max-h-[72px] object-contain" loading="lazy" />
+                    <img
+                      src={c.image}
+                      alt={c.name}
+                      className="max-h-[72px] object-contain"
+                      loading="lazy"
+                    />
                   ) : (
                     <div className="flex h-[72px] w-full items-center justify-center">
                       <span className="text-xs text-muted">תמונה חסרה</span>
@@ -105,7 +157,9 @@ function Home() {
         </div>
 
         <div className="mt-9 mb-4.5 rounded-2xl border border-line bg-card p-4 shadow-lift md:p-5">
-          <h2 className="text-[17px] font-extrabold tracking-tight md:text-[22px]">ביקורות בגוגל</h2>
+          <h2 className="text-[17px] font-extrabold tracking-tight md:text-[22px]">
+            ביקורות בגוגל
+          </h2>
           <p className="mt-1.5 text-sm text-muted md:text-[15px]">
             קראו ביקורות אמיתיות של לקוחות על חזי אורקור בנהריה במפות Google.
           </p>

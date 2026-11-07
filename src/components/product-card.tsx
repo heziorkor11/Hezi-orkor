@@ -14,7 +14,12 @@ import {
 } from "@/lib/catalog";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { hideVehicleFitmentForFluid } from "@/lib/fluid-classify";
-import { priceOrQuoteLabel } from "@/lib/prices";
+import {
+  priceOrQuoteLabel,
+  catalogPromotion,
+  regularCatalogPrice,
+  formatCatalogPrice,
+} from "@/lib/prices";
 import { packUnitPriceLabel } from "@/lib/pack-price";
 import { useState } from "react";
 
@@ -69,7 +74,10 @@ export function ProductCard({
                 <p className="truncate text-sm font-bold text-fg">
                   {car || product.vehicleFitment || "יש לאשר לפי מספר רכב"}
                   {extraLabel ? (
-                    <span className="mr-1.5 text-[11px] font-bold text-accent-warm"> {extraLabel}</span>
+                    <span className="mr-1.5 text-[11px] font-bold text-accent-warm">
+                      {" "}
+                      {extraLabel}
+                    </span>
                   ) : null}
                 </p>
                 {years ? <p className="text-xs font-semibold text-accent-warm">{years}</p> : null}
@@ -103,7 +111,9 @@ export function ProductCard({
                   <dt className="text-muted">דגם</dt>
                   <dd className="font-bold text-fg">
                     {shown.model}
-                    {extraLabel ? <span className="mr-1 text-accent-warm"> {extraLabel}</span> : null}
+                    {extraLabel ? (
+                      <span className="mr-1 text-accent-warm"> {extraLabel}</span>
+                    ) : null}
                   </dd>
                 </>
               ) : null}
@@ -133,9 +143,23 @@ export function ProductCard({
           )}
         </dl>
         <div className="mt-auto">
-          <p className="text-sm font-bold text-accent tabular-nums">{priceOrQuoteLabel(product.sku)}</p>
+          {catalogPromotion(product.sku) && (
+            <div className="mb-1 flex items-center gap-2">
+              <span className="rounded-md bg-accent px-2 py-0.5 text-xs font-bold text-white">
+                {catalogPromotion(product.sku)?.badge}
+              </span>
+              <del className="text-xs text-muted">
+                {formatCatalogPrice(regularCatalogPrice(product.sku)!)}
+              </del>
+            </div>
+          )}
+          <p className="text-sm font-bold text-accent tabular-nums">
+            {priceOrQuoteLabel(product.sku)}
+          </p>
           {packUnitPriceLabel(product.sku, product.name) ? (
-            <p className="text-[11px] text-muted tabular-nums">{packUnitPriceLabel(product.sku, product.name)}</p>
+            <p className="text-[11px] text-muted tabular-nums">
+              {packUnitPriceLabel(product.sku, product.name)}
+            </p>
           ) : null}
         </div>
         <div className="flex gap-2">
