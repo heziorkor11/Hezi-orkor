@@ -124,7 +124,7 @@ function Home() {
 
         <p className="mt-6 text-center text-[11px] text-muted md:hidden">
           קטגוריות נוספות:{" "}
-          {["lights", "brakes", "filters"].map((id, i) => (
+          {["radiator", "brakes", "filters"].map((id, i) => (
             <span key={id}>
               {i ? " · " : null}
               <Link to="/results" search={{ category: id }} className="underline">

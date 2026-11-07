@@ -31,7 +31,7 @@ export function SiteFooter() {
             </Link>
           </p>
           <p className="mt-1">
-            <Link to="/results" search={{ category: "lights" }} className="hover:text-fg">
+            <Link to="/results" search={{ category: "radiator" }} className="hover:text-fg">
               פנס ראשי
             </Link>
           </p>

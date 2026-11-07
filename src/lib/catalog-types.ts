@@ -1,3 +1,4 @@
+import { displayCategories } from "@/lib/display-taxonomy";
 import catalogManifest from "../../public/catalog/manifest.json";
 export type VehicleFitment = {
   make: string;
@@ -126,6 +127,7 @@ export type ProductFilter = {
   year?: string;
   q?: string;
   category?: string;
+  sub?: string;
   /** Fluids subcategory: engine | gear | brake | other */
   fluidKind?: string;
   /** Lubricant brand filter (MOTUL, TOTAL, …, אחר) */
@@ -177,14 +179,8 @@ export function typeFromCategory(category?: string): PartTypeId {
   return CATEGORY_TYPE[category] || "general";
 }
 
-export const categories: { id: string; name: string }[] = (catalogManifest.categories as CatalogCategory[]).map(
-  (c) => ({ id: c.id, name: c.name }),
-);
-
-/** Display-only filtering: products and search remain untouched. */
-export const visibleCategories = categories.filter(
-  (c) => !["steering", "suspension", "clutch", "workshop-packs"].includes(c.id),
-);
+export const categories: {id:string;name:string}[] = displayCategories;
+export const visibleCategories = categories.filter((c) => c.id !== "workshop-packs");
 
 export const partTypes: { id: PartTypeId; name: string; category: string }[] = [
   { id: "headlight", name: "פנס ראשי", category: "lights" },

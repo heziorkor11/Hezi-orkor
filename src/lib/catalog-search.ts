@@ -1,3 +1,4 @@
+import { displayCategory, displayOverride, isHiddenProduct, normalizeDisplayCategory } from "@/lib/display-taxonomy";
 import { sameModel } from "@/lib/model-names";
 import {
   type ListingResult,
@@ -84,6 +85,10 @@ function fitmentEntries(hit: SearchHit) {
 }
 
 function filterHit(hit: SearchHit, state: ProductFilter) {
+  if (isHiddenProduct(hit.sku)) return false;
+  hit = { ...hit, category: displayCategory(hit.sku, hit.category || "general") };
+  state = { ...state, category: normalizeDisplayCategory(state.category) };
+  if (state.sub && displayOverride(hit.sku)?.sub !== state.sub) return false;
   const fluidsBrowse = state.category === "fluids" || Boolean(state.fluidKind) || Boolean(state.oilBrand);
   if (fluidsBrowse) {
     // Fluids UI: classify from title; include brake-fluid SKUs outside category=fluids.

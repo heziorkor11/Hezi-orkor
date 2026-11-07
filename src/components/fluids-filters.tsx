@@ -1,3 +1,4 @@
+import { subcategories } from "@/lib/display-taxonomy";
 import { Link } from "@tanstack/react-router";
 import {
   FLUID_KIND_LABELS,
@@ -8,10 +9,10 @@ import {
 import type { ListingSearch } from "@/lib/catalog-types";
 import { cn } from "@/lib/utils";
 
-const KINDS: FluidKind[] = ["engine", "gear", "brake"];
+const KINDS: FluidKind[] = ["engine", "gear"];
 
 export function FluidsFilters({ state }: { state: ListingSearch }) {
-  const activeKind = (state.fluidKind as FluidKind | undefined) || undefined;
+  const activeKind = ((state.sub || state.fluidKind) as FluidKind | undefined) || undefined;
   const activeBrand = (state.oilBrand as OilBrand | undefined) || undefined;
 
   function linkFor(next: Partial<ListingSearch>) {
@@ -19,7 +20,8 @@ export function FluidsFilters({ state }: { state: ListingSearch }) {
       to: "/results" as const,
       search: {
         category: "fluids",
-        fluidKind: next.fluidKind,
+        sub: next.fluidKind === "engine" || next.fluidKind === "gear" ? next.fluidKind : undefined,
+        fluidKind: next.fluidKind === "brake" ? "brake" : undefined,
         oilBrand: next.oilBrand,
         q: state.q,
         // Vehicle fitment is not used for fluids browse
@@ -62,7 +64,7 @@ export function FluidsFilters({ state }: { state: ListingSearch }) {
                   : "border-line bg-elevated text-fg-soft hover:border-accent",
               )}
             >
-              {FLUID_KIND_LABELS[k]}
+              {FLUID_KIND_LABELS[k]} ({subcategories.fluids?.find(s => s.id === k)?.count || 0})
             </Link>
           ))}
         </div>

@@ -12,6 +12,18 @@ export const VISUAL_CATEGORIES: {
   image?: string;
   type?: import("@/lib/catalog-types").PartTypeId;
 }[] = [
+  { id: "radiator", name: "רדיאטורים", sub: "קירור מנוע", type: "radiator" },
+  { id: "water-pump", name: "משאבות מים", sub: "מערכת קירור", type: "general" },
+  { id: "driveshaft", name: "ציריות", sub: "מערכת הינע", type: "general" },
+  { id: "hub", name: "נאבות", sub: "מערכת הינע", type: "general" },
+  { id: "steering-rack", name: "מסרקי הגה", sub: "מערכת היגוי", type: "steering" },
+  { id: "timing", name: "טיימינג", sub: "ערכות ושרשראות", type: "general" },
+
+  { id: "steering", name: "היגוי", sub: "קצוות · מוטות · משאבות", type: "steering" },
+  { id: "suspension", name: "מתלים", sub: "זרועות · תושבות · תפוחים", type: "suspension" },
+  { id: "clutch", name: "מצמד", sub: "ערכות · משאבות", type: "clutch" },
+  { id: "filters", name: "פילטרים", sub: "אוויר · סולר · שמן · מזגן · גיר", type: "filter" },
+
   {
     id: "spark-plugs",
     name: "מצתים",
@@ -23,18 +35,6 @@ export const VISUAL_CATEGORIES: {
     name: "שמנים ונוזלים",
     sub: "מנוע · גיר",
     image: "/catalog/images/A0834_HZ-OIL-00001_102888.jpg",
-  },
-  {
-    id: "cabin-filter",
-    name: "פילטר מזגן",
-    sub: "תא נוסעים",
-    image: "/catalog/images/A0084_HZ-CAF-00001_97133WJS2E200.jpg",
-  },
-  {
-    id: "oil-filter",
-    name: "מסנן שמן",
-    sub: "החלפת שמן",
-    image: "/catalog/images/A1074_HZ-OILF-00002_OX1137D.jpg",
   },
   {
     id: "ignition-coils",

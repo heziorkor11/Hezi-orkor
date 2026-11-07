@@ -1,3 +1,4 @@
+import { subcategories } from "@/lib/display-taxonomy";
 import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { categoryName, partTypes, type ListingSearch } from "@/lib/catalog";
@@ -7,6 +8,7 @@ export function ActiveFilters({ state }: { state: ListingSearch }) {
   const chips: { key: keyof ListingSearch; label: string }[] = [];
   if (state.q) chips.push({ key: "q", label: `חיפוש: ${state.q}` });
   if (state.category) chips.push({ key: "category", label: categoryName(state.category) || state.category });
+  if (state.sub) chips.push({key: "sub", label: subcategories[state.category || ""]?.find(s => s.id === state.sub)?.name || state.sub});
   if (state.fluidKind) {
     chips.push({
       key: "fluidKind",
@@ -30,7 +32,7 @@ export function ActiveFilters({ state }: { state: ListingSearch }) {
         <Link
           key={String(chip.key)}
           to="/results"
-          search={{ ...state, [chip.key]: undefined, page: undefined }}
+          search={{ ...state, [chip.key]: undefined, ...(chip.key === "category" ? {sub: undefined} : {}), page: undefined }}
           className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line-strong bg-chip px-3 text-sm text-fg-soft hover:border-accent hover:text-fg"
         >
           {chip.label}

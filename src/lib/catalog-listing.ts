@@ -1,3 +1,4 @@
+import { displayCategory, isHiddenProduct } from "@/lib/display-taxonomy";
 import { typeFromCategory, PAGE_SIZE, type ListingCard, type ListingResult, type ListingSearch, type Product, type SearchHit } from "@/lib/catalog-types";
 import { displayModel, polishText, unique } from "@/lib/catalog-runtime";
 import { catalogJson } from "@/lib/catalog-io";
@@ -14,7 +15,7 @@ const cache = {
 };
 
 function wixImage(id: string) {
-  if (!id) return undefined;
+  if (!id || isHiddenProduct(id)) return undefined;
   if (id.startsWith("http")) return id;
   return `https://static.wixstatic.com/media/${id}/v1/fit/w_600,h_600,q_80/file.jpg`;
 }
@@ -68,6 +69,7 @@ function cardToProduct(card: ListingCard & Partial<Product>): Product {
   else if ((/קצה הגה|ק\.הגה|מוט קישור|מ\.קישור|משאבת הגה/.test(nm)) && (category === "general" || category === "shocks")) category = "steering";
   else if (!/^בולם\b/.test(nm) && /תפוח פרונט|ת\.פרונט|גומי מייצב|זרוע קדמית|ז\.פרונט|תושבת בולם|ת\.בולם/.test(nm) && (category === "general" || category === "shocks")) category = "suspension";
   else if (/^בולם\b/.test(nm) && category === "general") category = "shocks";
+  category = displayCategory(card.sku, category);
   return {
     id: card.id || card.sku,
     sku: card.sku,
@@ -124,7 +126,7 @@ export async function loadFeaturedImpl(): Promise<Product[]> {
   if (!cache.featured) {
     const rows = await catalogJson<ListingCard[]>("featured.json");
     const seen = new Set<string>();
-    cache.featured = rows.map((row) => cardToProduct(row)).filter((p) => {
+    cache.featured = rows.filter((row) => !isHiddenProduct(row.sku)).map((row) => cardToProduct(row)).filter((p) => {
       if (!p.image) return true;
       if (seen.has(p.image)) p.image = undefined;
       else seen.add(p.image);
@@ -136,7 +138,7 @@ export async function loadFeaturedImpl(): Promise<Product[]> {
 
 export async function loadProductImpl(sku: string): Promise<Product | undefined> {
   const id = decodeURIComponent(sku || "").trim();
-  if (!id) return undefined;
+  if (!id || isHiddenProduct(id)) return undefined;
   const map = await loadSkuMap();
   const chunkId = map[id];
   if (!chunkId) return undefined;
@@ -149,7 +151,7 @@ export async function loadRelatedImpl(product: Product, limit = 4): Promise<Prod
   const chunkId = map[product.sku];
   if (!chunkId) return [];
   const chunk = await loadChunk(chunkId);
-  const others = chunk.filter((p) => p.sku !== product.sku);
+  const others = chunk.filter((p) => p.sku !== product.sku && !isHiddenProduct(p.sku));
   const sameCar = others.filter((p) => product.make && p.make === product.make && (!product.model || p.model === product.model));
   const pool = sameCar.length ? sameCar : others.filter((p) => p.category === product.category);
   return pool.slice(0, limit);
@@ -162,31 +164,6 @@ export async function loadListingImpl(
   await loadImageMap();
   const manifest = await (await import("./catalog-runtime")).loadManifest();
   const page = Math.max(1, state.page ?? 1);
-  const needsIndex = Boolean(state.q || state.make || state.model || state.year || state.type || state.fluidKind || state.oilBrand);
-
-  if (!needsIndex && state.category) {
-    const cat = manifest.categories.find((c) => c.id === state.category);
-    if (cat && typeof cat.offset === "number") {
-      const pages = Math.max(1, Math.ceil(cat.count / PAGE_SIZE));
-      const current = Math.min(page, pages);
-      const start = cat.offset + (current - 1) * PAGE_SIZE;
-      const first = Math.floor(start / PAGE_SIZE) + 1;
-      const last = Math.floor((start + PAGE_SIZE - 1) / PAGE_SIZE) + 1;
-      const loaded = await Promise.all(Array.from({ length: last - first + 1 }, (_, i) => loadPage(first + i)));
-      const merged = loaded.flat();
-      const offset = start - (first - 1) * PAGE_SIZE;
-      const items = merged.slice(offset, offset + PAGE_SIZE).map((card) => cardToProduct(card));
-      return { items, total: cat.count, page: current, pages };
-    }
-  }
-
-  if (!needsIndex && !state.category) {
-    const pages = Math.max(1, Math.ceil(manifest.total / PAGE_SIZE));
-    const current = Math.min(page, pages);
-    const cards = await loadPage(current);
-    return { items: cards.map((card) => cardToProduct(card)), total: manifest.total, page: current, pages };
-  }
-
   if (!cache.searchIndex) cache.searchIndex = await catalogJson<SearchHit[]>("search-index.json");
   const hits = cache.searchIndex.filter((hit) => opts.filterHit(hit, state));
   const pages = Math.max(1, Math.ceil(hits.length / PAGE_SIZE));
