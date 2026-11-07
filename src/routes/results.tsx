@@ -36,7 +36,10 @@ export const Route = createFileRoute("/results")({
     page: num(search.page),
   }),
   loaderDeps: ({ search }) => search,
-  loader: ({ deps }) => loadListing(deps),
+  loader: ({ deps }) =>
+    deps.category && !categoryName(deps.category)
+      ? { items: [], total: 0, page: 1, pages: 0 }
+      : loadListing(deps),
   pendingComponent: PendingResults,
   head: ({ match }) => {
     const s = match.search;
@@ -44,19 +47,26 @@ export const Route = createFileRoute("/results")({
       s.fluidKind && FLUID_KIND_LABELS[s.fluidKind as FluidKind]
         ? FLUID_KIND_LABELS[s.fluidKind as FluidKind]
         : undefined;
-    const topic = s.q
-      ? `חיפוש: ${s.q}`
-      : kindLabel
-        ? kindLabel
-        : s.category
-          ? categoryName(s.category) || "קטגוריה"
-          : "תוצאות חיפוש חלקים";
+    const unknownCategory = s.category && !categoryName(s.category);
+    const topic = unknownCategory
+      ? "קטגוריה לא נמצאה"
+      : s.q
+        ? `חיפוש: ${s.q}`
+        : kindLabel
+          ? kindLabel
+          : s.category
+            ? categoryName(s.category) || "קטגוריה"
+            : "תוצאות חיפוש חלקים";
     return {
       meta: [
         { title: pageTitle(topic) },
         {
           name: "description",
-          content: pageDescription(`${topic} בחזי אורקור, נהריה. סינון לפי סוג שמן, מותג ומק״ט.`),
+          content: pageDescription(
+            unknownCategory
+              ? "הקטגוריה המבוקשת אינה קיימת בקטלוג חזי אורקור."
+              : `${topic} בחזי אורקור, נהריה. חיפוש וסינון חלקי חילוף.`,
+          ),
         },
       ],
     };
@@ -87,6 +97,19 @@ function ResultsPage() {
         ? `${categoryName(state.category) || "קטגוריה"}${state.oilBrand ? ` · ${state.oilBrand}` : ""}`
         : "תוצאות לפי הרכב";
 
+  if (state.category && !categoryName(state.category)) {
+    return (
+      <section className="mx-auto max-w-xl px-5 py-16 text-center">
+        <h1 className="mb-3 text-2xl">קטגוריה לא נמצאה</h1>
+        <p className="mb-6 text-muted">
+          הקטגוריה שבקישור אינה קיימת. אפשר לבחור קטגוריה מדף הבית או לחפש מק״ט.
+        </p>
+        <Link to="/">
+          <Button>חזרה לקטגוריות</Button>
+        </Link>
+      </section>
+    );
+  }
   return (
     <>
       {!isFluids ? (

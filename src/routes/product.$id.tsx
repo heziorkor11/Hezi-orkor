@@ -1,9 +1,9 @@
 import { pickDisplayedFitment } from "@/lib/catalog-runtime";
+import { ProductImage } from "@/components/product-image";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { DemoBanner } from "@/components/demo-banner";
 import { JsonLd } from "@/components/json-ld";
-import { PartIcon } from "@/components/part-icon";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
@@ -75,18 +75,11 @@ function ProductPage() {
       </nav>
       <div className="grid grid-cols-1 gap-7 rounded-xl border border-line bg-card p-5 md:grid-cols-[1.1fr_0.9fr] md:p-6">
         <div className="grid min-h-80 place-items-center overflow-hidden rounded-lg border border-line bg-[radial-gradient(180px_120px_at_50%_50%,rgb(226_59_18_/_0.14),transparent),#100e0c]">
-          {product.image ? (
-            <img
-              src={product.image}
-              alt={product.name}
-              referrerPolicy="no-referrer"
-              className="h-full max-h-[420px] w-full object-contain p-4"
-            />
-          ) : (
-            <div className="grid size-40 place-items-center rounded-3xl border border-line-strong bg-elevated">
-              <PartIcon type={product.type} size={140} />
-            </div>
-          )}
+          <ProductImage
+            src={product.image}
+            alt={product.name}
+            className="h-full max-h-[420px] w-full object-contain p-4"
+          />
         </div>
         <div>
           <span className="inline-block rounded-full bg-ok/12 px-2 py-0.5 text-[11px] font-bold text-ok">

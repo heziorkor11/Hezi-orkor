@@ -1,3 +1,4 @@
+import { displaySpacing } from "@/lib/display-spacing";
 import { displayCategory, isHiddenProduct } from "@/lib/display-taxonomy";
 import { typeFromCategory, PAGE_SIZE, type ListingCard, type ListingResult, type ListingSearch, type Product, type SearchHit } from "@/lib/catalog-types";
 import { displayModel, polishText, unique } from "@/lib/catalog-runtime";
@@ -75,7 +76,7 @@ function cardToProduct(card: ListingCard & Partial<Product>): Product {
     id: card.id || card.sku,
     sku: card.sku,
     oe: card.oe || "",
-    name: polishText(expandProductName(card.name).name),
+    name: displaySpacing(card.sku, polishText(expandProductName(card.name).name)),
     nameOriginal: card.nameOriginal || expandProductName(card.name).nameOriginal,
     type: typeFromCategory(category),
     category,
@@ -85,7 +86,7 @@ function cardToProduct(card: ListingCard & Partial<Product>): Product {
     yearTo,
     side: polishText(card.side || ""),
     condition: card.condition || "חלק חדש",
-    description: polishText(card.description || ""),
+    description: displaySpacing(card.sku, polishText(card.description || "")),
     image: resolveImage(card.sku, card.image, card.oe),
     universal: Boolean(!make && !yearFrom && !(card.vehicleFitment || "").trim()),
     vehicleFitment: polishText(card.vehicleFitment || ""),

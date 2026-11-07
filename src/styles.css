@@ -124,6 +124,13 @@ details summary::-webkit-details-marker {
 /* Mobile bottom tab bar clearance */
 @media (max-width: 767px) {
   .has-mobile-tabbar {
-    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (max-width: 767px) {
+  html { scroll-padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
+  #main-content :is(button, a, input, select, textarea) {
+    scroll-margin-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
   }
 }
