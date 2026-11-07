@@ -27,7 +27,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 function ContactPage() {
-  const maps = `https://maps.google.com/?q=${encodeURIComponent(brand.mapsQuery)}`;
+  const maps = brand.mapsUrl;
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

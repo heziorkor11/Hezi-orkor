@@ -7,6 +7,7 @@ export function HoursWidget({ compact = false }: { compact?: boolean }) {
   const [status, setStatus] = useState<ShopStatus | null>(null);
 
   useEffect(() => {
+    if (!brand.hoursVerified) return;
     setStatus(shopStatus());
     const id = window.setInterval(() => setStatus(shopStatus()), 60_000);
     return () => window.clearInterval(id);
@@ -32,7 +33,7 @@ export function HoursWidget({ compact = false }: { compact?: boolean }) {
           <span className="text-muted"> · {status.next}</span>
         </p>
       ) : (
-        <p className={compact ? "text-muted" : "mt-1 text-sm text-muted"}>א׳–ה׳, שעון ישראל</p>
+        <p className={compact ? "text-muted" : "mt-1 text-sm text-muted"}>פרטי הפעילות בכרטיס Google עשויים להשתנות</p>
       )}
     </div>
   );

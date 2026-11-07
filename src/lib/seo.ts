@@ -38,14 +38,6 @@ export function localBusinessJsonLd() {
       latitude: brand.lat,
       longitude: brand.lng,
     },
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
-        opens: "08:00",
-        closes: "17:00",
-      },
-    ],
     areaServed: ["נהריה", "הגליל המערבי", "עכו", "קריית שמונה"],
   };
 }

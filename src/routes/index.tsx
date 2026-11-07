@@ -110,7 +110,7 @@ function Home() {
             קראו ביקורות אמיתיות של לקוחות על חזי אורקור בנהריה במפות Google.
           </p>
           <a
-            href="https://www.google.com/maps/place/%D7%97%D7%96%D7%99+%D7%90%D7%95%D7%A8%D7%A7%D7%95%D7%A8/@33.002921,35.097601,17z"
+            href={brand.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-3 inline-flex items-center justify-center rounded-xl bg-accent px-4 py-2.5 text-sm font-bold text-on-accent"
