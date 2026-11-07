@@ -1,4 +1,4 @@
-import { subcategories, normalizeDisplayCategory } from "@/lib/display-taxonomy";
+import { subcategories, normalizeDisplayCategory, displayCategories } from "@/lib/display-taxonomy";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ActiveFilters } from "@/components/active-filters";
 import { DemoBanner } from "@/components/demo-banner";
@@ -36,7 +36,10 @@ export const Route = createFileRoute("/results")({
     page: num(search.page),
   }),
   loaderDeps: ({ search }) => search,
-  loader: ({ deps }) => loadListing(deps),
+  loader: ({ deps }) =>
+    deps.category && !displayCategories.some((c) => c.id === deps.category)
+      ? { items: [], total: 0, page: 1, pages: 0 }
+      : loadListing(deps),
   pendingComponent: PendingResults,
   head: ({ match }) => {
     const s = match.search;
@@ -44,19 +47,26 @@ export const Route = createFileRoute("/results")({
       s.fluidKind && FLUID_KIND_LABELS[s.fluidKind as FluidKind]
         ? FLUID_KIND_LABELS[s.fluidKind as FluidKind]
         : undefined;
-    const topic = s.q
-      ? `חיפוש: ${s.q}`
-      : kindLabel
-        ? kindLabel
-        : s.category
-          ? categoryName(s.category) || "קטגוריה"
-          : "תוצאות חיפוש חלקים";
+    const unknownCategory = s.category && !displayCategories.some((c) => c.id === s.category);
+    const topic = unknownCategory
+      ? "קטגוריה לא נמצאה"
+      : s.q
+        ? `חיפוש: ${s.q}`
+        : kindLabel
+          ? kindLabel
+          : s.category
+            ? categoryName(s.category) || "קטגוריה"
+            : "תוצאות חיפוש חלקים";
     return {
       meta: [
         { title: pageTitle(topic) },
         {
           name: "description",
-          content: pageDescription(`${topic} בחזי אורקור, נהריה. סינון לפי סוג שמן, מותג ומק״ט.`),
+          content: pageDescription(
+            unknownCategory
+              ? "הקטגוריה המבוקשת אינה קיימת בקטלוג חזי אורקור."
+              : `${topic} בחזי אורקור, נהריה. חיפוש וסינון חלקי חילוף.`,
+          ),
         },
       ],
     };
@@ -73,7 +83,8 @@ function PendingResults() {
 function ResultsPage() {
   const state = Route.useSearch();
   const listing = Route.useLoaderData();
-  const isFluids = state.category === "fluids" || Boolean(state.fluidKind) || Boolean(state.oilBrand);
+  const isFluids =
+    state.category === "fluids" || Boolean(state.fluidKind) || Boolean(state.oilBrand);
   const kindLabel =
     state.fluidKind && FLUID_KIND_LABELS[state.fluidKind as FluidKind]
       ? FLUID_KIND_LABELS[state.fluidKind as FluidKind]
@@ -86,6 +97,19 @@ function ResultsPage() {
         ? `${categoryName(state.category) || "קטגוריה"}${state.oilBrand ? ` · ${state.oilBrand}` : ""}`
         : "תוצאות לפי הרכב";
 
+  if (state.category && !displayCategories.some((c) => c.id === state.category)) {
+    return (
+      <section className="mx-auto max-w-xl px-5 py-16 text-center">
+        <h1 className="mb-3 text-2xl">קטגוריה לא נמצאה</h1>
+        <p className="mb-6 text-muted">
+          הקטגוריה שבקישור אינה קיימת. אפשר לבחור קטגוריה מדף הבית או לחפש מק״ט.
+        </p>
+        <Link to="/">
+          <Button>חזרה לקטגוריות</Button>
+        </Link>
+      </section>
+    );
+  }
   return (
     <>
       {!isFluids ? (
@@ -105,17 +129,30 @@ function ResultsPage() {
             {listing.pages > 1 ? ` · עמוד ${listing.page} מתוך ${listing.pages}` : ""}
           </p>
         </div>
-        {isFluids ? <FluidsFilters state={{ ...state, category: state.category || "fluids" }} /> : null}
+        {isFluids ? (
+          <FluidsFilters state={{ ...state, category: state.category || "fluids" }} />
+        ) : null}
         {state.category && state.category !== "fluids" && subcategories[state.category] ? (
           <nav aria-label="תתי קטגוריות" className="mb-5 flex flex-wrap gap-2">
-            <Link to="/results" search={{ ...state, sub: undefined, fluidKind: undefined, page: undefined }}
-              className={`rounded-full border px-4 py-2 text-sm ${!state.sub ? "bg-accent text-on-accent" : "bg-card"}`}>הכל</Link>
-            {subcategories[state.category].filter(s => s.count > 0).map(s => (
-              <Link key={s.id} to="/results" search={{ ...state, sub: s.id, fluidKind: undefined, page: undefined }}
-                className={`rounded-full border px-4 py-2 text-sm ${state.sub === s.id ? "bg-accent text-on-accent" : "bg-card"}`}>
-                {s.name} ({s.count})
-              </Link>
-            ))}
+            <Link
+              to="/results"
+              search={{ ...state, sub: undefined, fluidKind: undefined, page: undefined }}
+              className={`rounded-full border px-4 py-2 text-sm ${!state.sub ? "bg-accent text-on-accent" : "bg-card"}`}
+            >
+              הכל
+            </Link>
+            {subcategories[state.category]
+              .filter((s) => s.count > 0)
+              .map((s) => (
+                <Link
+                  key={s.id}
+                  to="/results"
+                  search={{ ...state, sub: s.id, fluidKind: undefined, page: undefined }}
+                  className={`rounded-full border px-4 py-2 text-sm ${state.sub === s.id ? "bg-accent text-on-accent" : "bg-card"}`}
+                >
+                  {s.name} ({s.count})
+                </Link>
+              ))}
           </nav>
         ) : null}
         <ActiveFilters state={state} />

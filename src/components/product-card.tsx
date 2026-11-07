@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { PartIcon } from "@/components/part-icon";
+import { ProductImage } from "@/components/product-image";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
 import {
@@ -16,7 +16,6 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { hideVehicleFitmentForFluid } from "@/lib/fluid-classify";
 import { priceOrQuoteLabel } from "@/lib/prices";
 import { packUnitPriceLabel } from "@/lib/pack-price";
-import { useState } from "react";
 
 function yearRange(from?: number, to?: number) {
   if (!from) return null;
@@ -36,8 +35,6 @@ export function ProductCard({
   const car = displayVehicle(shown.make, shown.model);
   const years = yearRange(shown.yearFrom, shown.yearTo);
   const fit = fitmentLabel(product);
-  const [broken, setBroken] = useState(false);
-  const showImage = Boolean(product.image) && !broken;
   const extraLabel = shown.extraCount > 0 ? `+${shown.extraCount} רכבים` : null;
   const hideFit = hideVehicleFitmentForFluid(product.category, product.name);
 
@@ -48,19 +45,11 @@ export function ProductCard({
           <span className="absolute top-2.5 right-2.5 z-10 rounded-full border border-line bg-card px-2 py-0.5 text-[11px] font-bold text-accent">
             מק״ט {product.sku}
           </span>
-          {showImage ? (
-            <img
-              src={product.image}
-              alt={product.name}
-              referrerPolicy="no-referrer"
-              onError={() => setBroken(true)}
-              className="h-full w-full object-contain p-3 pb-16"
-            />
-          ) : (
-            <div className="mb-10 grid size-24 place-items-center rounded-3xl border border-line bg-card">
-              <PartIcon type={product.type} size={72} />
-            </div>
-          )}
+          <ProductImage
+            src={product.image}
+            alt={product.name}
+            className="h-full w-full object-contain p-3 pb-16"
+          />
           <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-card via-card/90 to-transparent px-3 pt-10 pb-2.5">
             {hideFit ? (
               <p className="truncate text-sm font-bold text-fg">שמן / נוזל · בלי התאמת רכב</p>
@@ -69,7 +58,10 @@ export function ProductCard({
                 <p className="truncate text-sm font-bold text-fg">
                   {car || product.vehicleFitment || "יש לאשר לפי מספר רכב"}
                   {extraLabel ? (
-                    <span className="mr-1.5 text-[11px] font-bold text-accent-warm"> {extraLabel}</span>
+                    <span className="mr-1.5 text-[11px] font-bold text-accent-warm">
+                      {" "}
+                      {extraLabel}
+                    </span>
                   ) : null}
                 </p>
                 {years ? <p className="text-xs font-semibold text-accent-warm">{years}</p> : null}
@@ -103,7 +95,9 @@ export function ProductCard({
                   <dt className="text-muted">דגם</dt>
                   <dd className="font-bold text-fg">
                     {shown.model}
-                    {extraLabel ? <span className="mr-1 text-accent-warm"> {extraLabel}</span> : null}
+                    {extraLabel ? (
+                      <span className="mr-1 text-accent-warm"> {extraLabel}</span>
+                    ) : null}
                   </dd>
                 </>
               ) : null}
@@ -133,9 +127,13 @@ export function ProductCard({
           )}
         </dl>
         <div className="mt-auto">
-          <p className="text-sm font-bold text-accent tabular-nums">{priceOrQuoteLabel(product.sku)}</p>
+          <p className="text-sm font-bold text-accent tabular-nums">
+            {priceOrQuoteLabel(product.sku)}
+          </p>
           {packUnitPriceLabel(product.sku, product.name) ? (
-            <p className="text-[11px] text-muted tabular-nums">{packUnitPriceLabel(product.sku, product.name)}</p>
+            <p className="text-[11px] text-muted tabular-nums">
+              {packUnitPriceLabel(product.sku, product.name)}
+            </p>
           ) : null}
         </div>
         <div className="flex gap-2">
