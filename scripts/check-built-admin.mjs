@@ -45,6 +45,7 @@ const request = (path, method = "GET", body, cookie) =>
   new Request(origin + path, {
     method,
     headers: {
+      "x-vercel-forwarded-for": "192.0.2.10",
       ...(body ? { origin, "content-type": "application/json" } : {}),
       ...(cookie ? { cookie } : {}),
     },
@@ -57,6 +58,8 @@ assert.equal(htmlResponse.status, 200, html.slice(0, 200));
 assert.match(html, /כניסה לניהול/);
 assert.match(html, /type="password"/);
 assert.match(html, /מצב בדיקה/);
+assert.match(html, /data-admin-route/);
+assert.doesNotMatch(html, /data-storefront-whatsapp/);
 const login = await app.fetch(
   request("/api/admin/login", "POST", { username: "preview-owner", password }),
 );
@@ -69,8 +72,90 @@ assert.equal(session.status, 200);
 assert.equal((await session.json()).user.role, "owner");
 const storefront = await app.fetch(request("/api/admin/storefront"));
 assert.equal((await storefront.json()).mode, "preview-demo");
+// HTML checkpoint responses must not leak SyntaxError or HTML into the UI.
+const ts = await import("typescript");
+const { readFile } = await import("node:fs/promises");
+let clientSource = await readFile("src/lib/admin/client.ts", "utf8");
+clientSource = clientSource.replace(
+  'import { adminSnapshot } from "./overlay";',
+  "const adminSnapshot = () => ({enabled:false});",
+);
+const clientJs = ts.default.transpileModule(clientSource, {
+  compilerOptions: { target: ts.default.ScriptTarget.ES2022, module: ts.default.ModuleKind.ESNext },
+}).outputText;
+const { adminRequest } = await import(
+  "data:text/javascript;base64," + Buffer.from(clientJs).toString("base64")
+);
+const realFetch = globalThis.fetch;
+try {
+  for (const status of [429, 403, 503, 200]) {
+    globalThis.fetch = async () =>
+      new Response("<html>Vercel Security Checkpoint</html>", {
+        status,
+        headers: { "content-type": "text/html" },
+      });
+    await assert.rejects(
+      adminRequest("login", "POST", {}),
+      (error) => !error.message.includes("JSON") && /בדיקת אבטחה/.test(error.message),
+    );
+  }
+  globalThis.fetch = async () =>
+    Response.json(
+      { error: "יותר מדי ניסיונות. נסו שוב בעוד 30 שניות" },
+      { status: 429, headers: { "x-admin-error": "rate-limit" } },
+    );
+  await assert.rejects(adminRequest("login", "POST", {}), /30 שניות/);
+  globalThis.fetch = async () => Response.json({ user: { role: "owner" } });
+  assert.equal((await adminRequest("login", "POST", {})).user.role, "owner");
+} finally {
+  globalThis.fetch = realFetch;
+}
+// Repeated successful logins reset only the username+IP attempt bucket.
+for (let i = 0; i < 11; i++) {
+  const r = await app.fetch(
+    request("/api/admin/login", "POST", { username: "preview-owner", password }),
+  );
+  assert.equal(r.status, 200);
+}
+for (let i = 0; i < 10; i++) {
+  const r = await app.fetch(
+    request("/api/admin/login", "POST", { username: "preview-owner", password: "wrong" }),
+  );
+  assert.equal(r.status, 401);
+}
+const throttled = await app.fetch(
+  request("/api/admin/login", "POST", { username: "preview-owner", password }),
+);
+assert.equal(throttled.status, 429);
+assert.equal(throttled.headers.get("x-admin-error"), "rate-limit");
+assert.ok(Number(throttled.headers.get("retry-after")) <= 60);
+assert.match((await throttled.json()).error, /שניות/);
+const otherIp = request("/api/admin/login", "POST", { username: "preview-owner", password });
+otherIp.headers.set("x-vercel-forwarded-for", "192.0.2.11");
+assert.equal((await app.fetch(otherIp)).status, 200);
+assert.equal(
+  (await app.fetch(request("/api/admin/login", "POST", { username: "preview-employee", password })))
+    .status,
+  200,
+);
+const realNow = Date.now;
+try {
+  const now = realNow();
+  Date.now = () => now + 61_000;
+  assert.equal(
+    (await app.fetch(request("/api/admin/login", "POST", { username: "preview-owner", password })))
+      .status,
+    200,
+  );
+} finally {
+  Date.now = realNow;
+}
 const result = {
   passed: true,
+  checkpointErrorUi: true,
+  previewLoginThrottleAndSuccessReset: true,
+  usernameAndIpIsolation: true,
+  adminWithoutStorefrontBubble: true,
   coldImportedRouterChunks: paths,
   adminStatus: htmlResponse.status,
   loginStatus: login.status,

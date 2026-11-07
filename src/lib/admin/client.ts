@@ -8,10 +8,30 @@ export async function adminRequest<T>(path: string, method = "GET", body?: unkno
     headers: body === undefined ? undefined : { "content-type": "application/json" },
     body: body === undefined ? undefined : JSON.stringify(body),
   });
-  const data = await r.json();
+  // Hosting protection/proxies may answer with HTML, including on 429.
+  // Never expose their body or a JSON SyntaxError to the person signing in.
+  let data: { error?: string } | null = null;
+  try {
+    data = JSON.parse(await r.text());
+  } catch {
+    // Handled below using status only; do not render untrusted HTML.
+  }
+  if (r.status === 429) {
+    const ours = r.headers.get("x-admin-error") === "rate-limit";
+    throw new Error(
+      ours
+        ? data?.error || "יותר מדי ניסיונות כניסה. המתינו דקה ונסו שוב."
+        : "הבקשה נחסמה זמנית על ידי הגנת האתר. המתינו דקה, רעננו את הדף והשלימו בדיקת אבטחה אם תופיע, ואז נסו שוב.",
+    );
+  }
+  if (!data || typeof data !== "object") {
+    throw new Error(
+      "השרת החזיר תשובה לא צפויה. רעננו את הדף, השלימו בדיקת אבטחה אם תופיע ונסו שוב.",
+    );
+  }
   if (!r.ok) {
     if (r.status === 401) window.dispatchEvent(new Event("admin:unauthorized"));
-    throw new Error(data.error || "הפעולה לא הושלמה");
+    throw new Error(data?.error || "הפעולה לא הושלמה");
   }
   return data as T;
 }

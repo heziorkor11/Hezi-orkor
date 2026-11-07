@@ -29,6 +29,7 @@ class ApiError extends Error {
   constructor(
     readonly status: number,
     message: string,
+    readonly retryAfter?: number,
   ) {
     super(message);
   }
@@ -91,7 +92,15 @@ function limit(key: string, max: number, ms: number) {
   const c = counters.get(key) || { count: 0, until: now + ms };
   c.count++;
   counters.set(key, c);
-  assert(c.count <= max, 429, "יותר מדי ניסיונות. נסו שוב מאוחר יותר");
+  if (c.count > max) {
+    throw new ApiError(
+      429,
+      "יותר מדי ניסיונות. נסו שוב בעוד " +
+        Math.max(1, Math.ceil((c.until - now) / 1000)) +
+        " שניות",
+      Math.max(1, Math.ceil((c.until - now) / 1000)),
+    );
+  }
 }
 async function bootstrap() {
   const storage = adminStorage();
@@ -420,8 +429,27 @@ export async function adminApi(req: Request): Promise<Response> {
         .object({ username: cleanText(40), password: z.string().min(1).max(128) })
         .strict()
         .parse(await body(req));
-      limit("all-logins", 60, 15 * 60_000);
-      limit("login:" + input.username, 10, 15 * 60_000);
+      // Only this guarded demo branch gets the short QA window. Keep the
+      // existing non-preview policy intact. Never count GET/curl page loads.
+      const preview = adminRuntimeMode() === "preview-demo";
+      const ip = (
+        req.headers.get("x-vercel-forwarded-for") ||
+        req.headers.get("x-forwarded-for") ||
+        req.headers.get("x-real-ip") ||
+        "unknown"
+      )
+        .split(",")[0]
+        .trim();
+      const loginKey = preview
+        ? "preview-login:" + digest(input.username.toLowerCase() + ":" + ip)
+        : "login:" + input.username;
+      if (preview) {
+        limit("preview-ip:" + digest(ip), 60, 60_000);
+        limit(loginKey, 10, 60_000);
+      } else {
+        limit("all-logins", 60, 15 * 60_000);
+        limit(loginKey, 10, 15 * 60_000);
+      }
       const user = state.users.find((u) => u.username === input.username && u.active);
       const hash =
         user?.role === "owner"
@@ -431,6 +459,7 @@ export async function adminApi(req: Request): Promise<Response> {
       const dummy = "scrypt:" + "0".repeat(32) + ":" + "0".repeat(128);
       const valid = checkPassword(input.password, hash || dummy);
       assert(user && valid, 401, "פרטי התחברות שגויים");
+      if (preview) counters.delete(loginKey);
       const token = randomBytes(32).toString("hex");
       await storage.transaction((s) => {
         s.sessions = s.sessions.filter((x) => x.expires > Date.now());
@@ -724,7 +753,22 @@ export async function adminApi(req: Request): Promise<Response> {
     }
     return json({ error: "לא נמצא" }, 404);
   } catch (e) {
-    if (e instanceof ApiError) return json({ error: e.message }, e.status);
+    if (e instanceof ApiError) {
+      if (e.status === 429)
+        console.warn(
+          JSON.stringify({ event: "admin_rate_limit", path: new URL(req.url).pathname }),
+        );
+      return json(
+        { error: e.message },
+        e.status,
+        e.status === 429
+          ? {
+              "x-admin-error": "rate-limit",
+              "retry-after": String(e.retryAfter || 60),
+            }
+          : undefined,
+      );
+    }
     if (e instanceof z.ZodError)
       return json(
         {

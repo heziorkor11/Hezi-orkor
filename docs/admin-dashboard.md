@@ -107,3 +107,33 @@ ADMIN_TEST_OUTPUT=/workspace/designs/dashboard-build npm run test:admin
 `npm run build` מריץ כעת גם `scripts/check-built-admin.mjs` לאחר יצירת הפלט: cold import לכל Router chunk בסדר הפוך, ואז הפעלת handler ה־Vercel/Nitro שנוצר בפועל, כולל `/admin`, טופס סיסמה, login ו־session. הבדיקה משתמשת בפרטי בדיקה אקראיים וב־/tmp מבודד בתהליך נפרד בלבד; אינה משנה env או הגדרות של deployment. כך נתפסת גם שגיאת אתחול chunks שאינה מתגלה בשרת Vite dev או ב־typecheck.
 
 ב־Preview הקודם נמצאה בלוגים `TypeError: __exportAll is not a function`: import דינמי מיותר של namespace הקטלוג יצר chunk cycle ותלות בסדר אתחול helper לאחר bundling של Nitro/Rolldown. הוחלף ב־named import סטטי של `loadManifest`. זו הייתה שגיאת SSR bundling, לא כשל הרשאות /tmp או סיסמאות. לא שונו הגדרות Production.
+
+## Preview login 429 diagnostics (2026-11-07)
+
+The previous client called `response.json()` unconditionally. The app's own
+limiter always returns JSON, and only POST /login increments login counters:
+GET /admin / curl page checks cannot consume them. The reported 429 plus JSON
+parse failure therefore indicates a non-JSON response outside that contract,
+consistent with the observed Vercel checkpoint (HTML 429 and
+`x-vercel-mitigated: challenge`). Runtime logs for the affected deployment
+contained no matching application log records; the exact browser POST headers
+were not captured, so attributing that specific request to Vercel is an inference,
+not a directly observed request trace. No checkpoint bypass was attempted.
+
+All admin requests now handle HTML/non-JSON and 429 with Hebrew messages.
+App-generated throttles have `x-admin-error: rate-limit`, `Retry-After`, and an
+`admin_rate_limit` warning (without username/IP/password) so future incidents
+can be distinguished from hosting responses. In guarded preview-demo only,
+login limits are 10 attempts per normalized username+IP per minute, reset on
+success/expiry, plus 60 attempts per IP per minute. They are best-effort
+per-instance counters, not a distributed security service. The existing
+non-preview 15-minute/global policy is unchanged. No environment/project/
+production protection settings were changed.
+
+The storefront WhatsApp bubble is not rendered on /admin or /admin/*; the
+admin route also scopes CSS hiding Vercel's floating feedback web component.
+This only affects the feedback UI, not deployment protection or its checkpoint.
+The emitted-handler build regression covers HTML 429/403/503/malformed success,
+JSON rate limits, successful login reset, username/IP isolation, timed expiry,
+and absence of the storefront bubble in admin HTML. Real mobile-browser
+visual validation remains necessary behind the checkpoint.

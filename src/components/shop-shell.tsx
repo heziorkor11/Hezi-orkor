@@ -10,7 +10,8 @@ import { brand } from "@/lib/brand";
 
 export function ShopShell({ children }: { children: ReactNode }) {
   const path = useLocation({ select: (l) => l.pathname });
-  if (path === "/admin" || path.startsWith("/admin/")) return <>{children}</>;
+  if (path === "/admin" || path.startsWith("/admin/"))
+    return <div data-admin-route>{children}</div>;
   return (
     <div className="has-mobile-tabbar flex min-h-dvh flex-col bg-paper text-fg">
       <a href="#main-content" className="skip-link">
@@ -27,6 +28,7 @@ export function ShopShell({ children }: { children: ReactNode }) {
       </main>
       <SiteFooter />
       <a
+        data-storefront-whatsapp
         href={`https://wa.me/${brand.whatsapp}`}
         target="_blank"
         rel="noopener noreferrer"
