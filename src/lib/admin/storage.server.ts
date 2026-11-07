@@ -1,3 +1,4 @@
+import { GitHubAdminAdapter } from "./git-storage.server";
 import { adminRuntimeMode, adminRuntimeDirectory } from "./config";
 /** Server-only storage boundary. Local JSON is NOT a production database. */
 import { readFile, writeFile, mkdir, rename, open, unlink } from "node:fs/promises";
@@ -77,5 +78,6 @@ export function adminStorage(): AdminStorageAdapter {
     throw new Error(
       "Admin storage not configured; external production services require owner approval",
     );
-  return new LocalJsonAdminAdapter();
+  const local = new LocalJsonAdminAdapter();
+  return adminRuntimeMode() === "git" ? new GitHubAdminAdapter(local) : local;
 }

@@ -49,7 +49,7 @@ npm run dev -- --host 127.0.0.1 --port 8080
 
 Deployment Protection/SSO של Vercel הוא שער תשתיתי של ספק האירוח, **לא** מנגנון כניסת הניהול של החנות. אין להפוך אותו לזרימת הכניסה של העובדים ואין לשנות הגנות Production במסגרת בדיקת Preview.
 
-## המלצה לפרודקשן — דורשת אישור נפרד, לא בוצעה
+## חלופות עתידיות לפרודקשן — דורשות אישור נפרד, לא בוצעו
 
 1. **Neon Postgres דרך Vercel Marketplace**: טבלאות מוצר overrides, מבצעים, בית, הזמנות/פריטים, audit ו־Auth. טרנזקציות ו־revision מאומת להזמנה; הרשאות ברמת שרת. לא לשמור JSON מקומי או SQLite על filesystem של Vercel Functions. Adapter SQL צריך queries ייעודיות ל־public snapshot, pagination ו־audit, לא לטעון את כל ההזמנות בכל בקשה.
 2. **Vercel Blob**: תמונות מוצר/באנר ב־public store, קובצי PDF ב־private store, בדיקת הרשאה בכל הורדה; אימות/קידוד מחדש של תמונות לפני פרסום. לא Global Config ולא חבילת `@vercel/postgres` הישנה בתור DB חדש.
@@ -282,3 +282,14 @@ aria-describedby וטקסט שגיאה צמוד. לאחר שגיאה הטופס 
 
 ### Product creation list context
 After creation, Products clears both the query and status filter, returns to page one, and requests the newly created SKU pinned in the full result (no extra/duplicate row and unchanged totals/pagination). The row is highlighted with `חדש`; the success message links to its storefront product page. Active search/status filters have an explicit `מסונן: … · נקה` control. Counts use `1 מוצר` versus `N מוצרים`. Stale query responses cannot replace the current list.
+
+
+## מצב Git חינמי אופציונלי — נוסף ב־7.11.2026
+
+ראו [הגדרה, פרטיות, יצירת token ומגבלות](admin-git-storage.md).
+המאגר נבדק דרך GitHub: **PUBLIC**. מצב Git שומר overrides, משתמשים ו־sessions מוצפנים;
+**לא שומר הזמנות, פרטי לקוחות, PDF או audit הזמנות ב־Git ציבורי**. אלה זמניים בלבד ב־/tmp.
+אין לשמור סיסמאות/hash או נתוני לקוחות ב־Git גלוי; החריג היחיד כאן הוא מעטפת state מוצפנת AES-256-GCM,
+כאשר המפתח נשמר בסוד שרת נפרד ולא במאגר. הכלל הישן למצב local נשאר בתוקף.
+לא נוצר token, לא הוגדר סוד, לא חובר שירות חדש ולא שונו הגדרות Production.
+מצב ephemeral הקיים ב־Preview נשאר ללא שינוי. חלופות SQL/Blob לעיל אינן תנאי למצב Git.

@@ -22,7 +22,9 @@
     "catalog:build": "node scripts/process-catalog.mjs",
     "catalog:validate": "node scripts/validate-catalog.mjs",
     "test:admin": "node scripts/test-admin-local.mjs",
-    "check:built-admin": "node scripts/check-built-admin.mjs"
+    "check:built-admin": "node scripts/check-built-admin.mjs",
+    "test:admin-git": "node scripts/test-admin-git.mjs",
+    "check:built-admin-git": "node scripts/check-built-admin-git.mjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.4",

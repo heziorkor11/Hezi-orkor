@@ -433,7 +433,7 @@ async function jsonWithStorefront(data: Record<string, unknown>) {
     result: data,
     storefront: toPublicState(
       await adminStorage().read(),
-      adminRuntimeMode() === "preview-demo" ? "preview-demo" : "local",
+      adminRuntimeMode() === "git" ? "git" : adminRuntimeMode() === "preview-demo" ? "preview-demo" : "local",
     ),
   });
 }
@@ -480,7 +480,7 @@ export async function adminApi(req: Request): Promise<Response> {
       return json(
         toPublicState(
           await storage.read(),
-          adminRuntimeMode() === "preview-demo" ? "preview-demo" : "local",
+          adminRuntimeMode() === "git" ? "git" : adminRuntimeMode() === "preview-demo" ? "preview-demo" : "local",
         ),
       );
     if (path.startsWith("media/") && req.method === "GET") {
@@ -1064,7 +1064,9 @@ export async function adminApi(req: Request): Promise<Response> {
         error:
           adminRuntimeMode() === "preview-demo"
             ? "הפעולה לא הושלמה במצב בדיקה. רעננו את הדף ונסו שוב; הנתונים זמניים."
-            : "הפעולה לא הושלמה. בדקו את הגדרות האחסון המקומי ונסו שוב.",
+            : adminRuntimeMode() === "git"
+              ? "שמירת Git נכשלה. בדקו הרשאות, מגבלות API ומפתח הצפנה; נסו שוב. לא התקבל אישור שמירה."
+              : "הפעולה לא הושלמה. בדקו את הגדרות האחסון המקומי ונסו שוב.",
       },
       503,
     );

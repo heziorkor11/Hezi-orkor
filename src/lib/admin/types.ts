@@ -44,7 +44,7 @@ export type Banner = {
 };
 export type HomeSettings = { banners: Banner[]; featuredSkus?: string[]; categoryOrder: string[] };
 export type PublicAdminState = {
-  mode?: "disabled" | "local" | "preview-demo";
+  mode?: "disabled" | "local" | "preview-demo" | "git";
   enabled: boolean;
   revision: number;
   products: Record<string, ProductOverride>;
@@ -129,7 +129,7 @@ export const initialAdminState = (): AdminState => ({
 });
 export function toPublicState(
   s: AdminState,
-  mode: "local" | "preview-demo" = "local",
+  mode: "local" | "preview-demo" | "git" = "local",
 ): PublicAdminState {
   return {
     mode,

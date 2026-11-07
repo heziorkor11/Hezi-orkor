@@ -114,6 +114,10 @@ export async function refreshAdminOverlay(force = false): Promise<PublicAdminSta
   if (typeof window === "undefined") {
     const mode = adminRuntimeMode();
     if (mode === "disabled") return (snapshot = emptyPublicState());
+    if (mode === "git") {
+      const { readGitOverlay } = await import("./git-overlay");
+      return (snapshot = await readGitOverlay());
+    }
     try {
       const { readFile } = await import("node:fs/promises");
       const { resolve, join } = await import("node:path");
