@@ -46,7 +46,7 @@ export function ProductCard({
         </div>
         <div
           data-product-photo
-          className="relative grid aspect-[4/5] w-full place-items-center bg-white"
+          className="relative grid aspect-[4/5] max-h-[220px] w-full place-items-center bg-white md:max-h-[280px]"
         >
           <ProductImage
             src={product.image}
