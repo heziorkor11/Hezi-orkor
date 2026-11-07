@@ -1,3 +1,5 @@
+import { adminSnapshot } from "@/lib/admin/overlay";
+import { useLocation } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
 import { MobileTabBar } from "@/components/mobile-tabbar";
@@ -7,17 +9,26 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { brand } from "@/lib/brand";
 
 export function ShopShell({ children }: { children: ReactNode }) {
+  const path = useLocation({ select: (l) => l.pathname });
+  if (path === "/admin" || path.startsWith("/admin/"))
+    return <div data-admin-route>{children}</div>;
   return (
     <div className="has-mobile-tabbar flex min-h-dvh flex-col bg-paper text-fg">
       <a href="#main-content" className="skip-link">
         דלג לתוכן הראשי
       </a>
       <SiteHeader />
+      {adminSnapshot().mode === "preview-demo" && (
+        <div className="bg-amber-100 px-4 py-2 text-center text-xs text-amber-950">
+          מצב בדיקה · עריכות זמניות בדפדפן הזה · אין להזין פרטי לקוחות אמיתיים
+        </div>
+      )}
       <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
         {children}
       </main>
       <SiteFooter />
       <a
+        data-storefront-whatsapp
         href={`https://wa.me/${brand.whatsapp}`}
         target="_blank"
         rel="noopener noreferrer"

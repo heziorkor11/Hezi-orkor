@@ -8,3 +8,7 @@ dist/
 .env.*
 !.env.example
 .tanstack/
+
+# Local admin state contains private orders, password hashes and sessions. Never commit.
+.data/
+.admin-local/

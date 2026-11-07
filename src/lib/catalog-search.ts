@@ -1,4 +1,10 @@
-import { displayCategory, displayOverride, isHiddenProduct, normalizeDisplayCategory } from "@/lib/display-taxonomy";
+import { adminProductOverride } from "./admin/overlay";
+import {
+  displayCategory,
+  displayOverride,
+  isHiddenProduct,
+  normalizeDisplayCategory,
+} from "@/lib/display-taxonomy";
 import { sameModel } from "@/lib/model-names";
 import {
   type ListingResult,
@@ -9,12 +15,13 @@ import {
   typeFromCategory,
 } from "@/lib/catalog-types";
 import { loadFacets, unique } from "@/lib/catalog-runtime";
-import { namePartNumberTokens, normalizePartKey, oeSearchTokens, yearBounds } from "@/lib/part-display";
 import {
-  classifyFluidKind,
-  classifyOilBrand,
-  isFluidsBrowseItem,
-} from "@/lib/fluid-classify";
+  namePartNumberTokens,
+  normalizePartKey,
+  oeSearchTokens,
+  yearBounds,
+} from "@/lib/part-display";
+import { classifyFluidKind, classifyOilBrand, isFluidsBrowseItem } from "@/lib/fluid-classify";
 
 function escapeReg(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -31,7 +38,11 @@ function partKeyMatches(candidate: string, queryKey: string) {
   // Prefix: typed query is a prefix of the stored part number.
   if (queryKey.length >= 5 && candidate.startsWith(queryKey)) return true;
   // Allow a slightly longer typed form that starts with the stored part.
-  if (candidate.length >= 5 && queryKey.startsWith(candidate) && queryKey.length - candidate.length <= 3) {
+  if (
+    candidate.length >= 5 &&
+    queryKey.startsWith(candidate) &&
+    queryKey.length - candidate.length <= 3
+  ) {
     return true;
   }
   return false;
@@ -65,31 +76,59 @@ function queryMatchesHit(hit: SearchHit, raw: string) {
   const titles = [title, titleOriginal].filter(Boolean);
   if (looksLikePartNumber(q)) {
     if (partKeyMatches(skuKey, qKey) || sku === s || sku.startsWith(s)) return true;
-    if (oeTokens.some((t) => partKeyMatches(normalizePartKey(t), qKey) || partKeyMatches(t, s))) return true;
-    if (nameTokens.some((t) => partKeyMatches(normalizePartKey(t), qKey) || partKeyMatches(t, s))) return true;
+    if (oeTokens.some((t) => partKeyMatches(normalizePartKey(t), qKey) || partKeyMatches(t, s)))
+      return true;
+    if (nameTokens.some((t) => partKeyMatches(normalizePartKey(t), qKey) || partKeyMatches(t, s)))
+      return true;
     if (qKey.length >= 6 && normalizePartKey(hit.oe).includes(qKey)) return true;
-    return titles.some((t) => tokenHit(t, q) || (qKey.length >= 6 && normalizePartKey(t).includes(qKey)));
+    return titles.some(
+      (t) => tokenHit(t, q) || (qKey.length >= 6 && normalizePartKey(t).includes(qKey)),
+    );
   }
   if (titles.some((t) => tokenHit(t, q)) || tokenHit(make, q) || tokenHit(model, q)) return true;
   if (s.length >= 3 && titles.some((t) => t.toLowerCase().includes(s))) return true;
-  if (s.length >= 4 && (sku === s || sku.startsWith(s) || partKeyMatches(skuKey, qKey))) return true;
+  if (s.length >= 4 && (sku === s || sku.startsWith(s) || partKeyMatches(skuKey, qKey)))
+    return true;
   return false;
 }
 
 function fitmentEntries(hit: SearchHit) {
   if (Array.isArray(hit.fitments) && hit.fitments.length) return hit.fitments;
   if (hit.make) {
-    return [{ make: hit.make, model: hit.model || "", yearFrom: hit.yearFrom || 0, yearTo: hit.yearTo || 0 }];
+    return [
+      {
+        make: hit.make,
+        model: hit.model || "",
+        yearFrom: hit.yearFrom || 0,
+        yearTo: hit.yearTo || 0,
+      },
+    ];
   }
   return [];
 }
 
 function filterHit(hit: SearchHit, state: ProductFilter) {
   if (isHiddenProduct(hit.sku)) return false;
-  hit = { ...hit, category: displayCategory(hit.sku, hit.category || "general") };
+  const categoryOverride = adminProductOverride(hit.sku)?.category;
+  const sourceCategory = displayCategory(hit.sku, hit.category || "general");
+  hit = {
+    ...hit,
+    category:
+      adminProductOverride(hit.sku)?.category ||
+      displayCategory(hit.sku, hit.category || "general"),
+  };
   state = { ...state, category: normalizeDisplayCategory(state.category) };
-  if (state.sub && displayOverride(hit.sku)?.sub !== state.sub) return false;
-  const fluidsBrowse = state.category === "fluids" || Boolean(state.fluidKind) || Boolean(state.oilBrand);
+  if (
+    state.sub &&
+    (adminProductOverride(hit.sku)?.sub !== undefined
+      ? adminProductOverride(hit.sku)?.sub !== state.sub
+      : (categoryOverride && categoryOverride !== sourceCategory) ||
+        displayOverride(hit.sku)?.sub !== state.sub)
+  )
+    return false;
+  if (state.category && categoryOverride && categoryOverride !== state.category) return false;
+  const fluidsBrowse =
+    state.category === "fluids" || Boolean(state.fluidKind) || Boolean(state.oilBrand);
   if (fluidsBrowse) {
     // Fluids UI: classify from title; include brake-fluid SKUs outside category=fluids.
     if (!isFluidsBrowseItem(hit.category, hit.title)) return false;
@@ -184,7 +223,9 @@ export async function modelsFor(state: ProductFilter) {
   try {
     const facets = await loadFacets();
     if (state.make && facets.modelsByMake[state.make]) return facets.modelsByMake[state.make];
-    return unique(Object.values(facets.modelsByMake).flat()).sort((a, b) => a.localeCompare(b, "he"));
+    return unique(Object.values(facets.modelsByMake).flat()).sort((a, b) =>
+      a.localeCompare(b, "he"),
+    );
   } catch {
     return [];
   }

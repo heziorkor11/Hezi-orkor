@@ -20,7 +20,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "catalog:build": "node scripts/process-catalog.mjs",
-    "catalog:validate": "node scripts/validate-catalog.mjs"
+    "catalog:validate": "node scripts/validate-catalog.mjs",
+    "test:admin": "node scripts/test-admin-local.mjs",
+    "check:built-admin": "node scripts/check-built-admin.mjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.4",

@@ -127,3 +127,10 @@ details summary::-webkit-details-marker {
     padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
   }
 }
+
+/* The admin is not a storefront: keep floating shop/hosting feedback widgets
+   away from the mobile login. Scoped to this route, not a Vercel setting. */
+body:has([data-admin-route])
+  :is(vercel-live-feedback, #vercel-live-feedback, [data-storefront-whatsapp]) {
+  display: none !important;
+}

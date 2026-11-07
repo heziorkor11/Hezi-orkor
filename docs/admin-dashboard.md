@@ -1,0 +1,284 @@
+# ניהול חנות חזי אורקור — מקומי תחילה
+
+## מה נבנה
+
+זהו **TanStack Start/React + Vite/Nitro**, לא Next.js. `/admin` אינו מקושר בחנות ומוגדר `noindex, nofollow, noarchive`; Middleware של Nitro מוסיף גם `X-Robots-Tag` ו־`Cache-Control: no-store`. מצב זה לא מחליף אימות: כל API ניהולי בודק Session והרשאה בצד השרת.
+
+שישה מסכים בעברית RTL, מותאמים לנייד: בית עם נתונים אמיתיים, מוצרים ועריכה מהירה/תמונה, מבצעים ותצוגה מקדימה, הזמנות ו־PDF, עורך דף הבית, צוות והרשאות. בנוסף יומן שינויים לבעלים. אין נתוני דמה אוטומטיים במערכת עצמה ואין יצירה של מוצרים/מק״טים חדשים.
+
+## הפעלה מקומית בלבד
+
+לא נוצר ולא חובר שום DB, ספק Auth, Blob, שירות בתשלום או אינטגרציית Marketplace. הגדרות Production לא שונו. משתני QA ל־Preview ולענף אחד בלבד אושרו ונוספו בנפרד, כמפורט בהמשך. ברירת המחדל: הניהול **כבוי**. גם כשמשתני הסביבה המקומיים מוגדרים, `VERCEL` משבית את המצב המקומי במפורש. חריג QA נפרד ומאושר: מצב בדיקה זמני ב־Preview בלבד, כמפורט להלן. קטלוג החנות הרגיל ממשיך לפעול ללא ניהול.
+
+מחשב מקומי, Node ו־`npm ci`:
+
+```bash
+# הסיסמה מוקלדת באופן מוסתר; אין סיסמה בקוד ואין סיסמת ברירת מחדל.
+read -r -s -p 'Local owner password (12+ characters): ' ADMIN_LOCAL_PASSWORD; printf '\n'
+export ADMIN_OWNER_PASSWORD_HASH="$(printf '%s' "$ADMIN_LOCAL_PASSWORD" | node scripts/admin-password.mjs)"
+unset ADMIN_LOCAL_PASSWORD
+export ADMIN_LOCAL_ENABLED=1 ADMIN_STORAGE=local ADMIN_OWNER_USERNAME=owner
+export ADMIN_DATA_DIR="$PWD/.data/admin"
+npm run dev -- --host 127.0.0.1 --port 8080
+```
+
+פתחו `http://127.0.0.1:8080/admin`. API מקומי מאשר רק hostname של localhost/127.0.0.1/::1, ומשווה Origin מדויק בפעולות כתיבה. יש להשאיר את השרת קשור ל־loopback; זה אינו פתרון זמני לחשיפת ניהול לאינטרנט או לטלפון ברשת. עובדים/גישה מהטלפון בפרודקשן דורשים את שלב האחסון והאימות המאושר בהמשך.
+
+בעלים נוצר בהפעלה הראשונה; שמו מתן. שם המשתמש מוגדר בסביבה לפני הפעלה ראשונה. סיסמתו נשארת hash מסוג scrypt בסביבה בלבד. עובדים נוצרים במסך הצוות עם סיסמה מקומית שנשמרת כ־scrypt; אין הזמנות מייל, SMS או ספק זהויות חיצוני. החלפת hash בעלים מבטלת Sessions קיימים שלו. עריכת עובד/הרשאותיו מבטלת את התחברויותיו. Cookie: HttpOnly, SameSite=Strict, שמונה שעות, Secure ב־HTTPS, hash בלבד באחסון.
+
+**אין לשמור סיסמאות/hash, פרטי לקוחות או תיקיית הנתונים ב־Git.** `.data/` ו־`.admin-local/` מוחרגים; בחרתם נתיב אחר? ודאו שהוא פרטי ומחוץ ל־repository. גיבוי מוצפן ושמירה מוגבלת הם אחריות מפעיל הסביבה המקומית.
+
+## שכבת נתונים וגבולות
+
+`src/lib/admin/storage.server.ts`: חוזה `AdminStorageAdapter` עם `read`, `transaction`, `putFile`, `getFile`. המימוש המקומי משתמש ב־JSON נפרד, נעילה בין תהליכים וכתיבה אטומית עם rename. קבצים ותיקיות בהרשאות 600/700. מקור המחירים, מוצרי הקטלוג וטקסונומיית המקור **אינם נכתבים**.
+
+- שינויים ב־`products[sku]` בלבד: שם, מחיר/הצעת מחיר, קטגוריה, הסתרה, תמונה ומותג מאומת. 20 החרגות המחיר הקיימות נשארות מוגנות גם בניהול.
+- `audit`: משתמש, UTC ISO בתשתית (בתצוגה: שעון ישראל), פעולה, יעד, לפני/אחרי. לא נרשמים סיסמאות/hash או Session tokens. לפני/אחרי למחיר משקפים מחיר רגיל, לפני מבצע.
+- `promotions`: מוצר/קטגוריה/מותג, אחוז או מחיר קבוע, תאריכים, תג, באנר בית. ראשון פעיל ברשימה קובע; אין כפל, העלאת מחיר רגיל או המרת הצעת מחיר למחיר. שעות נערכות ומוצגות לפי Asia/Jerusalem.
+- מותג של פריט אינו תמיד מצוין בקטלוג. התאמת מבצע מותג משתמשת רק במותג מפורש בשם המקורי (רשימה שמרנית) או שדה מותג שאומת בניהול. אין לנחש יצרן מרשימת מותגים/מספרי OE. `node scripts/build-admin-price-identities.mjs` מרענן metadata קטן משמות הקטלוג אחרי עדכון קטלוג; הוא לא נוגע במחירים.
+- `home`: באנרים וטקסט/קישור/צילום, מוצרים מומלצים וסדר קטגוריות. גרירה וחצים; מחירי מוסך נשאר כפתור נפרד. שמירה היא פרסום **מקומי**, לא כתיבה לקטלוג. ללא שמירה: טיוטה בדפדפן בלבד.
+- `/api/admin/storefront` מחזיר רק override ציבורי, מבצעים והגדרות בית. אינו כולל משתמשים, סיסמאות, Sessions, הזמנות או פרטי לקוח. ה־snapshot הציבורי מסוריאלז ב־root loader ל־SSR/hydration; מתרענן בפוקוס/כל דקה. טעינות מקבילות מאוחדות; מפות/Chunks הבסיס נשארים immutable.
+- תמונות JPEG/PNG/WebP עד 2MB לפי magic bytes; ללא SVG. אין הורדת URL חיצוני מהשרת. מוצגות דרך מזהה אקראי; רק קבצי תמונה שנקשרו למוצר/באנר ציבוריים. אין סריקת וירוסים/פענוח פיקסלים/אופטימיזציה אוטומטית במימוש המקומי. אלו נדרשים להקשחת הפרודקשן.
+- `orders`: לחיצה על שליחת PDF מתחילה רישום לא חוסם, בלי להמתין לפני `navigator.share`. נשמרים UUID למניעת כפל, לקוח, פריטים, מחירים המחושבים מחדש בשרת ו־PDF פרטי. PDF להורדה רק בהרשאת הזמנות. **זו בקשת הזמנה/ניסיון שיתוף, לא אישור שההודעה נשלחה/נמסרה בוואטסאפ ולא תשלום**. גם ביטול Share אינו הוכחת מסירה. שינוי מחיר במקביל/ניתוק רשת עלול ליצור פער מול PDF שנוצר קודם או למנוע רישום; מוצגת הודעת כישלון רישום. אין תור offline או webhook וואטסאפ. לפני פרודקשן מומלץ snapshot/quote revision מאומת שרת כדי לנעול בדיוק את המחירים של ה־PDF.
+
+זהו מימוש לוקאלי לשימוש מצומצם: כל State נקרא/נכתב כקובץ אחד; אין גיבוי, שמירה מוגבלת, MFA או recovery אוטומטי. הגבלת ניסיונות התחברות/capture בזיכרון היא מקומית ומתאפסת בהפעלה מחדש. תהליך שנקטע בזמן נעילה יכול להשאיר `write.lock`; ודאו שכל התהליכים נסגרו וגבו את הקובץ לפני התאוששות ידנית. קובץ שהועלה לפני טרנזקציה שנכשלה יכול להישאר יתום; אין מחיקה אוטומטית.
+
+## דרישת אימות מחייבת של מתן
+
+הכניסה לניהול חייבת להישאר **בתוך האתר**, בנתיב ניהול שאינו מקושר מחנות הלקוחות, באמצעות **שם משתמש וסיסמה בטופס שלנו**. אין OAuth, הפניה לאתר אימות חיצוני, דפי כניסה hosted של Clerk/Auth0 או ספק זהויות חיצוני. המימוש הנוכחי עומד בכך: טופס `/admin` פונה ל־`/api/admin/login` באותו origin; תפקידי בעלים/עובד נבדקים בשרת. חיבור Better Auth בעתיד, אם יאושר, יהיה self-hosted בתוך האפליקציה ועל DB מאושר בלבד, עם טופס שם משתמש/סיסמה של האתר; לא מוצר hosted ולא OAuth. מנגנוני MFA/recovery עתידיים דורשים החלטה נפרדת, ואינם הרשאה להוציא את הכניסה מהאתר.
+
+Deployment Protection/SSO של Vercel הוא שער תשתיתי של ספק האירוח, **לא** מנגנון כניסת הניהול של החנות. אין להפוך אותו לזרימת הכניסה של העובדים ואין לשנות הגנות Production במסגרת בדיקת Preview.
+
+## המלצה לפרודקשן — דורשת אישור נפרד, לא בוצעה
+
+1. **Neon Postgres דרך Vercel Marketplace**: טבלאות מוצר overrides, מבצעים, בית, הזמנות/פריטים, audit ו־Auth. טרנזקציות ו־revision מאומת להזמנה; הרשאות ברמת שרת. לא לשמור JSON מקומי או SQLite על filesystem של Vercel Functions. Adapter SQL צריך queries ייעודיות ל־public snapshot, pagination ו־audit, לא לטעון את כל ההזמנות בכל בקשה.
+2. **Vercel Blob**: תמונות מוצר/באנר ב־public store, קובצי PDF ב־private store, בדיקת הרשאה בכל הורדה; אימות/קידוד מחדש של תמונות לפני פרסום. לא Global Config ולא חבילת `@vercel/postgres` הישנה בתור DB חדש.
+3. **Better Auth self-hosted** (התלות כבר קיימת בפרויקט), על אותה DB: חשבונות owner/employee מאושרים בלבד, בטופס שם משתמש וסיסמה בתוך האתר, ללא OAuth/דף hosted חיצוני וללא הרשמה ציבורית; הרשאות שרת, Session revocation, MFA/Passkeys לבעלים ו־recovery מבוקר. לחבר בזהירות ולא לשנות את scaffold אימות הפלטפורמה בלי תכנון. לא נדרש לרכוש Better Auth Infrastructure בשביל הספרייה עצמה. מיילי שחזור/הזמנות, אם נבחרים, יצריכו ספק נפרד מאושר.
+
+מחירים שנבדקו ב־7.11.2026, שעון ישראל; USD לפני מסים, תלויי שימוש/אזור/תוכנית, אינם הצעת מחיר לחשבון שלכם:
+
+| רכיב | מחיר רשמי/הערכה שקופה |
+|---|---|
+| Neon Launch | $0.106 לכל CU-hour + $0.35 ל־GB-month של DB. למשל 100 CU-hour ו־1GB ≈ $10.95 לפני שחזור/תעבורה/חריגות. Free קיים אך אינו הבטחה לתקציב/זמינות ייצור. |
+| Vercel Blob | דוגמת בסיס $0.023 ל־GB-month, $0.40 למיליון פעולות פשוטות, $5 למיליון פעולות מתקדמות; CDN/תעבורה/אזור יכולים להוסיף. 5GB אחסון = $0.115 בחישוב storage בלבד, לא חשבון כולל. דפי הספק מציגים הקצאות שונות לפי תוכנית/תקופה; לא הסתמכנו על הקצאת חינם. |
+| Better Auth library | MIT, ללא דמי רישיון/משתמש; משלמים על DB/אירוח והפעלה. המוצר המנוהל Infrastructure הוא מוצר אחר, אופציונלי. |
+| Vercel Pro, אם נדרש | דף רשמי: $20 לחודש platform fee עם seat פריסה אחד ו־$20 usage credit, ותשלום שימוש נוסף. Hobby אינו לשימוש מסחרי. לא בדקנו ולא שינינו את תוכנית החשבון; אין לחייב כפל אם כבר יש Pro. עובדי החנות אינם בהכרח deploying seats ב־Vercel. |
+
+מקורות רשמיים:
+- https://neon.com/pricing
+- https://neon.com/docs/introduction/plans
+- https://vercel.com/pricing
+- https://vercel.com/docs/vercel-blob/usage-and-pricing
+- https://vercel.com/docs/plans/pro-plan
+- https://github.com/better-auth/better-auth/blob/main/LICENSE.md
+- https://better-auth.com/pricing
+
+**צריך אישור מתן לפני כל חיבור/פריסה של השלב הזה**: בחירת DB ותוכנית/תקרת תקציב והתראות, מיקום נתונים, יצירת Blob public/private, חיבור Auth ואופן התאוששות/MFA, חשבונות עובדים והרשאות, ספק מייל אם נחוץ, שמירת פרטי לקוחות/PDF ומשך retention, גיבויים ושחזור, migrations, סודות סביבה ושינוי הגדרות Vercel. לא נבחרה מדיניות פרטיות/מחיקה אוטומטית ללא החלטה.
+
+## בדיקות ושחזור
+
+```bash
+npm run typecheck
+npm run build
+node scripts/check-display-taxonomy.mjs
+ADMIN_TEST_OUTPUT=/workspace/designs/dashboard-build npm run test:admin
+```
+
+בדיקת HTTP מריצה שרת loopback זמני עם hash/סיסמה אקראיים בזיכרון ונתונים בתיקייה זמנית, ללא חיבור שירותים. בודקת CRUD/הרשאות/CSRF/מבצעים/הסתרה/העלאה/SSR/capture/idempotency/PDF פרטי/audit ו־hash של קובצי המקור. תוצאות כברירת מחדל ב־`.data/admin-test-results/`; בהרצה לעיל נשמרות ב־`/workspace/designs/dashboard-build/` (אפשר לשנות `ADMIN_TEST_OUTPUT`, `ADMIN_TEST_PORT`). אין סודות בפלט ואין תמונות בדיקה שמתווספות לריפו.
+
+בדיקות HTTP אינן תחליף לבדיקת טאצ׳/פוקוס/Share Sheet ולצילומי מסך 390px: אלו דורשים סוכן דפדפן נפרד. לא נטען שבוצעה בדיקת דפדפן כשהיא לא בוצעה. אין בדיקת Vercel/live במסגרת המשימה.
+
+### השוואה מאומתת מול main
+
+ב־7.11.2026 (שעון ישראל) הורצה אותה `npm test` על main נקי בקומיט `952b047382f55f165c9f8e5957b5fb5cc5a1ccae` ועל ענף הניהול: בשניהם 195 בדיקות, 179 עוברות ו־16 נכשלות, עם **אותם 16 שמות בדיקה בדיוק**. אין כישלון חדש בענף זה. הדוחות המלאים וההשוואה ב־`/workspace/designs/dashboard-build/{main-existing-tests.log,branch-existing-tests.log,main-vs-branch-tests.json}`. בדיקות ה־app-data שבשלב השני של `npm test` אינן רצות כאשר שלב הסקריפטים הראשון נכשל; אין לטעון שכל חבילת הבדיקות ירוקה.
+
+## Preview QA זמני — אושר בנפרד
+
+מצב `preview-demo` מותר **רק** כאשר כל התנאים מתקיימים: `VERCEL_ENV=preview`, `VERCEL_GIT_COMMIT_REF=feature/admin-dashboard`, `ADMIN_PREVIEW_DEMO=1`, `ADMIN_STORAGE=ephemeral`. Production וכל ענף אחר נשארים כבויים גם אם דגלי הבדיקה הועתקו בטעות. אין להגדיר אף משתנה להלן ל־Production/Development.
+
+ששת המשתנים, כולם target=preview + gitBranch=feature/admin-dashboard: `ADMIN_PREVIEW_DEMO`, `ADMIN_STORAGE`, `ADMIN_OWNER_USERNAME`, `ADMIN_OWNER_PASSWORD_HASH` (Secret), `ADMIN_EMPLOYEE_USERNAME`, `ADMIN_EMPLOYEE_PASSWORD_HASH` (Secret). סיסמאות זמניות בלבד; ללא סודות אמיתיים. חשבונות owner/employee מאותחלים בתוך האפליקציה. העובד מקבל מוצרים/הזמנות בלבד, ללא מחירים/מבצעים/בית/משתמשים.
+
+האחסון נאלץ ל־`/tmp/hezi-admin-preview-<deployment-id>`; אינו משתמש ב־ADMIN_DATA_DIR המקומי, לא בקטלוג המקור ולא בשירות חיצוני. כל מופע serverless עשוי לקבל State משלו. נתונים, תמונות ובקשות הזמנה עשויים להיעלם באתחול/cold start או בהחלפת instance. כניסת בדיקה משתמשת כעת ב־cookie חתום המוגבל ל־deployment ושורד החלפת instance למשך שמונה שעות. זה **לא persistence לפרודקשן**. באנר ״מצב בדיקה״ מוצג בניהול ובחנות. אין להזין פרטי לקוחות אמיתיים.
+
+הגנת האימות של Vercel נשארת ללא שינוי. Automation secret הוא project-wide ולכן לא ניצור אותו במסגרת הרשאה זו; עדיף Shareable Link מוגבל לזמן ול־deployment Preview מסוים (`?_vercel_share=...`), בלי לגעת בדומיין/הגנות Production. קישור זה עוקף את שער האירוח בלבד: עדיין צריך את טופס שם המשתמש והסיסמה **של האתר** כדי להיכנס לניהול.
+
+### בדיקת runtime של חבילת Vercel האמיתית
+
+`npm run build` מריץ כעת גם `scripts/check-built-admin.mjs` לאחר יצירת הפלט: cold import לכל Router chunk בסדר הפוך, ואז הפעלת handler ה־Vercel/Nitro שנוצר בפועל, כולל `/admin`, טופס סיסמה, login ו־session. הבדיקה משתמשת בפרטי בדיקה אקראיים וב־/tmp מבודד בתהליך נפרד בלבד; אינה משנה env או הגדרות של deployment. כך נתפסת גם שגיאת אתחול chunks שאינה מתגלה בשרת Vite dev או ב־typecheck.
+
+ב־Preview הקודם נמצאה בלוגים `TypeError: __exportAll is not a function`: import דינמי מיותר של namespace הקטלוג יצר chunk cycle ותלות בסדר אתחול helper לאחר bundling של Nitro/Rolldown. הוחלף ב־named import סטטי של `loadManifest`. זו הייתה שגיאת SSR bundling, לא כשל הרשאות /tmp או סיסמאות. לא שונו הגדרות Production.
+
+## Preview login 429 diagnostics (2026-11-07)
+
+The previous client called `response.json()` unconditionally. The app's own
+limiter always returns JSON, and only POST /login increments login counters:
+GET /admin / curl page checks cannot consume them. The reported 429 plus JSON
+parse failure therefore indicates a non-JSON response outside that contract,
+consistent with the observed Vercel checkpoint (HTML 429 and
+`x-vercel-mitigated: challenge`). Runtime logs for the affected deployment
+contained no matching application log records; the exact browser POST headers
+were not captured, so attributing that specific request to Vercel is an inference,
+not a directly observed request trace. No checkpoint bypass was attempted.
+
+All admin requests now handle HTML/non-JSON and 429 with Hebrew messages.
+App-generated throttles have `x-admin-error: rate-limit`, `Retry-After`, and an
+`admin_rate_limit` warning (without username/IP/password) so future incidents
+can be distinguished from hosting responses. In guarded preview-demo only,
+login limits are 10 attempts per normalized username+IP per minute, reset on
+success/expiry, plus 60 attempts per IP per minute. They are best-effort
+per-instance counters, not a distributed security service. The existing
+non-preview 15-minute/global policy is unchanged. No environment/project/
+production protection settings were changed.
+
+The storefront WhatsApp bubble is not rendered on /admin or /admin/*; the
+admin route also scopes CSS hiding Vercel's floating feedback web component.
+This only affects the feedback UI, not deployment protection or its checkpoint.
+The emitted-handler build regression covers HTML 429/403/503/malformed success,
+JSON rate limits, successful login reset, username/IP isolation, timed expiry,
+and absence of the storefront bubble in admin HTML. Real mobile-browser
+visual validation remains necessary behind the checkpoint.
+
+## תיקון קריאת קטלוג ומפגשי Preview (7.11.2026)
+
+בלוגי Preview נראתה `Unexpected token '<', "<!DOCTYPE " ... is not valid JSON`
+ב־dashboard/products וביצירת מבצע, וכן `catalogJson` בדף הבית. הסיבה אינה
+כתיבה ל־/tmp: JSON הקטלוג לא צורף ל־function, וה־fallback ניסה HTTP ל־Preview
+המוגן וקיבל HTML במקום JSON. הודעת ״אחסון מקומי״ הייתה הודעת שגיאה כללית ומטעה.
+
+ה־build מעתיק את קובצי JSON הקיימים בלבד אל `__server.func/catalog-data`
+(ללא שינוי נתוני מקור), והקריאה בשרת היא יחסית למודול שנבנה ולא ל־cwd.
+ב־Vercel אין עוד fallback של HTTP לקטלוג; asset חסר נכשל מפורשות. כתיבות
+ה־demo ממשיכות רק ל־/tmp. הודעת 503 ב־Preview מתייחסת כעת למצב בדיקה.
+
+Cookie נשאר HttpOnly, Secure ב־HTTPS, SameSite=Strict, Path=/api/admin,
+Max-Age=28800. נתיב ה־cookie אינו חוסם fetch ל־session לאחר חזרה מהחנות.
+הבעיה האפשרית הייתה ש־session בצד שרת נשמר ב־/tmp של instance אחר. ב־demo
+בלבד, cookie חתום ב־HMAC כולל זהות/גרסת משתמש/תפוגה וקשור ל־deployment
+ול־hashes הבדיקה; בכל בקשה נבדקים גם active וגרסת המשתמש. אין secret חדש,
+שירות חיצוני או שינוי ב־auth המקומי/Production. התנתקות מנקה cookie ומבטלת
+אותו ב־instance הנוכחי; כמו הרשאות/משתמשים במצב זה, ביטול token גנוב בכל
+המופעים אינו מובטח בלי אחסון משותף. אין להשתמש במצב הדגמה לנתונים אמיתיים.
+
+בדיקת `scripts/check-built-admin-readonly.mjs` רצה על handler שנבנה בפועל
+בשני תהליכים קרים עם תיקיות /tmp שונות, ללא fetch לרשת, ועם הרשאות Node
+האוסרות כל כתיבה מחוץ ל־/tmp (כולל ניסיון כתיבה ל־cwd שנכשל כמצופה).
+היא בודקת session לאחר החלפת instance, admin→storefront→admin, dashboard,
+products/detail, GET/POST promotions, overlay והתנתקות.
+שדות תאריכי מבצע מוצגים בעמודה מלאה בטלפון, dir=ltr וגופן 16px; בדיקת
+מיקוד ויזואלית בדפדפן הטלפון מאחורי ה־checkpoint נשארת לבדיקה אנושית.
+
+## סנכרון מחירי חנות ומבצעים (7.11.2026)
+
+בדיקת bundle לפני התיקון הראתה ש־SSR באותו instance מציג נכון מחיר override
+818 ומבצע 10% (736.20) במוצר/חיפוש/קטגוריה. הכשל שנותר בצד לקוח: עזרי
+מחיר קראו snapshot גלובלי שאינו React state, כרטיסים ודף מוצר לא נרשמו
+לעדכוניו, ואימוץ חוזר של root loader ישן יכול היה לדרוס עדכון חדש. נוסף לכך
+/tmp אינו משותף בין מופעי Preview, ולכן fetch ציבורי נפרד לאחר כתיבה עשוי
+להגיע למופע שאינו מכיר את העריכה. קטלוג המקור/המחירים הסטטיים לא השתנו.
+
+כרטיסים ודף מוצר משתמשים כעת ב־useSyncExternalStore; snapshot חדש מפרסם
+עדכון ו־root loader ישן אינו מחזיר revision אחורה. תשובות כתיבת מוצר, מבצע
+ודף בית כוללות public projection מאותו handler שביצע את הכתיבה (ללא
+משתמשים, סיסמאות, sessions, הזמנות או audit), והלקוח מאמץ אותה מיד.
+
+במצב preview-demo בלבד נשמרות קבלות עריכה ציבוריות ל־8 שעות ב־localStorage
+של אותו origin, במפתח גרסתי hezi-admin-demo-public-edits-v1, עם סנכרון
+בין לשוניות. הן מגשרות על /tmp שונה ועל ניווט/רענון תוך שמירה על מחיר
+ומבצע שנערכו בדפדפן הזה. זו אינה מסד נתונים משותף ואינה הוכחה שמבקר
+בדפדפן אחר יראה עריכה ממופע אחר; עדיין נדרש אחסון ייצור משותף באישור
+מפורש. הקבלות אינן נקראות ב־SSR או במצב local/Production, אינן אימות
+או מקור סמכות לחיוב, ולא שומרות מידע פרטי. בפריסה חדשה יש להזין שוב
+נתוני QA; אין שינוי במחירי בסיס או הגדרות Production.
+
+בדיקת build מכסה 818→736.20 עם תג במוצר, חיפוש וקטגוריית בלמים, וכן
+התראות מנויים, root loader ישן, מופע קר ללא מחיר override, ולשונית חדשה
+עם קבלה ציבורית. בדיקת דפדפן אמיתית מאחורי ה־checkpoint עדיין נפרדת.
+
+404 לתמונות: main כבר מפנה ב־images/manifest.json לקובצי
+images-new-01.json עד images-new-05.json שאינם קיימים. בדיקת git cat-file
+מאשרת שאינם קיימים גם ב־main; זו אינה רגרסיה של PR #9. לא נוספו קובצי
+דמה ולא שונו תמונות/נתוני מקור כדי להסתיר חוסר קיים. שני manifests של
+batch1-polished ו־batch2-polished קיימים ב־PR. בלי HAR מהדפדפן לא אומתו
+בקשות 404 אחרות מעבר לחמש אלה.
+
+## הוספת מוצרים אישיים (7.11.2026)
+
+במסך מוצרים נוסף ״הוסף מוצר״: גיליון נגיש ומותאם לטלפון עם שם בעברית או באנגלית (לפחות 2 תווים),
+הצעת מק״ט HZ-CAT-xxxxx שניתנת לעריכה לפני שמירה, קטגוריה ותת־קטגוריה
+מהטקסונומיה הקיימת, מחיר כולל מע״מ (ריק = הצעת מחיר), מותג, תיאור, טקסט
+התאמה, מלאי/הסתרה וצילום JPEG/PNG/WebP עד 2MB. המק״ט נשאר קבוע לאחר
+היצירה כדי לא לשבור קישורים/הזמנות. אין מחיקה קשיחה; אפשר להסתיר ולשחזר.
+
+האחסון הוא `state.products[sku]` עם דגל שרת `created: true`; אין שינוי
+בקובצי JSON של הקטלוג/מחירי המקור. המק״ט מנורמל לאותיות גדולות, נבדק
+מול sku-map, מחירי המקור וכל מפת ה־overrides (כולל מוסתרים), ושוב בתוך
+transaction עם lock למניעת יצירה כפולה במקביל. SKU מוצע לפי קוד קטגוריה
+יציב והמספר הפנוי הבא בקידומת. תת־קטגוריה חייבת להשתייך לקטגוריה.
+תמונות נשמרות באדפטר, לא בתוך JSON או audit; audit מתעד product.create
+עם מי/מתי/before=null/after, וכן עריכות/הסתרה רגילות לאחר מכן.
+
+API: GET /api/admin/products/suggest-sku?category=brakes;
+POST /api/admin/products עם sku/name/category/sub/price/brand/description/
+vehicleFitment/inStock/hidden ו־photoBase64 אופציונלי. הכתיבה מחזירה
+מעטפת result/storefront דרך אותו client adapter כמו עריכות קיימות.
+הלקוח מפרסם את המוצר גם לקבלות ה־Preview הציבוריות. רישום מוצרים אישיים
+משתלב לפני הקטלוג הסטטי בדפי קטגוריה/תת־קטגוריה, חיפוש ודף מוצר, עם
+מחיר override ומבצע מוצר/קטגוריה/מותג רגילים. מוצרים שאזלו מסומנים ולא
+ניתנים להוספה להצעה; capture בשרת דוחה פריט שאזל. טקסט התאמה חופשי אינו
+מומר אוטומטית להתאמת יצרן/דגם/שנה מובנית או למספרי OE לא מאומתים.
+
+הרשאה חדשה add-products כבויה לעובדים כברירת מחדל; מחייבת גם products.
+לבעלים מותר תמיד. במסך משתמשים יש מתג מפורש. היא מאפשרת מחיר ראשוני
+בעת יצירה בלבד; שינוי מחיר של מוצר קיים (גם אישי) עדיין מחייב prices.
+הרשאות נאכפות מחדש בתוך transaction ולא רק בהסתרת כפתור.
+
+בדיקות: יצירה+צילום, התנגשות בקטלוג/כפילות/יצירה מקבילה, שיוך תת־קטגוריה,
+שדות לא מורשים, עריכה/מלאי/הסתרה, audit, חיפוש/קטגוריה/מוצר/מבצע והזמנה
+עם מחיר מבצע. בדיקת bundle ללא רשת ועם cwd חסום לכתיבה, הרשאת עובד
+כבויה ואז פעילה בלי הרשאת מחירים, קבלת Preview במוצר חדש ולשונית חדשה;
+בדיקת HTTP מקומית גם מפעילה שרת מחדש ומוודאת שהמוצר האישי נשמר.
+
+אין שינוי סיסמה או הגדרות Production. מגבלות הדמו נשארות: /tmp הוא
+instance-local; קבלות ציבוריות בדפדפן אינן מסד נתונים משותף, אינן מבטיחות
+ייחודיות גלובלית בין instances ואינן הופכות תמונות/מוצרים לנתונים עמידים.
+עריכה מאוחרת ב־Preview תלויה בכך שה־instance מחזיק עדיין את רשומת המוצר;
+ב־local adapter הנתונים נשמרים בין הפעלות. היכולת אינה מוכנה לשימוש ייצור
+משותף לפני בחירה ואישור של אחסון עמיד. בדיקת UI אמיתית במובייל טרם בוצעה.
+
+## תיקון BG, מק״טים שמורים ושגיאות שדות (7.11.2026)
+
+הבקשה המדווחת שוחזרה על ה־bundle הישן: name=BG, additives, ללא תת־קטגוריה,
+HZ-ADD-00018, מחיר 89, מותג Bg ותיאור Bg החזירה 422 עם issue בשדה name
+(״יש להזין שם מוצר בעברית״). לא נמצאו runtime logs לבקשה משום שכשלי Zod
+הוחזרו אז בלי log. הסיבה הוודאית בשחזור היא דרישת האות העברית, לא אחסון.
+
+שם מאפשר כעת כל שפה ו־2–300 תווים. מותג/תיאור/התאמה/sub/צילום יכולים
+להיות חסרים/ריקים; null בשדות טקסט אופציונליים מנורמל לריק. מחיר יכול
+להיות מספר או טקסט כגון 89, 89.50, 89,50 או 1,089.50; ריק/חסר הוא הצעת
+מחיר, וערך לא מספרי/שלילי מקבל שגיאה בשדה המחיר. הטופס שולח מחיר כטקסט
+כדי לא להפוך NaN ל־null לפני שהשרת מאמת.
+
+הסוגסטיה והיצירה משתמשות באותו שריון מק״טים, כולל כל IDs במאסטרים
+הגולמיים (גם גיליונות/שורות שאינם מוצגים), JSON/שמות קבצים היסטוריים
+בקטלוג, source sku-map, מחירים ומפת overrides. נשמרת רק רשימת IDs בצד
+השרת, לא שמות או מחירים מגיליונות שאינם ציבוריים. generator:
+`scripts/build-admin-sku-reservations.mjs` פועל לפני build ומייצר
+`src/lib/admin/sku-reservations.json`. רשימת blocklist מפורשת כוללת
+HZ-ADD-00018 לפי דיווח הבעלים על ID היסטורי/חסום; הוא אינו מופיע במאסטר
+הפעיל או במפות הפרסום ולכן אין להציגו שוב כפנוי. אין שינוי במוצרי המקור.
+
+השרת מחזיר fieldErrors עבריים גם ל־422 וגם להתנגשות SKU ב־409. ה־client
+מעביר את המפה ב־AdminRequestError. לכל שדה בטופס יש name, aria-invalid,
+aria-describedby וטקסט שגיאה צמוד. לאחר שגיאה הטופס גולל וממקד את השדה
+הראשון בסדר ה־DOM; CSS חל גם בתוך Radix portal. כפתור ״הצע מק״ט פנוי
+חדש״ מסייע אחרי התנגשות. שגיאות validation נרשמות כעת בלוג רק עם path
+ושמות שדות, בלי ערכי טופס/סיסמאות.
+
+בדיקות bundle: אותם נתוני BG עם 00018 מקבלים 409 ושגיאת sku ברורה, ללא
+שגיאת name; אותם נתונים עם SKU פנוי שהוצע נשמרים במחיר 89. נבדקו גם
+מחיר כמחרוזת, שדות חסרים/null, שם קצר/מחיר שגוי עם הודעות עבריות, מעבר
+שגיאות דרך ה־client וגלילה/מיקוד לפי סדר DOM. אינטראקציה אמיתית במקלדת
+טלפון טרם אומתה. מגבלות האחסון הזמני של Preview לא השתנו.
+
+### Product creation list context
+After creation, Products clears both the query and status filter, returns to page one, and requests the newly created SKU pinned in the full result (no extra/duplicate row and unchanged totals/pagination). The row is highlighted with `חדש`; the success message links to its storefront product page. Active search/status filters have an explicit `מסונן: … · נקה` control. Counts use `1 מוצר` versus `N מוצרים`. Stale query responses cannot replace the current list.
