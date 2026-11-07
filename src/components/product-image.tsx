@@ -1,3 +1,4 @@
+import { hasRealProductImage } from "@/lib/product-image-policy";
 import { useState } from "react";
 import { ImageOff } from "lucide-react";
 /** No representative/AI artwork is substituted for an unavailable product photo. */
@@ -11,8 +12,7 @@ export function ProductImage({
   className?: string;
 }) {
   const [failed, setFailed] = useState<string>();
-  const usable =
-    src && src !== failed && !/(?:placeholder|\/category-photos\/|\/images\/parts\/)/i.test(src);
+  const usable = src !== failed && hasRealProductImage(src);
   return usable ? (
     <img
       src={src}

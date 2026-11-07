@@ -1,3 +1,4 @@
+import { hasRealProductImage, imagesFirst } from "./product-image-policy";
 import { displaySpacing } from "@/lib/display-spacing";
 import { displayCategory, isHiddenProduct } from "@/lib/display-taxonomy";
 import { typeFromCategory, PAGE_SIZE, type ListingCard, type ListingResult, type ListingSearch, type Product, type SearchHit } from "@/lib/catalog-types";
@@ -135,7 +136,7 @@ export async function loadFeaturedImpl(): Promise<Product[]> {
       return true;
     });
   }
-  return cache.featured;
+  return imagesFirst(cache.featured, p => hasRealProductImage(p.image));
 }
 
 export async function loadProductImpl(sku: string): Promise<Product | undefined> {
@@ -156,7 +157,7 @@ export async function loadRelatedImpl(product: Product, limit = 4): Promise<Prod
   const others = chunk.filter((p) => p.sku !== product.sku && !isHiddenProduct(p.sku));
   const sameCar = others.filter((p) => product.make && p.make === product.make && (!product.model || p.model === product.model));
   const pool = sameCar.length ? sameCar : others.filter((p) => p.category === product.category);
-  return pool.slice(0, limit);
+  return imagesFirst(pool, p => hasRealProductImage(p.image)).slice(0, limit);
 }
 
 export async function loadListingImpl(
@@ -167,7 +168,11 @@ export async function loadListingImpl(
   const manifest = await (await import("./catalog-runtime")).loadManifest();
   const page = Math.max(1, state.page ?? 1);
   if (!cache.searchIndex) cache.searchIndex = await catalogJson<SearchHit[]>("search-index.json");
-  const hits = cache.searchIndex.filter((hit) => opts.filterHit(hit, state));
+  // Partition the full filtered result BEFORE pagination, not just the visible page.
+  // Source rows with raw /products images are already rejected by resolveImage;
+  // current usable catalog photos are resolved through the same SKU mapping as cards.
+  const hits = imagesFirst(cache.searchIndex.filter((hit) => opts.filterHit(hit, state)),
+    hit => hasRealProductImage(resolveImage(hit.sku, undefined, hit.oe)));
   const pages = Math.max(1, Math.ceil(hits.length / PAGE_SIZE));
   const current = Math.min(page, pages);
   const slice = hits.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);

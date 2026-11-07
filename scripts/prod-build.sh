@@ -13,4 +13,7 @@ node scripts/check-hidden-products.mjs
 node scripts/check-cleaning-maintenance.mjs
 node scripts/check-matan-notes.mjs
 node scripts/check-mobile-image-balance.mjs
+node scripts/check-image-first.mjs
 npm run db:migrate
+
+node scripts/check-image-first-client.mjs
