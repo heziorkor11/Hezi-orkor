@@ -10,7 +10,7 @@ const categoryPhotos = new Map(photoSources.tiles.map(p => [p.category, p.image]
 export const VISUAL_CATEGORIES = visibleCategories.map(c => ({
   id: c.id,
   name: c.name,
-  sub: c.id === "general" ? "ציוד וחומרים נוספים" : "חלפים ואביזרים",
+  sub: c.id === "cleaning-maintenance" ? "חומרי ניקוי, גריז וציוד תחזוקה" : c.id === "general" ? "ציוד וחומרים נוספים" : "חלפים ואביזרים",
   image: categoryPhotos.get(c.id),
 }));
 

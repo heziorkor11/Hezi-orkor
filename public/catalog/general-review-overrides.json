@@ -248,6 +248,50 @@
     "HZ-GEN-04088": {
       "category": "throttle-body",
       "reason": "Owner-approved visible throttle-body category; exact בית מצערת name, presentation override only."
+    },
+    "HZ-GEN-00007": {
+      "category": "cleaning-maintenance",
+      "reason": "ניקוי ותחזוקה — סיווג תצוגה באישור מתן; ללא שינוי שם או מחיר"
+    },
+    "HZ-GEN-00008": {
+      "category": "cleaning-maintenance",
+      "reason": "ניקוי ותחזוקה — סיווג תצוגה באישור מתן; ללא שינוי שם או מחיר"
+    },
+    "HZ-GEN-00009": {
+      "category": "cleaning-maintenance",
+      "reason": "ניקוי ותחזוקה — סיווג תצוגה באישור מתן; ללא שינוי שם או מחיר"
+    },
+    "HZ-GEN-00020": {
+      "category": "cleaning-maintenance",
+      "reason": "ניקוי ותחזוקה — סיווג תצוגה באישור מתן; ללא שינוי שם או מחיר"
+    },
+    "HZ-GEN-00021": {
+      "category": "cleaning-maintenance",
+      "reason": "ניקוי ותחזוקה — סיווג תצוגה באישור מתן; ללא שינוי שם או מחיר"
+    },
+    "HZ-GEN-00022": {
+      "category": "cleaning-maintenance",
+      "reason": "ניקוי ותחזוקה — סיווג תצוגה באישור מתן; ללא שינוי שם או מחיר"
+    },
+    "HZ-GEN-00024": {
+      "category": "cleaning-maintenance",
+      "reason": "ניקוי ותחזוקה — סיווג תצוגה באישור מתן; ללא שינוי שם או מחיר"
+    },
+    "HZ-GEN-00025": {
+      "category": "cleaning-maintenance",
+      "reason": "ניקוי ותחזוקה — סיווג תצוגה באישור מתן; ללא שינוי שם או מחיר"
+    },
+    "HZ-GEN-00026": {
+      "category": "cleaning-maintenance",
+      "reason": "ניקוי ותחזוקה — סיווג תצוגה באישור מתן; ללא שינוי שם או מחיר"
+    },
+    "HZ-GEN-00027": {
+      "category": "cleaning-maintenance",
+      "reason": "ניקוי ותחזוקה — סיווג תצוגה באישור מתן; ללא שינוי שם או מחיר"
+    },
+    "HZ-GEN-00028": {
+      "category": "cleaning-maintenance",
+      "reason": "ניקוי ותחזוקה — סיווג תצוגה באישור מתן; ללא שינוי שם או מחיר"
     }
   }
 }
