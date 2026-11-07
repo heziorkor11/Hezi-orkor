@@ -5,7 +5,9 @@ export function adminRuntimeMode(): AdminMode {
   const e = process.env;
   if (
     e.VERCEL_ENV === "preview" &&
-    e.VERCEL_GIT_COMMIT_REF === "feature/admin-dashboard" &&
+    ["feature/admin-dashboard", "feature/admin-bulk-tiers"].includes(
+      e.VERCEL_GIT_COMMIT_REF || "",
+    ) &&
     e.ADMIN_PREVIEW_DEMO === "1" &&
     e.ADMIN_STORAGE === "ephemeral"
   )

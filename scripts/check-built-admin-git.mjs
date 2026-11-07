@@ -35,6 +35,43 @@ async function call(path, method = "GET", data, expected = 200) {
 const login = await call("/api/admin/login", "POST", { username: "owner", password });
 cookie = login.r.headers.get("set-cookie").split(";")[0];
 await call("/api/admin/dashboard");
+assert.deepEqual((await call("/api/admin/bulk-tiers")).data, []);
+await call("/api/admin/products/HZ-GEN-00010", "PATCH", { price: 100 });
+await call("/api/admin/products/HZ-GEN-00011", "PATCH", { price: 200 });
+const bulk = (
+  await call("/api/admin/bulk-tiers", "POST", {
+    targetType: "category",
+    target: "workshop-packs",
+    enabled: true,
+    public: true,
+    aggregate: true,
+    tiers: [{ minPacks: 5, percent: 10 }],
+  })
+).data.result;
+assert.equal((await call("/api/admin/bulk-tiers")).data[0].tiers[0].percent, 10);
+assert.match((await call("/results?category=workshop-packs")).text, /כמות אחרת/);
+const bulkOrder = {
+  requestId: randomUUID(),
+  ref: "HZ-ORD-20261107-2222",
+  customer: { name: "בדיקה", phone: "0501234567", plate: "12345678" },
+  lines: [
+    { sku: "HZ-GEN-00010", qty: 2 },
+    { sku: "HZ-GEN-00011", qty: 3 },
+  ],
+};
+await call("/api/admin/orders/capture", "POST", bulkOrder, 201);
+const bulkOrders = (await call("/api/admin/orders")).data;
+const captured = bulkOrders.find((o) => o.ref === "HZ-ORD-20261107-2222");
+assert.equal(captured.subtotal, 720);
+assert.equal(captured.lines[0].price, 90);
+assert.equal(captured.lines[1].price, 180);
+await call("/api/admin/bulk-tiers", "POST", { ...bulk, public: false });
+assert.deepEqual((await call("/api/admin/storefront")).data.bulkRules[0].tiers, []);
+await call("/api/admin/bulk-tiers", "POST", { ...bulk, enabled: false });
+console.log(
+  "PASS built bulk Git: encrypted persistence, catalog controls, 2+3 cross-SKU packs = 720, quote-only public redaction",
+);
+
 await call("/api/admin/products/HZ-BRK-00001", "PATCH", { price: 818 });
 await call("/api/admin/promotions", "POST", {
   title: "Git demo",

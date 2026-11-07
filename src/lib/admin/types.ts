@@ -34,6 +34,15 @@ export type Promotion = {
   homepage: boolean;
   enabled: boolean;
 };
+export type BulkRule = {
+  id: string;
+  targetType: "product" | "category";
+  target: string;
+  enabled: boolean;
+  public: boolean;
+  aggregate: boolean;
+  tiers: { minPacks: number; percent: number }[];
+};
 export type Banner = {
   id: string;
   title: string;
@@ -49,6 +58,7 @@ export type PublicAdminState = {
   revision: number;
   products: Record<string, ProductOverride>;
   promotions: Promotion[];
+  bulkRules?: BulkRule[];
   home: HomeSettings;
 };
 export const emptyPublicState = (): PublicAdminState => ({
@@ -57,6 +67,7 @@ export const emptyPublicState = (): PublicAdminState => ({
   revision: 0,
   products: {},
   promotions: [],
+  bulkRules: [],
   home: { banners: [], categoryOrder: [] },
 });
 export type AdminUser = {
@@ -110,6 +121,7 @@ export type AdminState = {
   revision: number;
   products: Record<string, ProductOverride>;
   promotions: Promotion[];
+  bulkRules?: BulkRule[];
   home: HomeSettings;
   users: AdminUser[];
   sessions: { hash: string; userId: string; authVersion: string; expires: number }[];
@@ -121,6 +133,7 @@ export const initialAdminState = (): AdminState => ({
   revision: 0,
   products: {},
   promotions: [],
+  bulkRules: [],
   home: { banners: [], categoryOrder: [] },
   users: [],
   sessions: [],
@@ -137,6 +150,7 @@ export function toPublicState(
     revision: s.revision,
     products: s.products,
     promotions: s.promotions,
+    bulkRules: (s.bulkRules || []).map((r) => (r.public ? r : { ...r, tiers: [] })),
     home: s.home,
   };
 }

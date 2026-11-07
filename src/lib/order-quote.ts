@@ -1,7 +1,7 @@
 import { brand } from "@/lib/brand";
 import { expandProductName } from "@/lib/name-expand";
 import { splitOe } from "@/lib/part-display";
-import { catalogPrice, formatCatalogPrice } from "@/lib/prices";
+import { quantityPrice, catalogPrice, formatCatalogPrice } from "@/lib/prices";
 
 export const PRODUCT_SITE = "https://hezi-orkor.vercel.app";
 export const CART_URL = `${PRODUCT_SITE}/cart`;
@@ -118,13 +118,13 @@ function deliveryLabel(v: OrderCustomer["delivery"]) {
   return "—";
 }
 
-function unitPriceLabel(sku: string) {
-  const p = catalogPrice(sku);
+function unitPriceLabel(sku: string, qty = 1, lines: OrderLineInput[] = []) {
+  const p = quantityPrice(sku, qty, lines).price;
   return p == null ? "הצעת מחיר" : formatCatalogPrice(p);
 }
 
-function lineTotalLabel(sku: string, qty: number) {
-  const p = catalogPrice(sku);
+function lineTotalLabel(sku: string, qty: number, lines: OrderLineInput[] = []) {
+  const p = quantityPrice(sku, qty, lines).price;
   if (p == null) return "הצעת מחיר";
   return formatCatalogPrice(p * qty);
 }
@@ -163,7 +163,7 @@ function totals(lines: OrderLineInput[]) {
   let subtotal = 0;
   let quoteCount = 0;
   for (const line of lines) {
-    const p = catalogPrice(line.sku);
+    const p = quantityPrice(line.sku, line.qty, lines).price;
     if (p == null) quoteCount += 1;
     else subtotal += p * line.qty;
   }
@@ -176,6 +176,7 @@ function itemBlock(
   index: number,
   oeCap: number,
   brandCap: number,
+  lines: OrderLineInput[],
 ) {
   const oe = oeListForMessage(line.oe, oeCap);
   const brands = brandMfgPairs(line.oe, brandCap);
@@ -188,8 +189,8 @@ function itemBlock(
   if (brands.length) rows.push(`   יצרן/מותג + מק״ט יצרן: ${brands.join(" · ")}`);
   rows.push(
     `   כמות: ${line.qty}`,
-    `   מחיר יח׳: ${unitPriceLabel(line.sku)}`,
-    `   סה״כ שורה: ${lineTotalLabel(line.sku, line.qty)}`,
+    `   מחיר יח׳: ${unitPriceLabel(line.sku, line.qty, lines)}`,
+    `   סה״כ שורה: ${lineTotalLabel(line.sku, line.qty, lines)}`,
     `   קישור: ${productAbsoluteUrl(line.sku)}`,
   );
   return rows.join("\n");
@@ -205,7 +206,7 @@ export function buildCartOrderMessage(
   const brandCap = opts?.brandCap ?? 3;
   const { subtotal, quoteCount } = totals(lines);
 
-  const body = lines.map((line, i) => itemBlock(line, i, oeCap, brandCap));
+  const body = lines.map((line, i) => itemBlock(line, i, oeCap, brandCap, lines));
   const footer = [
     "────────",
     "",
@@ -229,7 +230,7 @@ export function buildCartOrderMessageSummary(
   const shortItems = lines.map((line, i) => {
     const name = displayName(line.name);
     const short = name.length > 42 ? `${name.slice(0, 39)}…` : name;
-    return `${i + 1}. ${line.sku} × ${line.qty} — ${short} · ${unitPriceLabel(line.sku)}`;
+    return `${i + 1}. ${line.sku} × ${line.qty} — ${short} · ${unitPriceLabel(line.sku, line.qty, lines)}`;
   });
   return [
     ...customerHeader(customer, now),

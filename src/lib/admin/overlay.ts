@@ -27,6 +27,7 @@ type DemoReceipts = {
   products: PublicAdminState["products"];
   promotions: PublicAdminState["promotions"];
   home?: PublicAdminState["home"];
+  bulkRules?: PublicAdminState["bulkRules"];
   at: number;
 };
 let receipts: DemoReceipts | undefined;
@@ -59,7 +60,13 @@ function withDemoReceipts(state: PublicAdminState): PublicAdminState {
     products[sku] = { ...products[sku], ...patch };
   const promos = new Map(state.promotions.map((p) => [p.id, p]));
   for (const p of edits.promotions) promos.set(p.id, p);
-  return { ...state, products, promotions: [...promos.values()], home: edits.home || state.home };
+  return {
+    ...state,
+    products,
+    promotions: [...promos.values()],
+    bulkRules: edits.bulkRules ?? state.bulkRules,
+    home: edits.home || state.home,
+  };
 }
 function publish(state: PublicAdminState, notify = true) {
   // Render-time root loader adoption must not roll back a fresher local projection.
@@ -88,7 +95,8 @@ export function publishAdminMutation(path: string, state: PublicAdminState) {
       const map = new Map(edits.promotions.map((p) => [p.id, p]));
       for (const p of state.promotions) map.set(p.id, p);
       edits.promotions = [...map.values()];
-    } else if (path === "homepage") edits.home = state.home;
+    } else if (path === "bulk-tiers") edits.bulkRules = state.bulkRules || [];
+    else if (path === "homepage") edits.home = state.home;
     edits.at = Date.now();
     try {
       window.localStorage.setItem("hezi-admin-demo-public-edits-v1", JSON.stringify(edits));
@@ -130,6 +138,9 @@ export async function refreshAdminOverlay(force = false): Promise<PublicAdminSta
         revision: s.revision,
         products: s.products,
         promotions: s.promotions,
+        bulkRules: (s.bulkRules || []).map((r: import("./types").BulkRule) =>
+          r.public ? r : { ...r, tiers: [] },
+        ),
         home: s.home,
       };
     } catch (e) {

@@ -10,3 +10,5 @@ node scripts/check-built-admin.mjs
 node scripts/check-built-admin-readonly.mjs
 node scripts/check-admin-overlay-client.mjs
 npm run db:migrate
+
+node scripts/test-bulk-tiers.mjs

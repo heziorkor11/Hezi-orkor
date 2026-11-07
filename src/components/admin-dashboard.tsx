@@ -1,3 +1,4 @@
+import { AdminBulkTiers } from "./admin-bulk-tiers";
 import { AdminCreateProduct } from "./admin-create-product";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
@@ -67,6 +68,7 @@ const actionLabels: Record<string, string> = {
   "product.update": "עדכון מוצר ומחיר",
   "product.image": "עדכון תמונת מוצר",
   "promotion.save": "שמירת מבצע",
+  "bulk.save": "שמירת מדרגות כמות",
   "homepage.publish": "פרסום דף הבית",
   "homepage.image": "העלאת צילום לבאנר",
   "user.save": "עדכון עובד והרשאות",
@@ -243,7 +245,7 @@ export function AdminDashboard() {
     ["home", "בית", Home],
     ["products", "מוצרים", Box],
     ["orders", "הזמנות", ClipboardList],
-    ["promotions", "מבצעים", Tag],
+    ["promotions", "מבצעים וכמויות", Tag],
     ["more", "עוד", MoreHorizontal],
   ] as const;
   return (
@@ -303,7 +305,10 @@ export function AdminDashboard() {
             ) : section === "products" ? (
               <Products user={user} notice={notice} />
             ) : section === "promotions" ? (
-              <Promotions user={user} notice={notice} />
+              <>
+                <Promotions user={user} notice={notice} />
+                {user.role === "owner" && <AdminBulkTiers />}
+              </>
             ) : section === "orders" ? (
               <Orders user={user} notice={notice} />
             ) : section === "homepage" ? (
