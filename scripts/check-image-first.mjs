@@ -115,6 +115,16 @@ for (const p of new Set([1, Math.floor(realCount / 60) + 1, Math.ceil(expected.l
     "stable global partition BEFORE pagination, page " + p,
   );
 }
+const fluidsOriginal = index.filter(
+  (h) =>
+    (taxonomy.bySku[h.sku]?.category || h.category) === "fluids" && !taxonomy.bySku[h.sku]?.hidden,
+);
+const fluidsExpected = imagesFirst(fluidsOriginal, hasImage).map((h) => h.sku);
+for (const p of [1, 2]) {
+  const actual = skus(await page("/results?category=fluids&page=" + p));
+  assert.deepEqual(actual, fluidsExpected.slice((p - 1) * 60, p * 60), "fluids page " + p);
+  assert.ok(actual.length > 0);
+}
 const query = "תוספים";
 const additiveOriginal = index.filter(
   (h) =>
@@ -125,6 +135,8 @@ assert.deepEqual(
   skus(await page("/results?q=" + encodeURIComponent(query))),
   imagesFirst(additiveOriginal, hasImage).map((h) => h.sku),
 );
+assert.equal(additiveOriginal.length, 17);
+assert.equal(skus(await page("/results?category=additives")).length, 17);
 for (const path of [
   "/",
   "/results?category=brakes",
