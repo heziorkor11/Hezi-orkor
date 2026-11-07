@@ -177,6 +177,11 @@ export const categories: { id: string; name: string }[] = (catalogManifest.categ
   (c) => ({ id: c.id, name: c.name }),
 );
 
+/** Display-only filtering: products and search remain untouched. */
+export const visibleCategories = categories.filter(
+  (c) => !["steering", "suspension", "clutch", "workshop-packs"].includes(c.id),
+);
+
 export const partTypes: { id: PartTypeId; name: string; category: string }[] = [
   { id: "headlight", name: "פנס ראשי", category: "lights" },
   { id: "taillight", name: "פנס אחורי", category: "lights" },

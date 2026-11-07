@@ -13,33 +13,6 @@ export const VISUAL_CATEGORIES: {
   type?: import("@/lib/catalog-types").PartTypeId;
 }[] = [
   {
-    id: "workshop-packs",
-    name: "מחירי מוסך / מארזים",
-    sub: "חביות · מארזים · כמות",
-    image: "/catalog/images/A0834_HZ-OIL-00001_102888.jpg",
-  },
-  {
-    id: "steering",
-    name: "היגוי",
-    sub: "קצה הגה · מוט קישור",
-    image: "/catalog/images/cat-steering.png",
-    type: "steering",
-  },
-  {
-    id: "suspension",
-    name: "מתלים",
-    sub: "תפוח · מייצב · זרוע",
-    image: "/catalog/images/cat-suspension.png",
-    type: "suspension",
-  },
-  {
-    id: "clutch",
-    name: "מצמד",
-    sub: "סט · משאבה · תנופה",
-    image: "/catalog/images/cat-clutch.png",
-    type: "clutch",
-  },
-  {
     id: "spark-plugs",
     name: "מצתים",
     sub: "NGK ועוד",

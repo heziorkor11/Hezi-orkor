@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { categories, loadFacets, type CatalogFacets, type ProductFilter } from "@/lib/catalog";
+import { visibleCategories, loadFacets, type CatalogFacets, type ProductFilter } from "@/lib/catalog";
 import { writeSavedVehicle } from "@/lib/order-form";
 
 export function Finder({
@@ -72,7 +72,7 @@ export function Finder({
               onChange={(e) => setDraft((d) => ({ ...d, category: e.target.value || undefined }))}
             >
               <option value="">הכל</option>
-              {categories.map((t) => (
+              {visibleCategories.map((t) => (
                 <option key={t.id} value={t.id}>
                   {t.name}
                 </option>
