@@ -101,3 +101,9 @@ ADMIN_TEST_OUTPUT=/workspace/designs/dashboard-build npm run test:admin
 האחסון נאלץ ל־`/tmp/hezi-admin-preview-<deployment-id>`; אינו משתמש ב־ADMIN_DATA_DIR המקומי, לא בקטלוג המקור ולא בשירות חיצוני. כל מופע serverless עשוי לקבל State משלו. נתונים, תמונות, בקשות הזמנה ומפגשי כניסה עשויים להיעלם באתחול/cold start או בהחלפת instance. זה **לא persistence לפרודקשן**. באנר ״מצב בדיקה״ מוצג בניהול ובחנות. אין להזין פרטי לקוחות אמיתיים.
 
 הגנת האימות של Vercel נשארת ללא שינוי. Automation secret הוא project-wide ולכן לא ניצור אותו במסגרת הרשאה זו; עדיף Shareable Link מוגבל לזמן ול־deployment Preview מסוים (`?_vercel_share=...`), בלי לגעת בדומיין/הגנות Production. קישור זה עוקף את שער האירוח בלבד: עדיין צריך את טופס שם המשתמש והסיסמה **של האתר** כדי להיכנס לניהול.
+
+### בדיקת runtime של חבילת Vercel האמיתית
+
+`npm run build` מריץ כעת גם `scripts/check-built-admin.mjs` לאחר יצירת הפלט: cold import לכל Router chunk בסדר הפוך, ואז הפעלת handler ה־Vercel/Nitro שנוצר בפועל, כולל `/admin`, טופס סיסמה, login ו־session. הבדיקה משתמשת בפרטי בדיקה אקראיים וב־/tmp מבודד בתהליך נפרד בלבד; אינה משנה env או הגדרות של deployment. כך נתפסת גם שגיאת אתחול chunks שאינה מתגלה בשרת Vite dev או ב־typecheck.
+
+ב־Preview הקודם נמצאה בלוגים `TypeError: __exportAll is not a function`: import דינמי מיותר של namespace הקטלוג יצר chunk cycle ותלות בסדר אתחול helper לאחר bundling של Nitro/Rolldown. הוחלף ב־named import סטטי של `loadManifest`. זו הייתה שגיאת SSR bundling, לא כשל הרשאות /tmp או סיסמאות. לא שונו הגדרות Production.

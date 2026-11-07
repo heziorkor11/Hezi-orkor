@@ -9,7 +9,7 @@ import {
   type Product,
   type SearchHit,
 } from "@/lib/catalog-types";
-import { displayModel, polishText, unique } from "@/lib/catalog-runtime";
+import { displayModel, polishText, unique, loadManifest } from "@/lib/catalog-runtime";
 import { catalogJson } from "@/lib/catalog-io";
 import { imageLooksLikeSharedOe, inferCategory, yearsFromTitle } from "@/lib/part-display";
 import { expandProductName } from "@/lib/name-expand";
@@ -253,7 +253,7 @@ export async function loadListingImpl(
   opts: { filterHit: (hit: SearchHit, state: ListingSearch) => boolean },
 ): Promise<ListingResult> {
   await loadImageMap();
-  const manifest = await (await import("./catalog-runtime")).loadManifest();
+  const manifest = await loadManifest();
   const page = Math.max(1, state.page ?? 1);
   if (!cache.searchIndex) cache.searchIndex = await catalogJson<SearchHit[]>("search-index.json");
   await refreshAdminOverlay();
