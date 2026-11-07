@@ -154,7 +154,7 @@ export async function loadListingImpl(
   await loadImageMap();
   const manifest = await (await import("./catalog-runtime")).loadManifest();
   const page = Math.max(1, state.page ?? 1);
-  const needsIndex = Boolean(state.q || state.make || state.model || state.year || state.type);
+  const needsIndex = Boolean(state.q || state.make || state.model || state.year || state.type || state.fluidKind || state.oilBrand);
 
   if (!needsIndex && state.category) {
     const cat = manifest.categories.find((c) => c.id === state.category);
