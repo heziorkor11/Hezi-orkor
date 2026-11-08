@@ -37,3 +37,29 @@ Local comparison also checked all 216 against their designer inputs:
 identical dimensions, with no geometric transform/resampling introduced.
 This verifies this import has not stretched the designer images; dimensions
 alone cannot prove the geometry of supplier originals before designer work.
+
+## Latest follow-up — stronger ALL-AC audit (supersedes initial totals)
+
+The 12px outer edge is insufficient. `audit-all-ac-backgrounds.py` scans
+all three AC maps, trims white padding, probes four source-content corners
+and four inner perimeter bands for pale, low-chroma nonwhite pixels
+(including a partially erased rectangular backdrop next to the product).
+All **1,247** wired AC images were scanned: **20 candidates**, visually
+reviewed at full/contact-sheet scale. **14 are actual silver product edges
+or a normal product shadow**, not rectangular backgrounds; left untouched.
+Six confirmed backgrounds/frame remnants:
+
+- Corrected non-AI, no resizing/cropping: HZ-CMP-00339, HZ-CMP-00607,
+  HZ-CMP-00781 (source frame lines), HZ-CND-00003 (blue-gray rectangle).
+- Unmapped HZ-CMP-00619 and HZ-CMP-00525: gray/pink backgrounds entangled
+  with embossed watermark detail. A clean correction could not safely
+  preserve it; prefer neutral placeholder. Products and source rows remain,
+  as do original image files (unreferenced). No attempted watermark-cleaned
+  version of either is wired.
+
+Final: **1,245 AC images** = 898 first batch + 132 additional + 215 newly
+watermarked photos. Previous HZ-CND-00002 correction remains intact.
+Dark strokes (any channel <160) are exactly preserved in the four corrections;
+all outputs remain 1200×1200 and no geometry was transformed. Full per-SKU
+pre-scan, final SHA/dimension inventory, corrections and review decisions:
+`public/catalog/images/ac-all-background-qa.json`.

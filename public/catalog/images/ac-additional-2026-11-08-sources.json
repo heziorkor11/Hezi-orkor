@@ -1,18 +1,18 @@
 {
-  "added": 133,
+  "added": 132,
   "skippedNeedsSource": 516,
   "alreadyWiredApproved": 898,
   "approvalManifestSha256": "57dad13942e80bf43a39551128e9b79ca0a6a62a33a58bef2af7b202143c0f31",
   "matchedManifestSha256": "6100f716c3a07e3b370de4ab64323e490259b0f356128ee0fd2147683d6b9e5f",
   "categoryCounts": {
-    "ac-compressor": 102,
+    "ac-compressor": 101,
     "ac-condenser": 31
   },
   "statusCounts": {
-    "ok-ai-upscaled": 126,
+    "ok-ai-upscaled": 125,
     "ok": 7
   },
-  "bytes": 9670062,
+  "bytes": 9876204,
   "products": [
     {
       "sku": "HZ-CMP-00001",
@@ -1037,20 +1037,6 @@
       "bytes": 74790
     },
     {
-      "sku": "HZ-CMP-00619",
-      "category": "ac-compressor",
-      "image": "/catalog/images/ac-additional-2026-11-08/HZ-CMP-00619-polished.webp",
-      "supplierSku": "SA0325764T",
-      "sourceFile": "מדחסים/SA0325764T.png",
-      "sourceImageUrl": "https://galor-shop.com/uploads/photos/sa0325764t.jpg",
-      "evidence": "Exact supplier SKU filename + Drive index + original workbook row (same SKU/title) + exact catalog original title; not appearance-based",
-      "designerStatus": "ok-ai-upscaled",
-      "designerMethod": "Real-ESRGAN x4plus + cut+crop",
-      "polishedSha256": "109ae7eaa3756fa4f512e21de0ffdc15b1fd231535a24edd363400d425abfd52",
-      "sha256": "2024fdcaf52ef55643b2fcdcd2cee93cdc64e7ced258a0131cad72b1e73fd46a",
-      "bytes": 61298
-    },
-    {
       "sku": "HZ-CMP-00621",
       "category": "ac-compressor",
       "image": "/catalog/images/ac-additional-2026-11-08/HZ-CMP-00621-polished.webp",
@@ -1467,8 +1453,14 @@
       "designerStatus": "ok-ai-upscaled",
       "designerMethod": "Real-ESRGAN x4plus + cut+crop",
       "polishedSha256": "a337320dade9837683ec0d0db3d13fb594afd68063d67d3a8a7b5d7fcd60acb8",
-      "sha256": "8eb6217522eafe0fde9d736635ce5fdad8b3616e5087323b2da039033bab246e",
-      "bytes": 89716
+      "sha256": "fc453a9f87a6e254ca5c0556dce0c671ad0531511c3010ba3a40c13c9c6914be",
+      "bytes": 357156,
+      "beforeBackgroundQaSha256": "8eb6217522eafe0fde9d736635ce5fdad8b3616e5087323b2da039033bab246e",
+      "backgroundQaMethod": "Non-AI pale background/frame whitening; no resizing/cropping; all pixels with min RGB <160 unchanged",
+      "dimensions": [
+        1200,
+        1200
+      ]
     },
     {
       "sku": "HZ-CND-00009",
@@ -1875,6 +1867,14 @@
       "polishedSha256": "72723b0369b3ab6730572ed48807ed6304a7825ee2c983b55c0a4c3e8fa4c727",
       "sha256": "2f7b4a127ad8a221acb8b797cc8ac6b61b217f39028cf0a77662ce5aa0573416",
       "bytes": 54774
+    }
+  ],
+  "backgroundQaExcluded": [
+    {
+      "sku": "HZ-CMP-00619",
+      "kind": "bad-background",
+      "stage": "inner-background-qa",
+      "reason": "background and watermark embossed detail cannot be cleanly separated without risking watermark damage; image unmapped only, product/source retained"
     }
   ]
 }

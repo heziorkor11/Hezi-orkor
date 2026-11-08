@@ -1,20 +1,20 @@
 {
-  "added": 216,
+  "added": 215,
   "inputNeedsSource": 513,
   "watermarkLabelCandidates": 233,
-  "excludedCount": 297,
+  "excludedCount": 298,
   "excludedReasonCounts": {
     "wrong-content": 18,
     "drawing": 278,
-    "bad-background": 1
+    "bad-background": 2
   },
-  "visualExcludedCount": 17,
+  "visualExcludedCount": 18,
   "categoryCounts": {
-    "ac-compressor": 89,
+    "ac-compressor": 88,
     "ac-condenser": 127
   },
   "needsSourceManifestSha256": "9e0fa4c048f95c89a8e3af251ee73719416b944b3e169a891a5c7e03e2a0dc18",
-  "bytes": 75168532,
+  "bytes": 74792170,
   "products": [
     {
       "sku": "HZ-CMP-00027",
@@ -983,25 +983,6 @@
       "decodedRgbSha256": "608a33afb67dd480be730107b58e209c23b0ba038860fcb1b8e90d91adb82cc6",
       "sha256": "839dd26c85e801aba32eafafda6e6901c378457e49b686951159ffa4036653a1",
       "bytes": 222082,
-      "visuallyVerifiedBrand": null
-    },
-    {
-      "sku": "HZ-CMP-00525",
-      "category": "ac-compressor",
-      "image": "/catalog/images/ac-watermarked-2026-11-08/HZ-CMP-00525-watermark-kept.webp",
-      "supplierSku": "SA0325502",
-      "sourceFile": "מדחסים/SA0325502.png",
-      "sourceImageUrl": "https://galor-shop.com/uploads/photos/sa0325502.jpg",
-      "sourceReason": "watermark/logo over or beside product",
-      "evidence": "Exact supplier SKU filename + Drive index + original workbook row (same SKU/title) + exact catalog original title; not appearance-based",
-      "approval": "owner-approved watermark/label kept unchanged",
-      "watermarkKept": true,
-      "method": "reuse designer 1200x1200 RGB output; lossless WebP; decoded pixels unchanged",
-      "designerFile": "images-condensers-2026-11-08/polished/_needs-source/HZ-CMP-00525.jpg",
-      "inputSha256": "e959e119675ee31cb504a82b60eadbcd81b7cab8797bc9a0bb7c8edfa33a1825",
-      "decodedRgbSha256": "aacb2a38f7c02de4858cea5e68c852bc9528bad19988f0238bef936922df0a42",
-      "sha256": "d2a9155be3ef5e50e4d1c3bc9a06863cc3f7458bb98856653e8c1aec87852857",
-      "bytes": 376362,
       "visuallyVerifiedBrand": null
     },
     {
@@ -6511,6 +6492,12 @@
       "excludedReason": "lowres; drawing/annotated",
       "kind": "drawing",
       "stage": "csv"
+    },
+    {
+      "sku": "HZ-CMP-00525",
+      "kind": "bad-background",
+      "stage": "inner-background-qa",
+      "reason": "background and watermark embossed detail cannot be cleanly separated without risking watermark damage; image unmapped only, product/source retained"
     }
   ]
 }

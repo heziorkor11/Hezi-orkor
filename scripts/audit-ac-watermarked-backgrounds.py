@@ -8,8 +8,8 @@ for sku,p in m.items():
  row={'sha256':hashlib.sha256((root/p.lstrip('/')).read_bytes()).hexdigest(),'outerBorderMean':outer.tolist(),'sku':sku,'box':box,'mean':border.tolist(),'corners':corn.tolist(),'size':list(a.shape[:2])};allrows.append(row)
  # Ignore a corner occupied by the product: require >=3 nonwhite corners (rectangular source backdrop).
  if sum(min(q)<245 or max(q)-min(q)>3 for q in corn)>=3:flags.append(row)
-assert len(allrows)==216
+assert len(allrows)==215
 assert all(r['size']==[1200,1200] for r in allrows)
 assert all(min(r['outerBorderMean'])>=245 and max(r['outerBorderMean'])-min(r['outerBorderMean'])<=3 for r in allrows)
-print('FLAGGED',len(flags));print([r['sku'] for r in flags]);(root/'catalog/images/ac-watermarked-background-audit.json').write_text(json.dumps({'checked':216,'flagged':flags,'all':allrows},indent=2)+'\n')
+print('FLAGGED',len(flags));print([r['sku'] for r in flags]);(root/'catalog/images/ac-watermarked-background-audit.json').write_text(json.dumps({'checked':215,'flagged':flags,'all':allrows},indent=2)+'\n')
 assert not flags, 'Nonwhite rectangular backdrop detected'

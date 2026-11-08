@@ -6,22 +6,22 @@ const root = new URL("../", import.meta.url),
 const json = async (p) => JSON.parse(await readFile(new URL(p, root), "utf8"));
 const mapping = await json(`public/catalog/images/${folder}.json`),
   sources = await json(`public/catalog/images/${folder}-sources.json`);
-assert.equal(Object.keys(mapping).length, 216);
-assert.equal(sources.added, 216);
-assert.equal(sources.excludedCount, 297);
+assert.equal(Object.keys(mapping).length, 215);
+assert.equal(sources.added, 215);
+assert.equal(sources.excludedCount, 298);
 assert.equal(sources.watermarkLabelCandidates, 233);
 assert.deepEqual(sources.excludedReasonCounts, {
   drawing: 278,
   "wrong-content": 18,
-  "bad-background": 1,
+  "bad-background": 2,
 });
-assert.equal(sources.visualExcludedCount, 17);
+assert.equal(sources.visualExcludedCount, 18);
 assert.ok(sources.excluded.every((e) => !Object.hasOwn(mapping, e.sku)));
-assert.deepEqual(sources.categoryCounts, { "ac-compressor": 89, "ac-condenser": 127 });
+assert.deepEqual(sources.categoryCounts, { "ac-compressor": 88, "ac-condenser": 127 });
 const backgroundAudit = await json("public/catalog/images/ac-watermarked-background-audit.json");
-assert.equal(backgroundAudit.checked,216);
+assert.equal(backgroundAudit.checked,215);
 assert.deepEqual(backgroundAudit.flagged,[]);
-assert.equal(backgroundAudit.all.length,216);
+assert.equal(backgroundAudit.all.length,215);
 for (const p of sources.products) {
   const audit = backgroundAudit.all.find(a=>a.sku===p.sku);
   assert.ok(audit);
@@ -80,7 +80,7 @@ for (const cat of ["ac-compressor", "ac-condenser"]) {
     }
   }
 }
-assert.equal(seen.size, 216, "all approved photos resolve in product listings");
+assert.equal(seen.size, 215, "all approved photos resolve in product listings");
 console.log(
-  "PASS preserved watermark photos: 216 exact approved SKU WebPs/hash/bytes; 89 compressors+127 condensers; 297 drawings/wrong-content/background excluded; watermarks retained; white-border/dimensions audit; both product pages, all category pages and global image-first ordering; readonly cwd, zero network",
+  "PASS preserved watermark photos: 215 exact approved SKU WebPs/hash/bytes; 88 compressors+127 condensers; 298 drawings/wrong-content/background excluded; watermarks retained; white-border/dimensions audit; both product pages, all category pages and global image-first ordering; readonly cwd, zero network",
 );
