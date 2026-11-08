@@ -6,11 +6,11 @@ const root = new URL("../", import.meta.url),
 const json = async (p) => JSON.parse(await readFile(new URL(p, root), "utf8"));
 const mapping = await json(`public/catalog/images/${folder}.json`),
   sources = await json(`public/catalog/images/${folder}-sources.json`);
-assert.equal(Object.keys(mapping).length, 133);
-assert.equal(sources.added, 133);
+assert.equal(Object.keys(mapping).length, 132);
+assert.equal(sources.added, 132);
 assert.equal(sources.skippedNeedsSource, 516);
-assert.deepEqual(sources.categoryCounts, { "ac-compressor": 102, "ac-condenser": 31 });
-assert.deepEqual(sources.statusCounts, { "ok-ai-upscaled": 126, ok: 7 });
+assert.deepEqual(sources.categoryCounts, { "ac-compressor": 101, "ac-condenser": 31 });
+assert.deepEqual(sources.statusCounts, { "ok-ai-upscaled": 125, ok: 7 });
 assert.equal(sources.alreadyWiredApproved, 898);
 const prior = await json("public/catalog/images/ac-approved-2026-11-08.json");
 assert.ok(Object.keys(mapping).every((sku) => !Object.hasOwn(prior, sku)));
@@ -66,7 +66,7 @@ for (const cat of ["ac-compressor", "ac-condenser"]) {
     }
   }
 }
-assert.equal(seen.size, 133, "all approved photos resolve in product listings");
+assert.equal(seen.size, 132, "all approved photos resolve in product listings");
 console.log(
-  "PASS additional approved AC photos (126 AI-upscaled + 7 background fixes): 133 exact approved SKU WebPs/hash/bytes; 102 compressors+31 condensers; 516 needs-source excluded from new map; both product pages, all category pages and global image-first ordering; readonly cwd, zero network",
+  "PASS additional approved AC photos (125 AI-upscaled + 7 background fixes): 132 exact approved SKU WebPs/hash/bytes; 101 compressors+31 condensers; 516 needs-source excluded from new map; both product pages, all category pages and global image-first ordering; readonly cwd, zero network",
 );

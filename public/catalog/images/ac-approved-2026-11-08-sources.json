@@ -5,7 +5,7 @@
     "ac-compressor": 670,
     "ac-condenser": 228
   },
-  "bytes": 68850792,
+  "bytes": 69884376,
   "products": [
     {
       "sku": "HZ-CMP-00003",
@@ -3215,8 +3215,14 @@
       "evidence": "Exact supplier SKU filename + Drive index + original workbook row (same SKU/title) + exact catalog original title; not appearance-based",
       "designerStatus": "ok",
       "polishedSha256": "d0dfa6492df3146682fd243df679c1c6f1bbc0468c1fe2a001ebf7fdac7a157d",
-      "sha256": "191edb9e3d44d4f8038da8fe7394a152e46223a87b15e200104a549e1d99a735",
-      "bytes": 57540
+      "sha256": "97b03864786844012c168303bd99d74953e765ec17eb25da0eeef90e8ace74ad",
+      "bytes": 410924,
+      "beforeBackgroundQaSha256": "191edb9e3d44d4f8038da8fe7394a152e46223a87b15e200104a549e1d99a735",
+      "backgroundQaMethod": "Non-AI pale background/frame whitening; no resizing/cropping; all pixels with min RGB <160 unchanged",
+      "dimensions": [
+        1200,
+        1200
+      ]
     },
     {
       "sku": "HZ-CMP-00340",
@@ -5984,8 +5990,14 @@
       "evidence": "Exact supplier SKU filename + Drive index + original workbook row (same SKU/title) + exact catalog original title; not appearance-based",
       "designerStatus": "ok",
       "polishedSha256": "99ff41ea4e100a424d7451b846a9ed625a2306189e42c3afae0806b7fb67d122",
-      "sha256": "c628a32cf1b15a0eeff5d78b3be986e932bea1fee386892d79df4f8f084c906e",
-      "bytes": 60496
+      "sha256": "aec80da700b97e4329dbb7417ad8022560b3684181ece23e1e86e0b5be01ef32",
+      "bytes": 400596,
+      "beforeBackgroundQaSha256": "c628a32cf1b15a0eeff5d78b3be986e932bea1fee386892d79df4f8f084c906e",
+      "backgroundQaMethod": "Non-AI pale background/frame whitening; no resizing/cropping; all pixels with min RGB <160 unchanged",
+      "dimensions": [
+        1200,
+        1200
+      ]
     },
     {
       "sku": "HZ-CMP-00608",
@@ -7518,8 +7530,14 @@
       "evidence": "Exact supplier SKU filename + Drive index + original workbook row (same SKU/title) + exact catalog original title; not appearance-based",
       "designerStatus": "ok",
       "polishedSha256": "99ff41ea4e100a424d7451b846a9ed625a2306189e42c3afae0806b7fb67d122",
-      "sha256": "c628a32cf1b15a0eeff5d78b3be986e932bea1fee386892d79df4f8f084c906e",
-      "bytes": 60496
+      "sha256": "aec80da700b97e4329dbb7417ad8022560b3684181ece23e1e86e0b5be01ef32",
+      "bytes": 400596,
+      "beforeBackgroundQaSha256": "c628a32cf1b15a0eeff5d78b3be986e932bea1fee386892d79df4f8f084c906e",
+      "backgroundQaMethod": "Non-AI pale background/frame whitening; no resizing/cropping; all pixels with min RGB <160 unchanged",
+      "dimensions": [
+        1200,
+        1200
+      ]
     },
     {
       "sku": "HZ-CMP-00782",
