@@ -1,3 +1,4 @@
+import { ProductSelectionNotice } from "@/components/product-selection-notice";
 import { pickDisplayedFitment } from "@/lib/catalog-runtime";
 import { ProductImage } from "@/components/product-image";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
@@ -190,6 +191,7 @@ function ProductPage() {
               לבירור מלאי
             </a>
           </div>
+          <ProductSelectionNotice />
         </div>
       </div>
       {related.length ? (

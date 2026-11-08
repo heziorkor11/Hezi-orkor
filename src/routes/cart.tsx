@@ -1,3 +1,4 @@
+import { ProductSelectionNotice } from "@/components/product-selection-notice";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Trash2 } from "lucide-react";
@@ -339,6 +340,7 @@ function CartPage() {
               </p>
             )}
           </section>
+          <ProductSelectionNotice />
 
           <section className="mt-5 rounded-2xl border border-line bg-card p-3.5 shadow-lift md:p-5">
             <h2 className="mb-1 text-[17px] font-extrabold tracking-tight">פרטי הזמנה</h2>
