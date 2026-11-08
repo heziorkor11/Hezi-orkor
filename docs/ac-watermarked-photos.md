@@ -16,3 +16,24 @@ All selected photos already have designer 1200×1200 polished versions in `_need
 
 ## Verification
 Full build includes the previous 898 and 133 photo-batch checks plus `check-ac-watermarked-photos.mjs`. The new emitted-handler test validates all 216 exact image paths/hash/bytes, excludes all 297 blocked SKUs from this batch, both sample pages and every compressor/condenser listing page with photo-first pagination. Read-only cwd and no network. Visual image review is not browser/mobile interaction QA; Preview is for that review. No Production/env/protection settings changes.
+
+## Mobile QA follow-up: padded blue backdrop
+
+Audited all 216 actual WebPs, not thumbnails. The outer 12-pixel border
+was already white in all 216: white padding concealed HZ-CND-00002's
+blue **inner source-photo rectangle**. The additional content-bounds corner
+check (at least 3 non-white/tinted corners, ignoring corners occupied by
+product/wordmark) flagged exactly that one image. Its pale-blue backdrop
+was keyed to white without AI, resizing, or cropping. All darker product
+and watermark strokes (minimum RGB channel <160) are byte-for-byte unchanged.
+The faint source-frame line was whitened outside any product/wordmark.
+No images removed: final 216. No second image required correction.
+
+`python3 scripts/audit-ac-watermarked-backgrounds.py` (Pillow + NumPy)
+checks all dimensions (1200×1200), outer border mean >=245 without tint,
+and internal rectangular backdrops. Full per-SKU pixel measurements:
+`public/catalog/images/ac-watermarked-background-audit.json`.
+Local comparison also checked all 216 against their designer inputs:
+identical dimensions, with no geometric transform/resampling introduced.
+This verifies this import has not stretched the designer images; dimensions
+alone cannot prove the geometry of supplier originals before designer work.

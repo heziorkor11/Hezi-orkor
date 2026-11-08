@@ -18,7 +18,17 @@ assert.deepEqual(sources.excludedReasonCounts, {
 assert.equal(sources.visualExcludedCount, 17);
 assert.ok(sources.excluded.every((e) => !Object.hasOwn(mapping, e.sku)));
 assert.deepEqual(sources.categoryCounts, { "ac-compressor": 89, "ac-condenser": 127 });
+const backgroundAudit = await json("public/catalog/images/ac-watermarked-background-audit.json");
+assert.equal(backgroundAudit.checked,216);
+assert.deepEqual(backgroundAudit.flagged,[]);
+assert.equal(backgroundAudit.all.length,216);
 for (const p of sources.products) {
+  const audit = backgroundAudit.all.find(a=>a.sku===p.sku);
+  assert.ok(audit);
+  assert.deepEqual(audit.size,[1200,1200]);
+  assert.equal(audit.sha256,p.sha256);
+  assert.ok(Math.min(...audit.outerBorderMean)>=245);
+  assert.ok(Math.max(...audit.outerBorderMean)-Math.min(...audit.outerBorderMean)<=3);
   assert.equal(p.watermarkKept, true);
   assert.match(p.decodedRgbSha256, /^[a-f0-9]{64}$/);
   assert.equal(mapping[p.sku], p.image);
@@ -72,5 +82,5 @@ for (const cat of ["ac-compressor", "ac-condenser"]) {
 }
 assert.equal(seen.size, 216, "all approved photos resolve in product listings");
 console.log(
-  "PASS preserved watermark photos: 216 exact approved SKU WebPs/hash/bytes; 89 compressors+127 condensers; 297 drawings/wrong-content/background excluded; watermark pixels preserved; both product pages, all category pages and global image-first ordering; readonly cwd, zero network",
+  "PASS preserved watermark photos: 216 exact approved SKU WebPs/hash/bytes; 89 compressors+127 condensers; 297 drawings/wrong-content/background excluded; watermarks retained; white-border/dimensions audit; both product pages, all category pages and global image-first ordering; readonly cwd, zero network",
 );

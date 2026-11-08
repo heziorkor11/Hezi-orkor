@@ -14,7 +14,7 @@
     "ac-condenser": 127
   },
   "needsSourceManifestSha256": "9e0fa4c048f95c89a8e3af251ee73719416b944b3e169a891a5c7e03e2a0dc18",
-  "bytes": 75223460,
+  "bytes": 75168532,
   "products": [
     {
       "sku": "HZ-CMP-00027",
@@ -1718,13 +1718,27 @@
       "evidence": "Exact supplier SKU filename + Drive index + original workbook row (same SKU/title) + exact catalog original title; not appearance-based",
       "approval": "owner-approved watermark/label kept unchanged",
       "watermarkKept": true,
-      "method": "reuse designer 1200x1200 RGB output; lossless WebP; decoded pixels unchanged",
+      "method": "non-AI pale-blue background color key to white; dark watermark/product strokes unchanged; no resize/crop/AI; lossless WebP",
       "designerFile": "images-condensers-2026-11-08/polished/_needs-source/HZ-CND-00002.jpg",
       "inputSha256": "8f540877a8d0ebee760b58f81cbb9758398f109bcbe922d33311e6ded400ee1a",
-      "decodedRgbSha256": "54fcebcc6502500df93723ed0f44ca1723197e3557189dbfc86249321226254a",
-      "sha256": "35fbe87890785eb757c7e6480b6f698eeceff61b3cbebd96a4903e19be52fefb",
-      "bytes": 396858,
-      "visuallyVerifiedBrand": null
+      "decodedRgbSha256": "f25a76e2dbfb9c073875ff575118a8a219cbd78c2dd70569a443fa339d0be45b",
+      "sha256": "e4a0275250515c4d8f8692c8e1347878ace290e8d0fcc84c3300a9063a593607",
+      "bytes": 341930,
+      "visuallyVerifiedBrand": null,
+      "previousDecodedRgbSha256": "54fcebcc6502500df93723ed0f44ca1723197e3557189dbfc86249321226254a",
+      "backgroundCorrection": {
+        "changedPixels": 334142,
+        "geometryUnchanged": true,
+        "darkStrokePixelsUnchanged": true,
+        "inputDimensions": [
+          1200,
+          1200
+        ],
+        "outputDimensions": [
+          1200,
+          1200
+        ]
+      }
     },
     {
       "sku": "HZ-CND-00006",
