@@ -15,5 +15,7 @@ for(const sku of ['HZ-GEN-00023','HZ-CAF-00124']){
  assert.equal(r.status,200);const html=await r.text(),note=html.match(/<p data-product-selection-notice[^>]*>(.*?)<\/p>/s);assert.ok(note);
  assert.match(note[1],/בחירת החלק המתאים לרכב באחריות הלקוח/);assert.match(note[1],/הכול בכפוף להוראות הדין/);
  assert.ok(html.indexOf('data-product-selection-notice')>html.indexOf('הוסף להצעה'));
+ assert.match(html,/data-final-price-notice[^>]*>המחירים באתר עשויים להשתנות\. המחיר הסופי ייקבע בהצעת מחיר שנשלח אליך לאחר אימות פרטי המשלוח\./);
+ assert.ok(html.indexOf('data-final-price-notice')>html.indexOf('data-product-selection-notice'));
 }
 console.log('PASS subtle selection/return notice: emitted product pages, after actions, normal-weight small muted text, shared cart placement after total; readonly/no network. Mobile browser QA still pending.');
