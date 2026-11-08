@@ -21,3 +21,5 @@ node scripts/check-image-first-client.mjs
 node scripts/check-ac-product-photos.mjs
 
 node scripts/check-ac-additional-photos.mjs
+
+node scripts/check-wjs-approved-photos.mjs
