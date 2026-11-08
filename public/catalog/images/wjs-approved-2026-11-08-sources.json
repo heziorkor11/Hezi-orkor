@@ -1,0 +1,4431 @@
+{
+  "added": 126,
+  "sourceRows": 307,
+  "skippedReasons": {
+    "no-exact-supplier-sku-match": 87,
+    "needs-review": 41,
+    "quarantine": 1,
+    "existing-image-preserved": 52
+  },
+  "products": [
+    {
+      "sku": "HZ-CAF-00217",
+      "category": "cabin-filter",
+      "sourceSku": "8515B",
+      "sourceTitle": "פ.מזגן פגו C5 עד05",
+      "siteOriginalTitle": "פ.מזגן פגו C5 עד05",
+      "sourceCsvRow": 124,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-c5-עד05",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_fccaf3c6cdbb4f199a19146d19b9b0e2~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8515B.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "3592530b4bad36510a20344ac8420affec8fd64f135979091a110eb31b3c0a52",
+      "decodedRgbSha256": "692da5ba0172ac2f529986b17c1df34d9ce0d847eee1208b58c592bc6a11ceb0",
+      "sha256": "1644760ed325e5f6d9fc04bfd6b6b8379cc25f704f0299a57b69ba968630d6ee",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 271240,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00217.webp"
+    },
+    {
+      "sku": "HZ-CAF-00235",
+      "category": "cabin-filter",
+      "sourceSku": "EC9406",
+      "sourceTitle": "פ.מזגן פור מונדאו עד06",
+      "siteOriginalTitle": "פ.מזגן פור מונדאו עד06",
+      "sourceCsvRow": 125,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פור-מונדאו-עד06",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_79c6d6f4053f44d39234a8cf438c2ae2~mv2.png",
+      "designerFile": "images/מסנן_מזגן/EC9406.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "19ad22cf52a467eb1a1f6e98e2e967c9ac3e27e5a71b87b9fd2580d6ea4f3c71",
+      "decodedRgbSha256": "1666a294469aeb969e6106afa8781dece40b4ce4d4c06dafac354bb2da14f313",
+      "sha256": "fbcccefc2033eeddffcc20fc2a06c777c697f57f64c36c907a8b1ae2a8e8b430",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 89856,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00235.webp"
+    },
+    {
+      "sku": "HZ-CAF-00251",
+      "category": "cabin-filter",
+      "sourceSku": "8263E",
+      "sourceTitle": "פ.מזגן קיה EV6 מ22",
+      "siteOriginalTitle": "פ.מזגן קיה EV6 מ22",
+      "sourceCsvRow": 130,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-קיה-ev6-מ22",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_271b9661a8b74bbf8aae090beae8b808~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8263E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "6fdd6386118811e1bde9ac62d319b0751884640a7fc179725ea1b027a880d640",
+      "decodedRgbSha256": "46aa63196333ae76a6a99082ce0c3ca522f4069dc18dc87ae4edac4dd424e9fd",
+      "sha256": "0585d4d5097603206254e77718540b9be20afb697f4d74cb3bd018212d615db8",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 214270,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00251.webp"
+    },
+    {
+      "sku": "HZ-CAF-00226",
+      "category": "cabin-filter",
+      "sourceSku": "8465E-2",
+      "sourceTitle": "פ.מזגן פול A6 מ05 זוג",
+      "siteOriginalTitle": "פ.מזגן פול A6 מ05 זוג",
+      "sourceCsvRow": 131,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פול-a6-מ05-זוג",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_ebd701aba73d451f9244421e06fac939~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8465E-2.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "e9401da94b783c20634504959f480a16feb80e29873fcaff77eac0db4fe5b8e0",
+      "decodedRgbSha256": "5e608b5f383a39c3940a9c9e3b87377782d289dff7315bf5e4ad9aa6f85a22e2",
+      "sha256": "a5e30cb2f9123699c98987ed86c4fc3076c550ea5e03beb519238709f432aeb7",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 194006,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00226.webp"
+    },
+    {
+      "sku": "HZ-CAF-00197",
+      "category": "cabin-filter",
+      "sourceSku": "PMT017",
+      "sourceTitle": "פ.מזגן סקו אוקטביה 1.6D מ13",
+      "siteOriginalTitle": "פ.מזגן סקו אוקטביה 1.6D מ13",
+      "sourceCsvRow": 132,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סקו-אוקטביה-1-6d-מ13",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_adf03bd396504e9a97af90de7600abff~mv2.png",
+      "designerFile": "images/מסנן_מזגן/PMT017.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "68802c022508a2aa2675152ca8b94d014b0c233b3f390dab879ac42815de59c9",
+      "decodedRgbSha256": "ad7b912f981caca65d32f0155896e1ad9d42131cf026a1a03d912c9a7f4302ee",
+      "sha256": "cbdab529f2fbfb1e4ca684e48be29ae99c670af254b663e550318b2ae3bc11c3",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 224484,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00197.webp"
+    },
+    {
+      "sku": "HZ-CAF-00254",
+      "category": "cabin-filter",
+      "sourceSku": "8956E",
+      "sourceTitle": "פ.מזגן קיה סורנטו 2.2D מ15",
+      "siteOriginalTitle": "פ.מזגן קיה סורנטו 2.2D מ15",
+      "sourceCsvRow": 133,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-קיה-סורנטו-2-2d-מ15",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_6fea0f19842649ef94d0073b29f37e12~mv2.jpg",
+      "designerFile": "images/מסנן_מזגן/8956E.jpg",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "43f693580b2ff0e6a0fa6d88ce39521fa88728a72abd75e8acde6a57a362ad33",
+      "decodedRgbSha256": "89445a4e196adf175d48dd47d492a14fbad91ef36f71aa9aeca667dc9b9e0ce1",
+      "sha256": "bac22b003bded829256812b2efdfcf4473c217655f50ae4a66d7c3deab29adb9",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 293324,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00254.webp"
+    },
+    {
+      "sku": "HZ-CAF-00148",
+      "category": "cabin-filter",
+      "sourceSku": "8147B",
+      "sourceTitle": "פ.מזגן מרצ ספרינטר מ06 LT35",
+      "siteOriginalTitle": "פ.מזגן מרצ ספרינטר מ06 LT35",
+      "sourceCsvRow": 134,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-ספרינטר-מ06-lt35",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_930cef37715e44a48b497e4cd745fa82~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8147B.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "db39626ad7cf7e323cf195574ed5e7dbd0ee258e0a3a9bfd1b003a88799d1d85",
+      "decodedRgbSha256": "5e372106ae616d0ebebb8bdebd72dc85c305e6a710d53bce795035355d785766",
+      "sha256": "9787c88b076de2a602cead0c199be37c75ed24bd6c30ebaa512f3db76c133254",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 145906,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00148.webp"
+    },
+    {
+      "sku": "HZ-CAF-00162",
+      "category": "cabin-filter",
+      "sourceSku": "272774BU0AWJS",
+      "sourceTitle": "פ.מזגן ניס קשקאי 1.2T מ14",
+      "siteOriginalTitle": "פ.מזגן ניס קשקאי 1.2T מ14",
+      "sourceCsvRow": 135,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-ניס-קשקאי-1-2t-מ14",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_3067a8fcba7c4ccb80f9382740f54b80~mv2.png",
+      "designerFile": "images/מסנן_מזגן/272774BU0AWJS.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "21200b48cf7de69659bf113aa5f0d426972e8a64a50a96264d985aae451af03b",
+      "decodedRgbSha256": "a5a47aed530fd486804cfb25b3d54edc026c1b490cd4142e917905bd320e3f9a",
+      "sha256": "f72c13e184e56b094f53aeb74a7c187902345a0f81d480cd1424ef751761f876",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 243536,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00162.webp"
+    },
+    {
+      "sku": "HZ-CAF-00202",
+      "category": "cabin-filter",
+      "sourceSku": "8555E",
+      "sourceTitle": "פ.מזגן סקו סיטיגו 1.0 מ12",
+      "siteOriginalTitle": "פ.מזגן סקו סיטיגו 1.0 מ12",
+      "sourceCsvRow": 136,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סקו-סיטיגו-1-0-מ12",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_8efc9df42f734e24bbb5b780be39933e~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8555E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "387f5d06f4d35dcd62fd6f871d7127e565a1baa5f8e0172fb67ecc2d3641966b",
+      "decodedRgbSha256": "9422b3eee294ef7ec9e412457ab7e0cfa644cbe5b74f145e71cf1b3197587a72",
+      "sha256": "c0afc19e8d590dc32319b669ef12fea05badb9f35ae526376f36d50dfff9eb7f",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 150028,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00202.webp"
+    },
+    {
+      "sku": "HZ-CAF-00200",
+      "category": "cabin-filter",
+      "sourceSku": "8403E",
+      "sourceTitle": "פ.מזגן סקו אוקטביה גולף עד04",
+      "siteOriginalTitle": "פ.מזגן סקו אוקטביה גולף עד04",
+      "sourceCsvRow": 137,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סקו-אוקטביה-גולף-עד04",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_784e80a9fba54ba1b5020a8080fff103~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8403E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "12e7ce601e86924c96c48e0db09a2fa1421abaf422ea8e061b8d9a3734c11caa",
+      "decodedRgbSha256": "6cde80badbe345f3da1cb8b6442f51b78fd62e5750278f82a31a1ff0220e32d8",
+      "sha256": "ce8df06edf31bbff303b7d29134dc64538f30d175f452b15dfa43a66467eabb4",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 218454,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00200.webp"
+    },
+    {
+      "sku": "HZ-CAF-00203",
+      "category": "cabin-filter",
+      "sourceSku": "6Q0820367WJS",
+      "sourceTitle": "פ.מזגן סקו פביה מ00 רומסטר",
+      "siteOriginalTitle": "פ.מזגן סקו פביה מ00 רומסטר",
+      "sourceCsvRow": 139,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סקו-פביה-מ00-רומסטר",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_7370a151f13949ada30bc02c02842c3d~mv2.png",
+      "designerFile": "images/מסנן_מזגן/6Q0820367WJS.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "f946caca1d1974158055ff58b6d00eb46b65a138601f11c9abb23dff4998efc8",
+      "decodedRgbSha256": "a4f2b0b81a22224c01a37b36e88b11cf556fe3c76403580792984710ae940167",
+      "sha256": "d8c4b3f3d460c3bce7a288a0bb51d99aca82bce54c6ec29bd14beaffe1c3e1e6",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 235272,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00203.webp"
+    },
+    {
+      "sku": "HZ-CAF-00163",
+      "category": "cabin-filter",
+      "sourceSku": "8437E",
+      "sourceTitle": "פ.מזגן ניס קשקאי 1.5 מ21",
+      "siteOriginalTitle": "פ.מזגן ניס קשקאי 1.5 מ21",
+      "sourceCsvRow": 143,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-ניס-קשקאי-1-5-מ21",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_18858358b891492fbbe3343a56796ceb~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8437E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "feb76c26171eb5dc2f0484e59a5b6f4e35467ce600fc7f73b1d36f682c7e5abd",
+      "decodedRgbSha256": "075cbf4bfcfdc931eeca81840f70ab28e537af81620aad712b3deaf5999fcf46",
+      "sha256": "7e8ddab954bd1640b0397b6d1cde9c6a90b187c13207581ff3a8b68502ebe6cf",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 216134,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00163.webp"
+    },
+    {
+      "sku": "HZ-CAF-00230",
+      "category": "cabin-filter",
+      "sourceSku": "8415E",
+      "sourceTitle": "פ.מזגן פול פולו 1.0 מ18",
+      "siteOriginalTitle": "פ.מזגן פול פולו 1.0 מ18",
+      "sourceCsvRow": 144,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פול-פולו-1-0-מ18",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_89cfece382824fc2986200aa6ee40990~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8415E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "f67aba8ed50d8e230f7a551d51d0921d8825649abc9207901a9944b21ba4949d",
+      "decodedRgbSha256": "9f57ae749d6d3efc147418c80883beec661fd26363866f47416aef2cf3d00b78",
+      "sha256": "f2b9120648d02511c186eab3d52c6ada17f9fec411e7d18b252d86648dc2431a",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 265996,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00230.webp"
+    },
+    {
+      "sku": "HZ-CAF-00222",
+      "category": "cabin-filter",
+      "sourceSku": "8554E",
+      "sourceTitle": "פ.מזגן פגו גמפי מ07 עד15",
+      "siteOriginalTitle": "פ.מזגן פגו גמפי מ07 עד15",
+      "sourceCsvRow": 145,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-גמפי-מ07-עד15",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_4f63e78eb97a47f0a14581cfd23c710a~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8554E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "3a0814ee198a0196bbb7ff23baa848ffcc8230177d2dad08a6bc70c793c0b78c",
+      "decodedRgbSha256": "476d1e0ec8070a0f6f66f483260c75c3c7c04e8ca42e4b073c44c683fc86ac56",
+      "sha256": "426217fcc930fd3d3b19e4c6d11f73e767f03f4c1dbb41b0547fe691f149bade",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 143218,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00222.webp"
+    },
+    {
+      "sku": "HZ-CAF-00221",
+      "category": "cabin-filter",
+      "sourceSku": "8321E",
+      "sourceTitle": "פ.מזגן פגו ברלינגו מ03 עד07",
+      "siteOriginalTitle": "פ.מזגן פגו ברלינגו מ03 עד07",
+      "sourceCsvRow": 146,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-ברלינגו-מ03-עד07",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_8126e6b22f7c44dc871e4cc51d4da848~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8321E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "83f28111ac836ac1cd06082cf7b45aa66b9c10c65d574bef0201afda5604cbe1",
+      "decodedRgbSha256": "ac5e5a6731c14ef17db870bde068d5872fb3bf93948030a14f4e81021b3994f7",
+      "sha256": "b787dfbd0d42319a142b1bdd8ab3a714c35abf2f553a89786b94b016d01eb5f3",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 277224,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00221.webp"
+    },
+    {
+      "sku": "HZ-CAF-00218",
+      "category": "cabin-filter",
+      "sourceSku": "8156E",
+      "sourceTitle": "פ.מזגן פגו בוקסר הרקולס מ07",
+      "siteOriginalTitle": "פ.מזגן פגו בוקסר הרקולס מ07",
+      "sourceCsvRow": 147,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-בוקסר-הרקולס-מ07",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_bcec14874eea4c5897a616e311f13d57~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8156E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "dc341adba1b00434a004c93178f351df69f3ba005db0f58387c5b4ef585f41ab",
+      "decodedRgbSha256": "9fdb4f5b549233a60dc0003b07c870621f71a48dcdcb5f0918706c16c5b22b26",
+      "sha256": "b72ea664b7bd986cba1912ff4708cb82b02dd91e393cad39088c6dd3239e8866",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 386044,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00218.webp"
+    },
+    {
+      "sku": "HZ-CAF-00209",
+      "category": "cabin-filter",
+      "sourceSku": "8304E",
+      "sourceTitle": "פ.מזגן פגו 307 C4 מ04",
+      "siteOriginalTitle": "פ.מזגן פגו 307 C4 מ04",
+      "sourceCsvRow": 148,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-307-c4-מ04",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_dfbe6d227127480fa6dc62c1d45429bb~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8304E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "6a3b3abcbded3809ad2ac0bd6c8e11ee70e268f7351d969fa311a62acde8f7d0",
+      "decodedRgbSha256": "a649430802cbdf18c22b8a0d2811d2e4c0746256967467606af3276dfc1e4b65",
+      "sha256": "a5354fe3ef801c229e7a1864debd4a11950ffa764725ab553f2117e208485073",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 183588,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00209.webp"
+    },
+    {
+      "sku": "HZ-CAF-00249",
+      "category": "cabin-filter",
+      "sourceSku": "8190E",
+      "sourceTitle": "פ.מזגן פיא דובלו מ10 פיורינו",
+      "siteOriginalTitle": "פ.מזגן פיא דובלו מ10 פיורינו",
+      "sourceCsvRow": 149,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פיא-דובלו-מ10-פיורינו",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_e2c4e508dfa64f7c87de0f3e0dc7627a~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8190E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "a257cbb714db4e5d3eddfe4b1566972799a002525e9cdca5eecfdb472b5667a0",
+      "decodedRgbSha256": "342acd97d6ed6644331053efc0068222fe899691735b6a97e463ae1fec47ba26",
+      "sha256": "31dea58c06007ab1bb682b024c31a114605769ecd87f43da5dcef8299dc9ff37",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 204410,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00249.webp"
+    },
+    {
+      "sku": "HZ-CAF-00246",
+      "category": "cabin-filter",
+      "sourceSku": "8130E",
+      "sourceTitle": "פ.מזגן פיא גרנד פונטו מ05",
+      "siteOriginalTitle": "פ.מזגן פיא גרנד פונטו מ05",
+      "sourceCsvRow": 150,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פיא-גרנד-פונטו-מ05",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_c6b3517574724a97ad121db5ef2e926f~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8130E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "c271d24232b12594343a4eb7291cca2b90c2f2bd2689f0457e12267ca6bbd215",
+      "decodedRgbSha256": "09c1e2e2cd667f9e24ad92163f0180b585f6884ee72241d9ba74bd21350ad65a",
+      "sha256": "44b1346f8076b9ed6c3428f43e769c960fe9e6ae67d6bbd313e52e838c41a177",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 480736,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00246.webp"
+    },
+    {
+      "sku": "HZ-CAF-00219",
+      "category": "cabin-filter",
+      "sourceSku": "8129B",
+      "sourceTitle": "פ.מזגן פגו בוקסר הרקולס מ94 עד06",
+      "siteOriginalTitle": "פ.מזגן פגו בוקסר הרקולס מ94 עד06",
+      "sourceCsvRow": 151,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-בוקסר-הרקולס-מ94-עד06",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_a641d78697604f5682e035ebe218e4fa~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8129B.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "eb8e88870ad86c3b67d6277299afe6ec9bc2659fdcccf0892b768433a5349853",
+      "decodedRgbSha256": "58704ad3cbb087308f3d3ae39ed5a8864472f58e980ed50e17fe4133bdbf8bcd",
+      "sha256": "fee120198d22bd5e07f3b5f1567d00c4423dc6374d9751d8290951aec5b61fb6",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 120302,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00219.webp"
+    },
+    {
+      "sku": "HZ-CAF-00198",
+      "category": "cabin-filter",
+      "sourceSku": "8083E",
+      "sourceTitle": "פ.מזגן סקו אוקטביה 1.6D מ13 פחם",
+      "siteOriginalTitle": "פ.מזגן סקו אוקטביה 1.6D מ13 פחם",
+      "sourceCsvRow": 152,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סקו-אוקטביה-1-6d-מ13-פחם",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_e3af1f9a470d48cb98b539d733e5e865~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8083E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "68802c022508a2aa2675152ca8b94d014b0c233b3f390dab879ac42815de59c9",
+      "decodedRgbSha256": "ad7b912f981caca65d32f0155896e1ad9d42131cf026a1a03d912c9a7f4302ee",
+      "sha256": "cbdab529f2fbfb1e4ca684e48be29ae99c670af254b663e550318b2ae3bc11c3",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 224484,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00198.webp"
+    },
+    {
+      "sku": "HZ-CAF-00199",
+      "category": "cabin-filter",
+      "sourceSku": "8524E",
+      "sourceTitle": "פ.מזגן סקו אוקטביה גולף מ05 עד12",
+      "siteOriginalTitle": "פ.מזגן סקו אוקטביה גולף מ05 עד12",
+      "sourceCsvRow": 153,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סקו-אוקטביה-גולף-מ05-עד12",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_be6bd18a0a26414a94939c4157297a81~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8524E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "d1052a1befd81dedfbe59b495bb72e78ea3c52fe90eab80a34b5ac6ab3c20167",
+      "decodedRgbSha256": "ebeff7e0ad8109ee3ce61588fe5e1936c79bf27c69c024bb1f9027197999bb37",
+      "sha256": "c6c36edfe4e8cb5c4eb367aa56a3ddce0688bad2487e9bc12e9f2c4a3ef66319",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 447778,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00199.webp"
+    },
+    {
+      "sku": "HZ-CAF-00208",
+      "category": "cabin-filter",
+      "sourceSku": "8226E-2",
+      "sourceTitle": "פ.מזגן פגו 301 אליזה מ13 זוג",
+      "siteOriginalTitle": "פ.מזגן פגו 301 אליזה מ13 זוג",
+      "sourceCsvRow": 154,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-301-אליזה-מ13-זוג",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_c505aabc9b134cb0a863f704e49b1e89~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8226E-2.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "6b1bdeb1e3aae2fe7345ade990afd51ce808fe38b628ca74125f029ac702ed58",
+      "decodedRgbSha256": "85552142ab425a6924545dc63ff5720ecb4f14aaa69dfd105cb12ff3e72f5242",
+      "sha256": "8865a4ba2c693150c35be2956203d2dd44258028b69fb3eaf829846df41316ee",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 106062,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00208.webp"
+    },
+    {
+      "sku": "HZ-CAF-00264",
+      "category": "cabin-filter",
+      "sourceSku": "272773016RWJS",
+      "sourceTitle": "פ.מזגן רנו קליאו מ13 קפצור מ13",
+      "siteOriginalTitle": "פ.מזגן רנו קליאו מ13 קפצור מ13",
+      "sourceCsvRow": 156,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-רנו-קליאו-מ13-קפצור-מ13",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_34d6d557a01349d28493ff6a6cc9bab1~mv2.png",
+      "designerFile": "images/מסנן_מזגן/272773016RWJS.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "d4fe9e150d90505d3ee13b942fa4c2365a0b2e9955d3a1e77cdef943aaeddb95",
+      "decodedRgbSha256": "3b3c4003377eafd3b3d9ad14de7a63ceaf3312f7b211c09a6ac07f6814f8912f",
+      "sha256": "54b2f10c46e0d34e341b123e1e70eb0ebf170e7abcf91ed0f4e5fa366201ce82",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 235674,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00264.webp"
+    },
+    {
+      "sku": "HZ-CAF-00263",
+      "category": "cabin-filter",
+      "sourceSku": "27277-2100RWJS",
+      "sourceTitle": "פ.מזגן רנו פלואנס מ09 גוק מ10",
+      "siteOriginalTitle": "פ.מזגן רנו פלואנס מ09 גוק מ10",
+      "sourceCsvRow": 157,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-רנו-פלואנס-מ09-גוק-מ10",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_590d7c81e602428e850d885a24ba7796~mv2.jpg",
+      "designerFile": "images/מסנן_מזגן/27277-2100RWJS.jpg",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "5e111da9bc925825fa5ccb5b77e54a922bc2fa60ca4b7d1cd3562528652266fb",
+      "decodedRgbSha256": "f5d0355fb74d912b5aaa60a625e37d112870fbe871d3be8011e73d30641cbf09",
+      "sha256": "c70ddb5b89ee47bfa4ed11bc09490dbab00581f52605523992f80200b68e2ab6",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 115844,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00263.webp"
+    },
+    {
+      "sku": "HZ-CAF-00124",
+      "category": "cabin-filter",
+      "sourceSku": "7803A112WJS",
+      "sourceTitle": "פ.מזגן מיצ לנסר מ08 פולבק מ16",
+      "siteOriginalTitle": "פ.מזגן מיצ לנסר מ08 פולבק מ16",
+      "sourceCsvRow": 160,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מיצ-לנסר-מ08-פולבק-מ16",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_e95227255449463fa33041dba7c23b7a~mv2.png",
+      "designerFile": "images/מסנן_מזגן/7803A112WJS_02.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "74e0070dc880b45e90af19cb6413e08555ccf831688a97ba9472bf211077395a",
+      "decodedRgbSha256": "118d01202fd9ce8c3caa87aab50cf6644588f4e96db23d1aa21a2d80ed02b30f",
+      "sha256": "30030d180349183f60422aca026023c137e9b209cc72832e48497dba12a38e24",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 171814,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00124.webp"
+    },
+    {
+      "sku": "HZ-CAF-00122",
+      "category": "cabin-filter",
+      "sourceSku": "7803A165WJS",
+      "sourceTitle": "פ.מזגן מיצ אאוטלנדר 2.5 מ22 פחם",
+      "siteOriginalTitle": "פ.מזגן מיצ אאוטלנדר 2.5 מ22 פחם",
+      "sourceCsvRow": 161,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מיצ-אאוטלנדר-2-5-מ22-פחם",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_9b60092269aa43eda680cdcb9fc46ffc~mv2.png",
+      "designerFile": "images/מסנן_מזגן/7803A165WJS.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "df31f25e1ef26f70cec5023b33b81c7975d1fa987fc2d30f05f478992af166cb",
+      "decodedRgbSha256": "a548ef7abc167fd2e5c6fd6600520701e4b33a9adb8490cf8d9769dc2514b0e6",
+      "sha256": "ccd6c46ab6f207a487fc6c03b21bc540865e45da710d3c00ef5a79bd1d79c71d",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 122958,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00122.webp"
+    },
+    {
+      "sku": "HZ-CAF-00129",
+      "category": "cabin-filter",
+      "sourceSku": "8913E",
+      "sourceTitle": "פ.מזגן מרצ C200 C220 W202 עד01",
+      "siteOriginalTitle": "פ.מזגן מרצ C200 C220 W202 עד01",
+      "sourceCsvRow": 162,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-c200-c220-w202-עד01",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_1e7278c7b97b48b3bb4633bbf24b3807~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8913E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "29dbfb538a2cb9fe5188b3ab183e63bf27288f7af3ee0eb26cbd0234c34dee88",
+      "decodedRgbSha256": "76dba89177af0296319dc1c760dd3e206f36eddcc8d16bc962e4090ed560325d",
+      "sha256": "dc422a44c00d047cba3df98b571ea30870b59db089a45c481bbce0ac268474b4",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 352308,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00129.webp"
+    },
+    {
+      "sku": "HZ-CAF-00128",
+      "category": "cabin-filter",
+      "sourceSku": "AHC402",
+      "sourceTitle": "פ.מזגן מרצ A180 A200 W176 מ12",
+      "siteOriginalTitle": "פ.מזגן מרצ A180 A200 W176 מ12",
+      "sourceCsvRow": 163,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-a180-a200-w176-מ12",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_99e42cc3f5d344ccba3164f0aa4ad5d6~mv2.png",
+      "designerFile": "images/מסנן_מזגן/AHC402.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "3e0ef5125e26e0a88adb15aefbe810060b3e5f683a75218dd6b5b42660557773",
+      "decodedRgbSha256": "b27a803582b8d5a4d5af250d1d1ce112c5074a0b8a4651b7423cfb5c19bb1fc5",
+      "sha256": "883b90f4de00782c2d4903e2252c5b8548d8700bf2225cdbaf2fe2fddece220d",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 172208,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00128.webp"
+    },
+    {
+      "sku": "HZ-CAF-00232",
+      "category": "cabin-filter",
+      "sourceSku": "AHC730",
+      "sourceTitle": "פ.מזגן פול פולו 1.0 מ18 פחם",
+      "siteOriginalTitle": "פ.מזגן פול פולו 1.0 מ18 פחם",
+      "sourceCsvRow": 165,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פול-פולו-1-0-מ18-פחם",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_89cfece382824fc2986200aa6ee40990~mv2.png",
+      "designerFile": "images/מסנן_מזגן/AHC730.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "f67aba8ed50d8e230f7a551d51d0921d8825649abc9207901a9944b21ba4949d",
+      "decodedRgbSha256": "9f57ae749d6d3efc147418c80883beec661fd26363866f47416aef2cf3d00b78",
+      "sha256": "f2b9120648d02511c186eab3d52c6ada17f9fec411e7d18b252d86648dc2431a",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 265996,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00232.webp"
+    },
+    {
+      "sku": "HZ-CAF-00223",
+      "category": "cabin-filter",
+      "sourceSku": "8410E",
+      "sourceTitle": "פ.מזגן פול A4 מ02 A6 מ99",
+      "siteOriginalTitle": "פ.מזגן פול A4 מ02 A6 מ99",
+      "sourceCsvRow": 166,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פול-a4-מ02-a6-מ99",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_c2abd83672fa4eeca467e9a4fd26b8dc~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8410E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "6b9ec838715adf0b1bdf23c0598c293d2c3ce3c28896d9c22d95e5141e1089bf",
+      "decodedRgbSha256": "03e500572b0e663b8f091d3fa82111484a8595a1be058c6493056d2882310e8a",
+      "sha256": "4afd37f07c40bca19caa4b0b327ac6caef2ded74c372649bae0272202ac5865d",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 331502,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00223.webp"
+    },
+    {
+      "sku": "HZ-CAF-00216",
+      "category": "cabin-filter",
+      "sourceSku": "8376E",
+      "sourceTitle": "פ.מזגן פגו C5 מ08 407 מ05",
+      "siteOriginalTitle": "פ.מזגן פגו C5 מ08 407 מ05",
+      "sourceCsvRow": 167,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-c5-מ08-407-מ05",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_ad3b8ccfbf67404d81f3a6ee2349753f~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8376E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "a8fe71f18815979e925925cebfba121459bce535bfcef9bfd0208e4386ca621b",
+      "decodedRgbSha256": "5926b36c4bd2064401b170334117e142ff1f7cd235cddd4a95181c51c80cf896",
+      "sha256": "9e7985ed3b1a5bc9fe568c52c57065f0899640bed4c5fb2983ccf3ea11c389c1",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 210832,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00216.webp"
+    },
+    {
+      "sku": "HZ-CAF-00213",
+      "category": "cabin-filter",
+      "sourceSku": "8518E",
+      "sourceTitle": "פ.מזגן פגו C1 מ14 108 מ14",
+      "siteOriginalTitle": "פ.מזגן פגו C1 מ14 108 מ14",
+      "sourceCsvRow": 168,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-c1-מ14-108-מ14",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_7e816e4a24c84d99a3850f74dbc7c405~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8518E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "969702871e3769025db26638bba0187203322c97cae205df3a16adea12f716a0",
+      "decodedRgbSha256": "8671a2fe4e0361a29c4d1b195e7688de7abbe35fca7ed4651034949f72991e14",
+      "sha256": "35f3681ada9bef42975b8bea6c30b233396e9f75b53abe9e1bef17650e630c8f",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 201152,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00213.webp"
+    },
+    {
+      "sku": "HZ-CAF-00206",
+      "category": "cabin-filter",
+      "sourceSku": "8394E-2",
+      "sourceTitle": "פ.מזגן פגו 207 מ06 208 מ12 זוג",
+      "siteOriginalTitle": "פ.מזגן פגו 207 מ06 208 מ12 זוג",
+      "sourceCsvRow": 170,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-207-מ06-208-מ12-זוג",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_93ebd556d4354c6d8e681b450858c099~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8394E-2.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "e415cf12884b462e251d9da248871515049fcc524e23e6d887ba32fc52941510",
+      "decodedRgbSha256": "837cb822fe96c7082184383f64443d6d7ce38503225ff9bb05f5c6e4ae1a3236",
+      "sha256": "d209cae0650330a7cb8c80c41954762a6aa574ab3668c9b7fde2996a52da8392",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 239708,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00206.webp"
+    },
+    {
+      "sku": "HZ-CAF-00265",
+      "category": "cabin-filter",
+      "sourceSku": "8372E",
+      "sourceTitle": "פ.מזגן רנו קליאו מ13 קפצור מ13 פחם",
+      "siteOriginalTitle": "פ.מזגן רנו קליאו מ13 קפצור מ13 פחם",
+      "sourceCsvRow": 171,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-רנו-קליאו-מ13-קפצור-מ13-פחם-1",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_d4a1af803bf04789853611667303132c~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8372E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "f54910658d7a7b1ed8a069acabbb28c4b541cdf7d15fafa21c54793e5ee0f9af",
+      "decodedRgbSha256": "70dcd90467a6772daa0ef9ab8b3ee456f7f4307b78d590f6bd02e5064a57fa54",
+      "sha256": "6ca62117df8967884173cb221db94692bed7abc071534c953138f0830c7d4611",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 207192,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00265.webp"
+    },
+    {
+      "sku": "HZ-CAF-00228",
+      "category": "cabin-filter",
+      "sourceSku": "8416E",
+      "sourceTitle": "פ.מזגן פול T5 אמרוק 2.0 TDI מ13",
+      "siteOriginalTitle": "פ.מזגן פול T5 אמרוק 2.0 TDI מ13",
+      "sourceCsvRow": 172,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פול-t5-אמרוק-2-0-tdi-מ13",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_a0cc0ee9f4fa4551a7727c349727bead~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8416E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "d3b7f4274d14aa7fccd0a72fa64efb4b03b06b9bac130607db455a42c14d0b91",
+      "decodedRgbSha256": "1fe014d5716513b72ac823c752d9e25f8e0787ac828223b4d6b18d2b0b5d8f98",
+      "sha256": "09e9aa58f1def22c79ecb8a279e1608a38675d19efbf5c77a799ec46b7548241",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 279196,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00228.webp"
+    },
+    {
+      "sku": "HZ-CAF-00261",
+      "category": "cabin-filter",
+      "sourceSku": "97133D1000WJS",
+      "sourceTitle": "פ.מזגן קיה ריו מ17 סטוניק מ18 סלטוס",
+      "siteOriginalTitle": "פ.מזגן קיה ריו מ17 סטוניק מ18 סלטוס",
+      "sourceCsvRow": 173,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-קיה-ריו-מ17-סטוניק-מ18-סלטוס",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_ad6bf7878a114e63b09716ccc1fce5e0~mv2.jpg",
+      "designerFile": "images/מסנן_מזגן/97133D1000WJS.jpg",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "5d1bb5b8c8388b6c92d2f24aad79e3e28690e467c0f7decca17f6c98d8c281af",
+      "decodedRgbSha256": "bac93106124cf40703e1203934bbf702368c6992ddf5845aff3503fe13c7e844",
+      "sha256": "5b90c0c4ed965aff0711db8e89c9bdfa187dcf991ad59ee5c4384e9efab0b565",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 177936,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00261.webp"
+    },
+    {
+      "sku": "HZ-CAF-00204",
+      "category": "cabin-filter",
+      "sourceSku": "8780E",
+      "sourceTitle": "פ.מזגן פגו 107 מ09 C1 מ10 עד13",
+      "siteOriginalTitle": "פ.מזגן פגו 107 מ09 C1 מ10 עד13",
+      "sourceCsvRow": 174,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-107-מ09-c1-מ10-עד13",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_88b30cf620e1483b9370fedc0b7b937d~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8780E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "0f3086132496cb5f7db38ad7cfafd2fe2800204df18e1407ee8d69a6e75c3e2f",
+      "decodedRgbSha256": "fb533594603e2fb9855e1b1d5dfededc5ed77c07d3184d392cc272d1c75d13a4",
+      "sha256": "b53266259f07088026d8c6eeb2300dc4e47224f9035be16608369ad50ba9224f",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 193892,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00204.webp"
+    },
+    {
+      "sku": "HZ-CAF-00243",
+      "category": "cabin-filter",
+      "sourceSku": "8139E",
+      "sourceTitle": "פ.מזגן פיא 500X  מ15 קומפס 1.3 מ21",
+      "siteOriginalTitle": "פ.מזגן פיא 500X מ15 קומפס 1.3 מ21",
+      "sourceCsvRow": 180,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פיא-500x-מ15-קומפס-1-3-מ21",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_18386b7826a746a5b2b22098a0de1116~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8139E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "4c1a388065ecc3870472d4a77d7d24903dd0488e35e8adfa21423e29d800ab2c",
+      "decodedRgbSha256": "803dea5a343dc8aba9661d5eedbc013bc59255f832ae882dc2de92afa2939e8b",
+      "sha256": "f360130af15dc5fb96166453809d6ad119b3c8ea7941e4f7e1815ef5770b859e",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 137174,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00243.webp"
+    },
+    {
+      "sku": "HZ-CAF-00231",
+      "category": "cabin-filter",
+      "sourceSku": "AH730",
+      "sourceTitle": "פ.מזגן פול פולו 1.0 מ18 לא פחם",
+      "siteOriginalTitle": "פ.מזגן פול פולו 1.0 מ18 לא פחם",
+      "sourceCsvRow": 181,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פול-פולו-1-0-מ18-לא-פחם",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_6c9e39868b7a4d049a8d4b8287da94b5~mv2.png",
+      "designerFile": "images/מסנן_מזגן/AH730.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "495cab61e1b25afa5b65a7d9790eafdf5ebf3d0386ca16d87ec5028dcfb554d4",
+      "decodedRgbSha256": "b14b40862fc2be066809f9bcaddc48d8163e50dc953aa5deab59a80fe69819fa",
+      "sha256": "a4b4a7579bbeaef757159ec7176d8b79fd7bc2cac96704769f49fbe79a2246d1",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 322580,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00231.webp"
+    },
+    {
+      "sku": "HZ-CAF-00220",
+      "category": "cabin-filter",
+      "sourceSku": "AHC261-2",
+      "sourceTitle": "פ.מזגן פגו ברלינגו 1.6 מ08 זוג פחם",
+      "siteOriginalTitle": "פ.מזגן פגו ברלינגו 1.6 מ08 זוג פחם",
+      "sourceCsvRow": 182,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-ברלינגו-1-6-מ08-זוג-פחם-1",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_27d8a1537f4b4bd992f80cdee02fee54~mv2.png",
+      "designerFile": "images/מסנן_מזגן/AHC261-2.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "5431cf57fdd3d030c6ccb8eb362997cd7afdd9dbaeea3fd5557c8e6fc8a25962",
+      "decodedRgbSha256": "22f19fab4dbbdcab4bfd73af03642d58b54fab66385527362aa2a4d152a257d1",
+      "sha256": "6f6a8ffa4deb99b7d76213389a736dc12ac3517461a6aefab377c781845acfa3",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 200376,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00220.webp"
+    },
+    {
+      "sku": "HZ-CAF-00215",
+      "category": "cabin-filter",
+      "sourceSku": "8264E",
+      "sourceTitle": "פ.מזגן פגו C5 מ05 עד07 407 מ05",
+      "siteOriginalTitle": "פ.מזגן פגו C5 מ05 עד07 407 מ05",
+      "sourceCsvRow": 183,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-c5-מ05-עד07-407-מ05",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_4bb66d685a5f49c7ab0ef7dbd9bf0c46~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8264E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "2c49595997464f809da1acaaee30b954353fe6f2f32a78a733081f19995de932",
+      "decodedRgbSha256": "55154818da6539ae57f3cded7a34120323a56deca2ec639b85bc074b0f11502f",
+      "sha256": "3d021a56fdb49f3b5f84cb25a60e829718f06ad819367c714d0d2a6034847cf4",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 213332,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00215.webp"
+    },
+    {
+      "sku": "HZ-CAF-00248",
+      "category": "cabin-filter",
+      "sourceSku": "8116E",
+      "sourceTitle": "פ.מזגן פיא דובלו מ05 עד09 סול מ15",
+      "siteOriginalTitle": "פ.מזגן פיא דובלו מ05 עד09 סול מ15",
+      "sourceCsvRow": 184,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פיא-דובלו-מ05-עד09-סול-מ15",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_538cd534338f42fa826c70634016fe7d~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8116E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "440a96b821148df8ef9b0c5f8bbd3b3e3f4169eaf8f3bed552f9566028845a4a",
+      "decodedRgbSha256": "dce34f92b1aa675095ea3dfb8eeb1154536cc87dfa70471e7eecc854a0a18f61",
+      "sha256": "d413f2be43823cd6d1341a6f3941d95e42fa9cf74fbdad9efa6af84ba772832e",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 218510,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00248.webp"
+    },
+    {
+      "sku": "HZ-CAF-00168",
+      "category": "cabin-filter",
+      "sourceSku": "8306E",
+      "sourceTitle": "פ.מזגן סאנ רקסטון 2.0 2.2 D מ18",
+      "siteOriginalTitle": "פ.מזגן סאנ רקסטון 2.0 2.2 D מ18",
+      "sourceCsvRow": 185,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סאנ-רקסטון-2-0-2-2-d-מ18",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_955a1965d19f406783496606c3c7ff52~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8306E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "158024e555fed045022b369d891e2804d0dce4594852184a64d5e0e96e26abcd",
+      "decodedRgbSha256": "990026e245ea435a2cee19fa6db93f4e43c368abf6e9ea6e981b3b6d5ed831bc",
+      "sha256": "c1263658099bc1f15fdd6f9f06bcf7421b9589a64c7ecdf00de8b619cb2b6f38",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 334108,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00168.webp"
+    },
+    {
+      "sku": "HZ-CAF-00201",
+      "category": "cabin-filter",
+      "sourceSku": "AHC733",
+      "sourceTitle": "פ.מזגן סקו אניאק מ20 פחם ID4 מ21",
+      "siteOriginalTitle": "פ.מזגן סקו אניאק מ20 פחם ID4 מ21",
+      "sourceCsvRow": 186,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סקו-אניאק-מ20-פחם-id4-מ21",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_8076098c5e3147dca58b78594bfdcab1~mv2.png",
+      "designerFile": "images/מסנן_מזגן/AHC733.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "dccada3825b8200b69644892ab5b8d50cfde10bd99ff2f832734c26c5999f70c",
+      "decodedRgbSha256": "7b36ec0264141adaef8c7f721d7a7456b849dc2b31391133b181a8637f83b5a8",
+      "sha256": "3d24e11845027d0b50c5790c2f382d128196906d98e951f005e1a4f4676af1c6",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 668330,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00201.webp"
+    },
+    {
+      "sku": "HZ-CAF-00225",
+      "category": "cabin-filter",
+      "sourceSku": "AHC535",
+      "sourceTitle": "פ.מזגן פול A4 מ16 A5 Q5 Q7 מ16",
+      "siteOriginalTitle": "פ.מזגן פול A4 מ16 A5 Q5 Q7 מ16",
+      "sourceCsvRow": 187,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פול-a4-מ16-a5-q5-q7-מ16",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_cde3132fdec64e0cae2ce7fda9063592~mv2.png",
+      "designerFile": "images/מסנן_מזגן/AHC535.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "afafd49fe1bfbaf360acdb60aa4b88b3d931338c3d800e144c38636c8f660efd",
+      "decodedRgbSha256": "7853b0662773bcd23d549c1a24b1553f5981f4ccb1c9755aaee3b317d16276a8",
+      "sha256": "9287b3c0f8a20d2310965ca8c8025fd1dca22e6f263c7bea908f463c01fab526",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 178332,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00225.webp"
+    },
+    {
+      "sku": "HZ-CAF-00229",
+      "category": "cabin-filter",
+      "sourceSku": "PMXC23T",
+      "sourceTitle": "פ.מזגן פול T5 אמרוק 2.0 TDI מ13 פחם",
+      "siteOriginalTitle": "פ.מזגן פול T5 אמרוק 2.0 TDI מ13 פחם",
+      "sourceCsvRow": 188,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פול-t5-אמרוק-2-0-tdi-מ13-פחם",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_ff8fcfc7babb41069c7a79494c508bf8~mv2.jpg",
+      "designerFile": "images/מסנן_מזגן/PMXC23T.jpg",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "9c009e4fd9b4295d7046ec7049c1685740164bd0c9f878591cc8a20eeaa08c4c",
+      "decodedRgbSha256": "34bf7521568b7f327d8439c0fd4227c28c406078ee8d9057472d954e7343bc2b",
+      "sha256": "e55f11860fb14e5dfc1463ed85d2e055da286088f4ae3fa652ac71975a837f9f",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 427802,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00229.webp"
+    },
+    {
+      "sku": "HZ-CAF-00224",
+      "category": "cabin-filter",
+      "sourceSku": "8453E",
+      "sourceTitle": "פ.מזגן פול A4 מ07 עד15 A5 מ08 עד15",
+      "siteOriginalTitle": "פ.מזגן פול A4 מ07 עד15 A5 מ08 עד15",
+      "sourceCsvRow": 190,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פול-a4-מ07-עד15-a5-מ08-עד15",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_1240e747adc940b1a446bfca66f29f94~mv2.png",
+      "designerFile": "images/מסנן_מזגן/8453E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "c2703bd3baf275449bea6016f936b46eaafde3b1fe2c4f49f32f9396eb9964ab",
+      "decodedRgbSha256": "252a286a6ae92f5cfc52dc6786d624fe006a2eb5525f15d300701dc5216558bf",
+      "sha256": "34f8434bcec119bb79c805e82810a2dbe1c7a9eb4a01fedca8f8d52ada244069",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 394862,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00224.webp"
+    },
+    {
+      "sku": "HZ-CAF-00149",
+      "category": "cabin-filter",
+      "sourceSku": "8658E",
+      "sourceTitle": "פ.מזגן מרצ ספרינטר מ07",
+      "siteOriginalTitle": "פ.מזגן מרצ ספרינטר מ07",
+      "sourceCsvRow": 192,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-ספרינטר-מ07",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_f2f097ad05b24783acbc3dcd1e2b7238~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/8658E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "e14463852ed6b43b729b237da5ba7281901fe98c5f50852430700874c382f3af",
+      "decodedRgbSha256": "ae13f6b1c3745d27388c40b7fe0f4cae5c21f1842595875b483bbeb01d5011cb",
+      "sha256": "d6f261993f639c4f91af9cd67975ca2614b0ed4c64322f5a2b283212c905c4cc",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 182238,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00149.webp"
+    },
+    {
+      "sku": "HZ-CAF-00147",
+      "category": "cabin-filter",
+      "sourceSku": "LAK430",
+      "sourceTitle": "פ.מזגן מרצ סמרט 1.0 מ07",
+      "siteOriginalTitle": "פ.מזגן מרצ סמרט 1.0 מ07",
+      "sourceCsvRow": 193,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-סמרט-1-0-מ07",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_d3e2a3b9442e49559a893efb655c3b01~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/LAK430.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "00591f5c1eb366c6ad5748e4edee9ff59699f73e56c291fe000e40d862e9afd6",
+      "decodedRgbSha256": "9e38eb8ae78053c4e2ef552209cb606d273dc8da99f208fcd633b31bda770b00",
+      "sha256": "225a217374953214226ff60734c7ffc666c74e0a82e8e98d8ae07df09a39b512",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 361638,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00147.webp"
+    },
+    {
+      "sku": "HZ-CAF-00140",
+      "category": "cabin-filter",
+      "sourceSku": "LAO1467",
+      "sourceTitle": "פ.מזגן מרצ W177 A200 מ19",
+      "siteOriginalTitle": "פ.מזגן מרצ W177 A200 מ19",
+      "sourceCsvRow": 194,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-w177-a200-מ19-1",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_8e7a00acf3a640f1907ded7a895c3fd4~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/LAO1467.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "6b38691fadadbd3df7e7cedaae8f66891d69522f8d1534077daf0d118afa62b0",
+      "decodedRgbSha256": "3c187a59f8c4228132acf64abf954f904194bcaeca2651fd2849cd83bbe7d99c",
+      "sha256": "c2911fb9db3fcbc1f420231e5158a010f972fb278e51f186c1e1d53e48662878",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 96212,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00140.webp"
+    },
+    {
+      "sku": "HZ-CAF-00139",
+      "category": "cabin-filter",
+      "sourceSku": "8924E",
+      "sourceTitle": "פ.מזגן מרצ SLK200 מ05 עד11",
+      "siteOriginalTitle": "פ.מזגן מרצ SLK200 מ05 עד11",
+      "sourceCsvRow": 195,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-slk200-מ05-עד11",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_c1c1f743268e4711a5d8824fbd75b01f~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/8924E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "b9b59bbb2a03050e10819e3f71dc130ac6cb9f41457adcc507c050ba6d03e8c5",
+      "decodedRgbSha256": "536b09092c1dd84fa3345f5da59c889c4c3c2e4ba99a350c237af4cb94b65cfd",
+      "sha256": "8a8836bd2027363fc1c97afc05fc1e8b9eb11db588996fbcbf68d6297429dd21",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 226526,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00139.webp"
+    },
+    {
+      "sku": "HZ-CAF-00145",
+      "category": "cabin-filter",
+      "sourceSku": "8754E",
+      "sourceTitle": "פ.מזגן מרצ ויטו מ15 ספרינטר מ18",
+      "siteOriginalTitle": "פ.מזגן מרצ ויטו מ15 ספרינטר מ18",
+      "sourceCsvRow": 196,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-ויטו-מ15-ספרינטר-מ18",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_13e9f7ed56464a13b633cfb281566801~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/8754E_01.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "ecbe28e641ff2f3d84a13b9024e97f6158f91284bc2f58502a9777fcf1da66a6",
+      "decodedRgbSha256": "89e50b91d9499a939ddf942174e203815eb92ec803e884b3e6063492c99c3cdf",
+      "sha256": "88366b6d1e01fad6d1364de39966a0f85e1d5cf0679102f295f84ecff78b4ee9",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 116662,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00145.webp"
+    },
+    {
+      "sku": "HZ-CAF-00144",
+      "category": "cabin-filter",
+      "sourceSku": "LAK1198",
+      "sourceTitle": "פ.מזגן מרצ ויטו מ15 ספרינטר מ18",
+      "siteOriginalTitle": "פ.מזגן מרצ ויטו מ15 ספרינטר מ18",
+      "sourceCsvRow": 197,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-ויטו-מ15-ספרינטר-מ18-1",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_3d2224c8a131478faf8f880c47f34d1c~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/LAK1198.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "4466767e67f72c867fa8432e9c88f3b99c4d6908f4da6285cc3fcce920fb5f54",
+      "decodedRgbSha256": "c554a0cf66afe9f9eb2af05295a208695023d74cc48e365d459ee1ba05560d2f",
+      "sha256": "2df19372a3170bbebfa25f1ef8246cd680a09fb1bac6fe6396181d298019231e",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 152736,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00144.webp"
+    },
+    {
+      "sku": "HZ-CAF-00143",
+      "category": "cabin-filter",
+      "sourceSku": "8594E",
+      "sourceTitle": "פ.מזגן מרצ ויטו מ04 ויאנו מ04",
+      "siteOriginalTitle": "פ.מזגן מרצ ויטו מ04 ויאנו מ04",
+      "sourceCsvRow": 198,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-ויטו-מ04-ויאנו-מ04",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_7519f470d24d4ad9a498f85a3456af36~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/8594E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "f4ffe1fd871c6c894499e23cd0ac673825f44074932bcf94d9fc794ac5d2a2ba",
+      "decodedRgbSha256": "7fc5c9e73d1287dff821914180f6b32a3dc15684c434183acce7deb0399fa580",
+      "sha256": "834765408def438b3c6cef5f554c72251aedcd44b577f0da413ef06b22499bf2",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 186758,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00143.webp"
+    },
+    {
+      "sku": "HZ-CAF-00141",
+      "category": "cabin-filter",
+      "sourceSku": "8473E",
+      "sourceTitle": "פ.מזגן מרצ W177 A200 מ19 פחם",
+      "siteOriginalTitle": "פ.מזגן מרצ W177 A200 מ19 פחם",
+      "sourceCsvRow": 199,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-w177-a200-מ19",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_934b852fe1ad4f738ee36ef41303aa8e~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/8473E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "98fbf81d445052ef5d95b3bdd4a163889feedb4f9570273d1c86f85cf4456c34",
+      "decodedRgbSha256": "f753a0837bdfc7a0413b6451946c5000a941e7c017c0f97b8721c4a50ba02df2",
+      "sha256": "b88636e90b25ca8ec391532f1b91e754930e167d159480ab0ec5cb5d06003288",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 274186,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00141.webp"
+    },
+    {
+      "sku": "HZ-CAF-00131",
+      "category": "cabin-filter",
+      "sourceSku": "8102B-2",
+      "sourceTitle": "פ.מזגן מרצ E200 E240 W210 מ95",
+      "siteOriginalTitle": "פ.מזגן מרצ E200 E240 W210 מ95",
+      "sourceCsvRow": 200,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-e200-e240-w210-מ95",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_1cae733598224a16b923b16bf54e3272~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/8102B-2.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "8afd828acf33613de2acc1e079edc9421048272858612bd4278e8dfc1ff88b8d",
+      "decodedRgbSha256": "1be5f63e2a39f8e00b2d5da9b66066ecb18ae34c48a89129d43c913479c5efe7",
+      "sha256": "d65b43f3093f5b65a0e71b808a8e431b372ca98899c7835f0a3b0e0e391fd2fc",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 185474,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00131.webp"
+    },
+    {
+      "sku": "HZ-CAF-00130",
+      "category": "cabin-filter",
+      "sourceSku": "AHC318",
+      "sourceTitle": "פ.מזגן מרצ C250 C200 W204 מ07",
+      "siteOriginalTitle": "פ.מזגן מרצ C250 C200 W204 מ07",
+      "sourceCsvRow": 201,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-c250-c200-w204-מ07",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_05d11bebf9064017840bd89094282214~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/AHC318.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "3bd0bae630b32b594118258b5d09ca1c4c0b14d3a9688353b3eda84e2a7d0191",
+      "decodedRgbSha256": "797a4a8591faf092a40ccfc1490552930449f2037784f7cd0e8305d9a6105c5f",
+      "sha256": "5ccacfbf401734e89a0270b0c9e4cdb21d3537e06f34b7eee9dc3706b33b22ab",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 578192,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00130.webp"
+    },
+    {
+      "sku": "HZ-CAF-00135",
+      "category": "cabin-filter",
+      "sourceSku": "LAK878S-2",
+      "sourceTitle": "פ.מזגן מרצ ML W166 מ12 בדשבורד",
+      "siteOriginalTitle": "פ.מזגן מרצ ML W166 מ12 בדשבורד",
+      "sourceCsvRow": 202,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-ml-w166-מ12-בדשבורד",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_cdf1df329e94440ebafa6ebd2658d89a~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/LAK878S-2.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "f3b17e1c490c734a1fe1e268b2d0100fb228c119a7707b8df1814818f25ea32f",
+      "decodedRgbSha256": "3776ad197996475748767534660d1233888b371b448b1e6b55d744a41896cc3b",
+      "sha256": "54cf6584b831bbed81103966bd5bed65ecdb3ff4e820210d9f35b87e3f4cdf80",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 386404,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00135.webp"
+    },
+    {
+      "sku": "HZ-CAF-00127",
+      "category": "cabin-filter",
+      "sourceSku": "8117E",
+      "sourceTitle": "פ.מזגן מרצ 220 CDI מ01 W203",
+      "siteOriginalTitle": "פ.מזגן מרצ 220 CDI מ01 W203",
+      "sourceCsvRow": 203,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-220-cdi-מ01-w203",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_dee4967e23af4fe68c0b0e573fa2a8e8~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/8117E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "1d2749f00ebe05d55eb5997c7abcc4a1359eecd2c55db2b9a6cd876238909c7f",
+      "decodedRgbSha256": "b2afdd630a9cd43460bcb39e6107201a0be1cece4b04fff4eb47ce9ae96fb1e7",
+      "sha256": "1538422a62585c154cb1e6a12d0ebfa99920e7ae5d3ab7e3a1b79e536d03287d",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 116564,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00127.webp"
+    },
+    {
+      "sku": "HZ-CAF-00142",
+      "category": "cabin-filter",
+      "sourceSku": "LAK1161",
+      "sourceTitle": "פ.מזגן מרצ W205 מ14 W213 W166 W206",
+      "siteOriginalTitle": "פ.מזגן מרצ W205 מ14 W213 W166 W206",
+      "sourceCsvRow": 204,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-w205-מ14-w213-w166-w206",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_4f42f3e4a81044779d0cc05b5c6c01de~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/LAK1161.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "89a004147891ddb3c1ba120c2aea606415e584391b8a514b77fae5f494e44d9c",
+      "decodedRgbSha256": "1a108e7577da9da9238e82d57acb4d61e2916f2aaffb8d8d77df3e6476fd357a",
+      "sha256": "00571ea34ba8ca32d6e84cb3b0b8889ca7a9f77f358a1305580e33a7f7de1c80",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 291442,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00142.webp"
+    },
+    {
+      "sku": "HZ-CAF-00146",
+      "category": "cabin-filter",
+      "sourceSku": "8754E",
+      "sourceTitle": "פ.מזגן מרצ ויטו מ15 ספרינטר מ18 פחם",
+      "siteOriginalTitle": "פ.מזגן מרצ ויטו מ15 ספרינטר מ18 פחם",
+      "sourceCsvRow": 205,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-ויטו-מ15-ספרינטר-מ18-פחם",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_3d2224c8a131478faf8f880c47f34d1c~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/8754E_02.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "4466767e67f72c867fa8432e9c88f3b99c4d6908f4da6285cc3fcce920fb5f54",
+      "decodedRgbSha256": "c554a0cf66afe9f9eb2af05295a208695023d74cc48e365d459ee1ba05560d2f",
+      "sha256": "2df19372a3170bbebfa25f1ef8246cd680a09fb1bac6fe6396181d298019231e",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 152736,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00146.webp"
+    },
+    {
+      "sku": "HZ-CAF-00134",
+      "category": "cabin-filter",
+      "sourceSku": "8649E",
+      "sourceTitle": "פ.מזגן מרצ ML W164 מ06 זוג פחם",
+      "siteOriginalTitle": "פ.מזגן מרצ ML W164 מ06 זוג פחם",
+      "sourceCsvRow": 206,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-ml-w164-מ06-זוג-פחם",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_ecadb6f2d47043c59dbab2847c7a5fc9~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/8649E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "f92fb9f39e0d575eab50eecaf4a5cec2f89fffaf56c9164a41950ac3c28c3e69",
+      "decodedRgbSha256": "3bc2dfe68bc14463e67b2607e2ea62759daf6631b3babc63f41b06be5d611e48",
+      "sha256": "7c79ca287c9f38191d297d1f4226696862bd12bde39148b33b17364456294601",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 394872,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00134.webp"
+    },
+    {
+      "sku": "HZ-CAF-00132",
+      "category": "cabin-filter",
+      "sourceSku": "8571E",
+      "sourceTitle": "פ.מזגן מרצ E220 E280 W211 מ03 פחם",
+      "siteOriginalTitle": "פ.מזגן מרצ E220 E280 W211 מ03 פחם",
+      "sourceCsvRow": 207,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-e220-e280-w211-מ03-פחם",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_f289ea5ce4894459a9747dd28b8b4070~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/8571E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "87aa78c52ea6cb33ff37f3ccb98509690e1398b3e4c9c7b9416a79d4b98bc307",
+      "decodedRgbSha256": "30543dcce5cdd60bba8e3675513a6253394d992b1dd1cd240cd326492b3e1b0b",
+      "sha256": "8558c422199fca52f99ec4795d57e89e7a812eef6cd1a94c15c6a1f3ba45a2bb",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 250100,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00132.webp"
+    },
+    {
+      "sku": "HZ-CAF-00133",
+      "category": "cabin-filter",
+      "sourceSku": "8943E",
+      "sourceTitle": "פ.מזגן מרצ GLE63 GLS GLE350 GLE300 מ20",
+      "siteOriginalTitle": "פ.מזגן מרצ GLE63 GLS GLE350 GLE300 מ20",
+      "sourceCsvRow": 208,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-gle63-gls-gle350-gle300-מ20",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_85897a6aff7348719b715b9ce2efed3b~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/8943E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "e69c46898ffdb8949599123874196ad6b06b3e56d56a02a6deb50f6e6e2cd02b",
+      "decodedRgbSha256": "31c33b16ca9d7ac59425694fe7fe3ea50dbaf7501f91b98b04cf9f6eae57a67b",
+      "sha256": "7caddd66241308447b6ebbad561dd49e7a782d86c764800e9b0acce3ee5ed9a4",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 235718,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00133.webp"
+    },
+    {
+      "sku": "HZ-CAF-00138",
+      "category": "cabin-filter",
+      "sourceSku": "LA1926",
+      "sourceTitle": "פ.מזגן מרצ S-CLSSS W223 מ21 חיצוני במנוע",
+      "siteOriginalTitle": "פ.מזגן מרצ S-CLSSS W223 מ21 חיצוני במנוע",
+      "sourceCsvRow": 209,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-s-clsss-w223-מ21-חיצוני-במנוע",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_a6853fcce69248959a012936b8d0138d~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/LA1926.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "20ae299b8b693b2c02c1752e174d0dc655bc840846542623236d05c96d3e294b",
+      "decodedRgbSha256": "272c427d232da8c10864cc6416d39e427f72d081f05bbe417b77de14525a6090",
+      "sha256": "b094d95bb1bb45cd03cbd461310ad2aac94234c9acb4002b48ad35ac7a60c841",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 157770,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00138.webp"
+    },
+    {
+      "sku": "HZ-CAF-00136",
+      "category": "cabin-filter",
+      "sourceSku": "AH409",
+      "sourceTitle": "פ.מזגן מרצ ML W166 מ12 ג'אקו 7 מ24",
+      "siteOriginalTitle": "פ.מזגן מרצ ML W166 מ12 ג'אקו 7 מ24",
+      "sourceCsvRow": 210,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-ml-w166-מ12-ג-אקו-7-מ24",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_be361f43206c4131a99383427bb4843e~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/AH409.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "09086a457c11dd30e8ad8809e6eaa01901eaeab8a06e852e7be405b4c9d59525",
+      "decodedRgbSha256": "ade361ee55211d64496c174ef93dd306d4762588aceac06da5f118dbcbcffd10",
+      "sha256": "dd3d8d4ce9c97b49e0b6aed69a2b9c5e5b3cd8d47fd8f29efa85a6a0eea7c46b",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 199746,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00136.webp"
+    },
+    {
+      "sku": "HZ-CAF-00137",
+      "category": "cabin-filter",
+      "sourceSku": "LAK1151S",
+      "sourceTitle": "פ.מזגן מרצ S-CLASS W223 מ21 כפול בתא נוסעים",
+      "siteOriginalTitle": "פ.מזגן מרצ S-CLASS W223 מ21 כפול בתא נוסעים",
+      "sourceCsvRow": 211,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מרצ-s-class-w223-מ21-כפול-בתא-נוסעים",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_a385b9cbb38e437bbf849f4b80a106e1~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מרצדס/LAK1151S.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "6738509b628718533f8f3995ed95a3389b4473912f1e22c40e5df905ea1a2db3",
+      "decodedRgbSha256": "f03f35f16656d9b4a353b5c691d6c19ce95402d4a311f5d19ec49fd3945c626f",
+      "sha256": "e3bc70208ce52dc3b878ba81e2d7d23b654c5f90f7f44ef1e80e8bf3cd16c7e4",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 226198,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00137.webp"
+    },
+    {
+      "sku": "HZ-CAF-00093",
+      "category": "cabin-filter",
+      "sourceSku": "8061E-2",
+      "sourceTitle": "פ.מזגן יונ I20 מ11 עד14 זוג",
+      "siteOriginalTitle": "פ.מזגן יונ I20 מ11 עד14 זוג",
+      "sourceCsvRow": 220,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-יונ-i20-מ11-עד14-זוג",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_53574d5b3e984df9af27af21517ee98d~mv2.png",
+      "designerFile": "images/מסנן_מזגן_יונדאי/8061E-2.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "b2a76a1c3b88435398b67d53417bee01b40e178aa1943c7fb672d0f7941e31f7",
+      "decodedRgbSha256": "4edeab49d1d4c077a23b510148e6fff3404bf31f695d1c43ad6c8a8e438319e4",
+      "sha256": "d9de0214a2c2cf593c09fa2dbbdb92df856bdb818d982254ee45afadbfb4a2c2",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 189532,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00093.webp"
+    },
+    {
+      "sku": "HZ-CAF-00255",
+      "category": "cabin-filter",
+      "sourceSku": "8534E",
+      "sourceTitle": "פ.מזגן קיה סרטו מ05",
+      "siteOriginalTitle": "פ.מזגן קיה סרטו מ05",
+      "sourceCsvRow": 227,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-קיה-סרטו-מ05",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_9261c31941fb49a490788ff3898a0355~mv2.jpg",
+      "designerFile": "images/מסנן_מזגן_קאיה/8534E.jpg",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "cc3ae07a334ed8a18c0b2610ae02c34a6669d1186b4bdc43d826606c7b06e34d",
+      "decodedRgbSha256": "0660ba3f722d42a476c7e47fe3524498d24f4eb3d4d8210b6dfee968f7f2ac59",
+      "sha256": "3e3ade08b3ec158a26727f2db83a974b208e24018a8009ae4bed8feea04427b6",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 203782,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00255.webp"
+    },
+    {
+      "sku": "HZ-CAF-00252",
+      "category": "cabin-filter",
+      "sourceSku": "8439E",
+      "sourceTitle": "פ.מזגן קיה אופטימה מ16",
+      "siteOriginalTitle": "פ.מזגן קיה אופטימה מ16",
+      "sourceCsvRow": 228,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-קיה-אופטימה-מ16",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_53fd02bd80f848509cf2487770596db6~mv2.png",
+      "designerFile": "images/מסנן_מזגן_קאיה/8439E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "4af4fff8fc41ea4d3480828e54ca1b77fc58e5b67532005fa56561dc25a0c82c",
+      "decodedRgbSha256": "d5c8369f937755d699cf07d098395a709494321c7e48ced03e2d1dbc82bebe1d",
+      "sha256": "ba046073f37d1158bbb593bc0ebc826c160c676134f1410f8eeded0198c28d47",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 367928,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00252.webp"
+    },
+    {
+      "sku": "HZ-CAF-00256",
+      "category": "cabin-filter",
+      "sourceSku": "97133-G6000WJS",
+      "sourceTitle": "פ.מזגן קיה פיקנטו מ16",
+      "siteOriginalTitle": "פ.מזגן קיה פיקנטו מ16",
+      "sourceCsvRow": 229,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-קיה-פיקנטו-מ16",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_b9e4504412984bc19d528f9b77a05655~mv2.jpg",
+      "designerFile": "images/מסנן_מזגן_קאיה/97133-G6000WJS.jpg",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "d2ec7050d41072f7b0fa63a0bc99c47e43b792ea8437bc8082b988f376ab7e8f",
+      "decodedRgbSha256": "177066bb218aac70999211f8027796887691d2af0bb15cf1c3f57a86f45732a0",
+      "sha256": "86ee8d818f520dfccf1cc712fc348efc3031acd0b711d690d841281ce8fcf0bb",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 148658,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00256.webp"
+    },
+    {
+      "sku": "HZ-CAF-00258",
+      "category": "cabin-filter",
+      "sourceSku": "8963B",
+      "sourceTitle": "פ.מזגן קיה קרניבל מ00 עד06",
+      "siteOriginalTitle": "פ.מזגן קיה קרניבל מ00 עד06",
+      "sourceCsvRow": 230,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-קיה-קרניבל-מ00-עד06",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_07d53f254965428a91c6fe02f7fbf360~mv2.jpg",
+      "designerFile": "images/מסנן_מזגן_קאיה/8963B.jpg",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "667c49ab32ee0fedbb5a161c8121fde584faa97b86078415e2f1901eda49d593",
+      "decodedRgbSha256": "02f3892059cc8994c6d26f52e5a4483484666cefef25982adba3a64ee8a04d1e",
+      "sha256": "1a248c388eb03647e3dd770c5b56a91f96fef5459ff42b1bd24528293c515d1d",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 228000,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00258.webp"
+    },
+    {
+      "sku": "HZ-CAF-00259",
+      "category": "cabin-filter",
+      "sourceSku": "8311B-2",
+      "sourceTitle": "פ.מזגן קיה קרנס מ02 זוג",
+      "siteOriginalTitle": "פ.מזגן קיה קרנס מ02 זוג",
+      "sourceCsvRow": 231,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-קיה-קרנס-מ02-זוג",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_c0b5a00059dc49b6a1d7f6dfe5cbd58f~mv2.jpg",
+      "designerFile": "images/מסנן_מזגן_קאיה/8311B-2.jpg",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "f95236626400df520321d7f5a0179a79d97e5512e75bd6c303432cb440f9dbda",
+      "decodedRgbSha256": "a2bc9adea3ed105c3b0c7ee2e12b3cc406d1309e476b4a37041c26f00f39cd0f",
+      "sha256": "29ced0e8321b8e43b9a8b0ef86460d44d2aac61fb2aba4b08faac5e4097b3fe6",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 207570,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00259.webp"
+    },
+    {
+      "sku": "HZ-CAF-00257",
+      "category": "cabin-filter",
+      "sourceSku": "8645E",
+      "sourceTitle": "פ.מזגן קיה קרניבל 2.2 מ20",
+      "siteOriginalTitle": "פ.מזגן קיה קרניבל 2.2 מ20",
+      "sourceCsvRow": 232,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-קיה-קרניבל-2-2-מ20",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_5c034bcd9a134bc7bf6440caf9b4f5ce~mv2.jpg",
+      "designerFile": "images/מסנן_מזגן_קאיה/8645E.jpg",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "6fc39838a0693d15e1670d9c039f62cfb5080f1a63276c6b6e25f93fcc834c5b",
+      "decodedRgbSha256": "bdf635a3312e76f09e2f86b08d5e804c91a5cc200bb7dc7c6cd766fc0c791912",
+      "sha256": "481c1171d1c6372d86abb45bda547e33aa396c28ef4a0a4e43cbe4b9cc3e2767",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 340634,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00257.webp"
+    },
+    {
+      "sku": "HZ-CAF-00253",
+      "category": "cabin-filter",
+      "sourceSku": "8035E",
+      "sourceTitle": "פ.מזגן קיה סול מ10 עד14",
+      "siteOriginalTitle": "פ.מזגן קיה סול מ10 עד14",
+      "sourceCsvRow": 233,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-קיה-סול-מ10-עד14",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_d5d44c84cfa942e2b0b4867606d13eb2~mv2.png",
+      "designerFile": "images/מסנן_מזגן_קאיה/8035E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "cb0bf5e3e033bbab93027ffad15ad0844fa7f19403efbb7b4010f40e1c33d2cd",
+      "decodedRgbSha256": "52b66b11b37a212432d0459c2cf844ce6c77c0283d769bb7092f321fe8c143bc",
+      "sha256": "7ff9a8326493946e8b4ad7260dad8ff8d41a7d8f5e5a60d39930ed4bf9a1b1d8",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 193162,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00253.webp"
+    },
+    {
+      "sku": "HZ-CAF-00260",
+      "category": "cabin-filter",
+      "sourceSku": "8314B-2",
+      "sourceTitle": "פ.מזגן קיה ריו מ00 עד04 זוג",
+      "siteOriginalTitle": "פ.מזגן קיה ריו מ00 עד04 זוג",
+      "sourceCsvRow": 234,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-קיה-ריו-מ00-עד04-זוג",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_405078f6fc8f4399b0e01641b7fd7101~mv2.jpg",
+      "designerFile": "images/מסנן_מזגן_קאיה/8314B-2.jpg",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "f3b5f7ec72e1ff63fbfed461a24a42a0f1be1c9d26a8fb680b7eef7dd51ec310",
+      "decodedRgbSha256": "16a2ebdcc5024676716ac2faf74ccd947d6155c5f495e60eedf30c3586c8218c",
+      "sha256": "a8dd16cd8db3be1502eff8a64401f146742598ebb3a91bd012a96c82b72917ad",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 160356,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00260.webp"
+    },
+    {
+      "sku": "HZ-CAF-00234",
+      "category": "cabin-filter",
+      "sourceSku": "LA947",
+      "sourceTitle": "פ.מזגן פור טרנזיט מ14",
+      "siteOriginalTitle": "פ.מזגן פור טרנזיט מ14",
+      "sourceCsvRow": 235,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פור-טרנזיט-מ14",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_eff43fa4d99f43feb650b6da54ec6947~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פורד/LA947.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "a4a51ca78d703a4d5d242dcc42a4910b6cd3e4cae1ce9c6c429880f212d2b561",
+      "decodedRgbSha256": "e4e48bee4ad61992b6b5ae183154f6e4562e28694780126692e099cc99b4bd5a",
+      "sha256": "58b1f41539a77be05762380a2808d3c62e2a1edf64744b1322e9647a3ba2f60e",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 141180,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00234.webp"
+    },
+    {
+      "sku": "HZ-CAF-00236",
+      "category": "cabin-filter",
+      "sourceSku": "8316E",
+      "sourceTitle": "פ.מזגן פור פוקוס מ05 גלקסי מ08",
+      "siteOriginalTitle": "פ.מזגן פור פוקוס מ05 גלקסי מ08",
+      "sourceCsvRow": 236,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פור-פוקוס-מ05-גלקסי-מ08-פחם",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_328aa91e7a7844c8a9c4ec115e9113fd~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פורד/8316E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "b40cecb068db6c256d7413fa34b8e21072316c1652b73e11eb652223a6388647",
+      "decodedRgbSha256": "18fef01e6a3edc3a88413ace3c6078eea99230d94af88545df1bf6f8ebb87b92",
+      "sha256": "0f4c5ec94699d2bc2e6dc4fa08552b506b93f550271f826e101c13e91fff20ba",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 277964,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00236.webp"
+    },
+    {
+      "sku": "HZ-CAF-00238",
+      "category": "cabin-filter",
+      "sourceSku": "8257E",
+      "sourceTitle": "פ.מזגן פור פוקוס מ20 פחם",
+      "siteOriginalTitle": "פ.מזגן פור פוקוס מ20 פחם",
+      "sourceCsvRow": 237,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פור-פוקוס-מ20-פחם",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_eb3e2ab4c8844ec58a2b7f5d74d260a4~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פורד/8257E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "af8649b27b842891ace3d40a9e44876ab47f9a9162cdce916b7cfb33c6984319",
+      "decodedRgbSha256": "13d955012aede8966801972006e2db8be9bf6fcb0c702494dc707fc0386998aa",
+      "sha256": "89e837d025e36297793befe09c476f5a60dbbd818db8ba257c98aa5bd5f479de",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 225626,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00238.webp"
+    },
+    {
+      "sku": "HZ-CAF-00237",
+      "category": "cabin-filter",
+      "sourceSku": "PMXC13U",
+      "sourceTitle": "פ.מזגן פור פוקוס מ05 גלקסי מ08 פחם",
+      "siteOriginalTitle": "פ.מזגן פור פוקוס מ05 גלקסי מ08 פחם",
+      "sourceCsvRow": 238,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פור-פוקוס-מ05-גלקסי-מ08-פחם-1",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_88b95539a53949148da4ff3b65e51a16~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פורד/PMXC13U.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "1bc8b9cf702688fe73f7eaac86752ac2979fd565db0a8a410e4196e2dfafdb6f",
+      "decodedRgbSha256": "5b0b66a27101c318caaf3cfbf1326b5f6a49d209854a081e13c531fb2d191aca",
+      "sha256": "7766973bffa30e3d9ee1acf9036a4c37810ebf997b2bfb2028a945a70a4c673e",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 195194,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00237.webp"
+    },
+    {
+      "sku": "HZ-CAF-00240",
+      "category": "cabin-filter",
+      "sourceSku": "8251B",
+      "sourceTitle": "פ.מזגן פור פיאסטה מ96 עד02 קורייר",
+      "siteOriginalTitle": "פ.מזגן פור פיאסטה מ96 עד02 קורייר",
+      "sourceCsvRow": 239,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פור-פיאסטה-מ96-עד02-קורייר",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_fab3d53204b44319b9e0e1bf165c0823~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פורד/8251B.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "3d5bda390bbd72e22c528ba75e635cf7ee4914a9a2aa6fa8fd0a1cc3c580320f",
+      "decodedRgbSha256": "b29057a144b8e624c116719c7f493f91c37f44f95909f024790ad0c8b68ab8d9",
+      "sha256": "8b33ab5e72d250beab27c45bbec4e005d5035a7e39c44eb08727097fe62067e6",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 148138,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00240.webp"
+    },
+    {
+      "sku": "HZ-CAF-00233",
+      "category": "cabin-filter",
+      "sourceSku": "8045E",
+      "sourceTitle": "פ.מזגן פור טרנזיט 2.2D מ07 עד13",
+      "siteOriginalTitle": "פ.מזגן פור טרנזיט 2.2D מ07 עד13",
+      "sourceCsvRow": 240,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פור-טרנזיט-2-2d-מ07-עד13",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_86b58c6067cc48cdb9da5b2a9c48bf45~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פורד/8045E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "f9531538002a6d37f62277e9f06d19dd0f446d900ae73a3500a9f3469dae52be",
+      "decodedRgbSha256": "b3ee6432f4c707eee3900057332931da8e35b5f38e34e806ab6442c704e7b0f5",
+      "sha256": "9f45d29a4d52369bb5a3e1b2b0d976dbc243e38c6df941cae8924e558dec17ab",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 174724,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00233.webp"
+    },
+    {
+      "sku": "HZ-CAF-00239",
+      "category": "cabin-filter",
+      "sourceSku": "8016E",
+      "sourceTitle": "פ.מזגן פור פיאסטה מ09 ליפמוטור C10 מ25",
+      "siteOriginalTitle": "פ.מזגן פור פיאסטה מ09 ליפמוטור C10 מ25",
+      "sourceCsvRow": 241,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פור-פיאסטה-מ09-ליפמוטור-c10-מ25",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_734fae191f21437e82d803a01af4929c~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פורד/8016E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "9a6182e233413a7b5441ccc107e49cb1ce2afb85fcc776de35e0c59a8d70287b",
+      "decodedRgbSha256": "e9e50e99dbef7a227e9815d20e3394010f559700a7ab5488d462d2117ad04ec6",
+      "sha256": "bb59463af0d2cf0836f23c7f2ca005ab01a97d6d75eb85a10f38761a6dbf04c6",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 243510,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00239.webp"
+    },
+    {
+      "sku": "HZ-CAF-00211",
+      "category": "cabin-filter",
+      "sourceSku": "8233B",
+      "sourceTitle": "פ.מזגן פגו 406",
+      "siteOriginalTitle": "פ.מזגן פגו 406",
+      "sourceCsvRow": 242,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-406",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_7c51afd96a3d427e9b42904e7fdf6df4~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פיג'ו/8233B.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "cfda09234594234f7d7c235aad24ee441cf44bf34107dabbdffafc24a2416376",
+      "decodedRgbSha256": "9a2f363b0c9cb27bed0c9600a79bc27af5fdb02226cb27c15099e244646631ec",
+      "sha256": "22ba0794565af39a704ac93ecfb21d9e2acc0d56fc374f43ee6a1f26f640353c",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 360052,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00211.webp"
+    },
+    {
+      "sku": "HZ-CAF-00205",
+      "category": "cabin-filter",
+      "sourceSku": "8235E",
+      "sourceTitle": "פ.מזגן פגו 206 מ98",
+      "siteOriginalTitle": "פ.מזגן פגו 206 מ98",
+      "sourceCsvRow": 243,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-206-מ98",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_5ddebcdea4414cf7b6c9e15fd725f8ab~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פיג'ו/8235E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "5bbc6739c29d71725865d00edc45c4ca883257548413abc97ae7642ad499dd9b",
+      "decodedRgbSha256": "3498f255367cb025ec8c94e51664ecf73522b336c1b72e186aef3dfcde3189da",
+      "sha256": "378430a85c5f127986a822d9a2ff69613978699df07948a6fbde9b60c9e17d74",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 153578,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00205.webp"
+    },
+    {
+      "sku": "HZ-CAF-00214",
+      "category": "cabin-filter",
+      "sourceSku": "AHC714",
+      "sourceTitle": "פ.מזגן פגו C3 נ1.2 מ18",
+      "siteOriginalTitle": "פ.מזגן פגו C3 נ1.2 מ18",
+      "sourceCsvRow": 244,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-c3-נ1-2-מ18",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_5d9bf0e9259b41c0bba364c2532b052d~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פיג'ו/AHC714.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "59c1f2112af2686137b974bcf8bd9ffdb4920e26f1032e2404efe8d22b6bcd6e",
+      "decodedRgbSha256": "c931d7512eaff402840d4f947578276b77b42b1fca475ccd7a9ecfb985aae9be",
+      "sha256": "7b7d5645bae40125a585085b684970a2e916a5cd867146046bbae55fbc54a5b0",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 312502,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00214.webp"
+    },
+    {
+      "sku": "HZ-CAF-00212",
+      "category": "cabin-filter",
+      "sourceSku": "8271E",
+      "sourceTitle": "פ.מזגן פגו 508 1.6 מ11",
+      "siteOriginalTitle": "פ.מזגן פגו 508 1.6 מ11",
+      "sourceCsvRow": 245,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-508-1-6-מ11",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_f05f046944174d2da0abdaa5e4f3ab98~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פיג'ו/8271E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "30a7707bcf18645f1441352b221712e278345ed801ecc2c3ce0abb26ae5b9c31",
+      "decodedRgbSha256": "db94b9e5dd32108317b47967941e68dd68e41170d1d10830a69786daee5d9597",
+      "sha256": "b204f57c4f20a16fad716f93a7d01ef444708e246dede616f00e6a7b6e38bddb",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 225230,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00212.webp"
+    },
+    {
+      "sku": "HZ-CAF-00207",
+      "category": "cabin-filter",
+      "sourceSku": "8619E",
+      "sourceTitle": "פ.מזגן פגו 208 מ19 C4X מ21",
+      "siteOriginalTitle": "פ.מזגן פגו 208 מ19 C4X מ21",
+      "sourceCsvRow": 246,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-208-מ19-c4x-מ21",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_d681a9a0f62d4e1991d1f5d9093fbd83~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פיג'ו/8619E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "649ce8598bd64ea521018b31a41ba164d7bd80f34e98a1aba2c36e2f864e1813",
+      "decodedRgbSha256": "946640793e3f5c5aa785b68293555b150aba8de3b47e89037e627971655989af",
+      "sha256": "98eaee7ed452ae285a087d38194152b4ded86bdc2cc40d21c31adc582bcf1200",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 304322,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00207.webp"
+    },
+    {
+      "sku": "HZ-CAF-00210",
+      "category": "cabin-filter",
+      "sourceSku": "8562E-2",
+      "sourceTitle": "פ.מזגן פגו 308 מ14 408 1.2 מ24 פחם",
+      "siteOriginalTitle": "פ.מזגן פגו 308 מ14 408 1.2 מ24 פחם",
+      "sourceCsvRow": 247,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פגו-308-מ14-408-1-2-מ24-פחם",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_0888d8425b584e3291ef5f244ec850f6~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פיג'ו/8562E-2.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "260841c9ed86d0c0db941f51939fb55b5a406a79b409e60c3941fafe18ffef57",
+      "decodedRgbSha256": "429c2dd53a922d1027014bc2fa4c9f337c4252c1f84c27bdf92c3f1e024320f3",
+      "sha256": "5e1cc6c33e9b32e0bc0dd0cf3ee694fbe3f341d57f8f46d23e69f7758234909a",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 334790,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00210.webp"
+    },
+    {
+      "sku": "HZ-CAF-00250",
+      "category": "cabin-filter",
+      "sourceSku": "8110B",
+      "sourceTitle": "פ.מזגן פיא מולטיפלה",
+      "siteOriginalTitle": "פ.מזגן פיא מולטיפלה",
+      "sourceCsvRow": 248,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פיא-מולטיפלה",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_56dafb58dfbf4675925cb0d7d71c2f09~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פיאט/8110B.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "6c5c7a2b769380ba397dd7ac9ec7afd8b2ac6b1200d74dd385fd95a0bf22f83e",
+      "decodedRgbSha256": "157a7317c63d9be6c2e0093e7d3ab9bee13b5ca32da0abd484b895b2d943bdce",
+      "sha256": "1e0226178363759da6dcbd78ae27a176f370687634e05831c2769b1365d9dd0e",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 135670,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00250.webp"
+    },
+    {
+      "sku": "HZ-CAF-00245",
+      "category": "cabin-filter",
+      "sourceSku": "8352E",
+      "sourceTitle": "פ.מזגן פיא ברבו מ08",
+      "siteOriginalTitle": "פ.מזגן פיא ברבו מ08",
+      "sourceCsvRow": 249,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פיא-ברבו-מ08",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_d23911bb14e242ada15200d0d3d40e42~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פיאט/8352E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "8b194581b480b9d7642f5bc7e6f38b2f15e2c6c9c4f6f7b77af33e8bba614b92",
+      "decodedRgbSha256": "006ea4cec8903fe4c28f8b4490d801538a110678f5606ba102d57d751bb00f71",
+      "sha256": "1583ad501350456fd8aa396222a2c6b3e64c895468d35d36b5c22246a6f9b1a3",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 276044,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00245.webp"
+    },
+    {
+      "sku": "HZ-CAF-00244",
+      "category": "cabin-filter",
+      "sourceSku": "8124B",
+      "sourceTitle": "פ.מזגן פיא ברבה ברבו עד07",
+      "siteOriginalTitle": "פ.מזגן פיא ברבה ברבו עד07",
+      "sourceCsvRow": 250,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פיא-ברבה-ברבו-עד07",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_6193fd95a3a44f859110bb7714a06738~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פיאט/8124B.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "66234e5fd1fb7e9e6edaf610490ce7b2ae2a78a080c5f07e180d47f08b3cd73c",
+      "decodedRgbSha256": "fe90121661e94b1763b807efcd3ef753a8a1123ba7401be44d93487e7189a739",
+      "sha256": "a4e4059ace90cd56639e56b9ff90536d9c536f458586a32204af08b1b3c0086d",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 377486,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00244.webp"
+    },
+    {
+      "sku": "HZ-CAF-00242",
+      "category": "cabin-filter",
+      "sourceSku": "8716E",
+      "sourceTitle": "פ.מזגן פיא 500 מ13 פנדה מ12",
+      "siteOriginalTitle": "פ.מזגן פיא 500 מ13 פנדה מ12",
+      "sourceCsvRow": 251,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פיא-500-מ13-פנדה-מ12",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_258eae858acd452ab3ae54be10e991b6~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פיאט/8716E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "ae6de9f5166ca66dcb36f8e66bdb6e5bb9e48bdcbd20c2ed4f9d626e466e4bda",
+      "decodedRgbSha256": "359be2b3021b212f478ef22ce12b68b9d0d47c71de87a7556886dfede3e696fa",
+      "sha256": "69a2c39f46352f09f0450f8eac15c48868551c8ea3d6f1e1e9dfa266af668e17",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 242648,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00242.webp"
+    },
+    {
+      "sku": "HZ-CAF-00241",
+      "category": "cabin-filter",
+      "sourceSku": "8073E",
+      "sourceTitle": "פ.מזגן פיא 500 מ08 פנדה עד11",
+      "siteOriginalTitle": "פ.מזגן פיא 500 מ08 פנדה עד11",
+      "sourceCsvRow": 252,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פיא-500-מ08-פנדה-עד11",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_c450b9c557f44cef83ec14e28c59e75d~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פיאט/8073E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "344e3783055c739e5fd68356248cf5636a2715b0c7142defa423fa2481d0a4ae",
+      "decodedRgbSha256": "80b0ce3701c68d19c1b6780ba6e884b0c156446884342e96c204dfada65c0628",
+      "sha256": "f52fc7ea322e0a3cb0fc27ed26e1abf8c853bec46b3c35a19ea9b5c930dc6ec8",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 231930,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00241.webp"
+    },
+    {
+      "sku": "HZ-CAF-00247",
+      "category": "cabin-filter",
+      "sourceSku": "8108E",
+      "sourceTitle": "פ.מזגן פיא דובלו JTD מ01 עד04",
+      "siteOriginalTitle": "פ.מזגן פיא דובלו JTD מ01 עד04",
+      "sourceCsvRow": 253,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פיא-דובלו-jtd-מ01-עד04",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_b034804a16754f4b90698dba08eec183~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פיאט/8108E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "041afe8c453af75c1b662dce3605e2f43a7314b031a4b9fdd00490006a409e80",
+      "decodedRgbSha256": "9e637eb97fbdf3b4babcfa7b586e50ed0dd599c0272d5d058374ada18f4091e1",
+      "sha256": "5cb7e8a9eb21ab486390c2c9f90d3244cc72d43693efc377b2611509ff877c01",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 240360,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00247.webp"
+    },
+    {
+      "sku": "HZ-CAF-00176",
+      "category": "cabin-filter",
+      "sourceSku": "8901E",
+      "sourceTitle": "פ.מזגן סוז גימיני מ98",
+      "siteOriginalTitle": "פ.מזגן סוז גימיני מ98",
+      "sourceCsvRow": 254,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סוז-סויפט-מ07-sx4-מ13-1",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_3e18921bf3c440acbb2951fa0061e2e4~mv2.png",
+      "designerFile": "images/מסנן_מזגן_סוזוקי/8901E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "89c2c4889c5105d09e9088deaca0dfdf35668c6bcf7aa7408fd8ce46b78cd773",
+      "decodedRgbSha256": "e81e0f5b235004120cc6428fd140fe21810c3092be226caed76d820be4e052f4",
+      "sha256": "2d7545e75a1e3f6ed6bba4f13de6ea67897dc034899627fd7022fff2688ed0cb",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 193584,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00176.webp"
+    },
+    {
+      "sku": "HZ-CAF-00175",
+      "category": "cabin-filter",
+      "sourceSku": "8609E",
+      "sourceTitle": "פ.מזגן סוז אלטו מ09",
+      "siteOriginalTitle": "פ.מזגן סוז אלטו מ09",
+      "sourceCsvRow": 255,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סוז-אלטו-מ09",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_b1dcb3a7463a482eb5c28bd9759d29a0~mv2.png",
+      "designerFile": "images/מסנן_מזגן_סוזוקי/8609E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "a6e2ab9084dc93cf18f370fb7eaf5bac3ef9a2ede7b9ac0d3e192cafe54ebf95",
+      "decodedRgbSha256": "5b3d697057c4b158a2ff96c0e4688f278853e542323e0fccc7d7c752a2b598d8",
+      "sha256": "3a8217cd5f1b7c5cc0b728e1833208ca5f192f4e0b437df7a6b166d3568a94a0",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 136854,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00175.webp"
+    },
+    {
+      "sku": "HZ-CAF-00174",
+      "category": "cabin-filter",
+      "sourceSku": "95860WJS74P00",
+      "sourceTitle": "פ.מזגן סוז איגניס מ17",
+      "siteOriginalTitle": "פ.מזגן סוז איגניס מ17",
+      "sourceCsvRow": 256,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סוז-איגניס-מ17",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_33881f305d38451385160d7dcadceeb0~mv2.png",
+      "designerFile": "images/מסנן_מזגן_סוזוקי/95860WJS74P00.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "001982a23b4233aa44f18d9f91524ec9577d2363d05e3b720b7616526ecbc272",
+      "decodedRgbSha256": "fe3154b60df902aeee83338a8c95725f2321584ce9f22a12325375b5ae63c7b4",
+      "sha256": "9dcaadb845a108b1663c03aae2cd8fb8673fbe5a4ba5973910938e6f750e8632",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 189758,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00174.webp"
+    },
+    {
+      "sku": "HZ-CAF-00179",
+      "category": "cabin-filter",
+      "sourceSku": "95860WJS51K00",
+      "sourceTitle": "פ.מזגן סוז ספלש מ09",
+      "siteOriginalTitle": "פ.מזגן סוז ספלש מ09",
+      "sourceCsvRow": 257,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סוז-ספלש-מ09",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_08e0b0f32c44417792fc190cb7e32c34~mv2.png",
+      "designerFile": "images/מסנן_מזגן_סוזוקי/95860WJS51K00.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "64a112251ba2c9485904953ab3ac378d5148837ee32a53a882e96436b7815639",
+      "decodedRgbSha256": "8c314e39164c705f6d52b4baeb9c1c538fa555acf8e9b92d221a940c1265aedc",
+      "sha256": "fc565816bee8fef791f7a575139089ce6d24fee31b7b27307a30b53e10a777be",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 284850,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00179.webp"
+    },
+    {
+      "sku": "HZ-CAF-00173",
+      "category": "cabin-filter",
+      "sourceSku": "8267E",
+      "sourceTitle": "פ.מזגן סוז SX4 מ07 עד12",
+      "siteOriginalTitle": "פ.מזגן סוז SX4 מ07 עד12",
+      "sourceCsvRow": 258,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סוז-sx4-מ07-עד12",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_0ed5442da58c45fa9b340f6cb1023937~mv2.png",
+      "designerFile": "images/מסנן_מזגן_סוזוקי/8267E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "613ddcaf9aa4baee79b2e2c7dacae5fe23ee181333b2cd4f0ba6904943e5a833",
+      "decodedRgbSha256": "0337dc0c415baa6ff29f717372c743b98354b63435cdf684d5322beb85f883ef",
+      "sha256": "ecc6239214212175598c3d2b1419d809cbef0f4542e0122aff3864343b494850",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 297464,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00173.webp"
+    },
+    {
+      "sku": "HZ-CAF-00177",
+      "category": "cabin-filter",
+      "sourceSku": "95861WJS64J00",
+      "sourceTitle": "פ.מזגן סוז גרנד ויטרה מ06",
+      "siteOriginalTitle": "פ.מזגן סוז גרנד ויטרה מ06",
+      "sourceCsvRow": 259,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סוז-גרנד-ויטרה-מ06",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_a0349afb57ef4cbd94d56d57a5259ca9~mv2.png",
+      "designerFile": "images/מסנן_מזגן_סוזוקי/95861WJS64J00.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "44b9efcd9a917794fd6f78b24eab81c836914fa74cabeeef9ac496f327fbe98a",
+      "decodedRgbSha256": "988dff4de324333e6d2a116c154bb62bfe77e4673beced9dd05a94c99ea7e0fe",
+      "sha256": "00714969f72825af3aafe23365ef867eb457b3e3dc1d715c4832b36fa1c28e52",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 160594,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00177.webp"
+    },
+    {
+      "sku": "HZ-CAF-00075",
+      "category": "cabin-filter",
+      "sourceSku": "8761E",
+      "sourceTitle": "פ.מזגן טוי BZ4X מ22 זוג",
+      "siteOriginalTitle": "פ.מזגן טוי BZ4X מ22 זוג",
+      "sourceCsvRow": 261,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-טוי-bz4x-מ22-זוג",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_9107066314fc43a2a11afc3fd9341674~mv2.png",
+      "designerFile": "images/מסנן_מזגן_טויוטה/8761E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "a35922776f9d046f01344a7ff8d4f8a119b1ba94c6e088f55f3f7e05f6c43c08",
+      "decodedRgbSha256": "8bc62abc118ef9be06e16aae3eb251cd6316abeee1bc51472617fa0c23bf7a46",
+      "sha256": "87b1eecbd916734c2ac5bc92946202a0ad70c8e28a510eedfe9bffe232fd4bf4",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 171370,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00075.webp"
+    },
+    {
+      "sku": "HZ-CAF-00159",
+      "category": "cabin-filter",
+      "sourceSku": "8344E-2",
+      "sourceTitle": "פ.מזגן ניס נברה מ06 זוג",
+      "siteOriginalTitle": "פ.מזגן ניס נברה מ06 זוג",
+      "sourceCsvRow": 266,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-ניס-נברה-מ06-זוג",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_c8990f028d494b9aa049883cd2b33ac6~mv2.png",
+      "designerFile": "images/מסנן_מזגן_ניסאן/8344E-2.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "99947539b9fae3a470a14a8d893c457bd05beaf76ae2c2a1d7d68e954b9627ea",
+      "decodedRgbSha256": "0dc89774e7dc82bd39cf2d84b79bd034fac2a3036d819de1d744e2c501be263c",
+      "sha256": "09a8a4b4568c43eb169c7fc9bf14ada9a0c478c73a7f780c502f4b1380ac563a",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 190772,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00159.webp"
+    },
+    {
+      "sku": "HZ-CAF-00156",
+      "category": "cabin-filter",
+      "sourceSku": "EC9285",
+      "sourceTitle": "פ.מזגן ניס טרנו פרימרה",
+      "siteOriginalTitle": "פ.מזגן ניס טרנו פרימרה",
+      "sourceCsvRow": 267,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-ניס-טרנו-פרימרה",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_6ec3c6e6f78c4450ba80b8ea9bbd92d1~mv2.png",
+      "designerFile": "images/מסנן_מזגן_ניסאן/EC9285.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "143ec7ac3f4e50e0a37a7ee9f74f804c30fa89e17ae51fb30ef87610afc4962e",
+      "decodedRgbSha256": "101951ad6229b9fda2cded15b5d84d2ac878036d4f1107607651d259ec67a67c",
+      "sha256": "820adef550a2465124e9908a9672c7621226646d952f873b8de86b3f5735c559",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 117784,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00156.webp"
+    },
+    {
+      "sku": "HZ-CAF-00157",
+      "category": "cabin-filter",
+      "sourceSku": "8092E",
+      "sourceTitle": "פ.מזגן ניס מיקרה 1.2 מ11",
+      "siteOriginalTitle": "פ.מזגן ניס מיקרה 1.2 מ11",
+      "sourceCsvRow": 268,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-ניס-מיקרה-1-2-מ11",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_ec69ff891aa741e6927a4ec31ae99fd1~mv2.png",
+      "designerFile": "images/מסנן_מזגן_ניסאן/8092E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "ca707a89e0b189147ba672cc3e5262c4eb1c9b918610a445c102bfd840a44c53",
+      "decodedRgbSha256": "6119e3ad8d08bccf6100cc150383b05b2232e37f7c1d03972f6e7c62d24c177a",
+      "sha256": "7a3fe60b0bf039f7f8b2f71fc287c1d74e34109af78463d933266a623e02c8fe",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 119466,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00157.webp"
+    },
+    {
+      "sku": "HZ-CAF-00161",
+      "category": "cabin-filter",
+      "sourceSku": "27277WJS3DF0A",
+      "sourceTitle": "פ.מזגן ניס סנטרה מ16 עד20",
+      "siteOriginalTitle": "פ.מזגן ניס סנטרה מ16 עד20",
+      "sourceCsvRow": 269,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-ניס-סנטרה-מ16",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_8f4368b269f341cfbd5937b26c38d5b0~mv2.png",
+      "designerFile": "images/מסנן_מזגן_ניסאן/27277WJS3DF0A.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "ee67d2cf2bccb7ae68260fd40ea013677cc880c53c032a25034f09e88849659b",
+      "decodedRgbSha256": "d16a25e127f3d3a90d4a6f89270ebe8f47570d7a25603021e868a9b00bd2b7ca",
+      "sha256": "5e701e6f8fef95adadc7a5a1e086c64768d2fe671e9dbe65df33f0188407bdfb",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 115754,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00161.webp"
+    },
+    {
+      "sku": "HZ-CAF-00160",
+      "category": "cabin-filter",
+      "sourceSku": "8519E",
+      "sourceTitle": "פ.מזגן ניס סנטרה 2.0 מ21",
+      "siteOriginalTitle": "פ.מזגן ניס סנטרה 2.0 מ21",
+      "sourceCsvRow": 270,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-ניס-סנטרה-2-0-מ21",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_fe6e19eddea74c5db3c591fb104b00c2~mv2.png",
+      "designerFile": "images/מסנן_מזגן_ניסאן/8519E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "0eb8ec1c19488640e8ccc29c99b182e2b5a7d25ba1a472d4eb37e354d8795685",
+      "decodedRgbSha256": "9af3c395669b2e3188ec4a2d19c1200c895274914f998d850922f412bbe57ce1",
+      "sha256": "551983bbc8aceca978842809e449d4796098547bd0e2a76a3d5eca5e58b5004f",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 152964,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00160.webp"
+    },
+    {
+      "sku": "HZ-CAF-00165",
+      "category": "cabin-filter",
+      "sourceSku": "8357E",
+      "sourceTitle": "פ.מזגן סאנ טיבולי מ16",
+      "siteOriginalTitle": "פ.מזגן סאנ טיבולי מ16",
+      "sourceCsvRow": 275,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סאנ-טיבולי-מ16",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_5e57adb1d1e443ac9fbb5d1fcb9fa309~mv2.png",
+      "designerFile": "images/מסנן_מזגן_סאנגיונג/8357E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "77d7a5f4b0247400a65e51d8b35fc81118f4a1fb32df195ba8d91a2528128619",
+      "decodedRgbSha256": "521376082d52536a93dcc76dd2867c0e972bafb7c8848f736da960903613c712",
+      "sha256": "a653dbe1ac913abaa70c12b58554329d48ce6c254c8a32eb7cb0706404ea8bcf",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 219300,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00165.webp"
+    },
+    {
+      "sku": "HZ-CAF-00167",
+      "category": "cabin-filter",
+      "sourceSku": "8047E-2",
+      "sourceTitle": "פ.מזגן סאנ רודיוס מ05 זוג",
+      "siteOriginalTitle": "פ.מזגן סאנ רודיוס מ05 זוג",
+      "sourceCsvRow": 276,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סאנ-רודיוס-מ05-זוג",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_2e36bedb9d4e445ebd71dbfb2ccc8f99~mv2.png",
+      "designerFile": "images/מסנן_מזגן_סאנגיונג/8047E-2.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "3eeca02044b5a502e411d13c146bf59a7475ead9c28ca17cd182da7b3ceba1d6",
+      "decodedRgbSha256": "bf4ceba16aa72c4c72dd47c59d058abba4412ccbf78f72f88d8ad3d79bc1316d",
+      "sha256": "5e9fc0cf3274243f9a95b9582ba8e6618a6a6f57e233701def286dc4113e1aee",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 161704,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00167.webp"
+    },
+    {
+      "sku": "HZ-CAF-00164",
+      "category": "cabin-filter",
+      "sourceSku": "8926E",
+      "sourceTitle": "פ.מזגן סאנ טורס 1.5 מ24",
+      "siteOriginalTitle": "פ.מזגן סאנ טורס 1.5 מ24",
+      "sourceCsvRow": 277,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סאנ-טורס-1-5-מ24",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_5044306fc5914334bb95a2a7995cb6b4~mv2.png",
+      "designerFile": "images/מסנן_מזגן_סאנגיונג/8926E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "f2f193b9daa2e11b4fa0a8c7e8b40bb5e5430bdfd0a5f3cbb338c8bd5bb2b161",
+      "decodedRgbSha256": "e207549c9a28aaa1be5cde79a810c270dd3ef50e37667375ffcabcd820707239",
+      "sha256": "f3d9460fd370f169b5639d651a630179e9b72ad5a7260738ca054d313723464e",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 358768,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00164.webp"
+    },
+    {
+      "sku": "HZ-CAF-00169",
+      "category": "cabin-filter",
+      "sourceSku": "8356E-2",
+      "sourceTitle": "פ.מזגן סאנ רקסטון מ03 זוג",
+      "siteOriginalTitle": "פ.מזגן סאנ רקסטון מ03 זוג",
+      "sourceCsvRow": 278,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סאנ-רקסטון-מ03-זוג",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_8005a8e22c3f41cf92c88c80e77a1290~mv2.png",
+      "designerFile": "images/מסנן_מזגן_סאנגיונג/8356E-2.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "a1477b6924449491d105617b944b358e9bef8ca96cc63b91881da9d16abae383",
+      "decodedRgbSha256": "91ef42a7b468c2cbcc46aaa65b45fc152576a04b75d74ac1e83753bf84736e78",
+      "sha256": "db10ae0add21fe9ad2db47a47a1928ea737ea867af32f5e49d45eadf393664b5",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 194350,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00169.webp"
+    },
+    {
+      "sku": "HZ-CAF-00186",
+      "category": "cabin-filter",
+      "sourceSku": "8579E",
+      "sourceTitle": "פ.מזגן סינ EV MG5 מ22",
+      "siteOriginalTitle": "פ.מזגן סינ EV MG5 מ22",
+      "sourceCsvRow": 283,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סינ-ev-mg5-מ22",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_84826631f35d40d1b344599b833b1433~mv2.png",
+      "designerFile": "images/מסנן_מזגן_אמ.ג'י/8579E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "c68f7d16ba63a64e066845ece67fb406ea9a73074add2250a6e2d7bce2901d4e",
+      "decodedRgbSha256": "450230a07e138bcca3d34bb3a815600139084488581f05102021d9b5d893c460",
+      "sha256": "32f631a5df06673754a6686182dfeceef5b66fcfbbd14de60f528d0a2cb690c1",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 238434,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00186.webp"
+    },
+    {
+      "sku": "HZ-CAF-00185",
+      "category": "cabin-filter",
+      "sourceSku": "8195E",
+      "sourceTitle": "פ.מזגן סינ EV MG4 מ22",
+      "siteOriginalTitle": "פ.מזגן סינ EV MG4 מ22",
+      "sourceCsvRow": 284,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סינ-ev-mg4-מ22",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_f0d3d8c6a44f471697e540038723d9ef~mv2.png",
+      "designerFile": "images/מסנן_מזגן_אמ.ג'י/8195E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "9043aa6158df8af0dbc2967df4bbe45110b260dd12c435d6477e1229bbcc894a",
+      "decodedRgbSha256": "26340ba9f672bfa7d6eff43972cfcf106cf4422de2e3a0582f37d0ab1498608b",
+      "sha256": "c4ad45980bafb7916440cf556a250f3033d817c73ed81341ac6956c2582374f7",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 175832,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00185.webp"
+    },
+    {
+      "sku": "HZ-CAF-00187",
+      "category": "cabin-filter",
+      "sourceSku": "8651E",
+      "sourceTitle": "פ.מזגן סינ EV R MARVEL MG מ22",
+      "siteOriginalTitle": "פ.מזגן סינ EV R MARVEL MG מ22",
+      "sourceCsvRow": 285,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סינ-ev-r-marvel-mg-מ22",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_6c2dcf8994714c828120fd0bfff7aa00~mv2.png",
+      "designerFile": "images/מסנן_מזגן_אמ.ג'י/8651E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "8fc17e0bbc3a3a4773e080742089e46c20d72eaacce9f91665688490acc46362",
+      "decodedRgbSha256": "2a64418bf255f632893c01a4a0b88e6ab0b603c23138934a825db641158c50c6",
+      "sha256": "58432c989fccd3ff791d971e0db470f77ea467a314390c2393549ed5a4f8cfff",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 443986,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00187.webp"
+    },
+    {
+      "sku": "HZ-CAF-00172",
+      "category": "cabin-filter",
+      "sourceSku": "72880FG000WJS",
+      "sourceTitle": "פ.מזגן סובארו אימפרזה B3 מ08",
+      "siteOriginalTitle": "פ.מזגן סובארו אימפרזה B3 מ08",
+      "sourceCsvRow": 291,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/מסנן-מזגן-סובארו-אימפרזה-b3-מ08",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_03353fd3a902479bb17b3a1812cd09ca~mv2.png",
+      "designerFile": "images/מסנן_מזגן_סובארו/72880FG000WJS.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "5f53f5381571d3c42bba55724acc262c75bb4270cedd16bfd1b9ecd59cb398e2",
+      "decodedRgbSha256": "b913d96b45662499fad6eba06764954a212b1a87161a4a243e2cfd8935f7dcae",
+      "sha256": "8df45d6778152c2f1ed80cc72dd295af0f4aa96e4f12980e1679e6873e3fce29",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 103908,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00172.webp"
+    },
+    {
+      "sku": "HZ-CAF-00170",
+      "category": "cabin-filter",
+      "sourceSku": "8568E",
+      "sourceTitle": "פ.מזגן סוב XV מ17 אימפרזה מ18",
+      "siteOriginalTitle": "פ.מזגן סוב XV מ17 אימפרזה מ18",
+      "sourceCsvRow": 292,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סוב-xv-מ17-אימפרזה-מ18",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_ffbdb699258e41a999d5eda7ffa105d0~mv2.png",
+      "designerFile": "images/מסנן_מזגן_סובארו/8568E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "f40e9e39c7c857da63e158d044704d22e5306a36cdb0e7808ffa1e62be87b292",
+      "decodedRgbSha256": "1afc126e113793fa1b3684c7975d2a34f494e2207117872ec41d0e787e71cc3b",
+      "sha256": "b4a27f04d906110df952c97cef911f5843bcce364bd52ab3b272862dcd5a8b5a",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 158482,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00170.webp"
+    },
+    {
+      "sku": "HZ-CAF-00114",
+      "category": "cabin-filter",
+      "sourceSku": "DB9LWJS61-J6X",
+      "sourceTitle": "פ.מזגן מזד 2 מ15 CX3 מ17",
+      "siteOriginalTitle": "פ.מזגן מזד 2 מ15 CX3 מ17",
+      "sourceCsvRow": 293,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מזד-2-מ15-cx3-מ17",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_7f4b7f8fe5d24ca7a20dfcf5a9df5861~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מאזדה/DB9LWJS61-J6X.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "eaddfc3307c5a0482fa5ddca765178fcc034c3b9c3eb01e11cfbbff1b951ae0b",
+      "decodedRgbSha256": "db1df9c2bd35820038b47d868765e715c0e434daedca3c051cf4545ea8d9b0fb",
+      "sha256": "f7288ea4d2c98df757f99e5886bba079006a7ed57eed0d6969f5446f8cae034c",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 143042,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00114.webp"
+    },
+    {
+      "sku": "HZ-CAF-00115",
+      "category": "cabin-filter",
+      "sourceSku": "KD45WJS61-J6X",
+      "sourceTitle": "פ.מזגן מזד 3 1.5 מ13 6 מ13",
+      "siteOriginalTitle": "פ.מזגן מזד 3 1.5 מ13 6 מ13",
+      "sourceCsvRow": 294,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-מזד-3-1-5-מ13-6-מ13",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_fff64aa593a14a00b767f932a2d737bb~mv2.png",
+      "designerFile": "images/מסנן_מזגן_מאזדה/KD45WJS61-J6X.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "5122ada9cd904a502909cc12e4b058747ae7ca1abbe9b57b84e1e48e8a77a6ae",
+      "decodedRgbSha256": "5a61e24ff0a3f0a5b95b41733247c7f9afd35f2ecff4db9b3f090d070c3faeec",
+      "sha256": "376b52eb09f40ddc66da236ac18aac3aaaca3ec0009d5c3aa85f44419ba88eb3",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 245362,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00115.webp"
+    },
+    {
+      "sku": "HZ-CAF-00227",
+      "category": "cabin-filter",
+      "sourceSku": "8307B",
+      "sourceTitle": "פ.מזגן פול T4",
+      "siteOriginalTitle": "פ.מזגן פול T4",
+      "sourceCsvRow": 297,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-פול-t4",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_af7e639a0323476daba21b8a696f74c3~mv2.png",
+      "designerFile": "images/מסנן_מזגן_פולקס_ווגן/8307B.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "bc80129188c333863787428b855b109aeaf246caf48e2fded4096e0d5e13c8c6",
+      "decodedRgbSha256": "fdc161e9252a6526c32e21311550bc30d7c4092b5b09a79193fd75c7948cc4ba",
+      "sha256": "860319146f4237f6915e5112671965ffc7d94ae817f7f906fea4e32ef8a40237",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 422022,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00227.webp"
+    },
+    {
+      "sku": "HZ-CAF-00262",
+      "category": "cabin-filter",
+      "sourceSku": "8142B",
+      "sourceTitle": "פ.מזגן רנו מגאן סניק עד99",
+      "siteOriginalTitle": "פ.מזגן רנו מגאן סניק עד99",
+      "sourceCsvRow": 299,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-רנו-מגאן-סניק-עד99",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_72427a62fc744f409d10f87c77ebb053~mv2.jpg",
+      "designerFile": "images/מסנן_מזגן_רנו/8142B.jpg",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "6f6dd66639fc09b8a57e0fed403911771b5ac4e25dac64f85b3e9ee0e548e4fc",
+      "decodedRgbSha256": "90e4b52ceefc655abc6212ecb1d22fd8192cc2fed617d1c80b1bddd562d13e31",
+      "sha256": "e6396c84321af4b15e8083b6f2f6a4d40573e4a615c0d00d2f4eb6e2378af838",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 405350,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00262.webp"
+    },
+    {
+      "sku": "HZ-CAF-00195",
+      "category": "cabin-filter",
+      "sourceSku": "8794E",
+      "sourceTitle": "פ.מזגן סינ סרס 3 מ22",
+      "siteOriginalTitle": "פ.מזגן סינ סרס 3 מ22",
+      "sourceCsvRow": 300,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סינ-סרס-3-מ22",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_ba58dde9bbd34ca4a8c4dd7e2912bbb8~mv2.png",
+      "designerFile": "images/מסנן_מזגן_סרס/8794E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "8f96e75db6ed964e010b5d10ff860eb33e4843db0a9d54ca461f6eb1fac10abc",
+      "decodedRgbSha256": "e0fb0aa903c4b9d28aedbffba9963ceccc14e9a9456cdc7362c4ee64229d6154",
+      "sha256": "e2bdbc9278874cc7f57dce38e4494c9d1746806dbdae87794b140f21071c6b35",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 693046,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00195.webp"
+    },
+    {
+      "sku": "HZ-CAF-00194",
+      "category": "cabin-filter",
+      "sourceSku": "8760E",
+      "sourceTitle": "פ.מזגן סינ זיקר X מ23",
+      "siteOriginalTitle": "פ.מזגן סינ זיקר X מ23",
+      "sourceCsvRow": 301,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סינ-זיקר-x-מ23",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_66cd6b15d0414daabadff108a29fc956~mv2.png",
+      "designerFile": "images/מסנן_מזגן_זיקר/8760E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "1556e508df5700e68c15a78fb62b6491831c9fe29b117321df7d8028016e1fa3",
+      "decodedRgbSha256": "a2ccb343bfe61205c7767f72e22495e2989aa65d8f731f29096a291d24c87ac8",
+      "sha256": "5b80a6e244879baa174239bfcc308a8ad95c64b4fcdfd59006a7d4d9f933cdfa",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 410914,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00194.webp"
+    },
+    {
+      "sku": "HZ-CAF-00196",
+      "category": "cabin-filter",
+      "sourceSku": "8492E",
+      "sourceTitle": "פ.מזגן סינ צ'רי טיגו 7 8  פרו אריזו 8 מ25",
+      "siteOriginalTitle": "פ.מזגן סינ צ'רי טיגו 7 8 פרו אריזו 8 מ25",
+      "sourceCsvRow": 303,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/פ-מזגן-סינ-צ-רי-טיגו-7-8-פרו-אריזו-8-מ25",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_2e58218d24594282ade48057d54a3ae8~mv2.png",
+      "designerFile": "images/מסנן_מזגן_צ׳רי/8492E.png",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "1c7aaa0e9a002328b4a047222d6b2f5b1e932a6d79d6f2528bcada215272000b",
+      "decodedRgbSha256": "2b4d63818422802a1050b808c8d3c5fc94d3dba7145f1e3b3b4a47360742642e",
+      "sha256": "de0edf3ee6802d9aabed95546919b9e34bde3173ac65e87dcf009b352ca1835b",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 311588,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-CAF-00196.webp"
+    },
+    {
+      "sku": "HZ-BRK-00969",
+      "category": "brakes",
+      "sourceSku": "2938.202D",
+      "sourceTitle": "צ.בלם פיא דובלו 1.3D קד מ10 4ח",
+      "siteOriginalTitle": "צ.בלם פיא דובלו 1.3D קד מ10 4ח",
+      "sourceCsvRow": 305,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/צ-בלם-פיא-דובלו-1-3d-קד-מ10-4ח",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_363ebb3bb149498c8e85a2534e216b9c~mv2.jpg",
+      "designerFile": "images/non-ac-filter/2938.202D.jpg",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "0828011a332ed3b361ae03b10e1766cad76f9e313d03fd1385fb9e62be4c8a8e",
+      "decodedRgbSha256": "8e4562a7511f055c059a962db1f47a03902aba4c153eb6304794d6ffe6120909",
+      "sha256": "8dfdc5654aa031bfb0fd7bf6bdd9cfdfd20eed2d2430469a3b06663b9e59229d",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 257552,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-BRK-00969.webp"
+    },
+    {
+      "sku": "HZ-BRK-00862",
+      "category": "brakes",
+      "sourceSku": "2025.202D",
+      "sourceTitle": "צ.בלם פגו ברלינגו פרטנר קד עד01",
+      "siteOriginalTitle": "צ.בלם פגו ברלינגו פרטנר קד עד01",
+      "sourceCsvRow": 307,
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/צ-בלם-פגו-ברלינגו-פרטנר-קד-עד01",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_2b428093975549e09749bbb978ec9b7f~mv2.jpg",
+      "designerFile": "images/non-ac-filter/2025.202D.jpg",
+      "designStatus": "ready",
+      "matchEvidence": "exact internal workbook supplier SKU; shared SKU also exact original product name",
+      "sourceSha256": "9bd415864af86e75bef0d48033f15bbeaf2091fde51215452fde334c8c6777a1",
+      "decodedRgbSha256": "d90758d31ea4c196213a12afeaadf7f6e8657901e53f901118dcc307397cbaf4",
+      "sha256": "73e89c9672e071a2c0d6b5b68a99e307d8f1bbb2da90cc708f28f70f948e5184",
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "bytes": 348270,
+      "image": "/catalog/images/wjs-approved-2026-11-08/HZ-BRK-00862.webp"
+    }
+  ],
+  "skipped": [
+    {
+      "row": 2,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "95860-81A10WJS",
+      "sourceTitle": "פ.מזגן סוזוקי ג'ימיני",
+      "matches": []
+    },
+    {
+      "row": 3,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "95861-54G00WJS",
+      "sourceTitle": "פ.מזגן סוזוקי ליאנה",
+      "matches": []
+    },
+    {
+      "row": 4,
+      "reason": "needs-review",
+      "sourceSku": "8143691WJS",
+      "sourceTitle": "פ.מזגן וולוו FH",
+      "matches": []
+    },
+    {
+      "row": 5,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "96539649WJS",
+      "sourceTitle": "פ.מזגן שברולט אוואו",
+      "matches": []
+    },
+    {
+      "row": 6,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "05058381AAWJS",
+      "sourceTitle": "פ.מזגן דודג' קאליבר",
+      "matches": []
+    },
+    {
+      "row": 7,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "05058693AAWJS",
+      "sourceTitle": "פ.מזגן דודג' קאליבר",
+      "matches": []
+    },
+    {
+      "row": 8,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "9804163380WJS",
+      "sourceTitle": "פ.מזגן פג'ו 308",
+      "matches": []
+    },
+    {
+      "row": 9,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "97030H1742WJS",
+      "sourceTitle": "פ.מזגן יונדאי טראקן",
+      "matches": []
+    },
+    {
+      "row": 10,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "205 835 0147WJS",
+      "sourceTitle": "פ.מזגן מרצדס W205",
+      "matches": []
+    },
+    {
+      "row": 11,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "1745604WJS",
+      "sourceTitle": "פ.מזגן טרנזיט מ08",
+      "matches": []
+    },
+    {
+      "row": 12,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "7H0 819 631WJS",
+      "sourceTitle": "פ.מזגן פולקסווגן T5",
+      "matches": []
+    },
+    {
+      "row": 13,
+      "reason": "needs-review",
+      "sourceSku": "77366480WJS",
+      "sourceTitle": "פ.מזגן פיאט 500X",
+      "matches": []
+    },
+    {
+      "row": 14,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "EC96440878WJS",
+      "sourceTitle": "פ.מזגן שברולט קפטיבה",
+      "matches": []
+    },
+    {
+      "row": 15,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "95860-74P00WJS",
+      "sourceTitle": "פ.מזגן סוזוקי איגניס 1.2",
+      "matches": []
+    },
+    {
+      "row": 16,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "0008301218",
+      "sourceTitle": "פ.מזגן משאית מרצדס אקטרוס",
+      "matches": []
+    },
+    {
+      "row": 17,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "95861-M68K10-000WJS",
+      "sourceTitle": "פ.מזגן סוזוקי אלטו מ09",
+      "matches": []
+    },
+    {
+      "row": 18,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "95860-51K00WJS",
+      "sourceTitle": "פ.מזגן סוזוקי ספלש מ09",
+      "matches": []
+    },
+    {
+      "row": 19,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "68301863AAWJS",
+      "sourceTitle": "פ.מזגן ג'יפ רנגלר מ20",
+      "matches": []
+    },
+    {
+      "row": 20,
+      "reason": "needs-review",
+      "sourceSku": "95947238WJS",
+      "sourceTitle": "פ.מזגן שברולט ספארק מ10",
+      "matches": []
+    },
+    {
+      "row": 21,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "64319224084",
+      "sourceTitle": "פ.מזגן ב.מ.וו X5 רגיל",
+      "matches": []
+    },
+    {
+      "row": 22,
+      "reason": "needs-review",
+      "sourceSku": "7850A002WJS",
+      "sourceTitle": "פ.מזגן מיצובישי ספייססטאר אטראג'",
+      "matches": []
+    },
+    {
+      "row": 23,
+      "reason": "needs-review",
+      "sourceSku": "MR500058WJS",
+      "sourceTitle": "פ.מזגן מיצובישי פג'ארו קינג",
+      "matches": []
+    },
+    {
+      "row": 24,
+      "reason": "needs-review",
+      "sourceSku": "1541456WJS",
+      "sourceTitle": "פ.מזגן פורד פיאסטה מ09",
+      "matches": []
+    },
+    {
+      "row": 25,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "1253220WJS",
+      "sourceTitle": "פ.מזגן פורד פוקוס מ11",
+      "matches": []
+    },
+    {
+      "row": 26,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "YC1H16N619ABWJS",
+      "sourceTitle": "פ.מזגן פורד טרנזיט מ00",
+      "matches": []
+    },
+    {
+      "row": 27,
+      "reason": "needs-review",
+      "sourceSku": "AHC512WJS",
+      "sourceTitle": "פ.מזגן פורד אדג' מ15",
+      "matches": []
+    },
+    {
+      "row": 28,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "6447.YKWJS",
+      "sourceTitle": "פ.מזגן סיטרואן ג'מפי מ07",
+      "matches": []
+    },
+    {
+      "row": 29,
+      "reason": "needs-review",
+      "sourceSku": "6447.HPWJS",
+      "sourceTitle": "פ.מזגן סיטרואן ברלינגו מ02",
+      "matches": []
+    },
+    {
+      "row": 30,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "6479.45WJS",
+      "sourceTitle": "פ.מזגן סיטרואן C5 מ08",
+      "matches": []
+    },
+    {
+      "row": 31,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "272773488RWJS",
+      "sourceTitle": "פ.מזגן רנו מגאן מ09",
+      "matches": []
+    },
+    {
+      "row": 32,
+      "reason": "needs-review",
+      "sourceSku": "7803A112WJS",
+      "sourceTitle": "פ.מזגן מיצובישי טרייטון מ15",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00124",
+          "name": "פ.מזגן מיצ לנסר מ08 פולבק מ16",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 33,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "93740495WJS",
+      "sourceTitle": "פ.מזגן שברולט ויונט זוג",
+      "matches": []
+    },
+    {
+      "row": 34,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "95861-64J00WJS",
+      "sourceTitle": "פ.מזגן סוזוקי גרנד ויטרה מ07",
+      "matches": []
+    },
+    {
+      "row": 35,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "27891-EL00AWJS",
+      "sourceTitle": "פ.מזגן ניסן טידה NV200 מ10",
+      "matches": []
+    },
+    {
+      "row": 36,
+      "reason": "needs-review",
+      "sourceSku": "97617-4H000WJS",
+      "sourceTitle": "פ.מזגן יונדאי I800 מ08 זוג",
+      "matches": []
+    },
+    {
+      "row": 37,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "97133-2D200WJS",
+      "sourceTitle": "פ.מזגן יונדאי אלנטרה 03-10",
+      "matches": []
+    },
+    {
+      "row": 38,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "V20-30-1045-1",
+      "sourceTitle": "פ.מזגן ב.מ.וו סד-3 מ00",
+      "matches": []
+    },
+    {
+      "row": 39,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "8-97356127-0WJS",
+      "sourceTitle": "פ.מזגן איסוזו דימקס עד 11",
+      "matches": []
+    },
+    {
+      "row": 40,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "80292-SMG-E00WJS",
+      "sourceTitle": "פ.מזגן הונדה סיויק אנגלי מ07",
+      "matches": []
+    },
+    {
+      "row": 41,
+      "reason": "needs-review",
+      "sourceSku": "80291-SAA-E01WJS",
+      "sourceTitle": "פ.מזגן הונדה גאז 1.4 עד08",
+      "matches": []
+    },
+    {
+      "row": 42,
+      "reason": "needs-review",
+      "sourceSku": "80291-TF0-E01WJS",
+      "sourceTitle": "פ.מזגן הונדה ג'אז אינסיט מ09",
+      "matches": []
+    },
+    {
+      "row": 43,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "80291-ST3-E01WJS",
+      "sourceTitle": "פ.מזגן הונדה סיוויק 96-01",
+      "matches": []
+    },
+    {
+      "row": 44,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "64119237555WJS",
+      "sourceTitle": "פ.מזגן ב.מ.וו F34 מ13 פחם",
+      "matches": []
+    },
+    {
+      "row": 45,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "88508-12010WJS",
+      "sourceTitle": "פ.מזגן טויוטה קורולה 98-02",
+      "matches": []
+    },
+    {
+      "row": 46,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "204 830 0018",
+      "sourceTitle": "פ.מזגן מרצדס W204 עם פחם",
+      "matches": []
+    },
+    {
+      "row": 47,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "1S7H16N619ACWJS",
+      "sourceTitle": "פ.מזגן פורד מונדאו עד 00",
+      "matches": []
+    },
+    {
+      "row": 48,
+      "reason": "needs-review",
+      "sourceSku": "9678792080WJS",
+      "sourceTitle": "פ.מזגן פיג'ו 301 סיטרואן אליזה",
+      "matches": []
+    },
+    {
+      "row": 49,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "77365763WJS",
+      "sourceTitle": "פ.מזגן פיאט 500 פנדה מ10",
+      "matches": []
+    },
+    {
+      "row": 50,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "77362394WJS",
+      "sourceTitle": "פ.מזגן פיאט דובלו 05-09",
+      "matches": []
+    },
+    {
+      "row": 51,
+      "reason": "needs-review",
+      "sourceSku": "46723331WJS",
+      "sourceTitle": "פ.מזגן פיאט פונטו ספייס ישר",
+      "matches": []
+    },
+    {
+      "row": 52,
+      "reason": "needs-review",
+      "sourceSku": "97133-07010WJS",
+      "sourceTitle": "פ.מזגן יונדאי I10 קאיה פיקנטו",
+      "matches": []
+    },
+    {
+      "row": 53,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "95861-54J00WJS",
+      "sourceTitle": "פ.מזגן סוזוקי גרנד ויטרה 98-05",
+      "matches": []
+    },
+    {
+      "row": 54,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "27274-EA000WJS",
+      "sourceTitle": "פ.מזגן ניסן נברה מ06 פתפיינדר מ05",
+      "matches": []
+    },
+    {
+      "row": 55,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "V20-30-1009-1",
+      "sourceTitle": "פ.מזגן ב.מ.וו סד-5 מ04 רגיל",
+      "matches": []
+    },
+    {
+      "row": 56,
+      "reason": "needs-review",
+      "sourceSku": "MR398288WJS",
+      "sourceTitle": "פ.מזגן מיצובישי לנסר אאוטלנדר 04-07",
+      "matches": []
+    },
+    {
+      "row": 57,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "8-97170804-0WJS",
+      "sourceTitle": "פ.מזגן איסוזו טרופר מ 00 זוג",
+      "matches": []
+    },
+    {
+      "row": 58,
+      "reason": "needs-review",
+      "sourceSku": "80292-SCA-G01WJS",
+      "sourceTitle": "פ.מזגן הונדה סיוויק עד 05 (זוג)",
+      "matches": []
+    },
+    {
+      "row": 59,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "30630752WJS",
+      "sourceTitle": "פ.מזגן וולוו S60 S80 עד 10",
+      "matches": []
+    },
+    {
+      "row": 60,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "71754158WJS",
+      "sourceTitle": "פ.מזגן אלפא 159 ספיידר עד 11",
+      "matches": []
+    },
+    {
+      "row": 61,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "99906-850M2-038WJS",
+      "sourceTitle": "פ.מזגן דיהטסו סיריון מטריה קורה מ06",
+      "matches": []
+    },
+    {
+      "row": 62,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "97617-1C000WJS",
+      "sourceTitle": "פ.מזגן יונדאי גטס אקסנט עד 05",
+      "matches": []
+    },
+    {
+      "row": 63,
+      "reason": "needs-review",
+      "sourceSku": "96554378WJS",
+      "sourceTitle": "פ.מזגן דיהטסו סיריון מטריה קורה מ06",
+      "matches": []
+    },
+    {
+      "row": 64,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "1354952WJS",
+      "sourceTitle": "פ.מזגן פורד פוקוס מ06 מונדאו מ07",
+      "matches": []
+    },
+    {
+      "row": 65,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "9833351080WJS",
+      "sourceTitle": "פ.מזגן אופל קורסה/פיג'ו 208 מ19",
+      "matches": []
+    },
+    {
+      "row": 66,
+      "reason": "needs-review",
+      "sourceSku": "6447.XG",
+      "sourceTitle": "פ.מזגן ברלינגו מC4 08 פיקאסו זוג",
+      "matches": []
+    },
+    {
+      "row": 67,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "6441.H7WJS",
+      "sourceTitle": "פ.מזגן סיטרואן ברלינגו קסרה עד 02",
+      "matches": []
+    },
+    {
+      "row": 68,
+      "reason": "needs-review",
+      "sourceSku": "6447.XFWJS",
+      "sourceTitle": "פ.מזגן ברלינגו מC4 08 פיקאסו זוג",
+      "matches": []
+    },
+    {
+      "row": 69,
+      "reason": "needs-review",
+      "sourceSku": "95861-81P00WJS",
+      "sourceTitle": "פ.מזגן סוזוקי סופר סוויפט מקט מקורי",
+      "matches": []
+    },
+    {
+      "row": 70,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "77364063WJS",
+      "sourceTitle": "פ.מזגן פיאט דוקאטו פיג'ו בוקסר מ07",
+      "matches": []
+    },
+    {
+      "row": 71,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "97133C1000WJS",
+      "sourceTitle": "פ.מזגן יונדאי סונטה מ14 קרניבל מ20",
+      "matches": []
+    },
+    {
+      "row": 72,
+      "reason": "needs-review",
+      "sourceSku": "64316962549",
+      "sourceTitle": "פ.מזגן ב.מ.וו 2.3D 2.0D E84 X1 מ09",
+      "matches": []
+    },
+    {
+      "row": 73,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "82354791WJS",
+      "sourceTitle": "פ.מזגן וולוו FH/FM מFMX 12 מ14",
+      "matches": []
+    },
+    {
+      "row": 74,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "64316946629",
+      "sourceTitle": "פ.מזגן ב.מ.וו 2.3D 2.0D E84 X1 מ09",
+      "matches": []
+    },
+    {
+      "row": 75,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "97133-4P000WJS",
+      "sourceTitle": "פ.מזגן יונדאי 11-14 I20 (זוג) קצר",
+      "matches": []
+    },
+    {
+      "row": 76,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "DB9L61J6XWJS",
+      "sourceTitle": "פ.מזגן יונדאי I20 מ15 מזדה 2 מ16",
+      "matches": []
+    },
+    {
+      "row": 77,
+      "reason": "quarantine",
+      "sourceSku": "97133-1J000WJS",
+      "sourceTitle": "פ.מזגן יונדאי 09-10 I20 (זוג) - ארוך",
+      "matches": []
+    },
+    {
+      "row": 78,
+      "reason": "needs-review",
+      "sourceSku": "7H0819631AWJS",
+      "sourceTitle": "פ.מזגן פולקסווגן T5 טוארג קאיין Q7+פחם",
+      "matches": []
+    },
+    {
+      "row": 79,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "0008303318WJS",
+      "sourceTitle": "פ.מזגן מרצדס ספרינטר LT35/46 עד 06",
+      "matches": []
+    },
+    {
+      "row": 80,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "6447.TVWJS",
+      "sourceTitle": "פ.מזגן פיגו 107 סיטרואן C1 טויוטה אייגו",
+      "matches": []
+    },
+    {
+      "row": 81,
+      "reason": "needs-review",
+      "sourceSku": "5Q0819644WJS",
+      "sourceTitle": "פ.מזגן פולקסווגן גולף אוקטביה 1.4TSI 1.2TSI מ12",
+      "matches": []
+    },
+    {
+      "row": 82,
+      "reason": "needs-review",
+      "sourceSku": "27891-BM400WJS",
+      "sourceTitle": "פ.מזגן איסוזו דימקס מ12 ניסן אלמרה פרפקט מ00",
+      "matches": []
+    },
+    {
+      "row": 83,
+      "reason": "needs-review",
+      "sourceSku": "95860-62J00WJS",
+      "sourceTitle": "פ.מזגן סוזוקי סויפט מ07 בלנו מ16 ללא מסגרת",
+      "matches": []
+    },
+    {
+      "row": 84,
+      "reason": "needs-review",
+      "sourceSku": "6447.HVWJS",
+      "sourceTitle": "פ.מזגן סיטרואן C5 פיג'ו 407 מ06 עם פלסטיק",
+      "matches": []
+    },
+    {
+      "row": 85,
+      "reason": "needs-review",
+      "sourceSku": "8K0819439AWJS",
+      "sourceTitle": "פ.מזגן אאודי Q5 A5 A1 פורשה מקאן 3.0D",
+      "matches": []
+    },
+    {
+      "row": 86,
+      "reason": "needs-review",
+      "sourceSku": "88568-02030WJS",
+      "sourceTitle": "פ.מזגן סיטרואן c1 פזו 108 טויוטה איי גו",
+      "matches": []
+    },
+    {
+      "row": 87,
+      "reason": "needs-review",
+      "sourceSku": "6447.VYWJS",
+      "sourceTitle": "פ.מזגן פיג'ו C3 2008 208 207 מ13 (זוג)",
+      "matches": []
+    },
+    {
+      "row": 88,
+      "reason": "needs-review",
+      "sourceSku": "88508YV010WJS",
+      "sourceTitle": "פ.מזגן סיטרואן c1 פזו 108 טויוטה איי גו",
+      "matches": []
+    },
+    {
+      "row": 89,
+      "reason": "needs-review",
+      "sourceSku": "6447.RGWJS",
+      "sourceTitle": "פ.מזגן פיג'ו 407 מ05-07 C5 05 מלבן",
+      "matches": []
+    },
+    {
+      "row": 90,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "27891-AX010WJS",
+      "sourceTitle": "פ.מזגן דאסטר מיקרה עד 10 נוט קליאו מ07",
+      "matches": []
+    },
+    {
+      "row": 91,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "7701050319WJS",
+      "sourceTitle": "פ.מזגן רנו טראפיק מאסטר אופל ויוארו עד 11",
+      "matches": []
+    },
+    {
+      "row": 92,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "7701209837WJS",
+      "sourceTitle": "פ.מזגן ניסן NV400 רנו מאסטר 2.3DCI מ11 - זוג",
+      "matches": []
+    },
+    {
+      "row": 93,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "6R0820367WJS",
+      "sourceTitle": "פ.מזגן אאודי 1.4TFSI A1 פביה רומסטאר פולו מ10",
+      "matches": []
+    },
+    {
+      "row": 94,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "5Q0 819 653WJS",
+      "sourceTitle": "פ.מזגן פולקסווגן גולף אוקטביה 1.2/1.4TSI מ12+פחם",
+      "matches": []
+    },
+    {
+      "row": 95,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "1K0819644WJS",
+      "sourceTitle": "פ.מזגן פולקסווגן סקודה אוקטביה A3 איביזה עד 04",
+      "matches": []
+    },
+    {
+      "row": 96,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "1H0819644WJS",
+      "sourceTitle": "פ.מזגן פולקסווגן סקודה אוקטביה A3 איביזה עד 04",
+      "matches": []
+    },
+    {
+      "row": 97,
+      "reason": "needs-review",
+      "sourceSku": "46722862WJS",
+      "sourceTitle": "פ.מזגן פיאט פונטו ספייס חתוך דובלו עד 04",
+      "matches": []
+    },
+    {
+      "row": 98,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "13271191WJS",
+      "sourceTitle": "פ.מזגן אופל אסטרה אינסיגניה מריבה זפירה מוקה + פחם",
+      "matches": []
+    },
+    {
+      "row": 99,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "27277-1HE0EWJS",
+      "sourceTitle": "פ.מזגן ניסן אקו מיקרה מ11, ניסן אלמרה פרפקט מ15",
+      "matches": []
+    },
+    {
+      "row": 100,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "4H0819439",
+      "sourceTitle": "פ.מזגן אאודי 3.0TDI 4.2FSI A8 3.0TDI 2.8FSI A6 מ11",
+      "matches": []
+    },
+    {
+      "row": 101,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "13271190WJS",
+      "sourceTitle": "פ.מזגן שברולט קרוז לה קרוס מ10 ספארק מ16 אינסיגניה",
+      "matches": []
+    },
+    {
+      "row": 102,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "30733894WJS",
+      "sourceTitle": "פ.מזגן וולוו XC60 XC70 V60 V70 S60 S80 לנדרובר",
+      "matches": []
+    },
+    {
+      "row": 103,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "D09W6-1J6X9AWJS",
+      "sourceTitle": "פ.מזגן יונדאי I20 מ15 מזדה 2 מ16 עם פחם",
+      "matches": []
+    },
+    {
+      "row": 104,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "80292-SDC-A01WJS",
+      "sourceTitle": "פ.מזגן הונדה אקורד מ03 סיויק יפני מCRV 06 מ07",
+      "matches": []
+    },
+    {
+      "row": 105,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "97133-1U000WJS",
+      "sourceTitle": "פ.מזגן יונדאי סנטה פה 2.2 CRDI מ09 2.4 מ10",
+      "matches": []
+    },
+    {
+      "row": 106,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "7T4Z19N619BWJS",
+      "sourceTitle": "פ.מזגן פורד אדג' 07-14 אקספלורר 3.5 בנזין מ11",
+      "matches": []
+    },
+    {
+      "row": 107,
+      "reason": "needs-review",
+      "sourceSku": "B000975480WJS",
+      "sourceTitle": "פ.מזגן סיטרואן C3 C4 מ03 פיג'ו 308 307 מ04",
+      "matches": []
+    },
+    {
+      "row": 108,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "6447.NTWJS",
+      "sourceTitle": "פ.מזגן סיטרואן C3 C4 מ03 פיג'ו 308 307 מ04",
+      "matches": []
+    },
+    {
+      "row": 109,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "27277-5340RWJS",
+      "sourceTitle": "פ.מזגן ניסן קשקאי אקסטרייל מ14 רנו מגאן גרנד קופה",
+      "matches": []
+    },
+    {
+      "row": 110,
+      "reason": "needs-review",
+      "sourceSku": "272774936RWJS",
+      "sourceTitle": "פ.מזגן רנו פלואנס 1.5DCI מ09 ניסן ג'וק (עם פחם)",
+      "matches": []
+    },
+    {
+      "row": 111,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "27277-3016RWJS",
+      "sourceTitle": "פ.מזגן רנו קליאו קפצ'ר מ14 דאצ'יה לוגן סאנדרס מ15",
+      "matches": []
+    },
+    {
+      "row": 112,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "1S0 820 367WJS",
+      "sourceTitle": "פ.מזגן סקודה סיטיגו סיאט מי פולקסווגן אפ 1.0 מ11",
+      "matches": []
+    },
+    {
+      "row": 113,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "71754151WJS",
+      "sourceTitle": "פ.מזגן אופל קורסה מ06 פיאט פונטו גרנד פונטו מ08",
+      "matches": []
+    },
+    {
+      "row": 114,
+      "reason": "needs-review",
+      "sourceSku": "77364561WJS",
+      "sourceTitle": "פ.מזגן פיאט דובלו קובו מ10 פיורינו מ08 ביפר נמו",
+      "matches": []
+    },
+    {
+      "row": 115,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "4E0819439A",
+      "sourceTitle": "פ.מזגן אאודי 6.0 3.7 5.2/4.2/3.2FSI 3.0TDI A8 מ03",
+      "matches": []
+    },
+    {
+      "row": 116,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "64119366401",
+      "sourceTitle": "פ.מזגן ב.מ.וו סד-5 מ16 סד-7 מ15 עם פחם",
+      "matches": []
+    },
+    {
+      "row": 117,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "272773974RWJS",
+      "sourceTitle": "פ.מזגן רנו קפצ'ור מ13 קליאו מ12 ניסן מיקרה עם פחם",
+      "matches": []
+    },
+    {
+      "row": 118,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "27277-4BU0AWJS",
+      "sourceTitle": "פ.מזגן ניסן קשקאי X טרייל מ14 רנו מגאן גרנד קופה",
+      "matches": []
+    },
+    {
+      "row": 119,
+      "reason": "needs-review",
+      "sourceSku": "97619-38100WJS",
+      "sourceTitle": "פ.מזגן יונדאי טרג'ט מ01 סונטה עד 04 סורנטו 03-06",
+      "matches": []
+    },
+    {
+      "row": 120,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "4M0819439A",
+      "sourceTitle": "פ.מזגן אאודי A4 מA5 15 מTDI TFSI Q5 Q7 2.0 16",
+      "matches": []
+    },
+    {
+      "row": 121,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "6R0819653WJS",
+      "sourceTitle": "פ.מזגן אאודי A4 מA5 15 מTDI TFSI Q5 Q7 2.0 16",
+      "matches": []
+    },
+    {
+      "row": 122,
+      "reason": "needs-review",
+      "sourceSku": "27277-EN025WJS",
+      "sourceTitle": "מ.מזגן ניסן קשקאי X טרייל עד13",
+      "matches": []
+    },
+    {
+      "row": 123,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "97133-2D000WJS",
+      "sourceTitle": "מ.מזגן יונדאי אלנטרה עד 99-02 לנטרה מטריקס 00-03",
+      "matches": []
+    },
+    {
+      "row": 126,
+      "reason": "existing-image-preserved",
+      "sourceSku": "97133F2000WJS",
+      "sourceTitle": "פ.מזגן יונ אלנטרה מ16",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00098",
+          "name": "פ.מזגן יונ אלנטרה מ16",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 127,
+      "reason": "existing-image-preserved",
+      "sourceSku": "97133WJS07010",
+      "sourceTitle": "פ.מזגן יונ I10  מ08",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00090",
+          "name": "פ.מזגן יונ I10 מ08",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 128,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8726E",
+      "sourceTitle": "פ.מזגן ולו V40  מ12",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00071",
+          "name": "פ.מזגן ולו V40 מ12",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 129,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8201E",
+      "sourceTitle": "פ.מזגן יונ סונטה עד04",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00108",
+          "name": "פ.מזגן יונ סונטה עד04",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 138,
+      "reason": "existing-image-preserved",
+      "sourceSku": "97133WJS2E250",
+      "sourceTitle": "פ.מזגן יונ טוסון מ05 עד10",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00104",
+          "name": "פ.מזגן יונ טוסון מ05 עד10",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 140,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8540E",
+      "sourceTitle": "פ.מזגן יונ סונטה 2.0 מ15",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00106",
+          "name": "פ.מזגן יונ סונטה 2.0 מ15",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 141,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8671E",
+      "sourceTitle": "פ.מזגן יונ סנטה פה מ13",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00110",
+          "name": "פ.מזגן יונ סנטה פה מ13",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 142,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8422E",
+      "sourceTitle": "פ.מזגן טוי לנדקרוזר מ03 עד09",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00079",
+          "name": "פ.מזגן טוי לנדקרוזר מ03 עד09",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 155,
+      "reason": "existing-image-preserved",
+      "sourceSku": "97133-2L000WJS",
+      "sourceTitle": "פ.מזגן יונ I30 עד11 סיד מ12",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00094",
+          "name": "פ.מזגן יונ I30 עד11 סיד מ12",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 158,
+      "reason": "existing-image-preserved",
+      "sourceSku": "87139WJS58010",
+      "sourceTitle": "פ.מזגן טוי קורולה מ19 ראב4 מ19",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00081",
+          "name": "פ.מזגן טוי קורולה מ19 ראב4 מ19",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 159,
+      "reason": "existing-image-preserved",
+      "sourceSku": "87139YZZ08WJS",
+      "sourceTitle": "פ.מזגן טוי קורולה עד18 ראב4 עד18",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00084",
+          "name": "פ.מזגן טוי קורולה עד18 ראב4 עד18",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 164,
+      "reason": "existing-image-preserved",
+      "sourceSku": "AHC267",
+      "sourceTitle": "פ.מזגן ולו S60 מ10 S80 מ07",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00069",
+          "name": "פ.מזגן ולו S60 מ10 S80 מ07",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 169,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "8313E-2",
+      "sourceTitle": "פ.מזגן פגו ברלינגו 1.6 מ08 זוג פחם",
+      "matches": []
+    },
+    {
+      "row": 175,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8517E",
+      "sourceTitle": "פ.מזגן ולו S60 מ10 S80 מ07 פחם",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00070",
+          "name": "פ.מזגן ולו S60 מ10 S80 מ07 פחם",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 176,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8103E",
+      "sourceTitle": "פ.מזגן טוי יאריס עד02 ליפ T03 מ24",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00077",
+          "name": "פ.מזגן טוי יאריס עד02 ליפ T03 מ24",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 177,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8623E",
+      "sourceTitle": "פ.מזגן יונ סנטה פה מ19 סטינגר מ18",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00111",
+          "name": "פ.מזגן יונ סנטה פה מ19 סטינגר מ18",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 178,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8214E",
+      "sourceTitle": "פ.מזגן יונ סונטה 2.4 3.3 מ05 עד11",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00107",
+          "name": "פ.מזגן יונ סונטה 2.4 3.3 מ05 עד11",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 179,
+      "reason": "existing-image-preserved",
+      "sourceSku": "PMFC77",
+      "sourceTitle": "פ.מזגן טוי קורולה עד18 ראב4 עד18 פחם",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00085",
+          "name": "פ.מזגן טוי קורולה עד18 ראב4 עד18 פחם",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 189,
+      "reason": "existing-image-preserved",
+      "sourceSku": "97133L1000WJS",
+      "sourceTitle": "פ.מזגן יונ איוניק 5 מ21 סנטה פה מ20",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00096",
+          "name": "פ.מזגן יונ איוניק 5 מ21 סנטה פה מ20",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 191,
+      "reason": "existing-image-preserved",
+      "sourceSku": "97133WJS2E200",
+      "sourceTitle": "מ.מזגן פורטה עד IX35 I40 I25 11 מ11 טוסון מ04 ריו",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00001",
+          "name": "מ.מזגן פורטה עד IX35 I40 I25 11 מ11 טוסון מ04 ריו",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 212,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8211E-2",
+      "sourceTitle": "פ.מזגן יונ טרקאן",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00105",
+          "name": "פ.מזגן יונ טרקאן",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 213,
+      "reason": "existing-image-preserved",
+      "sourceSku": "93123E",
+      "sourceTitle": "פ.מזגן יונ I10 מ20",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00091",
+          "name": "פ.מזגן יונ I10 מ20",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 214,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8722E",
+      "sourceTitle": "פ.מזגן יונ H350  מ17",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00089",
+          "name": "פ.מזגן יונ H350 מ17",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 215,
+      "reason": "existing-image-preserved",
+      "sourceSku": "93932E",
+      "sourceTitle": "פ.מזגן יונ פאליסייד מ21",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00112",
+          "name": "פ.מזגן יונ פאליסייד מ21",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 216,
+      "reason": "existing-image-preserved",
+      "sourceSku": "971331E100WJS",
+      "sourceTitle": "פ.מזגן יונ אקסנט I25 מ06",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00100",
+          "name": "פ.מזגן יונ אקסנט I25 מ06",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 217,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8634E-2",
+      "sourceTitle": "פ.מזגן יונ I800 מ08 זוג",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00095",
+          "name": "פ.מזגן יונ I800 מ08 זוג",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 218,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8029E",
+      "sourceTitle": "פ.מזגן יונ אלנטרה מ03 עד10",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00097",
+          "name": "פ.מזגן יונ אלנטרה מ03 עד10",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 219,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8208E",
+      "sourceTitle": "פ.מזגן יונ אלנטרה מ99 עד02 לנטרה",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00099",
+          "name": "פ.מזגן יונ אלנטרה מ99 עד02 לנטרה",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 221,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8387E-2",
+      "sourceTitle": "פ.מזגן יונ I20 מ09 עד10 זוג",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00092",
+          "name": "פ.מזגן יונ I20 מ09 עד10 זוג",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 222,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8443E",
+      "sourceTitle": "פ.מזגן יונ H1 מ06 עד07 CRDI",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00088",
+          "name": "פ.מזגן יונ H1 מ06 עד07 CRDI",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 223,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8670E",
+      "sourceTitle": "פ.מזגן יונ סנטה פה מ10 עד12",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00109",
+          "name": "פ.מזגן יונ סנטה פה מ10 עד12",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 224,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8647E",
+      "sourceTitle": "פ.מזגן יונ גנסיס GV80 נ2.5 מ21 פחם",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00103",
+          "name": "פ.מזגן יונ גנסיס GV80 נ2.5 מ21 פחם",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 225,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8516E",
+      "sourceTitle": "פ.מזגן יונ גנסיס GV70 נ2.5 מ22 פחם",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00102",
+          "name": "פ.מזגן יונ גנסיס GV70 נ2.5 מ22 פחם",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 226,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8203E-2",
+      "sourceTitle": "פ.מזגן יונ אקסנט מ00 עד05 גטס זוג",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00101",
+          "name": "פ.מזגן יונ אקסנט מ00 עד05 גטס זוג",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 260,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8917E",
+      "sourceTitle": "פ.מזגן טוי איגו X מ22",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00076",
+          "name": "פ.מזגן טוי איגו X מ22",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 262,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8123E",
+      "sourceTitle": "פ.מזגן טוי קורולה מ98 עד02",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00083",
+          "name": "פ.מזגן טוי קורולה מ98 עד02",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 263,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8118E",
+      "sourceTitle": "פ.מזגן טוי קורולה מ03 עד07",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00080",
+          "name": "פ.מזגן טוי קורולה מ03 עד07",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 264,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8431E",
+      "sourceTitle": "פ.מזגן טוי לנדקרוזר 2.8D מ25",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00078",
+          "name": "פ.מזגן טוי לנדקרוזר 2.8D מ25",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 265,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8679E",
+      "sourceTitle": "פ.מזגן טוי קורולה מ19 ראב4 מ19 פחם",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00082",
+          "name": "פ.מזגן טוי קורולה מ19 ראב4 מ19 פחם",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 271,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8420B",
+      "sourceTitle": "פ.מזגן אופ קורסה קומבו",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00007",
+          "name": "פ.מזגן אופ קורסה קומבו",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 272,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8408B",
+      "sourceTitle": "פ.מזגן אופ אסטרה עד97",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00005",
+          "name": "פ.מזגן אופ אסטרה עד97",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 273,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8402B",
+      "sourceTitle": "פ.מזגן אופ וקטרה מ96 עד02",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00006",
+          "name": "פ.מזגן אופ וקטרה מ96 עד02",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 274,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8413B",
+      "sourceTitle": "פ.מזגן אופ אסטרה מ98 עד10 דגם באר",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00004",
+          "name": "פ.מזגן אופ אסטרה מ98 עד10 דגם באר",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 279,
+      "reason": "existing-image-preserved",
+      "sourceSku": "LAK1677",
+      "sourceTitle": "פ.מזגן ולו XC40 מ18",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00072",
+          "name": "פ.מזגן ולו XC40 מ18",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 280,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8461E",
+      "sourceTitle": "פ.מזגן ולו XC40 מ18 פחם",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00073",
+          "name": "פ.מזגן ולו XC40 מ18 פחם",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 281,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8972E",
+      "sourceTitle": "פ.מזגן ולו XC90  מ14 S60 מ19 פחם",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00074",
+          "name": "פ.מזגן ולו XC90 מ14 S60 מ19 פחם",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 282,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8614E",
+      "sourceTitle": "פ.מזגן ולו S60 מ01 עד09 S80 מ99 עד06 פחם",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00068",
+          "name": "פ.מזגן ולו S60 מ01 עד09 S80 מ99 עד06 פחם",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 286,
+      "reason": "existing-image-preserved",
+      "sourceSku": "A183",
+      "sourceTitle": "מ.מים פול A3 נ1.8 מ00",
+      "matches": [
+        {
+          "sku": "HZ-GEN-05404",
+          "name": "מ.מים פול A3 נ1.8 מ00",
+          "category": "כללי",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 287,
+      "reason": "existing-image-preserved",
+      "sourceSku": "A183",
+      "sourceTitle": "מ.מים פול A3 נ1.8 מ00",
+      "matches": [
+        {
+          "sku": "HZ-GEN-05404",
+          "name": "מ.מים פול A3 נ1.8 מ00",
+          "category": "כללי",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 288,
+      "reason": "existing-image-preserved",
+      "sourceSku": "A183",
+      "sourceTitle": "מ.מים פול A3 נ1.8 מ00",
+      "matches": [
+        {
+          "sku": "HZ-GEN-05404",
+          "name": "מ.מים פול A3 נ1.8 מ00",
+          "category": "כללי",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 289,
+      "reason": "existing-image-preserved",
+      "sourceSku": "AHC736-2",
+      "sourceTitle": "פ.מזגן טסלה מ21",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00086",
+          "name": "פ.מזגן טסלה מ21",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 290,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8643E",
+      "sourceTitle": "פ.מזגן טסלה מ21 פחם",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00087",
+          "name": "פ.מזגן טסלה מ21 פחם",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 295,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "1830356",
+      "sourceTitle": "חיישן טמפרטורה סקו אוקטביה מ13",
+      "matches": []
+    },
+    {
+      "row": 296,
+      "reason": "needs-review",
+      "sourceSku": "1830356",
+      "sourceTitle": "חיישן טמפרטורה סקו אוקטביה מ13",
+      "matches": []
+    },
+    {
+      "row": 298,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "6479.K9WJS",
+      "sourceTitle": "פ.מזגן פיג'ו 508 עם פחם",
+      "matches": []
+    },
+    {
+      "row": 302,
+      "reason": "existing-image-preserved",
+      "sourceSku": "8804E-2",
+      "sourceTitle": "פ.מזגן הונ סיויק מ01 עד05 זוג",
+      "matches": [
+        {
+          "sku": "HZ-CAF-00067",
+          "name": "פ.מזגן הונ סיויק מ01 עד05 זוג",
+          "category": "פילטר מזגן",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 304,
+      "reason": "needs-review",
+      "sourceSku": "24134",
+      "sourceTitle": "משולש פול פסאט תח מ06 עד10 Q3",
+      "matches": []
+    },
+    {
+      "row": 306,
+      "reason": "needs-review",
+      "sourceSku": "1300 30",
+      "sourceTitle": "ר.בלם מרצ AMG E63S קד מ18 אודי RS6 RS7",
+      "matches": [
+        {
+          "sku": "HZ-BRK-01507",
+          "name": "ר.בלם מרצ AMG E63S קד מ18 אודי RS6 RS7",
+          "category": "בלמים",
+          "supplier": "WJS"
+        }
+      ]
+    },
+    {
+      "row": 308,
+      "reason": "no-exact-supplier-sku-match",
+      "sourceSku": "24156",
+      "sourceTitle": "משולש פול R T5 תח מ03 עד10",
+      "matches": []
+    }
+  ]
+}

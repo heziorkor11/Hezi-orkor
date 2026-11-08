@@ -25,3 +25,5 @@ node scripts/check-ac-additional-photos.mjs
 node scripts/check-ac-watermarked-photos.mjs
 
 node scripts/check-all-ac-backgrounds.mjs
+
+node scripts/check-wjs-approved-photos.mjs
