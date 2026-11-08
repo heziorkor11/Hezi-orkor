@@ -17,3 +17,5 @@ node scripts/check-image-first.mjs
 npm run db:migrate
 
 node scripts/check-image-first-client.mjs
+
+node scripts/check-ac-product-photos.mjs
