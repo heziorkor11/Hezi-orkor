@@ -20,7 +20,7 @@ import {
   waMeUrlForShareText,
 } from "@/lib/order-pdf";
 import { isValidIlPhone, isValidIlPlate, type OrderCustomer } from "@/lib/order-quote";
-import { priceOrQuoteLabel, catalogPrice } from "@/lib/prices";
+import { priceOrQuoteLabel, catalogPrice, quantityPrice, formatCatalogPrice } from "@/lib/prices";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
@@ -323,7 +323,12 @@ function CartPage() {
                   </div>
                 </div>
                 <div className="text-sm font-bold text-accent-warm tabular-nums">
-                  {priceOrQuoteLabel(x.product.sku)}
+                  {(() => {
+                    const price = quantityPrice(x.product.sku, x.qty, orderLines).price;
+                    return price == null
+                      ? "הצעת מחיר"
+                      : `מחיר למארז / יחידה: ${formatCatalogPrice(price)} · סה״כ: ${formatCatalogPrice(Math.round(price * x.qty * 100) / 100)}`;
+                  })()}
                 </div>
                 <Button variant="ghost" size="sm" onClick={() => remove(x.id)}>
                   <Trash2 className="size-4" />
@@ -333,6 +338,19 @@ function CartPage() {
             ))}
           </div>
 
+          <p className="mt-4 text-lg font-bold">
+            סה״כ לפריטים עם מחיר, כולל מע״מ:{" "}
+            {formatCatalogPrice(
+              Math.round(
+                orderLines.reduce(
+                  (n, l) => n + (quantityPrice(l.sku, l.qty, orderLines).price || 0) * l.qty,
+                  0,
+                ) * 100,
+              ) / 100,
+            )}
+            {orderLines.some((l) => quantityPrice(l.sku, l.qty, orderLines).price == null) &&
+              " · פריטים ללא מחיר: בהצעת מחיר נפרדת"}
+          </p>
           <section className="mt-5 rounded-2xl border border-line bg-card p-3.5 shadow-lift md:p-5">
             <h2 className="mb-1 text-[17px] font-extrabold tracking-tight">פרטי הזמנה</h2>
             <p className="mb-3.5 text-xs text-muted md:text-sm">

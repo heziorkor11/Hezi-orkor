@@ -11,7 +11,7 @@ import {
   type OrderCustomer,
   type OrderLineInput,
 } from "@/lib/order-quote";
-import { catalogPrice, formatCatalogPrice } from "@/lib/prices";
+import { quantityPrice, catalogPrice, formatCatalogPrice } from "@/lib/prices";
 
 const FONT_REGULAR_URL = "/fonts/Heebo-Regular.ttf";
 const FONT_BOLD_URL = "/fonts/Heebo-Bold.ttf";
@@ -24,8 +24,7 @@ const LINE = "#e5e5e0";
 const PAPER = "#f7f7f5";
 const CARD = "#ffffff";
 
-const DISCLAIMER =
-  "המחירים מחירון באתר — אישור התאמה ומחיר סופי אצלכם לפני הזמנה. אין סליקה באתר.";
+const DISCLAIMER = "המחירים מחירון באתר — אישור התאמה ומחיר סופי אצלכם לפני הזמנה. אין סליקה באתר.";
 
 export type OrderPdfInput = {
   customer: OrderCustomer;
@@ -148,14 +147,23 @@ const RTL_OPTS = {
 export function orderPdfVisualLine(text: string): string {
   // Supplier year shorthand is a single printed token, not a free-standing RTL letter
   // followed by an independent number. Preserve its source spelling on the page.
-  const protectedText = text.replace(/(?<![א-ת\w])מ\d{2}(?!\d)/g,
-    (token) => `\u202d${token}\u202c`);
+  const protectedText = text.replace(
+    /(?<![א-ת\w])מ\d{2}(?!\d)/g,
+    (token) => `\u202d${token}\u202c`,
+  );
   const levels = bidi.getEmbeddingLevels(protectedText, "rtl");
-  return bidi.getReorderedString(protectedText, levels)
+  return bidi
+    .getReorderedString(protectedText, levels)
     .replace(/[\u202a-\u202e\u2066-\u2069]/g, "");
 }
 
-function drawRtl(doc: JsPdfDoc, text: string | string[], x: number, y: number, align: "left" | "right" = "right") {
+function drawRtl(
+  doc: JsPdfDoc,
+  text: string | string[],
+  x: number,
+  y: number,
+  align: "left" | "right" = "right",
+) {
   const lines = (Array.isArray(text) ? text : [text]).map(orderPdfVisualLine);
   doc.text(lines, x, y, { ...RTL_OPTS, align });
 }
@@ -170,13 +178,13 @@ function deliveryLabel(v: OrderCustomer["delivery"]) {
   return "—";
 }
 
-function unitPriceLabel(sku: string) {
-  const p = catalogPrice(sku);
+function unitPriceLabel(sku: string, qty = 1, lines: OrderLineInput[] = []) {
+  const p = quantityPrice(sku, qty, lines).price;
   return p == null ? "הצעת מחיר" : formatCatalogPrice(p);
 }
 
-function lineTotalLabel(sku: string, qty: number) {
-  const p = catalogPrice(sku);
+function lineTotalLabel(sku: string, qty: number, lines: OrderLineInput[] = []) {
+  const p = quantityPrice(sku, qty, lines).price;
   if (p == null) return "הצעת מחיר";
   return formatCatalogPrice(p * qty);
 }
@@ -185,7 +193,7 @@ function totals(lines: OrderLineInput[]) {
   let subtotal = 0;
   let quoteCount = 0;
   for (const line of lines) {
-    const p = catalogPrice(line.sku);
+    const p = quantityPrice(line.sku, line.qty, lines).price;
     if (p == null) quoteCount += 1;
     else subtotal += p * line.qty;
   }
@@ -227,7 +235,13 @@ function textRight(
   return 1;
 }
 
-function ensureSpace(doc: JsPdfDoc, y: number, need: number, bottom: number, onNewPage: () => number) {
+function ensureSpace(
+  doc: JsPdfDoc,
+  y: number,
+  need: number,
+  bottom: number,
+  onNewPage: () => number,
+) {
   if (y + need <= bottom) return y;
   doc.addPage();
   return onNewPage();
@@ -354,12 +368,10 @@ export async function buildOrderPdfBlob(input: OrderPdfInput): Promise<{
     const oe = allOeList(line.oe);
     const brands = brandMfgPairs(line.oe, 8);
     const link = productAbsoluteUrl(line.sku);
-    const unit = unitPriceLabel(line.sku);
-    const total = lineTotalLabel(line.sku, line.qty);
+    const unit = unitPriceLabel(line.sku, line.qty, input.lines);
+    const total = lineTotalLabel(line.sku, line.qty, input.lines);
 
-    const detailLines: string[] = [
-      `מק״ט אצלנו: ${line.sku}`,
-    ];
+    const detailLines: string[] = [`מק״ט אצלנו: ${line.sku}`];
     if (oe) detailLines.push(`מק״ט מקורי (OE): ${oe}`);
     if (brands.length) detailLines.push(`יצרן/מותג + מק״ט יצרן: ${brands.join(" · ")}`);
     detailLines.push(`כמות: ${line.qty}    מחיר יח׳: ${unit}    סה״כ שורה: ${total}`);
@@ -469,8 +481,11 @@ export function waMeUrlForShareText(text: string) {
 
 export function canSharePdfFile(file: File) {
   try {
-    return typeof navigator !== "undefined" && typeof navigator.share === "function" &&
-      (typeof navigator.canShare !== "function" || navigator.canShare({ files: [file] }));
+    return (
+      typeof navigator !== "undefined" &&
+      typeof navigator.share === "function" &&
+      (typeof navigator.canShare !== "function" || navigator.canShare({ files: [file] }))
+    );
   } catch {
     return false;
   }

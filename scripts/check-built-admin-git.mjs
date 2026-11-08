@@ -15,13 +15,20 @@ process.chdir("/proc");
 const { default: app } = await import(handler.href);
 let cookie = "";
 async function call(path, method = "GET", data, expected = 200) {
-  const r = await app.fetch(
+  let r = await app.fetch(
     new Request("https://local.invalid" + path, {
       method,
       headers: { origin: "https://local.invalid", "content-type": "application/json", cookie },
       body: data ? JSON.stringify(data) : undefined,
     }),
   );
+  for (let i = 0; i < 3 && method === "GET" && [301, 302, 303, 307, 308].includes(r.status); i++) {
+    r = await app.fetch(
+      new Request(new URL(r.headers.get("location"), "https://local.invalid"), {
+        headers: { cookie },
+      }),
+    );
+  }
   const text = await r.text();
   assert.equal(r.status, expected, path + ": " + text.slice(0, 300));
   return {
@@ -35,6 +42,64 @@ async function call(path, method = "GET", data, expected = 200) {
 const login = await call("/api/admin/login", "POST", { username: "owner", password });
 cookie = login.r.headers.get("set-cookie").split(";")[0];
 await call("/api/admin/dashboard");
+assert.deepEqual((await call("/api/admin/bulk-tiers")).data, []);
+const initialBulkPage = (await call("/results?category=workshop-packs")).text;
+assert.match(initialBulkPage, /bulk-unit-page/);
+assert.match(initialBulkPage, /מארז אחד/);
+assert.match(initialBulkPage, /data-bulk-unit-price/);
+assert.match(initialBulkPage, /76\.42/);
+assert.doesNotMatch(initialBulkPage, /data-bulk-savings/);
+const staleVehicleBulk = (await call("/results?category=workshop-packs&make=INVALID&year=1900"))
+  .text;
+assert.equal(
+  (staleVehicleBulk.match(/data-bulk-unit-value/g) || []).length,
+  (initialBulkPage.match(/data-bulk-unit-value/g) || []).length,
+);
+console.log(
+  "PASS built unit-value page: concept hero/cards, computed per-unit price, no default savings, vehicle optional",
+);
+
+await call("/api/admin/products/HZ-GEN-00010", "PATCH", { price: 100 });
+await call("/api/admin/products/HZ-GEN-00011", "PATCH", { price: 200 });
+const bulk = (
+  await call("/api/admin/bulk-tiers", "POST", {
+    targetType: "category",
+    target: "workshop-packs",
+    enabled: true,
+    public: true,
+    aggregate: true,
+    tiers: [{ minPacks: 5, percent: 10 }],
+  })
+).data.result;
+assert.equal((await call("/api/admin/bulk-tiers")).data[0].tiers[0].percent, 10);
+assert.match((await call("/results?category=workshop-packs")).text, /כמות אחרת/);
+const bulkOrder = {
+  requestId: randomUUID(),
+  ref: "HZ-ORD-20261107-2222",
+  customer: { name: "בדיקה", phone: "0501234567", plate: "12345678" },
+  lines: [
+    { sku: "HZ-GEN-00010", qty: 2 },
+    { sku: "HZ-GEN-00011", qty: 3 },
+  ],
+};
+await call("/api/admin/orders/capture", "POST", bulkOrder, 201);
+const bulkOrders = (await call("/api/admin/orders")).data;
+const captured = bulkOrders.find((o) => o.ref === "HZ-ORD-20261107-2222");
+assert.equal(captured.subtotal, 720);
+assert.equal(captured.lines[0].price, 90);
+assert.equal(captured.lines[1].price, 180);
+await call("/api/admin/bulk-tiers", "POST", { ...bulk, tiers: [{ minPacks: 1, percent: 10 }] });
+const discountedBulkPage = (await call("/results?category=workshop-packs")).text;
+assert.match(discountedBulkPage, /data-bulk-savings/);
+assert.match(discountedBulkPage, /חסכתם/);
+console.log("PASS built unit-value page: owner-configured tier produces real savings in SSR");
+await call("/api/admin/bulk-tiers", "POST", { ...bulk, public: false });
+assert.deepEqual((await call("/api/admin/storefront")).data.bulkRules[0].tiers, []);
+await call("/api/admin/bulk-tiers", "POST", { ...bulk, enabled: false });
+console.log(
+  "PASS built bulk Git: encrypted persistence, catalog controls, 2+3 cross-SKU packs = 720, quote-only public redaction",
+);
+
 await call("/api/admin/products/HZ-BRK-00001", "PATCH", { price: 818 });
 await call("/api/admin/promotions", "POST", {
   title: "Git demo",

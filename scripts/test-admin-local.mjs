@@ -130,6 +130,49 @@ try {
   cookie = setCookie.split(";")[0];
   assert.equal(login.body.user.role, "owner");
   check("Owner hash login, HttpOnly/Strict cookie, unauthorized and cross-origin writes denied");
+  assert.deepEqual((await api("bulk-tiers")).body, []);
+  const rule = {
+    targetType: "category",
+    target: "workshop-packs",
+    enabled: true,
+    public: true,
+    aggregate: true,
+    tiers: [
+      { minPacks: 5, percent: 10 },
+      { minPacks: 10, percent: 15 },
+    ],
+  };
+  const savedBulk = (await api("bulk-tiers", { method: "POST", data: rule })).body;
+  assert(savedBulk.id);
+  assert.equal((await api("storefront")).body.bulkRules[0].tiers[0].percent, 10);
+  await api("bulk-tiers", {
+    method: "POST",
+    data: {
+      ...rule,
+      tiers: [
+        { minPacks: 5, percent: 10 },
+        { minPacks: 5, percent: 20 },
+      ],
+    },
+    expected: 422,
+  });
+  await api("bulk-tiers", {
+    method: "POST",
+    data: { ...rule, tiers: [{ minPacks: 5, percent: 100 }] },
+    expected: 422,
+  });
+  await api("bulk-tiers", {
+    method: "POST",
+    data: { ...rule, targetType: "product", target: "HZ-BRK-00001", aggregate: false },
+    expected: 422,
+  });
+  await api("bulk-tiers", { method: "POST", data: { ...savedBulk, public: false } });
+  assert.deepEqual((await api("storefront")).body.bulkRules[0].tiers, []);
+  await api("bulk-tiers", { method: "POST", data: { ...savedBulk, enabled: false } });
+  assert((await api("audit")).body.some((a) => a.action === "bulk.save"));
+  check(
+    "Owner bulk tiers: empty default, save, duplicate thresholds/invalid percent/non-pack rejection, quote-only confidentiality, audit",
+  );
   const dashboard = (await api("dashboard")).body;
   assert(dashboard.products > 10000);
   assert(dashboard.missingImages > 0);
@@ -331,6 +374,8 @@ try {
     data: { username: employee.username, password: epassword },
   });
   const ecookie = el.r.headers.get("set-cookie").split(";")[0];
+  await api("bulk-tiers", { auth: ecookie, expected: 403 });
+  await api("bulk-tiers", { method: "POST", auth: ecookie, data: rule, expected: 403 });
   await api("users", { auth: ecookie, expected: 403 });
   await api("promotions", { auth: ecookie, expected: 403 });
   await api("homepage", { auth: ecookie, expected: 403 });
@@ -430,7 +475,10 @@ try {
   cookie = resumed.r.headers.get("set-cookie").split(";")[0];
   assert.equal((await api("orders")).body.length, 1);
   assert.equal((await api(`products/${sku}`)).body.regularPrice, 123.45);
-  check("Orders, hashed employees and overrides survive a full server restart");
+  assert.equal((await api("bulk-tiers")).body[0].id, savedBulk.id);
+  check(
+    "Orders, hashed employees and overrides survive a full server restart, including bulk tiers",
+  );
   const persistedCustom = (await api(`products/${customSku}`)).body;
   assert.equal(persistedCustom.adminCreated, true);
   assert.equal(persistedCustom.regularPrice, 77);

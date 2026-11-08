@@ -1,3 +1,4 @@
+import { BulkPacksPage } from "@/components/bulk-packs-page";
 import { subcategories, normalizeDisplayCategory } from "@/lib/display-taxonomy";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ActiveFilters } from "@/components/active-filters";
@@ -36,7 +37,20 @@ export const Route = createFileRoute("/results")({
     page: num(search.page),
   }),
   loaderDeps: ({ search }) => search,
-  loader: ({ deps }) => loadListing(deps),
+  loader: ({ deps }) =>
+    loadListing(
+      deps.category === "workshop-packs"
+        ? {
+            ...deps,
+            make: undefined,
+            model: undefined,
+            year: undefined,
+            type: undefined,
+            fluidKind: undefined,
+            oilBrand: undefined,
+          }
+        : deps,
+    ),
   pendingComponent: PendingResults,
   head: ({ match }) => {
     const s = match.search;
@@ -73,7 +87,9 @@ function PendingResults() {
 function ResultsPage() {
   const state = Route.useSearch();
   const listing = Route.useLoaderData();
-  const isFluids = state.category === "fluids" || Boolean(state.fluidKind) || Boolean(state.oilBrand);
+  if (state.category === "workshop-packs") return <BulkPacksPage listing={listing} state={state} />;
+  const isFluids =
+    state.category === "fluids" || Boolean(state.fluidKind) || Boolean(state.oilBrand);
   const kindLabel =
     state.fluidKind && FLUID_KIND_LABELS[state.fluidKind as FluidKind]
       ? FLUID_KIND_LABELS[state.fluidKind as FluidKind]
@@ -105,17 +121,30 @@ function ResultsPage() {
             {listing.pages > 1 ? ` · עמוד ${listing.page} מתוך ${listing.pages}` : ""}
           </p>
         </div>
-        {isFluids ? <FluidsFilters state={{ ...state, category: state.category || "fluids" }} /> : null}
+        {isFluids ? (
+          <FluidsFilters state={{ ...state, category: state.category || "fluids" }} />
+        ) : null}
         {state.category && state.category !== "fluids" && subcategories[state.category] ? (
           <nav aria-label="תתי קטגוריות" className="mb-5 flex flex-wrap gap-2">
-            <Link to="/results" search={{ ...state, sub: undefined, fluidKind: undefined, page: undefined }}
-              className={`rounded-full border px-4 py-2 text-sm ${!state.sub ? "bg-accent text-on-accent" : "bg-card"}`}>הכל</Link>
-            {subcategories[state.category].filter(s => s.count > 0).map(s => (
-              <Link key={s.id} to="/results" search={{ ...state, sub: s.id, fluidKind: undefined, page: undefined }}
-                className={`rounded-full border px-4 py-2 text-sm ${state.sub === s.id ? "bg-accent text-on-accent" : "bg-card"}`}>
-                {s.name} ({s.count})
-              </Link>
-            ))}
+            <Link
+              to="/results"
+              search={{ ...state, sub: undefined, fluidKind: undefined, page: undefined }}
+              className={`rounded-full border px-4 py-2 text-sm ${!state.sub ? "bg-accent text-on-accent" : "bg-card"}`}
+            >
+              הכל
+            </Link>
+            {subcategories[state.category]
+              .filter((s) => s.count > 0)
+              .map((s) => (
+                <Link
+                  key={s.id}
+                  to="/results"
+                  search={{ ...state, sub: s.id, fluidKind: undefined, page: undefined }}
+                  className={`rounded-full border px-4 py-2 text-sm ${state.sub === s.id ? "bg-accent text-on-accent" : "bg-card"}`}
+                >
+                  {s.name} ({s.count})
+                </Link>
+              ))}
           </nav>
         ) : null}
         <ActiveFilters state={state} />

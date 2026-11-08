@@ -1,3 +1,4 @@
+import { bulkPrice } from "../bulk-tiers";
 import reservations from "./sku-reservations.json";
 import { createdProduct, createdHits } from "./products";
 import { adminRuntimeMode, adminRequestHostAllowed } from "./config";
@@ -433,7 +434,11 @@ async function jsonWithStorefront(data: Record<string, unknown>) {
     result: data,
     storefront: toPublicState(
       await adminStorage().read(),
-      adminRuntimeMode() === "git" ? "git" : adminRuntimeMode() === "preview-demo" ? "preview-demo" : "local",
+      adminRuntimeMode() === "git"
+        ? "git"
+        : adminRuntimeMode() === "preview-demo"
+          ? "preview-demo"
+          : "local",
     ),
   });
 }
@@ -480,7 +485,11 @@ export async function adminApi(req: Request): Promise<Response> {
       return json(
         toPublicState(
           await storage.read(),
-          adminRuntimeMode() === "git" ? "git" : adminRuntimeMode() === "preview-demo" ? "preview-demo" : "local",
+          adminRuntimeMode() === "git"
+            ? "git"
+            : adminRuntimeMode() === "preview-demo"
+              ? "preview-demo"
+              : "local",
         ),
       );
     if (path.startsWith("media/") && req.method === "GET") {
@@ -510,15 +519,30 @@ export async function adminApi(req: Request): Promise<Response> {
       if (state.orders.some((o) => o.requestId === input.requestId))
         return json({ recorded: true });
       const lines: StoredOrder["lines"] = [];
+      const bulkLines = await Promise.all(
+        input.lines.map(async (l) => ({
+          ...l,
+          category: (await productForAdmin(l.sku, state))?.category || "general",
+        })),
+      );
       for (const line of input.lines) {
         const p = await productForAdmin(line.sku, state);
         assert(p && !state.products[line.sku]?.hidden && p.inStock !== false, 422, "פריט לא זמין");
+        const priced = bulkPrice(
+          p.sku,
+          p.category,
+          line.qty,
+          p.regularPrice,
+          p.price,
+          state.bulkRules || [],
+          bulkLines,
+        );
         lines.push({
           sku: p.sku,
           name: p.name,
           qty: line.qty,
-          price: p.price,
-          total: p.price == null ? null : Math.round(p.price * line.qty * 100) / 100,
+          price: priced.price,
+          total: priced.price == null ? null : Math.round(priced.price * line.qty * 100) / 100,
         });
       }
       let pdfFile: string | undefined;
@@ -853,6 +877,80 @@ export async function adminApi(req: Request): Promise<Response> {
         const updated = await productForAdmin(sku, state);
         assert(updated, 404, "מוצר לא נמצא");
         return jsonWithStorefront(updated);
+      }
+    }
+    if (path === "bulk-tiers") {
+      assert(user.role === "owner", 403, "מדרגות כמות זמינות לבעלים בלבד");
+      if (req.method === "GET") return json(state.bulkRules || []);
+      if (req.method === "POST") {
+        const input = z
+          .object({
+            id: z.string().max(100).optional(),
+            targetType: z.enum(["product", "category"]),
+            target: z.string().trim().min(1).max(100),
+            enabled: z.boolean(),
+            public: z.boolean(),
+            aggregate: z.boolean(),
+            tiers: z
+              .array(
+                z.object({
+                  minPacks: z.number().int().min(1).max(100000),
+                  percent: z.number().min(0).max(99.99),
+                }),
+              )
+              .min(1)
+              .max(20),
+          })
+          .parse(await body(req));
+        assert(
+          new Set(input.tiers.map((t) => t.minPacks)).size === input.tiers.length,
+          422,
+          "כמות מינימום כפולה",
+        );
+        const sorted = [...input.tiers].sort((a, b) => a.minPacks - b.minPacks);
+        assert(
+          sorted.every((t, i) => !i || t.percent >= sorted[i - 1].percent),
+          422,
+          "ההנחה לא יכולה לרדת כשהכמות גדלה",
+        );
+        if (input.targetType === "category")
+          assert(input.target === "workshop-packs", 422, "בחרו קטגוריית מארזים");
+        else {
+          const product =
+            createdProduct(input.target, state.products[input.target]) ||
+            (await loadProductImpl(input.target));
+          assert(
+            product && product.category === "workshop-packs",
+            422,
+            "בחרו מוצר מקטגוריית מארזים",
+          );
+        }
+        assert(
+          !input.aggregate || input.targetType === "category",
+          422,
+          "צבירה בין מוצרים זמינה לכלל קטגוריה בלבד",
+        );
+        const rule = { ...input, tiers: sorted, id: input.id || randomUUID() };
+        await storage.transaction((s) => {
+          const u = authenticated(req, s);
+          assert(u.role === "owner", 403, "לבעלים בלבד");
+          const old = (s.bulkRules || []).find((r) => r.id === rule.id);
+          assert(
+            !(s.bulkRules || []).some(
+              (r) =>
+                r.id !== rule.id &&
+                r.enabled &&
+                rule.enabled &&
+                r.targetType === rule.targetType &&
+                r.target === rule.target,
+            ),
+            422,
+            "כבר קיים כלל פעיל לאותו יעד",
+          );
+          s.bulkRules = [...(s.bulkRules || []).filter((r) => r.id !== rule.id), rule];
+          audit(s, u, "bulk.save", rule.id, old || null, rule);
+        });
+        return jsonWithStorefront(rule);
       }
     }
     if (path === "promotions") {

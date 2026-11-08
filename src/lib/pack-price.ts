@@ -1,8 +1,7 @@
 import { catalogPrice, formatCatalogPrice } from "@/lib/prices";
 
 export type PackSize =
-  | { kind: "unit"; qty: number; unitLiters?: number }
-  | { kind: "liter"; qty: number };
+  { kind: "unit"; qty: number; unitLiters?: number } | { kind: "liter"; qty: number };
 
 /**
  * Parse explicit pack / drum size from product name.
@@ -18,7 +17,14 @@ export function parsePackSize(name?: string): PackSize | null {
     n.match(/מארז\s*(?:של\s*)?(\d+)\b/i);
   if (m) {
     const qty = Number(m[1]);
-    if (qty >= 2) return { kind: "unit", qty };
+    if (qty >= 2) {
+      const volume = n.match(/(\d+(?:\.\d+)?)\s*(?:[lL]\b|ליטר)/);
+      return {
+        kind: "unit",
+        qty,
+        ...(volume && Number(volume[1]) > 0 ? { unitLiters: Number(volume[1]) } : {}),
+      };
+    }
   }
 
   m = n.match(/(\d+)\s*[x×]\s*(\d+(?:\.\d+)?)\s*(?:[lL]|ליטר)/);
@@ -40,9 +46,10 @@ export function parsePackSize(name?: string): PackSize | null {
   const lit = glued || spaced;
   if (lit) {
     const liters = Number(lit[1]);
-    const oilish = /שמן|נוזל|ATF|Coolant|Antifreeze|אנטיפריז|MOTUL|TOTAL|CASTROL|DEX|GL-?\d|\dW\d|מיכל|חבית/i.test(
-      n,
-    );
+    const oilish =
+      /שמן|נוזל|ATF|Coolant|Antifreeze|אנטיפריז|MOTUL|TOTAL|CASTROL|DEX|GL-?\d|\dW\d|מיכל|חבית/i.test(
+        n,
+      );
     const yearLeft = /מ\d{2}\s+L\b/.test(n);
     if (oilish && !yearLeft) return { kind: "liter", qty: liters };
   }
@@ -66,15 +73,14 @@ export function packUnitPriceLabel(sku: string | undefined | null, name?: string
   const unit = total / pack.qty;
   if (!Number.isFinite(unit) || unit <= 0) return null;
   // keep one decimal max for non-integers
-  const pretty = Number.isInteger(unit)
-    ? String(unit)
-    : (Math.round(unit * 10) / 10).toString();
+  const pretty = Number.isInteger(unit) ? String(unit) : (Math.round(unit * 10) / 10).toString();
   if (pack.kind === "liter") return `≈ ${pretty} ₪ לליטר`;
   return `≈ ${pretty} ₪ ליחידה`;
 }
 
 export function priceLinesForProduct(sku: string, name?: string) {
-  const main = catalogPrice(sku) == null ? "צור קשר להצעת מחיר" : formatCatalogPrice(catalogPrice(sku)!);
+  const main =
+    catalogPrice(sku) == null ? "צור קשר להצעת מחיר" : formatCatalogPrice(catalogPrice(sku)!);
   const unit = packUnitPriceLabel(sku, name);
   return { main, unit };
 }

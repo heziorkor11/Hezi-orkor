@@ -1,3 +1,4 @@
+import { BulkPackControls } from "@/components/bulk-pack-controls";
 import { useAdminOverlay } from "@/lib/admin/use-overlay";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -179,6 +180,7 @@ function ProductPage() {
             )}
           </dl>
           <p className="mb-4 leading-relaxed text-fg-soft">{product.description}</p>
+          {product.category === "workshop-packs" && <BulkPackControls product={product} />}
           <p className="mb-4 rounded-md border border-line bg-elevated px-3 py-2.5 text-sm text-muted">
             לפני התקנה יש לאשר התאמה לפי מספר רכב או מק״ט יצרן. חלק חליפי אינו בהכרח מקורי.{" "}
             <Link
@@ -190,27 +192,29 @@ function ProductPage() {
             </Link>
           </p>
           {product.inStock === false && <p className="mb-3 font-semibold text-muted">אזל מהמלאי</p>}
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <Button
-              className="flex-1"
-              disabled={product.inStock === false}
-              onClick={() => {
-                add(product.id, 1);
-                toast.success("נוסף לרשימת הצעת מחיר", { description: product.name });
-              }}
-            >
-              הוסף להצעה
-            </Button>
-            <a
-              className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-md bg-accent px-4 text-sm font-semibold text-fg hover:bg-accent-hot"
-              target="_blank"
-              rel="noreferrer"
-              href={waLink(quoteMessage(product))}
-            >
-              <WhatsAppIcon className="size-4" />
-              לבירור מלאי
-            </a>
-          </div>
+          {product.category !== "workshop-packs" && (
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <Button
+                className="flex-1"
+                disabled={product.inStock === false}
+                onClick={() => {
+                  add(product.id, 1);
+                  toast.success("נוסף לרשימת הצעת מחיר", { description: product.name });
+                }}
+              >
+                הוסף להצעה
+              </Button>
+              <a
+                className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-md bg-accent px-4 text-sm font-semibold text-fg hover:bg-accent-hot"
+                target="_blank"
+                rel="noreferrer"
+                href={waLink(quoteMessage(product))}
+              >
+                <WhatsAppIcon className="size-4" />
+                לבירור מלאי
+              </a>
+            </div>
+          )}
         </div>
       </div>
       {related.length ? (

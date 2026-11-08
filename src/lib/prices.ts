@@ -1,3 +1,5 @@
+import { adminSnapshot } from "./admin/overlay";
+import { bulkPrice } from "./bulk-tiers";
 import { effectivePrice } from "./admin/overlay";
 import tax from "../../public/catalog/display-taxonomy.json";
 import names from "../../public/catalog/price-identities.json";
@@ -57,4 +59,22 @@ export function regularCatalogPrice(sku: string): number | null {
   if (hidden.has(sku)) return null;
   const p = identity(sku);
   return effectivePrice(sku, map[sku] || null, p?.category || "general", p.brand).regular;
+}
+
+export function quantityPrice(
+  sku: string,
+  qty: number,
+  lines: { sku: string; qty: number }[] = [],
+) {
+  const state = adminSnapshot();
+  const category = (id: string) => state.products[id]?.category || identity(id).category;
+  return bulkPrice(
+    sku,
+    category(sku),
+    qty,
+    regularCatalogPrice(sku),
+    catalogPrice(sku),
+    state.bulkRules || [],
+    (lines.length ? lines : [{ sku, qty }]).map((l) => ({ ...l, category: category(l.sku) })),
+  );
 }

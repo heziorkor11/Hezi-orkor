@@ -1,3 +1,4 @@
+import { BulkPackControls } from "./bulk-pack-controls";
 import { useAdminOverlay } from "@/lib/admin/use-overlay";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -167,27 +168,31 @@ export function ProductCard({
             </p>
           ) : null}
         </div>
-        <div className="flex gap-2">
-          <Button
-            className="flex-1"
-            disabled={product.inStock === false}
-            onClick={() => {
-              add(product.id, 1);
-              toast.success("נוסף לרשימת הצעת מחיר", { description: product.name });
-            }}
-          >
-            הוסף להצעה
-          </Button>
-          <a
-            href={waLink(quoteMessage(product))}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex h-11 items-center justify-center gap-1 rounded-md border border-line-strong bg-elevated px-3 text-sm font-semibold text-fg-soft hover:border-accent hover:text-fg"
-          >
-            <WhatsAppIcon className="size-4" />
-            לבירור מלאי
-          </a>
-        </div>
+        {product.category === "workshop-packs" ? (
+          <BulkPackControls product={product} />
+        ) : (
+          <div className="flex gap-2">
+            <Button
+              className="flex-1"
+              disabled={product.inStock === false}
+              onClick={() => {
+                add(product.id, 1);
+                toast.success("נוסף לרשימת הצעת מחיר", { description: product.name });
+              }}
+            >
+              הוסף להצעה
+            </Button>
+            <a
+              href={waLink(quoteMessage(product))}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex h-11 items-center justify-center gap-1 rounded-md border border-line-strong bg-elevated px-3 text-sm font-semibold text-fg-soft hover:border-accent hover:text-fg"
+            >
+              <WhatsAppIcon className="size-4" />
+              לבירור מלאי
+            </a>
+          </div>
+        )}
       </div>
     </article>
   );
