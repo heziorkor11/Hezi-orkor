@@ -29,3 +29,5 @@ node scripts/check-all-ac-backgrounds.mjs
 node scripts/check-wjs-approved-photos.mjs
 
 node scripts/check-wjs-disc-batch-001.mjs
+
+node scripts/check-wjs-design-only-002-004.mjs
