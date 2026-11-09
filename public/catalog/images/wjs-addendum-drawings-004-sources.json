@@ -1,0 +1,49 @@
+{
+  "added": 2,
+  "skipped": [],
+  "products": [
+    {
+      "sku": "HZ-BRK-01321",
+      "supplierSku": "121202UCK",
+      "category": "brakes",
+      "name": "רפידות בלם שברולט טרייל בליזר קדמי מ06",
+      "nameOriginal": "ר.בלם אמר טרייל בליזר קד מ06",
+      "imageType": "drawing",
+      "designStatus": "ready-design-only",
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/ר-בלם-אמר-טרייל-בליזר-קד-מ06",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_bf1b742d6e164f7890c74fdebbeecd2d~mv2.jpg",
+      "designedFile": "/workspace/wjs-missing-source/batch_004/designed/addendum_drawings/images/בלמים/HZ-BRK-01321_121202UCK.jpg",
+      "zipName": "batch_004_addendum_drawings_ready-design-only_בלמים.zip",
+      "sha256": "863ea6adeb7c98c458dbf8979b77f916c3a23294d6a0f94b4479cb5371b44b7e",
+      "bytes": 77242,
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "image": "/catalog/images/wjs-addendum-drawings-004/HZ-BRK-01321-drawing.webp",
+      "matchEvidence": "catalog supplier_sku '121202UCK' == WJS product-page SKU '121202UCK' (unique site product, unique HZ); site title compatible with catalog title (same model/year/size tokens and front/rear)"
+    },
+    {
+      "sku": "HZ-BRK-01322",
+      "supplierSku": "P10079N",
+      "category": "brakes",
+      "name": "רפידות בלם שברולט טרקס 1.4 אחורי מ18 קרמי",
+      "nameOriginal": "ר.בלם אמר טרקס 1.4 אח מ18 קרמי",
+      "imageType": "drawing",
+      "designStatus": "ready-design-only",
+      "sourceProductUrl": "https://www.wjs-iet-autoparts.com/product-page/ר-בלם-אמר-טרקס-1-4-אח-מ18-קרמי",
+      "sourceImageUrl": "https://static.wixstatic.com/media/4fddcd_5327a695e8b64cb891952371a7b3df64~mv2.jpg",
+      "designedFile": "/workspace/wjs-missing-source/batch_004/designed/addendum_drawings/images/בלמים/HZ-BRK-01322_P10079N.jpg",
+      "zipName": "batch_004_addendum_drawings_ready-design-only_בלמים.zip",
+      "sha256": "d3e985f432bb475761667ce989b86cf51713bb464ae24ee9079103773440d6f0",
+      "bytes": 140298,
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "image": "/catalog/images/wjs-addendum-drawings-004/HZ-BRK-01322-drawing.webp",
+      "matchEvidence": "catalog supplier_sku 'P10079N' == WJS product-page SKU 'P10079N' (unique site product, unique HZ); site title compatible with catalog title (same model/year/size tokens and front/rear)"
+    }
+  ],
+  "note": "batch_004 addendum drawings; correction_01 did not cover these SKUs"
+}
