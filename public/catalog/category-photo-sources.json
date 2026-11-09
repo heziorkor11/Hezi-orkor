@@ -4,9 +4,7 @@
   "noAIGeneration": true,
   "externalPhotoRights": "Reuse licence not independently verified. Designer-supplied polished variants applied; see designer summary for non-generative background/watermark processing. Original source files retained.",
   "subcategories": "Text-only chips; no images to replace.",
-  "missing": [
-    "general"
-  ],
+  "missing": [],
   "tiles": [
     {
       "category": "driveshaft",
@@ -461,5 +459,5 @@
       "transforms": "Non-generative composition; green/black boundary background normalized to white; product shapes retained"
     }
   ],
-  "missingNote": "Residual general category has diverse workshop supplies; text-only rather than depicting a throttle body no longer in that category."
+  "missingNote": "Category כללי removed from the storefront (Matan 2026-11-09); residual SKUs hidden via visibility-overrides. No general tile."
 }

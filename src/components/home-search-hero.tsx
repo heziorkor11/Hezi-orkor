@@ -14,9 +14,7 @@ export const VISUAL_CATEGORIES = visibleCategories.map((c) => ({
   sub:
     c.id === "cleaning-maintenance"
       ? "חומרי ניקוי, גריז וציוד תחזוקה"
-      : c.id === "general"
-        ? "ציוד וחומרים נוספים"
-        : "חלפים ואביזרים",
+      : "חלפים ואביזרים",
   image: categoryImage(c.id),
 }));
 
