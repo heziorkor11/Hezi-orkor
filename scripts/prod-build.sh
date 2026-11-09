@@ -33,3 +33,5 @@ node scripts/check-wjs-disc-batch-001.mjs
 node scripts/check-wjs-design-only-002-004.mjs
 
 node scripts/check-wjs-addendum-drawings.mjs
+
+node scripts/check-wjs-batch-005-drawings.mjs
