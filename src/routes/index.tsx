@@ -1,17 +1,26 @@
-import { CategoryImage } from "@/components/category-image";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { DemoBanner } from "@/components/demo-banner";
 import { FaqList } from "@/components/faq-list";
 import { Finder } from "@/components/finder";
-import { HomeSearchHero, VISUAL_CATEGORIES } from "@/components/home-search-hero";
+import { HomeCategoryRail } from "@/components/home-category-rail";
+import { HomeHeroSlider } from "@/components/home-hero-slider";
+import { HomeParallaxBand } from "@/components/home-parallax-band";
+import { HomeProductCarousel } from "@/components/home-product-carousel";
+import { HomeSearchHero } from "@/components/home-search-hero";
 import { JsonLd } from "@/components/json-ld";
-import { ProductCard } from "@/components/product-card";
 import { brand } from "@/lib/brand";
-import { categoryName, faqs, loadFeatured } from "@/lib/catalog";
+import { categoryName, faqs, loadProductsBySkus } from "@/lib/catalog";
+import { homeDealsSkus, homeRecommendedSkus } from "@/lib/home-deals";
 import { localBusinessJsonLd, pageDescription, websiteJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
-  loader: () => loadFeatured(),
+  loader: async () => {
+    const [deals, recommended] = await Promise.all([
+      loadProductsBySkus(homeDealsSkus),
+      loadProductsBySkus(homeRecommendedSkus),
+    ]);
+    return { deals, recommended };
+  },
   pendingComponent: () => (
     <div className="mx-auto max-w-[1180px] px-5 py-16 text-center text-muted">טוען…</div>
   ),
@@ -30,16 +39,22 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const featured = Route.useLoaderData();
+  const { deals, recommended } = Route.useLoaderData();
 
   return (
     <>
       <JsonLd data={localBusinessJsonLd()} />
       <JsonLd data={websiteJsonLd()} />
 
-      <HomeSearchHero />
+      <HomeHeroSlider />
 
-      <section className="px-3.5 pt-[18px] md:px-5">
+      <div id="search" className="scroll-mt-28 px-3.5 pt-5 md:px-5">
+        <div className="mx-auto max-w-[720px]">
+          <HomeSearchHero />
+        </div>
+      </div>
+
+      <section className="px-3.5 pt-4 md:px-5">
         <div className="mx-auto max-w-[720px]">
           <h2 className="mb-1 text-[17px] font-extrabold md:text-2xl">לפי קטגוריה או רכב</h2>
           <p className="mb-3 text-xs text-muted md:text-sm">
@@ -49,51 +64,39 @@ function Home() {
         </div>
       </section>
 
-      <section id="categories" className="scroll-mt-20 px-3.5 pt-[18px] md:px-5">
-        <div className="mx-auto max-w-[720px] md:max-w-[1180px]">
-          <h2 className="mb-1 text-[17px] font-extrabold md:text-2xl">קטגוריות בתמונה</h2>
-          <p className="mb-3 text-xs text-muted md:text-sm">זיהוי מהיר בעין</p>
-          <div className="grid grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-5">
-            {VISUAL_CATEGORIES.map((c) => (
-              <Link
-                key={c.id}
-                to="/results"
-                search={{ category: c.id }}
-                className="overflow-hidden rounded-2xl border border-line bg-card"
-              >
-                <div data-home-category-photo className="relative aspect-square w-full bg-white">
-                  <CategoryImage
-                    src={c.image}
-                    className="absolute inset-0 h-full w-full object-contain p-1"
-                  />
-                </div>
-                <div className="border-t border-line px-2.5 py-2.5">
-                  <b className="block text-[13px] font-bold">{c.name}</b>
-                  <span className="text-[11px] text-muted">{c.sub}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HomeCategoryRail />
 
-      <div className="mx-auto max-w-[1180px] px-3.5 pt-7 pb-8 md:px-5 md:pb-16">
+      <div className="mx-auto max-w-[1180px] px-3.5 md:px-5">
         <DemoBanner />
-        <div className="mb-3">
-          <h2 className="text-[17px] font-extrabold tracking-tight md:text-[26px]">מהקטלוג</h2>
-          <p className="text-xs text-muted md:text-sm">תמונה · מק״ט · מחיר מחירון</p>
-        </div>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {featured.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
-        </div>
+      </div>
 
-        <div className="mt-6 grid grid-cols-2 gap-2 md:mt-8 md:gap-3">
+      <HomeProductCarousel
+        title="מבצעי החודש"
+        subtitle="בחירה מתוך הקטלוג — מחיר מחירון, בלי מחיר ישן מדומה"
+        moreLabel="לכל הקטלוג"
+        moreHref="/results"
+        products={deals}
+        badge="מבצע"
+      />
+
+      <HomeProductCarousel
+        title="מוצרים מומלצים"
+        subtitle="חלקים עם תמונה מהקטלוג שלנו"
+        moreLabel="עוד מוצרים"
+        moreHref="/results?category=brakes"
+        products={recommended}
+      />
+
+      <div className="mx-auto max-w-[1180px]">
+        <HomeParallaxBand />
+      </div>
+
+      <div className="mx-auto max-w-[1180px] px-3.5 pt-8 pb-8 md:px-5 md:pb-16">
+        <div className="grid grid-cols-2 gap-2 md:gap-3">
           <div className="rounded-[14px] border border-line bg-card p-2.5 text-xs font-bold md:p-3.5 md:text-sm">
             מחיר מחירון
             <span className="mt-1 block text-[10.5px] font-normal leading-snug text-muted md:text-xs">
-              אישור התאמה לפני תשלום
+              אישור התאמה לפני תשלום · כולל מע״מ
             </span>
           </div>
           <div className="rounded-[14px] border border-line bg-card p-2.5 text-xs font-bold md:p-3.5 md:text-sm">
@@ -104,10 +107,8 @@ function Home() {
           </div>
         </div>
 
-        <div className="mt-9 mb-4.5 rounded-2xl border border-line bg-card p-4 shadow-lift md:p-5">
-          <h2 className="text-[17px] font-extrabold tracking-tight md:text-[22px]">
-            ביקורות בגוגל
-          </h2>
+        <div className="mt-8 mb-4.5 rounded-2xl border border-line bg-card p-4 shadow-lift md:p-5">
+          <h2 className="text-[17px] font-extrabold tracking-tight md:text-[22px]">ביקורות בגוגל</h2>
           <p className="mt-1.5 text-sm text-muted md:text-[15px]">
             קראו ביקורות אמיתיות של לקוחות על חזי אורקור בנהריה במפות Google.
           </p>

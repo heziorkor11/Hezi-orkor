@@ -153,6 +153,21 @@ export async function loadFeatured(): Promise<Product[]> {
   }
 }
 
+export async function loadProductsBySkus(skus: readonly string[]): Promise<Product[]> {
+  try {
+    const { loadProductImpl } = await import("./catalog-listing");
+    const out: Product[] = [];
+    for (const sku of skus) {
+      const p = await loadProductImpl(sku);
+      if (p) out.push(p);
+    }
+    return out;
+  } catch (err) {
+    console.error("[catalog] loadProductsBySkus failed", err);
+    return [];
+  }
+}
+
 export async function loadProduct(sku: string): Promise<Product | undefined> {
   try {
     const { loadProductImpl } = await import("./catalog-listing");
