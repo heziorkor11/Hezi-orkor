@@ -16,7 +16,7 @@ const definitions={
 const newCategories=[['radiator','רדיאטורים'],['water-pump','משאבות מים'],['driveshaft','ציריות'],['hub','נאבות'],['steering-rack','מסרקי הגה'],['timing','טיימינג'],['throttle-body','בתי מצערת'],['cleaning-maintenance','ניקוי ותחזוקה']];
 const generalRules=[['radiator',/רדיאטור/],['water-pump',/משאבת מים|מ\. מים/],['general',/גומי ציריה|גומי צריה/],['driveshaft',/ציריה/],['hub',/נאבה/],['steering-rack',/מסרק הגה/],['timing',/טימינג|טיימינג|סט שרשרת/],['filters',/פילטר גיר|מסנן גיר/]];
 const manifest=JSON.parse(fs.readFileSync(root+'manifest.json','utf8'));
-const categories=manifest.categories.filter(c=>!['lights','oil-filter','cabin-filter'].includes(c.id)).map(c=>({id:c.id,name:c.name})).concat(newCategories.map(([id,name])=>({id,name})));
+const categories=manifest.categories.filter(c=>!['lights','oil-filter','cabin-filter','general'].includes(c.id)).map(c=>({id:c.id,name:c.name})).concat(newCategories.map(([id,name])=>({id,name})));
 const reviewed=JSON.parse(fs.readFileSync(root+'general-review-overrides.json','utf8')).bySku;
 const visibility=JSON.parse(fs.readFileSync(root+'visibility-overrides.json','utf8')).bySku;
 const bySku={};

@@ -1,5 +1,5 @@
 import { subcategories, normalizeDisplayCategory } from "@/lib/display-taxonomy";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { ActiveFilters } from "@/components/active-filters";
 import { DemoBanner } from "@/components/demo-banner";
 import { Finder } from "@/components/finder";
@@ -23,6 +23,13 @@ function num(v: unknown): number | undefined {
 }
 
 export const Route = createFileRoute("/results")({
+  beforeLoad: ({ search }) => {
+    const category = normalizeDisplayCategory(
+      typeof search.category === "string" && search.category.length > 0 ? search.category : undefined,
+    );
+    // Removed storefront category כללי — old bookmarks go home, no crash.
+    if (category === "general") throw redirect({ to: "/" });
+  },
   validateSearch: (search: Record<string, unknown>): ResultsSearch => ({
     type: str(search.type),
     make: str(search.make),
