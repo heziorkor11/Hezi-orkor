@@ -212,8 +212,7 @@ const out = {
     priceAscFirst5: report("asc", ascBrakes),
   },
 };
-await import("node:fs/promises").then((fs) =>
-  fs.writeFile(new URL("../artifacts/listing-sort-verify.json", root), JSON.stringify(out, null, 2)),
-);
+// Report only — avoid writing outside the repo (Vercel has no /artifacts).
+void out;
 console.log(JSON.stringify(out, null, 2));
 console.log("PASS listing sort: recommended + price-asc verified for ac-compressor and brakes");
