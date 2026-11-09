@@ -45,3 +45,5 @@ node scripts/check-wjs-batch-008.mjs
 node scripts/check-wjs-batch-009.mjs
 
 node scripts/check-wjs-batch-010.mjs
+
+node scripts/check-wjs-batch-011.mjs
