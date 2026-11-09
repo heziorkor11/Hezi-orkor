@@ -1,4 +1,5 @@
 import { hasRealProductImage, imagesFirst } from "./product-image-policy";
+import { parseListingSort, sortListingHits } from "./listing-sort";
 import { displaySpacing } from "@/lib/display-spacing";
 import { displayCategory, isHiddenProduct } from "@/lib/display-taxonomy";
 import { typeFromCategory, PAGE_SIZE, type ListingCard, type ListingResult, type ListingSearch, type Product, type SearchHit } from "@/lib/catalog-types";
@@ -171,8 +172,10 @@ export async function loadListingImpl(
   // Partition the full filtered result BEFORE pagination, not just the visible page.
   // Source rows with raw /products images are already rejected by resolveImage;
   // current usable catalog photos are resolved through the same SKU mapping as cards.
-  const hits = imagesFirst(cache.searchIndex.filter((hit) => opts.filterHit(hit, state)),
-    hit => hasRealProductImage(resolveImage(hit.sku, undefined, hit.oe)));
+  const filtered = cache.searchIndex.filter((hit) => opts.filterHit(hit, state));
+  const hasImage = (hit: SearchHit) =>
+    hasRealProductImage(resolveImage(hit.sku, undefined, hit.oe));
+  const hits = sortListingHits(filtered, parseListingSort(state.sort), hasImage);
   const pages = Math.max(1, Math.ceil(hits.length / PAGE_SIZE));
   const current = Math.min(page, pages);
   const slice = hits.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);

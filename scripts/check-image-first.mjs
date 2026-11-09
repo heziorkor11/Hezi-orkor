@@ -80,11 +80,53 @@ const hasImage = (hit) =>
   usable(maps[hit.sku]) &&
   !imageLooksLikeSharedOe(maps[hit.sku], hit.oe) &&
   hasRealProductImage(maps[hit.sku]);
+
+const pricesBySku = await json("prices.json");
+const hiddenPrices = new Set(((await json("price-hide-overrides.json").catch(() => ({ skus: [] }))).skus) || []);
+function catalogPrice(sku) {
+  if (!sku || hiddenPrices.has(sku)) return null;
+  const v = pricesBySku[sku];
+  return typeof v === "number" && Number.isFinite(v) && v > 0 ? v : null;
+}
+/** Mirrors src/lib/listing-sort.ts recommended + price sorts (no @ imports). */
+function sortHits(hits, mode, hasImage) {
+  const decorated = hits.map((hit, index) => ({ hit, index }));
+  const priceAsc = (sku) => {
+    const p = catalogPrice(sku);
+    return p == null ? [1, 0] : [0, p];
+  };
+  const priceDesc = (sku) => {
+    const p = catalogPrice(sku);
+    return p == null ? [1, 0] : [0, -p];
+  };
+  decorated.sort((a, b) => {
+    if (mode === "price-asc") {
+      const [am, ap] = priceAsc(a.hit.sku), [bm, bp] = priceAsc(b.hit.sku);
+      if (am !== bm) return am - bm;
+      if (ap !== bp) return ap - bp;
+      return a.index - b.index;
+    }
+    if (mode === "price-desc") {
+      const [am, ap] = priceDesc(a.hit.sku), [bm, bp] = priceDesc(b.hit.sku);
+      if (am !== bm) return am - bm;
+      if (ap !== bp) return ap - bp;
+      return a.index - b.index;
+    }
+    if (mode === "newest") return b.index - a.index;
+    const ia = hasImage(a.hit) ? 0 : 1, ib = hasImage(b.hit) ? 0 : 1;
+    if (ia !== ib) return ia - ib;
+    const [am, ap] = priceAsc(a.hit.sku), [bm, bp] = priceAsc(b.hit.sku);
+    if (am !== bm) return am - bm;
+    if (ap !== bp) return ap - bp;
+    return a.index - b.index;
+  });
+  return decorated.map((d) => d.hit);
+}
 const original = index.filter(
   (h) =>
     (taxonomy.bySku[h.sku]?.category || h.category) === "brakes" && !taxonomy.bySku[h.sku]?.hidden,
 );
-const expected = imagesFirst(original, hasImage).map((h) => h.sku);
+const expected = sortHits(original, "recommended", hasImage).map((h) => h.sku);
 const realCount = original.filter(hasImage).length;
 assert.ok(
   realCount > 60 && realCount < original.length,
@@ -119,7 +161,7 @@ const fluidsOriginal = index.filter(
   (h) =>
     (taxonomy.bySku[h.sku]?.category || h.category) === "fluids" && !taxonomy.bySku[h.sku]?.hidden,
 );
-const fluidsExpected = imagesFirst(fluidsOriginal, hasImage).map((h) => h.sku);
+const fluidsExpected = sortHits(fluidsOriginal, "recommended", hasImage).map((h) => h.sku);
 for (const p of [1, 2]) {
   const actual = skus(await page("/results?category=fluids&page=" + p));
   assert.deepEqual(actual, fluidsExpected.slice((p - 1) * 60, p * 60), "fluids page " + p);
@@ -133,7 +175,7 @@ const additiveOriginal = index.filter(
 );
 assert.deepEqual(
   skus(await page("/results?q=" + encodeURIComponent(query))),
-  imagesFirst(additiveOriginal, hasImage).map((h) => h.sku),
+  sortHits(additiveOriginal, "recommended", hasImage).map((h) => h.sku),
 );
 assert.equal(additiveOriginal.length, 17);
 assert.equal(skus(await page("/results?category=additives")).length, 17);

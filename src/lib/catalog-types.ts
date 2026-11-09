@@ -134,7 +134,13 @@ export type ProductFilter = {
   oilBrand?: string;
 };
 
-export type ListingSearch = ProductFilter & { page?: number };
+export type ListingSortParam = "price-asc" | "price-desc" | "newest";
+
+export type ListingSearch = ProductFilter & {
+  page?: number;
+  /** Listing sort. Omit for recommended (sale → new → rest, image, then price). */
+  sort?: ListingSortParam;
+};
 
 export type ListingResult = {
   items: Product[];
