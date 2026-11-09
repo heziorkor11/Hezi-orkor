@@ -38,7 +38,7 @@ export function HomeProductCarousel({
             <h2 className="text-[18px] font-extrabold tracking-tight md:text-2xl">{title}</h2>
             {subtitle ? (
               <>
-                <span className="mt-1 block h-0.5 w-10 rounded-full bg-accent" aria-hidden />
+                <span className="mt-1 block h-0.5 w-10 rounded-sm bg-accent" aria-hidden />
                 <p className="mt-1.5 text-xs text-muted md:text-sm">{subtitle}</p>
               </>
             ) : null}

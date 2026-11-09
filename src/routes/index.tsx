@@ -5,6 +5,7 @@ import { Finder } from "@/components/finder";
 import { HomeCategoryRail } from "@/components/home-category-rail";
 import { HomeHeroSlider } from "@/components/home-hero-slider";
 import { HomeParallaxBand } from "@/components/home-parallax-band";
+import { HomeBrandsRail } from "@/components/home-brands-rail";
 import { HomeProductCarousel } from "@/components/home-product-carousel";
 import { HomeSearchHero } from "@/components/home-search-hero";
 import { JsonLd } from "@/components/json-ld";
@@ -74,7 +75,7 @@ function Home() {
         title="מבצעי החודש"
         subtitle="בחירה מתוך הקטלוג — מחיר מחירון, בלי מחיר ישן מדומה"
         moreLabel="לכל הקטלוג"
-        moreHref="/results"
+        moreSearch={{}}
         products={deals}
         badge="מבצע"
       />
@@ -83,13 +84,15 @@ function Home() {
         title="מוצרים מומלצים"
         subtitle="חלקים עם תמונה מהקטלוג שלנו"
         moreLabel="עוד מוצרים"
-        moreHref="/results?category=brakes"
+        moreSearch={{ category: "brakes" }}
         products={recommended}
       />
 
       <div className="mx-auto max-w-[1180px]">
         <HomeParallaxBand />
       </div>
+
+      <HomeBrandsRail />
 
       <div className="mx-auto max-w-[1180px] px-3.5 pt-8 pb-8 md:px-5 md:pb-16">
         <div className="grid grid-cols-2 gap-2 md:gap-3">

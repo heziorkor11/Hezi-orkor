@@ -15,10 +15,10 @@ export function HomeCarouselCard({
   const add = useCart((s) => s.add);
 
   return (
-    <article className="home-carousel-card flex h-full flex-col overflow-hidden rounded-xl border border-line bg-card">
+    <article className="home-carousel-card sq-card flex h-full flex-col overflow-hidden border border-line bg-card">
       <Link to="/product/$id" params={{ id: product.id }} className="relative block">
         {badge ? (
-          <span className="absolute top-2 right-2 z-[1] rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-extrabold text-on-accent">
+          <span className="absolute top-2 right-2 z-[1] rounded-lg bg-accent px-2.5 py-0.5 text-[11px] font-extrabold text-on-accent">
             {badge}
           </span>
         ) : null}
@@ -39,7 +39,7 @@ export function HomeCarouselCard({
         <p className="text-lg font-extrabold tabular-nums text-fg">{priceOrQuoteLabel(product.sku)}</p>
         <button
           type="button"
-          className="mt-auto inline-flex h-11 w-full items-center justify-center rounded-lg bg-accent text-sm font-extrabold text-on-accent hover:bg-accent-hot"
+          className="sq-btn mt-auto inline-flex h-11 w-full items-center justify-center bg-accent text-sm font-extrabold text-on-accent hover:bg-accent-hot"
           onClick={() => {
             add(product.id, 1);
             toast.success("נוסף לרשימת ההצעה");

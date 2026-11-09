@@ -24,7 +24,7 @@ export function SiteFooter() {
           <p className="mt-1">
             {brand.taglineHe} · {brand.phone}
           </p>
-          <div className="mt-3 text-white/80">
+          <div className="mt-3 text-white/80 [&_.text-fg]:!text-white [&_.text-muted]:!text-white/55">
             <HoursWidget compact />
           </div>
         </div>

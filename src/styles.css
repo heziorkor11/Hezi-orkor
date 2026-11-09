@@ -25,6 +25,10 @@
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
+  /* iOS-style rounded squares ("ריבועים כמו אייפון") — never circles. */
+  --radius-tile: 22%;
+  --radius-card: 1.125rem;
+  --radius-btn: 0.875rem;
   --shadow-lift: 0 8px 24px rgb(0 0 0 / 0.06);
   --shadow-ember: 0 0 0 1px rgb(226 59 18 / 0.18), 0 12px 28px rgb(226 59 18 / 0.12);
   --z-index-float: 60;
@@ -181,19 +185,19 @@ details summary::-webkit-details-marker {
   }
 }
 
-.home-cat-circle {
+.home-cat-squircle {
   display: grid;
   width: 4.5rem;
   height: 4.5rem;
   place-items: center;
   overflow: hidden;
-  border-radius: 9999px;
+  border-radius: var(--radius-tile);
   border: 1px solid var(--color-line);
   background: #fff;
   box-shadow: var(--shadow-lift);
 }
 @media (min-width: 768px) {
-  .home-cat-circle {
+  .home-cat-squircle {
     width: 5.25rem;
     height: 5.25rem;
   }
@@ -219,7 +223,7 @@ details summary::-webkit-details-marker {
   place-items: center;
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: 9999px;
+  border-radius: var(--radius-btn);
   border: 1px solid var(--color-line);
   background: #fff;
   color: var(--color-fg);
@@ -237,8 +241,10 @@ details summary::-webkit-details-marker {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(135deg, rgb(18 18 18 / 0.88), rgb(226 59 18 / 0.55)),
+    linear-gradient(135deg, rgb(18 18 18 / 0.82) 15%, rgb(18 18 18 / 0.35) 60%, rgb(226 59 18 / 0.3)),
     radial-gradient(circle at 20% 20%, rgb(255 90 42 / 0.35), transparent 55%),
+    /* Our own brand image. TODO(image designer bot): swap for a wide polished banner. */
+    url("/brand/logo-frame.jpg") center / cover no-repeat,
     #1a1a1a;
   background-size: cover;
   background-position: center;
@@ -268,4 +274,31 @@ details summary::-webkit-details-marker {
 .home-h-scroll,
 .home-hero-scroller {
   max-width: 100%;
+}
+
+/* ---- Squircle shape system (site-wide). True superellipse where supported. ---- */
+.sq-tile {
+  border-radius: var(--radius-tile);
+}
+.sq-card {
+  border-radius: var(--radius-card);
+}
+.sq-btn {
+  border-radius: var(--radius-btn);
+}
+@supports (corner-shape: squircle) {
+  .sq-tile,
+  .home-cat-squircle {
+    corner-shape: squircle;
+    border-radius: 32%;
+  }
+  .sq-card {
+    corner-shape: squircle;
+    border-radius: 1.6rem;
+  }
+  .sq-btn,
+  .home-rail-arrow {
+    corner-shape: squircle;
+    border-radius: 1.25rem;
+  }
 }

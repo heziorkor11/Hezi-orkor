@@ -21,7 +21,7 @@ export function ShopShell({ children }: { children: ReactNode }) {
         href={`https://wa.me/${brand.whatsapp}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-4 left-4 z-float hidden size-14 place-items-center rounded-full bg-whatsapp text-white shadow-[0_10px_24px_rgb(37_211_102_/_0.35)] hover:brightness-110 md:grid"
+        className="fixed bottom-4 left-4 z-float hidden size-14 place-items-center sq-tile bg-whatsapp text-white shadow-[0_10px_24px_rgb(37_211_102_/_0.35)] hover:brightness-110 md:grid"
         aria-label={`שליחת הודעה בוואטסאפ ל${brand.nameHe}, ${brand.phone}`}
       >
         <WhatsAppIcon className="size-7" aria-hidden />

@@ -28,13 +28,14 @@ export function HomeHeroSlider() {
   const [paused, setPaused] = useState(false);
   const reduceMotion = usePrefersReducedMotion();
 
+  // RTL-safe: in an RTL scroller scrollLeft runs 0 → negative, so derive the
+  // slide from |scrollLeft| / width and scroll with the matching sign.
   const go = useCallback((i: number) => {
     const el = scroller.current;
     if (!el) return;
-    const slides = el.querySelectorAll<HTMLElement>("[data-hero-slide]");
-    const target = slides[i];
-    if (!target) return;
-    el.scrollTo({ left: target.offsetLeft, behavior: reduceMotion ? "auto" : "smooth" });
+    const rtl = getComputedStyle(el).direction === "rtl";
+    const left = i * el.clientWidth * (rtl ? -1 : 1);
+    el.scrollTo({ left, behavior: reduceMotion ? "auto" : "smooth" });
     setIndex(i);
   }, [reduceMotion]);
 
@@ -47,19 +48,9 @@ export function HomeHeroSlider() {
       ticking = true;
       requestAnimationFrame(() => {
         ticking = false;
-        const slides = [...el.querySelectorAll<HTMLElement>("[data-hero-slide]")];
-        if (!slides.length) return;
-        const mid = el.scrollLeft + el.clientWidth / 2;
-        let best = 0;
-        let bestDist = Infinity;
-        slides.forEach((s, i) => {
-          const c = s.offsetLeft + s.clientWidth / 2;
-          const d = Math.abs(c - mid);
-          if (d < bestDist) {
-            bestDist = d;
-            best = i;
-          }
-        });
+        const count = el.querySelectorAll("[data-hero-slide]").length;
+        if (!count || !el.clientWidth) return;
+        const best = Math.min(count - 1, Math.round(Math.abs(el.scrollLeft) / el.clientWidth));
         setIndex(best);
       });
     };
@@ -70,11 +61,10 @@ export function HomeHeroSlider() {
   useEffect(() => {
     if (paused || reduceMotion || homeHeroSlides.length < 2) return;
     const id = window.setInterval(() => {
-      setIndex((cur) => {
-        const next = (cur + 1) % homeHeroSlides.length;
-        go(next);
-        return next;
-      });
+      const el = scroller.current;
+      if (!el || !el.clientWidth) return;
+      const cur = Math.round(Math.abs(el.scrollLeft) / el.clientWidth);
+      go((cur + 1) % homeHeroSlides.length);
     }, 5500);
     return () => window.clearInterval(id);
   }, [paused, reduceMotion, go]);
@@ -102,6 +92,7 @@ export function HomeHeroSlider() {
               data-hero-slide
               className="relative w-full min-w-full shrink-0 snap-center snap-always"
               aria-hidden={i !== index}
+              inert={i !== index}
             >
               <div className="relative aspect-[5/4] max-h-[380px] w-full overflow-hidden bg-elevated md:aspect-[21/8] md:max-h-[360px]">
                 {slide.image ? (
@@ -134,14 +125,14 @@ export function HomeHeroSlider() {
                     <Link
                       to="/results"
                       search={link.search || {}}
-                      className="mt-2 inline-flex rounded-full bg-accent px-4 py-2.5 text-sm font-extrabold text-on-accent shadow-ember hover:bg-accent-hot"
+                      className="sq-btn mt-2 inline-flex bg-accent px-4 py-2.5 text-sm font-extrabold text-on-accent shadow-ember hover:bg-accent-hot"
                     >
                       {slide.ctaLabel}
                     </Link>
                   ) : (
                     <Link
                       to="/help"
-                      className="mt-2 inline-flex rounded-full bg-accent px-4 py-2.5 text-sm font-extrabold text-on-accent shadow-ember hover:bg-accent-hot"
+                      className="sq-btn mt-2 inline-flex bg-accent px-4 py-2.5 text-sm font-extrabold text-on-accent shadow-ember hover:bg-accent-hot"
                     >
                       {slide.ctaLabel}
                     </Link>

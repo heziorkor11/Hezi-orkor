@@ -1,8 +1,18 @@
 import { Link } from "@tanstack/react-router";
+import { ChevronLeft } from "lucide-react";
+import { useRef } from "react";
 import { CategoryImage } from "@/components/category-image";
 import { VISUAL_CATEGORIES } from "@/components/home-search-hero";
 
 export function HomeCategoryRail() {
+  const scroller = useRef<HTMLDivElement>(null);
+  function next() {
+    const el = scroller.current;
+    if (!el) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // RTL: further content lies to the left (negative scrollLeft).
+    el.scrollBy({ left: -el.clientWidth * 0.8, behavior: reduce ? "auto" : "smooth" });
+  }
   return (
     <section id="categories" className="scroll-mt-24 px-3.5 pt-6 md:px-5">
       <div className="mx-auto flex max-w-[1180px] items-end justify-between gap-3">
@@ -14,8 +24,10 @@ export function HomeCategoryRail() {
           לכל הקטגוריות
         </Link>
       </div>
+      <div className="relative mx-auto max-w-[1180px]">
       <div
-        className="home-h-scroll mx-auto mt-3 max-w-[1180px] snap-x snap-mandatory gap-3 px-0.5 pb-2"
+        ref={scroller}
+        className="home-h-scroll home-hero-scroller mx-auto mt-3 max-w-[1180px] gap-3 px-0.5 pb-2"
         role="list"
         aria-label="קטגוריות"
       >
@@ -25,9 +37,9 @@ export function HomeCategoryRail() {
             role="listitem"
             to="/results"
             search={{ category: c.id }}
-            className="home-cat-tile group snap-start"
+            className="home-cat-tile group"
           >
-            <span className="home-cat-circle">
+            <span className="home-cat-squircle">
               <CategoryImage
                 src={c.image}
                 alt={c.name}
@@ -39,6 +51,15 @@ export function HomeCategoryRail() {
             </span>
           </Link>
         ))}
+      </div>
+      <button
+        type="button"
+        onClick={next}
+        aria-label="עוד מחלקות"
+        className="home-rail-arrow left-0 top-[34%] grid -translate-y-1/2"
+      >
+        <ChevronLeft className="size-5" aria-hidden />
+      </button>
       </div>
     </section>
   );

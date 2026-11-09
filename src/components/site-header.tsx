@@ -36,6 +36,15 @@ export function SiteHeader() {
 
   return (
     <>
+      <div className="bg-[#121212] px-3.5 py-1.5 text-center text-[11.5px] font-semibold text-white/85 md:px-5 md:text-xs">
+        <span>המחירים כוללים מע״מ</span>
+        <span aria-hidden className="mx-2 text-accent-hot">•</span>
+        <span>בדיקת התאמה בוואטסאפ</span>
+        <span aria-hidden className="mx-2 hidden text-accent-hot sm:inline">•</span>
+        <a href={`tel:${brand.phoneTel}`} className="hidden hover:text-white sm:inline">
+          {brand.phone}
+        </a>
+      </div>
       <header className="sticky top-0 z-50 border-b border-line bg-panel/95 backdrop-blur-md">
           <div className="mx-auto flex max-w-[1180px] items-center justify-between gap-3 px-3.5 py-2.5 md:px-5">
             <Link to="/" className="flex min-w-0 items-center gap-2">
@@ -56,7 +65,7 @@ export function SiteHeader() {
                 href={`https://wa.me/${brand.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full bg-whatsapp px-3 py-2 text-xs font-extrabold text-[#062] md:px-3.5"
+                className="sq-btn bg-whatsapp px-3 py-2 text-xs font-extrabold text-[#062] md:px-3.5"
               >
                 וואטסאפ
               </a>
@@ -78,7 +87,7 @@ export function SiteHeader() {
                 <ShoppingBag className="size-4" />
                 <span className="hidden sm:inline">הצעה</span>
                 {count > 0 ? (
-                  <span className="absolute -top-2 -left-2 grid min-w-4.5 place-items-center rounded-full bg-accent px-1 text-[11px] font-bold text-on-accent tabular-nums">
+                  <span className="absolute -top-2 -left-2 grid min-w-4.5 place-items-center rounded-md bg-accent px-1 text-[11px] font-bold text-on-accent tabular-nums">
                     {count}
                   </span>
                 ) : null}
@@ -108,12 +117,12 @@ export function SiteHeader() {
               placeholder="חפש פריט | חלק חילוף | מק״ט | OE"
               autoComplete="off"
               suppressHydrationWarning
-              className="h-11 w-full rounded-full border border-line bg-elevated pr-4 pl-12 text-sm text-fg outline-none placeholder:text-subtle focus:border-accent focus:ring-2 focus:ring-accent/20"
+              className="sq-btn h-11 w-full border border-line bg-elevated pr-4 pl-12 text-sm text-fg outline-none placeholder:text-subtle focus:border-accent focus:ring-2 focus:ring-accent/20"
             />
             <button
               type="submit"
               aria-label="חיפוש"
-              className="absolute top-1/2 left-5 grid size-9 -translate-y-1/2 place-items-center rounded-full bg-accent text-on-accent hover:bg-accent-hot"
+              className="absolute top-1/2 left-5 grid size-9 -translate-y-1/2 place-items-center rounded-[10px] bg-accent text-on-accent hover:bg-accent-hot"
             >
               <Search className="size-4" />
             </button>
@@ -159,7 +168,7 @@ export function SiteHeader() {
             key={c.id}
             to="/results"
             search={{ category: c.id }}
-            className="shrink-0 rounded-full border border-line px-3.5 py-1.5 text-[13px] text-fg-soft transition-colors duration-150 hover:border-transparent hover:bg-accent hover:text-on-accent"
+            className="sq-btn shrink-0 border border-line px-3.5 py-1.5 text-[13px] text-fg-soft transition-colors duration-150 hover:border-transparent hover:bg-accent hover:text-on-accent"
           >
             {c.name}
           </Link>
