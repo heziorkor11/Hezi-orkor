@@ -1,11 +1,6 @@
-# WJS batch 006
+# WJS batch 006 (refreshed)
 
-Owner-approved code-matched WJS photos/drawings. Ready ZIPs only
-(`batch_006_ready_*.zip`, 3 archives). Needs-review archives were not opened.
+Re-imported from rebuilt `designed/zips` only (not `_backup_pre_ext_fix`).
+Source magic verified to match extensions. Lossless WebP outputs verified.
 
-Final: **193** imported (151 brakes + 42 shocks). Skipped: 73 needs-review +
-3 axle-category-conflict (front/rear mismatch between catalog title and
-source collection). No existing images replaced. Catalog prices/names unchanged.
-
-Lossless WebP from designed RGB 1200×1200 ZIP members. Filenames use
-`-code-matched.webp` or `-drawing.webp` suffixes.
+Final: **193** (151 brakes + 42 shocks). Skipped: 73 needs-review + 3 axle conflicts.
