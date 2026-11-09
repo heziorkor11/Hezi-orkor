@@ -12,11 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AccessibilityRouteImport } from './routes/accessibility'
+import { Route as CancelRouteImport } from './routes/cancel'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as LegalRouteImport } from './routes/legal'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResultsRouteImport } from './routes/results'
+import { Route as ReturnsRouteImport } from './routes/returns'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as LegalIndexRouteImport } from './routes/legal.index'
 import { Route as LegalSlugRouteImport } from './routes/legal.$slug'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
@@ -34,6 +39,16 @@ const SplatRoute = SplatRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccessibilityRoute = AccessibilityRouteImport.update({
+  id: '/accessibility',
+  path: '/accessibility',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CancelRoute = CancelRouteImport.update({
+  id: '/cancel',
+  path: '/cancel',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CartRoute = CartRouteImport.update({
@@ -56,9 +71,24 @@ const LegalRoute = LegalRouteImport.update({
   path: '/legal',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResultsRoute = ResultsRouteImport.update({
   id: '/results',
   path: '/results',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReturnsRoute = ReturnsRouteImport.update({
+  id: '/returns',
+  path: '/returns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalIndexRoute = LegalIndexRouteImport.update({
@@ -81,11 +111,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/about': typeof AboutRoute
+  '/accessibility': typeof AccessibilityRoute
+  '/cancel': typeof CancelRoute
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/help': typeof HelpRoute
   '/legal': typeof LegalRouteWithChildren
+  '/privacy': typeof PrivacyRoute
   '/results': typeof ResultsRoute
+  '/returns': typeof ReturnsRoute
+  '/terms': typeof TermsRoute
   '/legal/$slug': typeof LegalSlugRoute
   '/product/$id': typeof ProductIdRoute
   '/legal/': typeof LegalIndexRoute
@@ -94,10 +129,15 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/about': typeof AboutRoute
+  '/accessibility': typeof AccessibilityRoute
+  '/cancel': typeof CancelRoute
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/help': typeof HelpRoute
+  '/privacy': typeof PrivacyRoute
   '/results': typeof ResultsRoute
+  '/returns': typeof ReturnsRoute
+  '/terms': typeof TermsRoute
   '/legal/$slug': typeof LegalSlugRoute
   '/product/$id': typeof ProductIdRoute
   '/legal': typeof LegalIndexRoute
@@ -107,11 +147,16 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/about': typeof AboutRoute
+  '/accessibility': typeof AccessibilityRoute
+  '/cancel': typeof CancelRoute
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/help': typeof HelpRoute
   '/legal': typeof LegalRouteWithChildren
+  '/privacy': typeof PrivacyRoute
   '/results': typeof ResultsRoute
+  '/returns': typeof ReturnsRoute
+  '/terms': typeof TermsRoute
   '/legal/$slug': typeof LegalSlugRoute
   '/product/$id': typeof ProductIdRoute
   '/legal/': typeof LegalIndexRoute
@@ -122,11 +167,16 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/about'
+    | '/accessibility'
+    | '/cancel'
     | '/cart'
     | '/contact'
     | '/help'
     | '/legal'
+    | '/privacy'
     | '/results'
+    | '/returns'
+    | '/terms'
     | '/legal/$slug'
     | '/product/$id'
     | '/legal/'
@@ -135,10 +185,15 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/about'
+    | '/accessibility'
+    | '/cancel'
     | '/cart'
     | '/contact'
     | '/help'
+    | '/privacy'
     | '/results'
+    | '/returns'
+    | '/terms'
     | '/legal/$slug'
     | '/product/$id'
     | '/legal'
@@ -147,11 +202,16 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/about'
+    | '/accessibility'
+    | '/cancel'
     | '/cart'
     | '/contact'
     | '/help'
     | '/legal'
+    | '/privacy'
     | '/results'
+    | '/returns'
+    | '/terms'
     | '/legal/$slug'
     | '/product/$id'
     | '/legal/'
@@ -161,11 +221,16 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
   AboutRoute: typeof AboutRoute
+  AccessibilityRoute: typeof AccessibilityRoute
+  CancelRoute: typeof CancelRoute
   CartRoute: typeof CartRoute
   ContactRoute: typeof ContactRoute
   HelpRoute: typeof HelpRoute
   LegalRoute: typeof LegalRouteWithChildren
+  PrivacyRoute: typeof PrivacyRoute
   ResultsRoute: typeof ResultsRoute
+  ReturnsRoute: typeof ReturnsRoute
+  TermsRoute: typeof TermsRoute
   ProductIdRoute: typeof ProductIdRoute
 }
 
@@ -190,6 +255,20 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accessibility': {
+      id: '/accessibility'
+      path: '/accessibility'
+      fullPath: '/accessibility'
+      preLoaderRoute: typeof AccessibilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cancel': {
+      id: '/cancel'
+      path: '/cancel'
+      fullPath: '/cancel'
+      preLoaderRoute: typeof CancelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cart': {
@@ -220,11 +299,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LegalRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/results': {
       id: '/results'
       path: '/results'
       fullPath: '/results'
       preLoaderRoute: typeof ResultsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/returns': {
+      id: '/returns'
+      path: '/returns'
+      fullPath: '/returns'
+      preLoaderRoute: typeof ReturnsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal/': {
@@ -267,11 +367,16 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
   AboutRoute: AboutRoute,
+  AccessibilityRoute: AccessibilityRoute,
+  CancelRoute: CancelRoute,
   CartRoute: CartRoute,
   ContactRoute: ContactRoute,
   HelpRoute: HelpRoute,
   LegalRoute: LegalRouteWithChildren,
+  PrivacyRoute: PrivacyRoute,
   ResultsRoute: ResultsRoute,
+  ReturnsRoute: ReturnsRoute,
+  TermsRoute: TermsRoute,
   ProductIdRoute: ProductIdRoute,
 }
 export const routeTree = rootRouteImport

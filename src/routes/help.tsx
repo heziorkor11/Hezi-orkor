@@ -50,7 +50,7 @@ function HelpPage() {
           </FormField>
           <p className="text-xs text-muted">
             הפרטים נשלחים לוואטסאפ בלבד ואינם נשמרים בשרת האתר.{" "}
-            <Link to="/legal/$slug" params={{ slug: "privacy" }} className="underline hover:text-fg">
+            <Link to="/privacy" className="underline hover:text-fg">
               מדיניות פרטיות
             </Link>
           </p>

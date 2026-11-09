@@ -64,6 +64,7 @@ function Home() {
                 <div data-home-category-photo className="relative aspect-square w-full bg-white">
                   <CategoryImage
                     src={c.image}
+                    alt={c.name}
                     className="absolute inset-0 h-full w-full object-contain p-1"
                   />
                 </div>
@@ -102,6 +103,22 @@ function Home() {
               {brand.street}
             </span>
           </div>
+        </div>
+
+        <div
+          data-home-cancel-link
+          className="mt-6 mb-4 rounded-2xl border border-accent/35 bg-elevated/80 p-4 md:p-5"
+        >
+          <h2 className="text-[16px] font-extrabold tracking-tight md:text-lg">ביטול עסקה</h2>
+          <p className="mt-1.5 text-sm text-muted">
+            לפי חוק הגנת הצרכן — שליחת הודעת ביטול ברורה מדף הבית.
+          </p>
+          <Link
+            to="/cancel"
+            className="mt-3 inline-flex items-center justify-center rounded-xl border border-accent bg-card px-4 py-2.5 text-sm font-bold text-accent-hot hover:bg-accent hover:text-fg"
+          >
+            לטופס ביטול עסקה
+          </Link>
         </div>
 
         <div className="mt-9 mb-4.5 rounded-2xl border border-line bg-card p-4 shadow-lift md:p-5">

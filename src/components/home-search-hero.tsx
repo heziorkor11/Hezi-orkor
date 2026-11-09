@@ -122,7 +122,7 @@ export function HomeSearchHero() {
                     {p.image ? (
                       <img
                         src={p.image}
-                        alt=""
+                        alt={p.name}
                         className="max-h-14 object-contain"
                         loading="lazy"
                       />
@@ -147,6 +147,7 @@ export function HomeSearchHero() {
                   >
                     <CategoryImage
                       src={c.image}
+                      alt={c.name}
                       className="absolute inset-0 h-full w-full object-contain"
                     />
                   </div>

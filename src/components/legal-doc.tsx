@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { legalMeta, legalNav, type LegalSlug } from "@/lib/legal";
+import { legalPublicPaths } from "@/lib/business-legal";
 
 export function LegalDoc({
   slug,
@@ -8,7 +9,7 @@ export function LegalDoc({
   summary,
   children,
 }: {
-  slug: LegalSlug;
+  slug: LegalSlug | "returns" | "cancel";
   title: string;
   summary: string;
   children: ReactNode;
@@ -17,12 +18,14 @@ export function LegalDoc({
     <div className="mx-auto max-w-[760px] px-5 pt-10 pb-16">
       <nav aria-label="מסמכים משפטיים" className="mb-6 flex flex-wrap gap-2">
         {legalNav.map((item) => {
-          const active = item.slug === slug;
+          const active =
+            item.slug === slug ||
+            (slug === "returns" && item.slug === "cancellation") ||
+            (slug === "cancel" && item.slug === "cancellation");
           return (
             <Link
               key={item.slug}
-              to="/legal/$slug"
-              params={{ slug: item.slug }}
+              to={item.href}
               aria-current={active ? "page" : undefined}
               className={
                 active
@@ -34,14 +37,25 @@ export function LegalDoc({
             </Link>
           );
         })}
+        <Link
+          to={legalPublicPaths.cancel}
+          aria-current={slug === "cancel" ? "page" : undefined}
+          className={
+            slug === "cancel"
+              ? "rounded-full bg-accent px-3 py-1.5 text-xs font-bold text-fg"
+              : "rounded-full border border-line-strong px-3 py-1.5 text-xs font-semibold text-fg-soft hover:border-accent hover:text-fg"
+          }
+        >
+          טופס ביטול
+        </Link>
       </nav>
       <p className="text-xs font-semibold tracking-wide text-accent-warm">עודכן {legalMeta.lastUpdated}</p>
       <h1 className="mt-2 mb-3 text-3xl tracking-tight">{title}</h1>
       <p className="mb-8 leading-relaxed text-muted">{summary}</p>
       <div className="legal-prose space-y-6 text-[15px] leading-relaxed text-fg-soft">{children}</div>
       <p className="mt-10 border-t border-line pt-5 text-sm text-muted">
-        אין במסמך זה ייעוץ משפטי, והוא אינו גורע מזכויות הקבועות בדין הישראלי — לרבות חוק הגנת הצרכן,
-        חוק הגנת הפרטיות ותקנות הנגישות. סמכות השיפוט: {legalMeta.jurisdiction}, בכפוף לדין.
+        אין במסמך זה ייעוץ משפטי, והוא אינו גורע מזכויות הקבועות בדין הישראלי — לרבות חוק הגנת הצרכן, חוק הגנת
+        הפרטיות ותקנות הנגישות. סמכות השיפוט: {legalMeta.jurisdiction}, בכפוף לדין.
       </p>
     </div>
   );

@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { HoursWidget } from "@/components/hours-widget";
 import { brand } from "@/lib/brand";
+import { businessLegal, legalPublicPaths } from "@/lib/business-legal";
 import { legalNav } from "@/lib/legal";
 
 export function SiteFooter() {
@@ -18,6 +19,10 @@ export function SiteFooter() {
           <p className="mt-2 text-fg-soft">{brand.address}</p>
           <p className="mt-1">
             {brand.taglineHe} · {brand.phone}
+          </p>
+          <p className="mt-2 text-xs leading-relaxed text-muted">
+            פרטי עוסק למסמכים משפטיים: {businessLegal.companyName} · {businessLegal.companyId} ·{" "}
+            {businessLegal.address}
           </p>
           <div className="mt-3">
             <HoursWidget compact />
@@ -63,16 +68,26 @@ export function SiteFooter() {
               בקשת חלק
             </Link>
           </p>
+          <p className="mt-1">
+            <Link to={legalPublicPaths.cancel} className="font-semibold text-accent-hot hover:text-fg">
+              ביטול עסקה
+            </Link>
+          </p>
         </div>
         <div>
           <strong className="text-fg">משפטי ונגישות</strong>
           {legalNav.map((item) => (
             <p key={item.slug} className="mt-1 first:mt-2">
-              <Link to="/legal/$slug" params={{ slug: item.slug }} className="hover:text-fg">
+              <Link to={item.href} className="hover:text-fg">
                 {item.title}
               </Link>
             </p>
           ))}
+          <p className="mt-1">
+            <Link to={legalPublicPaths.cancel} className="hover:text-fg">
+              טופס ביטול עסקה
+            </Link>
+          </p>
           <p className="mt-1">
             <Link to="/legal" className="hover:text-fg">
               כל המסמכים
@@ -81,7 +96,7 @@ export function SiteFooter() {
         </div>
       </div>
       <p className="mx-auto mt-8 max-w-[1180px] text-xs leading-relaxed">
-        המחיר וההתאמה מאושרים לפני תשלום. אין סליקה באתר. הסל באתר הוא רשימת הצעת מחיר בלבד.
+        {businessLegal.vatNote} {businessLegal.finalQuoteNote} אין סליקה באתר. הסל הוא רשימת הצעת מחיר בלבד.
       </p>
     </footer>
   );

@@ -459,16 +459,14 @@ function CartPage() {
               </p>
               <p className="mb-4 text-sm text-muted">
                 <Link
-                  to="/legal/$slug"
-                  params={{ slug: "cancellation" }}
+                  to="/cancel"
                   className="underline hover:text-fg"
                 >
                   ביטול עסקה
                 </Link>
                 {" · "}
                 <Link
-                  to="/legal/$slug"
-                  params={{ slug: "terms" }}
+                  to="/terms"
                   className="underline hover:text-fg"
                 >
                   תנאי שימוש

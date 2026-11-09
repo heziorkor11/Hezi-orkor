@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 /** Handle both post-hydration errors and failures cached before hydration. No fake photo. */
-export function CategoryImage({ src, className = "" }: { src?: string; className?: string }) {
+export function CategoryImage({ src, alt = "", className = "" }: { src?: string; alt?: string; className?: string }) {
   const [failed, setFailed] = useState(false);
   const ref = useRef<HTMLImageElement>(null);
   useEffect(() => {
@@ -24,7 +24,7 @@ export function CategoryImage({ src, className = "" }: { src?: string; className
     <img
       ref={ref}
       src={src}
-      alt=""
+      alt={alt}
       width={160}
       height={100}
       className={className}
