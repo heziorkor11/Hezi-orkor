@@ -121,6 +121,7 @@ export function SiteHeader() {
           >
             <CategoryImage
               src={categoryImage("workshop-packs")}
+              alt="מחירי מוסך / מארזים"
               className="size-9 rounded object-contain"
             />
             מחירי מוסך / מארזים

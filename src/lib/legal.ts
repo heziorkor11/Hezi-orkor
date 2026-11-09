@@ -1,10 +1,11 @@
+import { businessLegal, legalPublicPaths } from "@/lib/business-legal";
 
 export const legalMeta = {
-  lastUpdated: "2 בספטמבר 2026",
-  lastUpdatedIso: "2026-09-02",
-  coordinatorName: "חזי אורקור",
-  jurisdiction: "בתי המשפט המוסמכים במחוז חיפה",
-  standard: "ת״י 5568 (WCAG 2.0 רמת AA)",
+  lastUpdated: businessLegal.lastUpdated,
+  lastUpdatedIso: businessLegal.lastUpdatedIso,
+  coordinatorName: businessLegal.accessibilityCoordinator,
+  jurisdiction: businessLegal.jurisdiction,
+  standard: businessLegal.accessibilityStandard,
 } as const;
 
 export const legalSlugs = ["terms", "privacy", "accessibility", "cancellation", "shipping"] as const;
@@ -14,10 +15,11 @@ export function isLegalSlug(value: string): value is LegalSlug {
   return (legalSlugs as readonly string[]).includes(value);
 }
 
-export const legalNav: { slug: LegalSlug; title: string }[] = [
-  { slug: "terms", title: "תנאי שימוש" },
-  { slug: "privacy", title: "מדיניות פרטיות" },
-  { slug: "accessibility", title: "הצהרת נגישות" },
-  { slug: "cancellation", title: "ביטול עסקה" },
-  { slug: "shipping", title: "משלוח ואחריות" },
+/** Primary public URLs (short paths preferred; shipping stays under /legal). */
+export const legalNav: { slug: LegalSlug; title: string; href: string }[] = [
+  { slug: "terms", title: "תנאי שימוש", href: legalPublicPaths.terms },
+  { slug: "privacy", title: "מדיניות פרטיות", href: legalPublicPaths.privacy },
+  { slug: "accessibility", title: "הצהרת נגישות", href: legalPublicPaths.accessibility },
+  { slug: "cancellation", title: "ביטול והחזרות", href: legalPublicPaths.returns },
+  { slug: "shipping", title: "משלוח ואחריות", href: legalPublicPaths.shipping },
 ];

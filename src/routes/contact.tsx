@@ -115,12 +115,12 @@ function ContactPage() {
                   name="note"
                   rows={4}
                   placeholder="מק״ט, דגם, שנה…"
-                  className="w-full rounded-md border border-line-strong bg-paper px-3 py-2 text-sm text-fg outline-none placeholder:text-subtle focus:border-accent-hot focus:ring-2 focus:ring-accent/30"
+                  className="w-full rounded-md border border-line-strong bg-paper px-3 py-2 text-sm text-fg outline-none placeholder:text-subtle focus:border-accent-hot focus:ring-2 focus:ring-accent/30 focus-visible:ring-2 focus-visible:ring-accent-hot/70"
                 />
               </FormField>
               <p className="text-xs text-muted">
                 ההודעה נפתחת בוואטסאפ ואינה נשמרת בשרת האתר.{" "}
-                <Link to="/legal/$slug" params={{ slug: "privacy" }} className="underline hover:text-fg">
+                <Link to="/privacy" className="underline hover:text-fg">
                   מדיניות פרטיות
                 </Link>
               </p>
