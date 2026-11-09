@@ -1,6 +1,7 @@
 import { subcategories, normalizeDisplayCategory } from "@/lib/display-taxonomy";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ActiveFilters } from "@/components/active-filters";
+import { ListingSortControl } from "@/components/listing-sort-control";
 import { DemoBanner } from "@/components/demo-banner";
 import { Finder } from "@/components/finder";
 import { FluidsFilters } from "@/components/fluids-filters";
@@ -8,6 +9,7 @@ import { Pagination } from "@/components/pagination";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { categoryName, loadListing, type ListingSearch } from "@/lib/catalog";
+import { parseListingSort } from "@/lib/listing-sort";
 import { FLUID_KIND_LABELS, type FluidKind } from "@/lib/fluid-classify";
 import { pageDescription, pageTitle } from "@/lib/seo";
 
@@ -22,6 +24,11 @@ function num(v: unknown): number | undefined {
   return Number.isFinite(n) && n > 1 ? Math.floor(n) : undefined;
 }
 
+function sortParam(v: unknown): ResultsSearch["sort"] {
+  const parsed = parseListingSort(v);
+  return parsed === "recommended" ? undefined : parsed;
+}
+
 export const Route = createFileRoute("/results")({
   validateSearch: (search: Record<string, unknown>): ResultsSearch => ({
     type: str(search.type),
@@ -34,6 +41,7 @@ export const Route = createFileRoute("/results")({
     fluidKind: str(search.fluidKind),
     oilBrand: str(search.oilBrand),
     page: num(search.page),
+    sort: sortParam(search.sort),
   }),
   loaderDeps: ({ search }) => search,
   loader: ({ deps }) =>
@@ -155,6 +163,7 @@ function ResultsPage() {
               ))}
           </nav>
         ) : null}
+        <ListingSortControl state={state} />
         <ActiveFilters state={state} />
         {listing.items.length ? (
           <>
