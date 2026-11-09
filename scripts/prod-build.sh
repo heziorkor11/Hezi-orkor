@@ -39,3 +39,5 @@ node scripts/check-wjs-batch-005-drawings.mjs
 node scripts/check-wjs-batch-006.mjs
 
 node scripts/check-wjs-batch-007.mjs
+
+node scripts/check-wjs-batch-008.mjs
