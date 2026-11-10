@@ -25,6 +25,10 @@
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
+  /* iOS-style rounded squares ("ריבועים כמו אייפון") — never circles. */
+  --radius-tile: 22%;
+  --radius-card: 1.125rem;
+  --radius-btn: 0.875rem;
   --shadow-lift: 0 8px 24px rgb(0 0 0 / 0.06);
   --shadow-ember: 0 0 0 1px rgb(226 59 18 / 0.18), 0 12px 28px rgb(226 59 18 / 0.12);
   --z-index-float: 60;
@@ -132,5 +136,169 @@ details summary::-webkit-details-marker {
   html { scroll-padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
   #main-content :is(button, a, input, select, textarea) {
     scroll-margin-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ——— Home redesign (autonahariya structure, Hezi colors) ——— */
+.home-hero-scroller {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.home-hero-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes home-hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.home-hero-copy-in {
+  animation: home-hero-fade-up 420ms var(--ease-out) both;
+}
+
+.home-h-scroll {
+  display: flex;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.home-cat-tile {
+  display: flex;
+  width: 4.85rem;
+  min-width: 4.85rem;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+}
+@media (min-width: 768px) {
+  .home-cat-tile {
+    width: 5.5rem;
+    min-width: 5.5rem;
+  }
+}
+
+.home-cat-squircle {
+  display: grid;
+  width: 4.5rem;
+  height: 4.5rem;
+  place-items: center;
+  overflow: hidden;
+  border-radius: var(--radius-tile);
+  border: 1px solid var(--color-line);
+  background: #fff;
+  box-shadow: var(--shadow-lift);
+}
+@media (min-width: 768px) {
+  .home-cat-squircle {
+    width: 5.25rem;
+    height: 5.25rem;
+  }
+}
+
+/* ~2 cards visible on mobile (~4.5 cats already via tile width) */
+.home-product-slide {
+  width: min(48vw, 11.5rem);
+  min-width: min(48vw, 11.5rem);
+  flex-shrink: 0;
+}
+@media (min-width: 768px) {
+  .home-product-slide {
+    width: 14rem;
+    min-width: 14rem;
+  }
+}
+
+.home-rail-arrow {
+  position: absolute;
+  top: 40%;
+  z-index: 2;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-btn);
+  border: 1px solid var(--color-line);
+  background: #fff;
+  color: var(--color-fg);
+  box-shadow: var(--shadow-lift);
+}
+.home-rail-arrow:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.home-parallax-band {
+  min-height: 220px;
+}
+.home-parallax-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgb(18 18 18 / 0.82) 15%, rgb(18 18 18 / 0.35) 60%, rgb(226 59 18 / 0.3)),
+    radial-gradient(circle at 20% 20%, rgb(255 90 42 / 0.35), transparent 55%),
+    /* Our own brand image. TODO(image designer bot): swap for a wide polished banner. */
+    url("/brand/logo-frame.jpg") center / cover no-repeat,
+    #1a1a1a;
+  background-size: cover;
+  background-position: center;
+}
+@supports (background-attachment: fixed) {
+  @media (hover: hover) and (pointer: fine) {
+    .home-parallax-bg {
+      background-attachment: fixed;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero-copy-in {
+    animation: none;
+  }
+  .home-hero-scroller,
+  .home-h-scroll {
+    scroll-behavior: auto;
+  }
+  .home-parallax-bg {
+    background-attachment: scroll !important;
+  }
+}
+
+/* Prevent horizontal page overflow from rails */
+.home-h-scroll,
+.home-hero-scroller {
+  max-width: 100%;
+}
+
+/* ---- Squircle shape system (site-wide). True superellipse where supported. ---- */
+.sq-tile {
+  border-radius: var(--radius-tile);
+}
+.sq-card {
+  border-radius: var(--radius-card);
+}
+.sq-btn {
+  border-radius: var(--radius-btn);
+}
+@supports (corner-shape: squircle) {
+  .sq-tile,
+  .home-cat-squircle {
+    corner-shape: squircle;
+    border-radius: 32%;
+  }
+  .sq-card {
+    corner-shape: squircle;
+    border-radius: 1.6rem;
+  }
+  .sq-btn,
+  .home-rail-arrow {
+    corner-shape: squircle;
+    border-radius: 1.25rem;
   }
 }

@@ -39,7 +39,7 @@ export function ProductCard({
   const hideFit = hideVehicleFitmentForFluid(product.category, product.name);
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-card transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-lift motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+    <article className="sq-card group flex h-full flex-col overflow-hidden border border-line bg-card transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-lift motion-reduce:transition-none motion-reduce:hover:translate-y-0">
       <Link to="/product/$id" params={{ id: product.id }} className="block">
         <div className="border-b border-line bg-card px-3 py-2">
           <span className="text-[11px] font-bold text-accent">מק״ט {product.sku}</span>
@@ -153,7 +153,7 @@ export function ProductCard({
             href={waLink(quoteMessage(product))}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-11 items-center justify-center gap-1 rounded-md border border-line-strong bg-elevated px-3 text-sm font-semibold text-fg-soft hover:border-accent hover:text-fg"
+            className="sq-btn inline-flex h-11 items-center justify-center gap-1 border border-line-strong bg-elevated px-3 text-sm font-semibold text-fg-soft hover:border-accent hover:text-fg"
           >
             <WhatsAppIcon className="size-4" />
             לבירור מלאי
