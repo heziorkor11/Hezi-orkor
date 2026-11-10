@@ -16,8 +16,8 @@ test("cart preserves existing unit prices, quantity multiplication and quote-onl
  assert.equal(summarizeCart([],resolve).subtotal,0);
  assert.equal(summarizeCart([{sku:"hidden",qty:3}],()=>null).quoteCount,1);
 });
-test("headlight footer uses actual lights slug, never radiator", async () => {
+test("footer gates the lights link behind the hidden-categories switch and never uses radiator", async () => {
  const footer = await readFile(new URL("../src/components/site-footer.tsx", import.meta.url),"utf8");
- assert.match(footer,/category: "lights"[\s\S]{0,90}פנס ראשי/);
+ assert.match(footer,/isHiddenCategory\("lights"\)/);
  assert.doesNotMatch(footer,/category: "radiator"[\s\S]{0,90}פנס ראשי/);
 });

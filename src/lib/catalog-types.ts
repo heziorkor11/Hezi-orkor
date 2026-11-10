@@ -1,4 +1,4 @@
-import { displayCategories } from "@/lib/display-taxonomy";
+import { displayCategories, isHiddenCategory } from "@/lib/display-taxonomy";
 import catalogManifest from "../../public/catalog/manifest.json";
 export type VehicleFitment = {
   make: string;
@@ -188,7 +188,7 @@ export function typeFromCategory(category?: string): PartTypeId {
 export const categories: {id:string;name:string}[] = displayCategories;
 export const visibleCategories = categories.filter((c) => c.id !== "workshop-packs" && c.id !== "general");
 
-export const partTypes: { id: PartTypeId; name: string; category: string }[] = [
+const allPartTypes: { id: PartTypeId; name: string; category: string }[] = [
   { id: "headlight", name: "פנס ראשי", category: "lights" },
   { id: "taillight", name: "פנס אחורי", category: "lights" },
   { id: "foglight", name: "פנס ערפל", category: "lighting" },
@@ -215,6 +215,8 @@ export const partTypes: { id: PartTypeId; name: string; category: string }[] = [
   { id: "battery", name: "מצבר / בוסטר", category: "electrical" },
   { id: "accessory", name: "אביזר כללי", category: "accessories" },
 ];
+
+export const partTypes = allPartTypes.filter((t) => !isHiddenCategory(t.category));
 
 export const reviews: { name: string; text: string; stars: number }[] = [];
 
