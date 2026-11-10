@@ -1,4 +1,4 @@
-import { subcategories, normalizeDisplayCategory } from "@/lib/display-taxonomy";
+import { subcategories, normalizeDisplayCategory, isHiddenCategory } from "@/lib/display-taxonomy";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { ActiveFilters } from "@/components/active-filters";
 import { CategoryPhotoTiles } from "@/components/category-photo-tiles";
@@ -30,6 +30,8 @@ export const Route = createFileRoute("/results")({
     );
     // Removed storefront category כללי — old bookmarks go home, no crash.
     if (category === "general") throw redirect({ to: "/" });
+    // Hidden categories (see public/catalog/hidden-categories.json) disappear completely.
+    if (isHiddenCategory(category)) throw redirect({ to: "/results" });
   },
   validateSearch: (search: Record<string, unknown>): ResultsSearch => ({
     type: str(search.type),
@@ -180,16 +182,6 @@ function ResultsPage() {
             </div>
             <Pagination page={listing.page} total={listing.total} search={state} />
           </>
-        ) : state.category === "lights" ? (
-          <section className="rounded-xl border border-line bg-card p-7 text-center">
-            <h2 className="mb-2 text-lg font-semibold">פנסים ראשיים אינם מוצגים כרגע באתר</h2>
-            <p className="mb-4 text-muted">
-              לפנייה לגבי פנס ראשי שלחו מק״ט או מספר רכב לחנות. אין כאן מוצרים מקטגוריית רדיאטורים.
-            </p>
-            <Link to="/help">
-              <Button>דברו איתנו</Button>
-            </Link>
-          </section>
         ) : (
           <div className="rounded-xl border border-line bg-card p-7 text-center">
             <h2 className="mb-2 text-lg font-semibold">לא מצאנו התאמה בקטלוג</h2>

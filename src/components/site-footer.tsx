@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { HoursWidget } from "@/components/hours-widget";
 import { brand } from "@/lib/brand";
 import { legalNav } from "@/lib/legal";
+import { isHiddenCategory } from "@/lib/display-taxonomy";
 
 export function SiteFooter() {
   return (
@@ -35,11 +36,13 @@ export function SiteFooter() {
               בורר רכב
             </Link>
           </p>
-          <p className="mt-1">
-            <Link to="/results" search={{ category: "lights" }} className="hover:text-white">
-              פנס ראשי
-            </Link>
-          </p>
+          {!isHiddenCategory("lights") ? (
+            <p className="mt-1">
+              <Link to="/results" search={{ category: "lights" }} className="hover:text-white">
+                פנס ראשי
+              </Link>
+            </p>
+          ) : null}
           <p className="mt-1">
             <Link to="/results" search={{ category: "brakes" }} className="hover:text-white">
               בלמים

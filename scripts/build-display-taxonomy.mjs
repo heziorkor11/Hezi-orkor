@@ -16,7 +16,11 @@ const definitions={
 const newCategories=[['radiator','רדיאטורים'],['water-pump','משאבות מים'],['driveshaft','ציריות'],['hub','נאבות'],['steering-rack','מסרקי הגה'],['timing','טיימינג'],['throttle-body','בתי מצערת'],['cleaning-maintenance','ניקוי ותחזוקה']];
 const generalRules=[['radiator',/רדיאטור/],['water-pump',/משאבת מים|מ\. מים/],['general',/גומי ציריה|גומי צריה/],['driveshaft',/ציריה/],['hub',/נאבה/],['steering-rack',/מסרק הגה/],['timing',/טימינג|טיימינג|סט שרשרת/],['filters',/פילטר גיר|מסנן גיר/]];
 const manifest=JSON.parse(fs.readFileSync(root+'manifest.json','utf8'));
-const categories=manifest.categories.filter(c=>!['lights','oil-filter','cabin-filter','general'].includes(c.id)).map(c=>({id:c.id,name:c.name})).concat(newCategories.map(([id,name])=>({id,name})));
+const hiddenCfg=JSON.parse(fs.readFileSync(root+'hidden-categories.json','utf8'));
+if(!Array.isArray(hiddenCfg.hiddenCategories)) throw new Error('hidden-categories.json hiddenCategories must be an array');
+// Category hides are applied at runtime from that file, so this JSON keeps those categories for a reversible switch.
+// Structural merges (oil-filter, cabin-filter, general) stay out of the storefront category list.
+const categories=manifest.categories.filter(c=>!['oil-filter','cabin-filter','general'].includes(c.id)).map(c=>({id:c.id,name:c.name})).concat(newCategories.map(([id,name])=>({id,name})));
 const reviewed=JSON.parse(fs.readFileSync(root+'general-review-overrides.json','utf8')).bySku;
 const visibility=JSON.parse(fs.readFileSync(root+'visibility-overrides.json','utf8')).bySku;
 const bySku={};
@@ -26,7 +30,8 @@ for(const p of products){
  if(['oil-filter','cabin-filter'].includes(category))category='filters';
  if(reviewed[p.sku])category=reviewed[p.sku].category;
  const sub=definitions[category]?.find(([, , re])=>re.test(text))?.[0];
- bySku[p.sku]={category,...(sub?{sub}:{}),...(p.category==='lights'||visibility[p.sku]?.hidden?{hidden:true}:{})};
+ // Per-SKU hides come only from visibility-overrides. Category hides are applied at runtime from hidden-categories.json.
+ bySku[p.sku]={category,...(sub?{sub}:{}),...(visibility[p.sku]?.hidden?{hidden:true}:{})};
 }
 for(const c of categories)c.count=products.filter(p=>bySku[p.sku].category===c.id&&!bySku[p.sku].hidden).length;
 const subcategories=Object.fromEntries(Object.entries(definitions).map(([category,defs])=>[category,defs.map(([id,name,re])=>({id,name,rule:re.source,count:products.filter(p=>bySku[p.sku].category===category&&bySku[p.sku].sub===id&&!bySku[p.sku].hidden).length}))]));

@@ -8,6 +8,7 @@ import {
   type VehicleFitment,
 } from "@/lib/catalog-types";
 import { catalogJson } from "@/lib/catalog-io";
+import { isHiddenCategory } from "@/lib/display-taxonomy";
 import { buildQuickQuoteMessage, waLinkForText } from "@/lib/order-quote";
 
 type Cache = {
@@ -22,7 +23,7 @@ export function unique<T>(arr: T[]): T[] {
 }
 
 export function categoryName(id?: string) {
-  if (!id) return undefined;
+  if (!id || isHiddenCategory(id)) return undefined;
   return categories.find((c) => c.id === id)?.name || (id === "lights" ? "פנסים ראשיים" : undefined);
 }
 
