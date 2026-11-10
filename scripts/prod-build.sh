@@ -47,3 +47,5 @@ node scripts/check-wjs-batch-009.mjs
 node scripts/check-wjs-batch-010.mjs
 
 node scripts/check-wjs-batch-011.mjs
+
+node scripts/check-autodoc-batch-a01.mjs
