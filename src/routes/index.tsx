@@ -7,7 +7,6 @@ import { HomeHeroSlider } from "@/components/home-hero-slider";
 import { HomeParallaxBand } from "@/components/home-parallax-band";
 import { HomeBrandsRail } from "@/components/home-brands-rail";
 import { HomeProductCarousel } from "@/components/home-product-carousel";
-import { HomeSearchHero } from "@/components/home-search-hero";
 import { JsonLd } from "@/components/json-ld";
 import { brand } from "@/lib/brand";
 import { categoryName, faqs, loadProductsBySkus } from "@/lib/catalog";
@@ -49,13 +48,7 @@ function Home() {
 
       <HomeHeroSlider />
 
-      <div id="search" className="scroll-mt-28 px-3.5 pt-5 md:px-5">
-        <div className="mx-auto max-w-[720px]">
-          <HomeSearchHero />
-        </div>
-      </div>
-
-      <section className="px-3.5 pt-4 md:px-5">
+      <section className="px-3.5 pt-5 md:px-5">
         <div className="mx-auto max-w-[720px]">
           <h2 className="mb-1 text-[17px] font-extrabold md:text-2xl">לפי קטגוריה או רכב</h2>
           <p className="mb-3 text-xs text-muted md:text-sm">

@@ -97,6 +97,7 @@ export function SiteHeader() {
         </header>
 
         <div
+          id="search"
           className={cn(
             "z-40 border-b border-line bg-panel/95 backdrop-blur-md",
             searchUnstuck ? "relative" : "sticky top-[53px] md:top-[61px]",
