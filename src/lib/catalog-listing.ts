@@ -160,6 +160,17 @@ export async function loadRelatedImpl(product: Product, limit = 4): Promise<Prod
   return imagesFirst(pool, p => hasRealProductImage(p.image)).slice(0, limit);
 }
 
+
+export async function loadSearchHits(): Promise<SearchHit[]> {
+  await loadImageMap();
+  if (!cache.searchIndex) cache.searchIndex = await catalogJson<SearchHit[]>("search-index.json");
+  return cache.searchIndex;
+}
+
+export function resolveProductImage(sku: string, oe?: string): string | undefined {
+  return resolveImage(sku, undefined, oe);
+}
+
 export async function loadListingImpl(
   state: ListingSearch,
   opts: { filterHit: (hit: SearchHit, state: ListingSearch) => boolean },

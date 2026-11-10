@@ -132,6 +132,12 @@ export type ProductFilter = {
   fluidKind?: string;
   /** Lubricant brand filter (MOTUL, TOTAL, …, אחר) */
   oilBrand?: string;
+  /** Engine-oil grade parsed from the title, e.g. 5W-30 */
+  viscosity?: string;
+  /** Axle from the title: front | rear */
+  axle?: string;
+  /** Side from title tokens: left | right */
+  hand?: string;
 };
 
 export type ListingSearch = ProductFilter & { page?: number };

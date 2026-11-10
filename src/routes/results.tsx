@@ -1,13 +1,14 @@
 import { subcategories, normalizeDisplayCategory } from "@/lib/display-taxonomy";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { ActiveFilters } from "@/components/active-filters";
+import { CategoryPhotoTiles } from "@/components/category-photo-tiles";
 import { DemoBanner } from "@/components/demo-banner";
 import { Finder } from "@/components/finder";
 import { FluidsFilters } from "@/components/fluids-filters";
 import { Pagination } from "@/components/pagination";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
-import { categoryName, loadListing, type ListingSearch } from "@/lib/catalog";
+import { categoryName, loadCategoryTiles, loadListing, type ListingSearch } from "@/lib/catalog";
 import { FLUID_KIND_LABELS, type FluidKind } from "@/lib/fluid-classify";
 import { pageDescription, pageTitle } from "@/lib/seo";
 
@@ -40,13 +41,20 @@ export const Route = createFileRoute("/results")({
     sub: str(search.sub),
     fluidKind: str(search.fluidKind),
     oilBrand: str(search.oilBrand),
+    viscosity: str(search.viscosity),
+    axle: str(search.axle),
+    hand: str(search.hand),
     page: num(search.page),
   }),
   loaderDeps: ({ search }) => search,
-  loader: ({ deps }) =>
-    deps.category && !categoryName(deps.category)
-      ? { items: [], total: 0, page: 1, pages: 0 }
-      : loadListing(deps),
+  loader: async ({ deps }) => {
+    if (deps.category && !categoryName(deps.category)) {
+      return { items: [], total: 0, page: 1, pages: 0, tiles: [] };
+    }
+    const listing = await loadListing(deps);
+    const tiles = await loadCategoryTiles(deps);
+    return { ...listing, tiles };
+  },
   pendingComponent: PendingResults,
   head: ({ match }) => {
     const s = match.search;
@@ -119,14 +127,6 @@ function ResultsPage() {
   }
   return (
     <>
-      {!isFluids ? (
-        <section
-          className="flex justify-center border-b border-line bg-panel px-3.5 py-5 md:px-5 md:py-7"
-          id="search"
-        >
-          <Finder key={JSON.stringify({ ...state, page: undefined })} state={state} />
-        </section>
-      ) : null}
       <div className="mx-auto max-w-[1180px] px-5 pt-7 pb-16">
         <DemoBanner />
         <div className="mb-4.5">
@@ -136,10 +136,18 @@ function ResultsPage() {
             {listing.pages > 1 ? ` · עמוד ${listing.page} מתוך ${listing.pages}` : ""}
           </p>
         </div>
+        <CategoryPhotoTiles tiles={listing.tiles || []} />
         {isFluids ? (
           <FluidsFilters state={{ ...state, category: state.category || "fluids" }} />
-        ) : null}
-        {state.category && state.category !== "fluids" && subcategories[state.category] ? (
+        ) : (
+          <section
+            className="mb-6 flex justify-center border border-line bg-panel px-3.5 py-5 md:px-5 md:py-7"
+            id="search"
+          >
+            <Finder key={JSON.stringify({ ...state, page: undefined })} state={state} />
+          </section>
+        )}
+        {!listing.tiles?.length && state.category && state.category !== "fluids" && subcategories[state.category] ? (
           <nav aria-label="תתי קטגוריות" className="mb-5 flex flex-wrap gap-2">
             <Link
               to="/results"
