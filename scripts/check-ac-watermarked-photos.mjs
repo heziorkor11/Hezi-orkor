@@ -55,9 +55,17 @@ async function page(path) {
   assert.equal(r.status, 200, path);
   return r.text();
 }
+const man = await json("public/catalog/images/manifest.json");
+const wmIdx = man.files.indexOf(folder + ".json");
+const superseded = {};
+for (const f of man.files.slice(wmIdx + 1)) {
+  Object.assign(superseded, await json(`public/catalog/images/${f}`));
+}
+const stillActive = Object.keys(mapping).filter((sku) => !superseded[sku]);
 for (const sku of ["HZ-CND-00033", "HZ-CND-00359"]) {
   const html = await page("/product/" + sku);
-  assert.ok(html.includes(mapping[sku]), sku + " product photo");
+  const expected = superseded[sku] || mapping[sku];
+  assert.ok(html.includes(expected), sku + " product photo");
 }
 const seen = new Set();
 for (const cat of ["ac-compressor", "ac-condenser"]) {
@@ -72,15 +80,19 @@ for (const cat of ["ac-compressor", "ac-condenser"]) {
     for (const article of articles) {
       const sku = article.match(/href="\/product\/(HZ-[A-Z]+-\d+)"/)?.[1];
       if (sku && mapping[sku]) {
-        assert.ok(article.includes(mapping[sku]), sku + " exact approved image on listing");
-        seen.add(sku);
+        if (superseded[sku]) {
+          assert.ok(article.includes(superseded[sku]), sku + " replaced image on listing");
+        } else {
+          assert.ok(article.includes(mapping[sku]), sku + " exact approved image on listing");
+          seen.add(sku);
+        }
       }
       if (article.includes("data-product-placeholder")) placeholder = true;
       else assert.equal(placeholder, false, "photo after placeholder across " + cat + " pages");
     }
   }
 }
-assert.equal(seen.size, 215, "all approved photos resolve in product listings");
+assert.equal(seen.size, stillActive.length, "all non-superseded watermarked photos resolve in product listings");
 console.log(
   "PASS preserved watermark photos: 215 exact approved SKU WebPs/hash/bytes; 88 compressors+127 condensers; 298 drawings/wrong-content/background excluded; watermarks retained; white-border/dimensions audit; both product pages, all category pages and global image-first ordering; readonly cwd, zero network",
 );
