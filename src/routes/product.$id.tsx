@@ -1,6 +1,7 @@
 import { pickDisplayedFitment } from "@/lib/catalog-runtime";
 import { ProductImage } from "@/components/product-image";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { DemoBanner } from "@/components/demo-banner";
 import { JsonLd } from "@/components/json-ld";
@@ -50,9 +51,24 @@ function ProductPage() {
     (titleYears.from !== shownFitment.yearFrom || titleYears.to !== shownFitment.yearTo);
   const oeLine = primaryOeLine(product.oe);
   const extraAfter = splitOe(product.oe).aftermarket.length;
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const [sticky, setSticky] = useState(false);
+  useEffect(() => {
+    const el = ctaRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([entry]) => setSticky(!entry.isIntersecting), {
+      threshold: 0,
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [product.id]);
+  function addToQuote() {
+    add(product.id, 1);
+    toast.success("נוסף לרשימת הצעת מחיר", { description: product.name });
+  }
 
   return (
-    <div className="mx-auto max-w-[1180px] px-5 pt-7 pb-16">
+    <div className="mx-auto max-w-[1180px] px-5 pt-7 pb-32 md:pb-16">
       <JsonLd data={productJsonLd(product)} />
       <JsonLd
         data={breadcrumbJsonLd([
@@ -85,7 +101,7 @@ function ProductPage() {
           />
         </div>
         <div>
-          <span className="inline-block rounded-full bg-ok/12 px-2 py-0.5 text-[11px] font-bold text-ok">
+          <span className="sq-btn inline-block bg-ok/12 px-2 py-0.5 text-[11px] font-bold text-ok">
             {product.condition}
           </span>
           <h1 className="mt-2 mb-2 text-[28px] leading-snug">{product.name}</h1>
@@ -170,18 +186,12 @@ function ProductPage() {
               אחריות והתאמה
             </Link>
           </p>
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <Button
-              className="flex-1"
-              onClick={() => {
-                add(product.id, 1);
-                toast.success("נוסף לרשימת הצעת מחיר", { description: product.name });
-              }}
-            >
+          <div ref={ctaRef} className="flex flex-col gap-2 sm:flex-row">
+            <Button className="flex-1" onClick={addToQuote}>
               הוסף להצעה
             </Button>
             <a
-              className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-md bg-accent px-4 text-sm font-semibold text-fg hover:bg-accent-hot"
+              className="sq-btn inline-flex h-11 flex-1 items-center justify-center gap-2 bg-accent px-4 text-sm font-semibold text-on-accent hover:bg-accent-hot"
               target="_blank"
               rel="noreferrer"
               href={waLink(quoteMessage(product))}
@@ -199,12 +209,25 @@ function ProductPage() {
               {product.make || product.model ? "חלקים נוספים לאותו רכב" : "חלקים דומים"}
             </h2>
           </div>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
           </div>
         </>
+      ) : null}
+      {sticky ? (
+        <div className="sticky-atc md:hidden">
+          <div className="min-w-0">
+            <p className="truncate text-xs font-bold">{product.name}</p>
+            <p className="text-sm font-extrabold text-accent-warm tabular-nums">
+              {priceOrQuoteLabel(product.sku)}
+            </p>
+          </div>
+          <Button className="shrink-0" onClick={addToQuote}>
+            הוסף להצעה
+          </Button>
+        </div>
       ) : null}
     </div>
   );

@@ -3,6 +3,7 @@ import { Toaster } from "sonner";
 import { MobileTabBar } from "@/components/mobile-tabbar";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { SiteMenu } from "@/components/site-menu";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { brand } from "@/lib/brand";
 
@@ -13,6 +14,7 @@ export function ShopShell({ children }: { children: ReactNode }) {
         דלג לתוכן הראשי
       </a>
       <SiteHeader />
+      <SiteMenu />
       <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
         {children}
       </main>

@@ -33,7 +33,7 @@ export function ActiveFilters({ state }: { state: ListingSearch }) {
           key={String(chip.key)}
           to="/results"
           search={{ ...state, [chip.key]: undefined, ...(chip.key === "category" ? {sub: undefined} : {}), page: undefined }}
-          className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line-strong bg-chip px-3 text-sm text-fg-soft hover:border-accent hover:text-fg"
+          className="sq-btn inline-flex h-9 items-center gap-1.5 border border-line-strong bg-chip px-3 text-sm text-fg-soft hover:border-accent hover:text-fg"
         >
           {chip.label}
           <X className="size-3.5" aria-hidden />

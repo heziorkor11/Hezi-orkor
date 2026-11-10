@@ -1,12 +1,15 @@
 import { CategoryImage } from "@/components/category-image";
 import { categoryImage } from "@/lib/category-images";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { Phone, Search, ShoppingBag } from "lucide-react";
-import { visibleCategories } from "@/lib/catalog";
+import { Menu, Phone, Search, ShoppingBag, X } from "lucide-react";
+import { loadListing, visibleCategories, type Product } from "@/lib/catalog";
 import { useCart } from "@/lib/cart";
 import { brand } from "@/lib/brand";
 import { cn } from "@/lib/utils";
+import { useSiteMenu } from "@/lib/menu-store";
+import { priceOrQuoteLabel } from "@/lib/prices";
+import { ProductImage } from "@/components/product-image";
 
 /** Two-stage sticky: logo/icons stay; search sticks then unsticks on deeper scroll. */
 export function SiteHeader() {
@@ -17,8 +20,14 @@ export function SiteHeader() {
       (s.location.search as { category?: string }).category === "workshop-packs",
   });
   const items = useCart((s) => s.items);
+  const setMenuOpen = useSiteMenu((s) => s.setOpen);
   const [mounted, setMounted] = useState(false);
   const [searchUnstuck, setSearchUnstuck] = useState(false);
+  const [q, setQ] = useState("");
+  const [hits, setHits] = useState<Product[]>([]);
+  const [busy, setBusy] = useState(false);
+  const [openSuggest, setOpenSuggest] = useState(false);
+  const boxRef = useRef<HTMLFormElement>(null);
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     const onScroll = () => setSearchUnstuck(window.scrollY > 140);
@@ -26,12 +35,46 @@ export function SiteHeader() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+  useEffect(() => {
+    const trimmed = q.trim();
+    if (trimmed.length < 2) {
+      setHits([]);
+      return;
+    }
+    let cancelled = false;
+    const t = window.setTimeout(() => {
+      setBusy(true);
+      loadListing({ q: trimmed })
+        .then((listing) => {
+          if (!cancelled) setHits(listing.items.slice(0, 6));
+        })
+        .catch(() => {
+          if (!cancelled) setHits([]);
+        })
+        .finally(() => {
+          if (!cancelled) setBusy(false);
+        });
+    }, 280);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(t);
+    };
+  }, [q]);
+  useEffect(() => {
+    const onDoc = (e: MouseEvent) => {
+      if (!boxRef.current?.contains(e.target as Node)) setOpenSuggest(false);
+    };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
   const count = mounted ? items.reduce((s, x) => s + x.qty, 0) : 0;
+  const showLive = openSuggest && q.trim().length >= 2;
 
   function onSearch(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const q = String(new FormData(e.currentTarget).get("q") || "").trim();
-    navigate({ to: "/results", search: q ? { q } : {} });
+    const next = q.trim();
+    setOpenSuggest(false);
+    navigate({ to: "/results", search: next ? { q: next } : {} });
   }
 
   return (
@@ -61,6 +104,14 @@ export function SiteHeader() {
             </Link>
 
             <nav aria-label="ראשי" className="flex items-center gap-2 text-sm text-fg-soft md:gap-3">
+              <button
+                type="button"
+                className="sq-btn grid size-10 place-items-center border border-line md:hidden"
+                aria-label="פתיחת תפריט קטגוריות"
+                onClick={() => setMenuOpen(true)}
+              >
+                <Menu className="size-5" aria-hidden />
+              </button>
               <a
                 href={`https://wa.me/${brand.whatsapp}`}
                 target="_blank"
@@ -104,6 +155,7 @@ export function SiteHeader() {
           )}
         >
           <form
+            ref={boxRef}
             onSubmit={onSearch}
             className="relative mx-auto max-w-[1180px] px-3.5 py-2 md:px-5"
             role="search"
@@ -115,11 +167,30 @@ export function SiteHeader() {
               id="site-search"
               name="q"
               type="search"
+              value={q}
+              onChange={(e) => {
+                setQ(e.target.value);
+                setOpenSuggest(true);
+              }}
+              onFocus={() => setOpenSuggest(true)}
               placeholder="חפש פריט | חלק חילוף | מק״ט | OE"
               autoComplete="off"
               suppressHydrationWarning
-              className="sq-btn h-11 w-full border border-line bg-elevated pr-4 pl-12 text-sm text-fg outline-none placeholder:text-subtle focus:border-accent focus:ring-2 focus:ring-accent/20"
+              className="sq-btn h-11 w-full border border-line bg-elevated pr-4 pl-20 text-sm text-fg outline-none placeholder:text-subtle focus:border-accent focus:ring-2 focus:ring-accent/20"
             />
+            {q ? (
+              <button
+                type="button"
+                aria-label="ניקוי החיפוש"
+                onClick={() => {
+                  setQ("");
+                  setHits([]);
+                }}
+                className="absolute top-1/2 left-14 grid size-8 -translate-y-1/2 place-items-center text-muted"
+              >
+                <X className="size-4" aria-hidden />
+              </button>
+            ) : null}
             <button
               type="submit"
               aria-label="חיפוש"
@@ -127,6 +198,58 @@ export function SiteHeader() {
             >
               <Search className="size-4" />
             </button>
+            {showLive ? (
+              <div className="search-suggest absolute inset-x-3.5 top-[calc(100%-0.25rem)] z-50 overflow-hidden border border-line bg-card shadow-lift md:inset-x-5">
+                <p className="px-3 pt-2.5 pb-1 text-[11px] font-bold text-muted">
+                  {busy ? "מחפש…" : "תוצאות מהקטלוג"}
+                </p>
+                {hits.length ? (
+                  <ul>
+                    {hits.map((p) => (
+                      <li key={p.id}>
+                        <Link
+                          to="/product/$id"
+                          params={{ id: p.id }}
+                          onClick={() => setOpenSuggest(false)}
+                          className="flex items-center gap-3 px-3 py-2 hover:bg-elevated"
+                        >
+                          <span className="home-cat-squircle menu-thumb shrink-0">
+                            <ProductImage src={p.image} alt="" className="h-full w-full object-contain p-1" />
+                          </span>
+                          <span className="min-w-0 flex-1">
+                            <span className="line-clamp-1 block text-sm font-bold">{p.name}</span>
+                            <span className="block text-[11px] text-muted">{p.sku}</span>
+                          </span>
+                          <span className="shrink-0 text-xs font-extrabold text-accent-warm tabular-nums">
+                            {priceOrQuoteLabel(p.sku)}
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : !busy ? (
+                  <p className="px-3 py-3 text-sm text-muted">
+                    לא נמצאו מוצרים תואמים.{" "}
+                    <a
+                      href={`https://wa.me/${brand.whatsapp}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold text-accent"
+                    >
+                      חפשו לי את החלק בוואטסאפ
+                    </a>
+                  </p>
+                ) : null}
+                <Link
+                  to="/results"
+                  search={q.trim() ? { q: q.trim() } : {}}
+                  onClick={() => setOpenSuggest(false)}
+                  className="block border-t border-line px-3 py-2.5 text-center text-sm font-bold text-accent"
+                >
+                  לכל התוצאות
+                </Link>
+              </div>
+            ) : null}
           </form>
         </div>
 
@@ -145,7 +268,7 @@ export function SiteHeader() {
                 search: packsActive ? {} : { category: "workshop-packs" },
               })
             }
-            className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm font-bold ${packsActive ? "border-accent bg-accent text-on-accent" : "border-line bg-card text-fg"}`}
+            className={`sq-btn inline-flex min-h-11 items-center justify-center gap-2 border px-3 py-2 text-sm font-bold ${packsActive ? "border-accent bg-accent text-on-accent" : "border-line bg-card text-fg"}`}
           >
             <CategoryImage
               src={categoryImage("workshop-packs")}
