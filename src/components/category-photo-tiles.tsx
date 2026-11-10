@@ -42,7 +42,7 @@ export function CategoryPhotoTiles({ tiles }: { tiles: CategoryTile[] }) {
                 </span>
               ))}
             </span>
-            <span className="photo-tile-n">{tile.count.toLocaleString("he-IL")} מוצרים</span>
+            <span className="photo-tile-n">{tile.count === 1 ? "מוצר אחד" : `${tile.count.toLocaleString("he-IL")} מוצרים`}</span>
           </Link>
         ))}
       </div>

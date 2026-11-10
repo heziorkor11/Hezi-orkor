@@ -86,12 +86,25 @@ const GRADE_ORDER = [
   "20W-60",
 ];
 
+const SUB_ORDER: Record<string, string[]> = {
+  filters: ["oil", "air", "cabin", "diesel", "gear"],
+  brakes: ["pads", "discs", "shoes"],
+};
+
 function subDefs(category: string): TileDef[] {
-  return (subcategories[category] || [])
-    .filter((s) => s.count > 0)
-    .map((s) => ({
+  const order = SUB_ORDER[category] || [];
+  const listed = (subcategories[category] || []).filter((s) => s.count > 0);
+  listed.sort((a, b) => {
+    const ia = order.indexOf(a.id);
+    const ib = order.indexOf(b.id);
+    if (ia === -1 && ib === -1) return 0;
+    if (ia === -1) return 1;
+    if (ib === -1) return -1;
+    return ia - ib;
+  });
+  return listed.map((s) => ({
       id: `${category}:${s.id}`,
-      label: s.name,
+      label: category === "filters" ? `פילטר ${s.name}` : s.name,
       family: "sub" as const,
       facet: { sub: s.id },
       preferSku: PREFERRED[`${category}:${s.id}`],
@@ -108,10 +121,10 @@ function viscosityDefs(hits: SearchHit[], labelPrefix: string): TileDef[] {
   }
   return [...counts.entries()]
     .sort((a, b) => {
+      if (b[1] !== a[1]) return b[1] - a[1];
       const ia = GRADE_ORDER.indexOf(a[0]);
       const ib = GRADE_ORDER.indexOf(b[0]);
-      if (ia !== ib) return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
-      return b[1] - a[1];
+      return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
     })
     .map(([grade]) => ({
       id: `viscosity:${grade}`,
