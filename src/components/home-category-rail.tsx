@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { useRef } from "react";
 import { CategoryImage } from "@/components/category-image";
-import { VISUAL_CATEGORIES } from "@/components/home-search-hero";
+import { VISUAL_CATEGORIES } from "@/lib/visual-categories";
 
 export function HomeCategoryRail() {
   const scroller = useRef<HTMLDivElement>(null);
@@ -20,7 +20,7 @@ export function HomeCategoryRail() {
           <h2 className="text-[18px] font-extrabold tracking-tight md:text-2xl">מחלקות החנות</h2>
           <p className="text-xs text-muted md:text-sm">גללו לזיהוי מהיר</p>
         </div>
-        <Link to="/" hash="categories" className="text-xs font-bold text-accent hover:underline md:text-sm">
+        <Link to="/results" className="text-xs font-bold text-accent hover:underline md:text-sm">
           לכל הקטגוריות
         </Link>
       </div>
@@ -39,7 +39,7 @@ export function HomeCategoryRail() {
             search={{ category: c.id }}
             className="home-cat-tile group"
           >
-            <span className="home-cat-squircle">
+            <span data-home-category-photo className="home-cat-squircle">
               <CategoryImage
                 src={c.image}
                 alt={c.name}
