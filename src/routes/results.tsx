@@ -1,6 +1,8 @@
-import { subcategories, normalizeDisplayCategory } from "@/lib/display-taxonomy";
+import { normalizeDisplayCategory } from "@/lib/display-taxonomy";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { ActiveFilters } from "@/components/active-filters";
+import { FilterSheet } from "@/components/filter-sheet";
+import { ResultsCategoryRail } from "@/components/results-category-rail";
 import { DemoBanner } from "@/components/demo-banner";
 import { Finder } from "@/components/finder";
 import { FluidsFilters } from "@/components/fluids-filters";
@@ -138,34 +140,13 @@ function ResultsPage() {
         </div>
         {isFluids ? (
           <FluidsFilters state={{ ...state, category: state.category || "fluids" }} />
-        ) : null}
-        {state.category && state.category !== "fluids" && subcategories[state.category] ? (
-          <nav aria-label="תתי קטגוריות" className="mb-5 flex flex-wrap gap-2">
-            <Link
-              to="/results"
-              search={{ ...state, sub: undefined, fluidKind: undefined, page: undefined }}
-              className={`rounded-full border px-4 py-2 text-sm ${!state.sub ? "bg-accent text-on-accent" : "bg-card"}`}
-            >
-              הכל
-            </Link>
-            {subcategories[state.category]
-              .filter((s) => s.count > 0)
-              .map((s) => (
-                <Link
-                  key={s.id}
-                  to="/results"
-                  search={{ ...state, sub: s.id, fluidKind: undefined, page: undefined }}
-                  className={`rounded-full border px-4 py-2 text-sm ${state.sub === s.id ? "bg-accent text-on-accent" : "bg-card"}`}
-                >
-                  {s.name} ({s.count})
-                </Link>
-              ))}
-          </nav>
-        ) : null}
+        ) : (
+          <ResultsCategoryRail state={state} />
+        )}
         <ActiveFilters state={state} />
         {listing.items.length ? (
           <>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4">
               {listing.items.map((p) => (
                 <ProductCard key={p.id} product={p} filter={state} />
               ))}
@@ -197,6 +178,7 @@ function ResultsPage() {
           </div>
         )}
       </div>
+      <FilterSheet state={state} total={listing.total} />
     </>
   );
 }

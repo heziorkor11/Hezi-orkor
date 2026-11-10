@@ -64,6 +64,7 @@ function Home() {
         <DemoBanner />
       </div>
 
+      <div id="deals" className="scroll-mt-28">
       <HomeProductCarousel
         title="מבצעי החודש"
         subtitle="בחירה מתוך הקטלוג — מחיר מחירון, בלי מחיר ישן מדומה"
@@ -72,6 +73,8 @@ function Home() {
         products={deals}
         badge="מבצע"
       />
+
+      </div>
 
       <HomeProductCarousel
         title="מוצרים מומלצים"

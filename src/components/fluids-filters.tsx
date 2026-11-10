@@ -43,7 +43,7 @@ export function FluidsFilters({ state }: { state: ListingSearch }) {
           <Link
             {...linkFor({ fluidKind: undefined, oilBrand: activeBrand })}
             className={cn(
-              "rounded-full border px-3.5 py-1.5 text-[13px] font-bold",
+              "sq-btn border px-3.5 py-1.5 text-[13px] font-bold",
               !activeKind
                 ? "border-accent bg-accent text-on-accent"
                 : "border-line bg-elevated text-fg-soft hover:border-accent",
@@ -59,7 +59,7 @@ export function FluidsFilters({ state }: { state: ListingSearch }) {
                 oilBrand: activeBrand,
               })}
               className={cn(
-                "rounded-full border px-3.5 py-1.5 text-[13px] font-bold",
+                "sq-btn border px-3.5 py-1.5 text-[13px] font-bold",
                 activeKind === k
                   ? "border-accent bg-accent text-on-accent"
                   : "border-line bg-elevated text-fg-soft hover:border-accent",
@@ -76,7 +76,7 @@ export function FluidsFilters({ state }: { state: ListingSearch }) {
           <Link
             {...linkFor({ fluidKind: activeKind, oilBrand: undefined })}
             className={cn(
-              "rounded-full border px-3.5 py-1.5 text-[13px] font-bold",
+              "sq-btn border px-3.5 py-1.5 text-[13px] font-bold",
               !activeBrand
                 ? "border-fg bg-fg text-on-accent"
                 : "border-line bg-elevated text-fg-soft hover:border-fg",
@@ -89,7 +89,7 @@ export function FluidsFilters({ state }: { state: ListingSearch }) {
               key={b}
               {...linkFor({ fluidKind: activeKind, oilBrand: b })}
               className={cn(
-                "rounded-full border px-3.5 py-1.5 text-[13px] font-bold",
+                "sq-btn border px-3.5 py-1.5 text-[13px] font-bold",
                 activeBrand === b
                   ? "border-fg bg-fg text-on-accent"
                   : "border-line bg-elevated text-fg-soft hover:border-fg",
