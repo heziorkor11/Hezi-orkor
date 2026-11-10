@@ -1,0 +1,158 @@
+{
+  "added": 1,
+  "addedNew": 1,
+  "replaced": 0,
+  "inputRows": 8,
+  "source": "ac_004/designed (current ready zips only)",
+  "skippedReasons": {
+    "needs-review": 7
+  },
+  "statusManifests": {
+    "ac_004": "0dafe230f0560967920dc8f16f2759c50f92126b0cea27383ae2d1f14657b403"
+  },
+  "byCategory": {
+    "ac-condenser": 1
+  },
+  "byCatalogCategory": {
+    "מעבה מזגן": 1
+  },
+  "byBrand": {
+    "Denso": 1
+  },
+  "byBatch": {
+    "ac_004": 1
+  },
+  "replacedSkus": [],
+  "newSkus": [
+    "HZ-CND-00537"
+  ],
+  "products": [
+    {
+      "sku": "HZ-CND-00537",
+      "supplierSku": "SA17100072",
+      "supplier": "Galor",
+      "brand": "Denso",
+      "logoKept": true,
+      "category": "ac-condenser",
+      "catalogCategory": "מעבה מזגן",
+      "name": "מעבה יונדאי I30 מ16+מייבש מקורי",
+      "nameOriginal": "מעבה יונדאי I30 מ16+מייבש מק'",
+      "matchedOe": "97606F2200",
+      "parallelBrand": "DENSO",
+      "parallelArticle": "DCN41024",
+      "autodocProductUrl": "https://www.autodoc.co.uk/denso/16176117",
+      "sourceOrigin": "nrf_denso_exact_oe",
+      "sourceImageUrl": "https://cdn.autodoc.de/thumb?id=16176117&m=0&n=0&lng=en&rev=94078120",
+      "sharedSource": null,
+      "sourceCsvRow": 9,
+      "sourceStatusFile": "ac_004_designed_status.csv",
+      "batch": "ac_004",
+      "designStatus": "ready",
+      "imageType": "drawing",
+      "imageOrder": 1,
+      "brandVisualCheck": "logo-matches",
+      "lowRes": "yes",
+      "replacedExisting": false,
+      "brandApproval": "owner approved compressor/condenser images that carry an NRF or Denso logo, with the logo kept unchanged; MAHLE and every other brand are not allowed: אני רוצה רק עם nrf ודנסו לא mhale",
+      "readyZip": "ac_004_ready_מעבה מזגן.zip",
+      "readyZipMember": "מעבה מזגן/HZ-CND-00537.jpg",
+      "sourceMagic": "jpeg",
+      "designerSha256": "b1e589ad18329cde509b4723a786801cb9e2e082aef2d85e5bf5f3e1f282b9ab",
+      "decodedRgbSha256": "b0b7e606a46d4a4323292da73a363d6ee69f6b09bfad8510ee660e8077fbfb0e",
+      "sha256": "248f4715142cadf5e71b06f63880420b6caf806fbded5e15a7b56f6d941c8fbc",
+      "bytes": 567348,
+      "dimensions": [
+        1200,
+        1200
+      ],
+      "image": "/catalog/images/ac-batch-004/HZ-CND-00537-drawing.webp",
+      "verification": "ready-only ac_004 zip; source magic matches extension; lossless WebP output; exact Gal-Or supplier SKU on the product master row; NRF/Denso logo kept; no existing image; not a replacement"
+    }
+  ],
+  "skipped": [
+    {
+      "sku": "HZ-CND-00164",
+      "batch": "ac_004",
+      "sourceStatusFile": "ac_004_designed_status.csv",
+      "sourceCsvRow": 2,
+      "reason": "needs-review",
+      "status": "needs-review",
+      "designReason": "NRF 3 YEAR GUARANTEE badge kept unchanged, pending מתן",
+      "supplierSku": "RF07-08",
+      "parallelBrand": "NRF",
+      "existingImage": null
+    },
+    {
+      "sku": "HZ-CND-00265",
+      "batch": "ac_004",
+      "sourceStatusFile": "ac_004_designed_status.csv",
+      "sourceCsvRow": 3,
+      "reason": "needs-review",
+      "status": "needs-review",
+      "designReason": "NRF 3 YEAR GUARANTEE badge kept unchanged, pending מתן",
+      "supplierSku": "SA17503565",
+      "parallelBrand": "NRF",
+      "existingImage": null
+    },
+    {
+      "sku": "HZ-CND-00281",
+      "batch": "ac_004",
+      "sourceStatusFile": "ac_004_designed_status.csv",
+      "sourceCsvRow": 4,
+      "reason": "needs-review",
+      "status": "needs-review",
+      "designReason": "NRF 3 YEAR GUARANTEE badge kept unchanged, pending מתן",
+      "supplierSku": "18-07",
+      "parallelBrand": "NRF",
+      "existingImage": null
+    },
+    {
+      "sku": "HZ-CND-00307",
+      "batch": "ac_004",
+      "sourceStatusFile": "ac_004_designed_status.csv",
+      "sourceCsvRow": 5,
+      "reason": "needs-review",
+      "status": "needs-review",
+      "designReason": "NRF 3 YEAR GUARANTEE badge kept unchanged, pending מתן",
+      "supplierSku": "SA17505637",
+      "parallelBrand": "NRF",
+      "existingImage": null
+    },
+    {
+      "sku": "HZ-CND-00362",
+      "batch": "ac_004",
+      "sourceStatusFile": "ac_004_designed_status.csv",
+      "sourceCsvRow": 6,
+      "reason": "needs-review",
+      "status": "needs-review",
+      "designReason": "Real-ESRGAN amplified a source-clipped pink DENSO corner tag, leaving a visible red wash in adjacent fins",
+      "supplierSku": "SA17108350",
+      "parallelBrand": "DENSO",
+      "existingImage": null
+    },
+    {
+      "sku": "HZ-CND-00363",
+      "batch": "ac_004",
+      "sourceStatusFile": "ac_004_designed_status.csv",
+      "sourceCsvRow": 7,
+      "reason": "needs-review",
+      "status": "needs-review",
+      "designReason": "NRF 3 YEAR GUARANTEE badge kept unchanged, pending מתן",
+      "supplierSku": "SA17108351",
+      "parallelBrand": "NRF",
+      "existingImage": null
+    },
+    {
+      "sku": "HZ-CND-00643",
+      "batch": "ac_004",
+      "sourceStatusFile": "ac_004_designed_status.csv",
+      "sourceCsvRow": 8,
+      "reason": "needs-review",
+      "status": "needs-review",
+      "designReason": "NRF 3 YEAR GUARANTEE badge kept unchanged, pending מתן",
+      "supplierSku": "SA17509127",
+      "parallelBrand": "NRF",
+      "existingImage": null
+    }
+  ]
+}
