@@ -16,6 +16,8 @@ import {
   classifyOilBrand,
   isFluidsBrowseItem,
 } from "@/lib/fluid-classify";
+import { matchAxle, matchHand, parseViscosity } from "@/lib/tile-facets";
+import type { CategoryTile } from "@/lib/category-tiles";
 
 function escapeReg(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -130,7 +132,15 @@ function filterHit(hit: SearchHit, state: ProductFilter) {
     if (typeFromCategory(hit.category) !== state.type && hit.category !== state.type) return false;
   }
   if (state.q && !queryMatchesHit(hit, state.q)) return false;
+  if (state.viscosity && parseViscosity(hit.title) !== state.viscosity) return false;
+  if (state.axle && matchAxle(hit.title) !== state.axle) return false;
+  if (state.hand && matchHand(hit.title) !== state.hand) return false;
   return true;
+}
+
+/** Shared listing predicate — also used to count category photo tiles. */
+export function matchesListingHit(hit: SearchHit, state: ProductFilter) {
+  return filterHit(hit, state);
 }
 
 export async function loadListing(state: ListingSearch = {}): Promise<ListingResult> {
@@ -140,6 +150,21 @@ export async function loadListing(state: ListingSearch = {}): Promise<ListingRes
   } catch (err) {
     console.error("[catalog] loadListing failed", err);
     return { items: [], total: 0, page: 1, pages: 1 };
+  }
+}
+
+export async function loadCategoryTiles(state: ListingSearch = {}): Promise<CategoryTile[]> {
+  try {
+    const { loadSearchHits, resolveProductImage } = await import("./catalog-listing");
+    const { buildCategoryTiles } = await import("./category-tiles");
+    const hits = await loadSearchHits();
+    return buildCategoryTiles(state, hits, {
+      imageOf: resolveProductImage,
+      hitMatches: filterHit,
+    });
+  } catch (err) {
+    console.error("[catalog] loadCategoryTiles failed", err);
+    return [];
   }
 }
 

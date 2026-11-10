@@ -302,3 +302,67 @@ details summary::-webkit-details-marker {
     border-radius: 1.25rem;
   }
 }
+
+
+/* ---- Category photo tiles (results/category pages) ---- */
+.photo-tile-wrap {
+  position: relative;
+  margin: 0.25rem -0.25rem 1.15rem;
+}
+.photo-tile-rail {
+  gap: 0.625rem;
+  padding: 0.35rem 0.25rem 0.5rem;
+}
+.photo-tile {
+  display: flex;
+  width: 4.875rem;
+  min-width: 4.875rem;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+.photo-tile-sq {
+  display: grid;
+  width: 4.875rem;
+  height: 4.875rem;
+  place-items: center;
+  overflow: hidden;
+  padding: 0.4rem;
+  border: 1px solid var(--color-line);
+  background: #fff;
+  box-shadow: var(--shadow-lift);
+}
+.photo-tile-sq img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+.photo-tile-sq-active {
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+.photo-tile-lab {
+  margin-top: 0.4rem;
+  font-size: 11.5px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+.photo-tile-n {
+  margin-top: 1px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-muted);
+}
+.photo-tile-arrow {
+  top: 2.4rem;
+}
+@supports (corner-shape: squircle) {
+  .photo-tile-sq {
+    corner-shape: squircle;
+    border-radius: 32%;
+  }
+}

@@ -16,6 +16,9 @@ export function ActiveFilters({ state }: { state: ListingSearch }) {
     });
   }
   if (state.oilBrand) chips.push({ key: "oilBrand", label: `מותג: ${state.oilBrand}` });
+  if (state.viscosity) chips.push({ key: "viscosity", label: state.viscosity });
+  if (state.axle) chips.push({ key: "axle", label: state.axle === "front" ? "קדמי" : state.axle === "rear" ? "אחורי" : state.axle });
+  if (state.hand) chips.push({ key: "hand", label: state.hand === "left" ? "שמאל" : state.hand === "right" ? "ימין" : state.hand });
   if (state.type) {
     const name = partTypes.find((t) => t.id === state.type)?.name || state.type;
     chips.push({ key: "type", label: name });
