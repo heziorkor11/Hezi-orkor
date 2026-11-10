@@ -24,8 +24,7 @@ export function MobileTabBar() {
         בית
       </Link>
       <Link
-        to="/"
-        hash="search"
+        to="/results"
         className={cn(
           "flex flex-1 flex-col items-center justify-center gap-0.5 text-[10px] font-bold text-muted",
           searchOn && "text-accent",
