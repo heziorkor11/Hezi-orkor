@@ -1,6 +1,11 @@
-import { languageMatches, VEHICLE_OPTIONAL_CATEGORIES } from "./search-language";
+import { VEHICLE_OPTIONAL_CATEGORIES } from "./search-language";
 import { displayCategory, displayOverride, isHiddenProduct, normalizeDisplayCategory } from "@/lib/display-taxonomy";
-import { sameModel } from "@/lib/model-names";
+import {
+  mergeFilterWithIntent,
+  productFitsVehicle,
+  tokensMatchHit,
+  typeAllows,
+} from "@/lib/search-intent";
 import {
   type ListingResult,
   type ListingSearch,
@@ -10,7 +15,7 @@ import {
   typeFromCategory,
 } from "@/lib/catalog-types";
 import { loadFacets, unique } from "@/lib/catalog-runtime";
-import { namePartNumberTokens, normalizePartKey, oeSearchTokens, yearBounds } from "@/lib/part-display";
+import { namePartNumberTokens, normalizePartKey, oeSearchTokens } from "@/lib/part-display";
 import {
   classifyFluidKind,
   classifyOilBrand,
@@ -21,11 +26,6 @@ import type { CategoryTile } from "@/lib/category-tiles";
 
 function escapeReg(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-function looksLikePartNumber(q: string) {
-  const compact = normalizePartKey(q);
-  return /\d/.test(compact) && compact.length >= 5;
 }
 
 function partKeyMatches(candidate: string, queryKey: string) {
@@ -52,89 +52,65 @@ function tokenHit(hay: string, needle: string) {
   }
 }
 
-function queryMatchesHit(hit: SearchHit, raw: string) {
+function queryMatchesPartNumber(hit: SearchHit, raw: string) {
   const q = raw.trim();
   if (!q) return true;
   const s = q.toLowerCase();
   const qKey = normalizePartKey(q);
   const title = hit.title || "";
   const titleOriginal = hit.titleOriginal || "";
-  const make = hit.make || "";
-  const model = hit.model || "";
   const sku = (hit.sku || "").toLowerCase();
   const skuKey = normalizePartKey(hit.sku);
   const oeTokens = oeSearchTokens(hit.oe);
   const nameTokens = [...namePartNumberTokens(title), ...namePartNumberTokens(titleOriginal)];
   const titles = [title, titleOriginal].filter(Boolean);
-  if (looksLikePartNumber(q)) {
-    if (partKeyMatches(skuKey, qKey) || sku === s || sku.startsWith(s)) return true;
-    if (oeTokens.some((t) => partKeyMatches(normalizePartKey(t), qKey) || partKeyMatches(t, s))) return true;
-    if (nameTokens.some((t) => partKeyMatches(normalizePartKey(t), qKey) || partKeyMatches(t, s))) return true;
-    if (qKey.length >= 6 && normalizePartKey(hit.oe).includes(qKey)) return true;
-    return titles.some((t) => tokenHit(t, q) || (qKey.length >= 6 && normalizePartKey(t).includes(qKey)));
-  }
-  if (languageMatches(title, titleOriginal, displayCategory(hit.sku, hit.category), q)) return true;
-  if (titles.some((t) => tokenHit(t, q)) || tokenHit(make, q) || tokenHit(model, q)) return true;
-  if (s.length >= 3 && titles.some((t) => t.toLowerCase().includes(s))) return true;
-  if (s.length >= 4 && (sku === s || sku.startsWith(s) || partKeyMatches(skuKey, qKey))) return true;
-  return false;
-}
-
-function fitmentEntries(hit: SearchHit) {
-  if (Array.isArray(hit.fitments) && hit.fitments.length) return hit.fitments;
-  if (hit.make) {
-    return [{ make: hit.make, model: hit.model || "", yearFrom: hit.yearFrom || 0, yearTo: hit.yearTo || 0 }];
-  }
-  return [];
+  if (partKeyMatches(skuKey, qKey) || sku === s || sku.startsWith(s)) return true;
+  if (oeTokens.some((t) => partKeyMatches(normalizePartKey(t), qKey) || partKeyMatches(t, s))) return true;
+  if (nameTokens.some((t) => partKeyMatches(normalizePartKey(t), qKey) || partKeyMatches(t, s))) return true;
+  if (qKey.length >= 6 && normalizePartKey(hit.oe).includes(qKey)) return true;
+  return titles.some((t) => tokenHit(t, q) || (qKey.length >= 6 && normalizePartKey(t).includes(qKey)));
 }
 
 function filterHit(hit: SearchHit, state: ProductFilter) {
   if (isHiddenProduct(hit.sku)) return false;
+  const merged = mergeFilterWithIntent(state);
   hit = { ...hit, category: displayCategory(hit.sku, hit.category || "general") };
-  state = { ...state, category: normalizeDisplayCategory(state.category) };
-  if (state.sub && displayOverride(hit.sku)?.sub !== state.sub) return false;
-  const fluidsBrowse = state.category === "fluids" || Boolean(state.fluidKind) || Boolean(state.oilBrand);
+  const category = normalizeDisplayCategory(merged.category);
+  const sub = merged.sub;
+  const overrideSub = displayOverride(hit.sku)?.sub;
+  if (sub && overrideSub !== sub) return false;
+  if (merged.allowed.length && !typeAllows(hit.category, overrideSub, merged.allowed)) return false;
+  const fluidsBrowse = category === "fluids" || Boolean(merged.fluidKind) || Boolean(merged.oilBrand);
   if (fluidsBrowse) {
     // Fluids UI: classify from title; include brake-fluid SKUs outside category=fluids.
     if (!isFluidsBrowseItem(hit.category, hit.title)) return false;
-    if (state.fluidKind) {
-      if (classifyFluidKind(hit.title) !== state.fluidKind) return false;
-    } else if (state.category === "fluids") {
+    if (merged.fluidKind) {
+      if (classifyFluidKind(hit.title) !== merged.fluidKind) return false;
+    } else if (category === "fluids") {
       // Default fluids landing = oils category only (not stray brake SKU), unless kind/brand set.
       if (hit.category !== "fluids") return false;
     }
-    if (state.oilBrand && classifyOilBrand(hit.title) !== state.oilBrand) return false;
+    if (merged.oilBrand && classifyOilBrand(hit.title) !== merged.oilBrand) return false;
     // Do not apply vehicle make/model/year to fluids — OEM labels leaked into fitment.
-  } else {
-    if (state.category && hit.category !== state.category) return false;
+  } else if (category && hit.category !== category) {
+    return false;
   }
-  if (!fluidsBrowse && !VEHICLE_OPTIONAL_CATEGORIES.includes(state.category || "") && (state.make || state.model || state.year)) {
-    const entries = fitmentEntries(hit);
-    if (!entries.length) return false;
-    const y = state.year ? Number(String(state.year).replace(/["']/g, "")) : NaN;
-    const ok = entries.some((f) => {
-      if (state.make && f.make !== state.make) return false;
-      if (state.model && !sameModel(state.make || f.make || "", f.model, state.model)) return false;
-      if (Number.isFinite(y)) {
-        const from = f.yearFrom || 0;
-        const to = f.yearTo || f.yearFrom || 0;
-        if (from && to && (y < from || y > to)) return false;
-        if (!from && !to) {
-          const bounds = yearBounds(hit.title, hit.yearFrom, hit.yearTo);
-          if (bounds && (y < bounds.from || y > bounds.to)) return false;
-        }
-      }
-      return true;
-    });
-    if (!ok) return false;
+  if (!fluidsBrowse && !VEHICLE_OPTIONAL_CATEGORIES.includes(category || "") && (merged.make || merged.model || merged.year)) {
+    if (!productFitsVehicle(hit, merged.make, merged.model, merged.year)) return false;
   }
-  if (state.type) {
-    if (typeFromCategory(hit.category) !== state.type && hit.category !== state.type) return false;
+  if (merged.type) {
+    if (typeFromCategory(hit.category) !== merged.type && hit.category !== merged.type) return false;
   }
-  if (state.q && !queryMatchesHit(hit, state.q)) return false;
-  if (state.viscosity && parseViscosity(hit.title) !== state.viscosity) return false;
-  if (state.axle && matchAxle(hit.title) !== state.axle) return false;
-  if (state.hand && matchHand(hit.title) !== state.hand) return false;
+  if (merged.q) {
+    if (merged.isPartNumber) {
+      if (!queryMatchesPartNumber(hit, merged.q)) return false;
+    } else if (!tokensMatchHit(hit, merged.restTokens)) {
+      return false;
+    }
+  }
+  if (merged.viscosity && parseViscosity(hit.title) !== merged.viscosity) return false;
+  if (merged.axle && matchAxle(hit.title) !== merged.axle) return false;
+  if (merged.hand && matchHand(hit.title) !== merged.hand) return false;
   return true;
 }
 

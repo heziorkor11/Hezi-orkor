@@ -1,4 +1,5 @@
 import { VEHICLE_OPTIONAL_CATEGORIES } from "@/lib/search-language";
+import { canonicalMake } from "@/lib/search-intent";
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
@@ -49,7 +50,7 @@ export function Finder({
       to: "/results",
       search: {
         category: draft.category || undefined,
-        make: fluids ? undefined : draft.make || undefined,
+        make: fluids ? undefined : canonicalMake(draft.make) || draft.make || undefined,
         model: fluids ? undefined : draft.model || undefined,
         year: fluids ? undefined : draft.year || undefined,
         type: undefined,

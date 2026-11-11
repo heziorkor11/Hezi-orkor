@@ -4,6 +4,8 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Phone, Search, ShoppingBag, Truck } from "lucide-react";
 import { visibleCategories } from "@/lib/catalog";
+import { listingSearchFromQuery } from "@/lib/search-intent";
+import type { ProductFilter } from "@/lib/catalog-types";
 import { useCart } from "@/lib/cart";
 import { brand } from "@/lib/brand";
 import { cn } from "@/lib/utils";
@@ -11,11 +13,14 @@ import { cn } from "@/lib/utils";
 /** Two-stage sticky: shipping bar and logo/icons stay; search sticks then unsticks on deeper scroll. */
 export function SiteHeader() {
   const navigate = useNavigate();
-  const packsActive = useRouterState({
-    select: (s) =>
-      s.location.pathname === "/results" &&
-      (s.location.search as { category?: string }).category === "workshop-packs",
+  const location = useRouterState({
+    select: (s) => ({
+      path: s.location.pathname,
+      search: s.location.search as ProductFilter,
+    }),
   });
+  const packsActive = location.path === "/results" && location.search.category === "workshop-packs";
+  const currentQuery = location.path === "/results" ? location.search.q || "" : "";
   const items = useCart((s) => s.items);
   const [mounted, setMounted] = useState(false);
   const [searchUnstuck, setSearchUnstuck] = useState(false);
@@ -42,7 +47,8 @@ export function SiteHeader() {
   function onSearch(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const q = String(new FormData(e.currentTarget).get("q") || "").trim();
-    navigate({ to: "/results", search: q ? { q } : {} });
+    const current = location.path === "/results" ? location.search : undefined;
+    navigate({ to: "/results", search: q ? listingSearchFromQuery(q, current) : {} });
   }
 
   return (
@@ -129,8 +135,10 @@ export function SiteHeader() {
             </label>
             <input
               id="site-search"
+              key={currentQuery}
               name="q"
               type="search"
+              defaultValue={currentQuery}
               placeholder="חפש פריט | חלק חילוף | מק״ט | OE"
               autoComplete="off"
               suppressHydrationWarning
