@@ -19,11 +19,22 @@ import { expandProductName } from "./name-expand.mjs";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "public", "catalog");
 const CATEGORY_OVERRIDES_PATH = join(OUT, "category-overrides.json");
+const NAME_OVERRIDES_PATH = join(OUT, "name-overrides.json");
 /** @type {Record<string, {category:string, categoryName:string}>} */
 const categoryOverridesBySku = (() => {
   try {
     if (!existsSync(CATEGORY_OVERRIDES_PATH)) return {};
     const raw = JSON.parse(readFileSync(CATEGORY_OVERRIDES_PATH, "utf8"));
+    return raw?.bySku && typeof raw.bySku === "object" ? raw.bySku : {};
+  } catch {
+    return {};
+  }
+})();
+/** @type {Record<string, string>} */
+const nameOverridesBySku = (() => {
+  try {
+    if (!existsSync(NAME_OVERRIDES_PATH)) return {};
+    const raw = JSON.parse(readFileSync(NAME_OVERRIDES_PATH, "utf8"));
     return raw?.bySku && typeof raw.bySku === "object" ? raw.bySku : {};
   } catch {
     return {};
@@ -302,12 +313,19 @@ const products = rows.map((row) => {
   const descriptionExpanded = row.description
     ? expandProductName(row.description).name
     : defaultDescription(displayName, row.sku, row.vehicleFitment);
+  // Name overrides are display-only and must not change descriptions or categories.
+  const nameOverride = typeof nameOverridesBySku[row.sku] === "string" ? String(nameOverridesBySku[row.sku]).trim() : "";
+  const finalName = nameOverride || displayName;
+  const nameOriginal =
+    nameOverride && nameOverride !== displayName
+      ? expanded.nameOriginal || displayName
+      : expanded.nameOriginal;
 
   const record = compact({
     id: row.sku,
     sku: row.sku,
-    name: displayName,
-    nameOriginal: expanded.nameOriginal,
+    name: finalName,
+    nameOriginal,
     category,
     categoryName,
     vehicleFitment: row.vehicleFitment,
