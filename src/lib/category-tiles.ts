@@ -1,5 +1,6 @@
 import { visibleCategories, type ListingSearch, type SearchHit } from "@/lib/catalog-types";
 import { isHiddenProduct, subcategories } from "@/lib/display-taxonomy";
+import { hasPartTypeChips } from "./part-types.ts";
 import { classifyFluidKind } from "@/lib/fluid-classify";
 import { hasRealProductImage } from "@/lib/product-image-policy";
 import { AXLE_LABELS, parseViscosity } from "@/lib/tile-facets";
@@ -149,16 +150,14 @@ function defsFor(state: ListingSearch, hitsInCategory: SearchHit[]): TileDef[] {
     return viscosityDefs(hitsInCategory, "שמני מנוע");
   }
   if (category === "workshop-packs") {
-    const packs = subDefs(category);
-    // When already viewing engine packs, also offer viscosity tiles from those hits.
-    if (state.sub === "engine") {
-      return [...packs, ...viscosityDefs(hitsInCategory, "שמני מנוע")];
+    // Type chips cover pack kinds; viscosity tiles stay when viewing engine oils.
+    if (state.sub === "engine" || state.type === "engine") {
+      return viscosityDefs(hitsInCategory, "שמני מנוע");
     }
-    return packs;
+    return [];
   }
   if (category === "brakes") {
     return [
-      ...subDefs(category),
       {
         id: "brakes:axle:front",
         label: AXLE_LABELS.front,
@@ -177,7 +176,6 @@ function defsFor(state: ListingSearch, hitsInCategory: SearchHit[]): TileDef[] {
   }
   if (category === "steering") {
     return [
-      ...subDefs(category),
       {
         id: "steering:hand:right",
         label: "קצה הגה ימין",
@@ -225,6 +223,10 @@ function defsFor(state: ListingSearch, hitsInCategory: SearchHit[]): TileDef[] {
         facet: { axle: "rear" },
       },
     ];
+  }
+  // Part-type chips replace photo tiles for the type/sub family.
+  if (hasPartTypeChips(category)) {
+    return [];
   }
   if (subcategories[category]?.some((s) => s.count > 0)) {
     return subDefs(category);
