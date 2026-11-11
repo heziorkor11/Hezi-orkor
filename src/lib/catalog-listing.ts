@@ -1,4 +1,5 @@
 import { hasRealProductImage, imagesFirst } from "./product-image-policy";
+import { parseListingSort, sortListingHits } from "./listing-sort";
 import { displaySpacing } from "@/lib/display-spacing";
 import { displayCategory, isHiddenProduct } from "@/lib/display-taxonomy";
 import { typeFromCategory, PAGE_SIZE, type ListingCard, type ListingResult, type ListingSearch, type Product, type SearchHit } from "@/lib/catalog-types";
@@ -179,11 +180,10 @@ export async function loadListingImpl(
   const manifest = await (await import("./catalog-runtime")).loadManifest();
   const page = Math.max(1, state.page ?? 1);
   if (!cache.searchIndex) cache.searchIndex = await catalogJson<SearchHit[]>("search-index.json");
-  // Partition the full filtered result BEFORE pagination, not just the visible page.
-  // Source rows with raw /products images are already rejected by resolveImage;
-  // current usable catalog photos are resolved through the same SKU mapping as cards.
-  const hits = imagesFirst(cache.searchIndex.filter((hit) => opts.filterHit(hit, state)),
-    hit => hasRealProductImage(resolveImage(hit.sku, undefined, hit.oe)));
+  // Sort the full filtered result BEFORE pagination, not just the visible page.
+  // Default: monthly deals first, then cheapest → most expensive (no-price last).
+  const filtered = cache.searchIndex.filter((hit) => opts.filterHit(hit, state));
+  const hits = sortListingHits(filtered, parseListingSort(state.sort));
   const pages = Math.max(1, Math.ceil(hits.length / PAGE_SIZE));
   const current = Math.min(page, pages);
   const slice = hits.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);

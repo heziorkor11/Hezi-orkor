@@ -24,6 +24,7 @@ export function FluidsFilters({ state }: { state: ListingSearch }) {
         fluidKind: next.fluidKind === "brake" ? "brake" : undefined,
         oilBrand: next.oilBrand,
         q: state.q,
+        sort: state.sort,
         // Vehicle fitment is not used for fluids browse
         make: undefined,
         model: undefined,
