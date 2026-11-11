@@ -16,28 +16,7 @@
       "reason": "white gap and faded tank; not recommended; not uploaded"
     }
   ],
-  "oldReferencesRemoved": [
-    {
-      "sku": "HZ-CMP-00091",
-      "from": "ac-watermarked-2026-11-08.json",
-      "image": "/catalog/images/ac-watermarked-2026-11-08/HZ-CMP-00091-watermark-kept.webp"
-    },
-    {
-      "sku": "HZ-CMP-00292",
-      "from": "ac-watermarked-2026-11-08.json",
-      "image": "/catalog/images/ac-watermarked-2026-11-08/HZ-CMP-00292-watermark-kept.webp"
-    },
-    {
-      "sku": "HZ-CMP-00350",
-      "from": "ac-watermarked-2026-11-08.json",
-      "image": "/catalog/images/ac-watermarked-2026-11-08/HZ-CMP-00350-watermark-kept.webp"
-    },
-    {
-      "sku": "HZ-CND-00079",
-      "from": "ac-watermarked-2026-11-08.json",
-      "image": "/catalog/images/ac-watermarked-2026-11-08/HZ-CND-00079-watermark-kept.webp"
-    }
-  ],
+  "oldReferencesRemoved": [],
   "oldFilesLeftOnDisk": [
     "/catalog/images/ac-watermarked-2026-11-08/HZ-CMP-00091-watermark-kept.webp",
     "/catalog/images/ac-watermarked-2026-11-08/HZ-CMP-00292-watermark-kept.webp",
@@ -126,7 +105,7 @@
         1200
       ],
       "image": "/catalog/images/ac-batch-005/HZ-CMP-00091-oe-matched.webp",
-      "verification": "AI-fixed image from ac_ai_fix/fixed; source magic matches extension; lossless WebP output; NRF/Denso logo kept; 3 YEAR GUARANTEE / warranty tag removed by AI; approved by Matan 11.11.2026; replaced tagged watermark-kept image, old file left on disk, mapping removed from ac-watermarked-2026-11-08.json"
+      "verification": "AI-fixed image from ac_ai_fix/fixed; source magic matches extension; lossless WebP output; NRF/Denso logo kept; 3 YEAR GUARANTEE / warranty tag removed by AI; approved by Matan 11.11.2026; replaced tagged watermark-kept image via later manifest override; old file and historical watermarked mapping left in place"
     },
     {
       "sku": "HZ-CMP-00292",
@@ -175,7 +154,7 @@
         1200
       ],
       "image": "/catalog/images/ac-batch-005/HZ-CMP-00292-oe-matched.webp",
-      "verification": "AI-fixed image from ac_ai_fix/fixed; source magic matches extension; lossless WebP output; NRF/Denso logo kept; 3 YEAR GUARANTEE / warranty tag removed by AI; approved by Matan 11.11.2026; replaced tagged watermark-kept image, old file left on disk, mapping removed from ac-watermarked-2026-11-08.json"
+      "verification": "AI-fixed image from ac_ai_fix/fixed; source magic matches extension; lossless WebP output; NRF/Denso logo kept; 3 YEAR GUARANTEE / warranty tag removed by AI; approved by Matan 11.11.2026; replaced tagged watermark-kept image via later manifest override; old file and historical watermarked mapping left in place"
     },
     {
       "sku": "HZ-CMP-00350",
@@ -224,7 +203,7 @@
         1200
       ],
       "image": "/catalog/images/ac-batch-005/HZ-CMP-00350-oe-matched.webp",
-      "verification": "AI-fixed image from ac_ai_fix/fixed; source magic matches extension; lossless WebP output; NRF/Denso logo kept; 3 YEAR GUARANTEE / warranty tag removed by AI; approved by Matan 11.11.2026; replaced tagged watermark-kept image, old file left on disk, mapping removed from ac-watermarked-2026-11-08.json"
+      "verification": "AI-fixed image from ac_ai_fix/fixed; source magic matches extension; lossless WebP output; NRF/Denso logo kept; 3 YEAR GUARANTEE / warranty tag removed by AI; approved by Matan 11.11.2026; replaced tagged watermark-kept image via later manifest override; old file and historical watermarked mapping left in place"
     },
     {
       "sku": "HZ-CND-00030",
@@ -322,7 +301,7 @@
         1200
       ],
       "image": "/catalog/images/ac-batch-005/HZ-CND-00079-code-matched.webp",
-      "verification": "AI-fixed image from ac_ai_fix/fixed; source magic matches extension; lossless WebP output; NRF/Denso logo kept; 3 YEAR GUARANTEE / warranty tag removed by AI; approved by Matan 11.11.2026; replaced tagged watermark-kept image, old file left on disk, mapping removed from ac-watermarked-2026-11-08.json"
+      "verification": "AI-fixed image from ac_ai_fix/fixed; source magic matches extension; lossless WebP output; NRF/Denso logo kept; 3 YEAR GUARANTEE / warranty tag removed by AI; approved by Matan 11.11.2026; replaced tagged watermark-kept image via later manifest override; old file and historical watermarked mapping left in place"
     },
     {
       "sku": "HZ-CND-00281",
@@ -668,5 +647,6 @@
       "verification": "AI-fixed image from ac_ai_fix/fixed; source magic matches extension; lossless WebP output; NRF/Denso logo kept; 3 YEAR GUARANTEE / warranty tag removed by AI; approved by Matan 11.11.2026; no prior usable catalog image"
     }
   ],
-  "skipped": []
+  "skipped": [],
+  "overrideMethod": "Later manifest entry ac-batch-005.json overrides the tagged watermark-kept paths still recorded in ac-watermarked-2026-11-08.json. Each product resolves to exactly one live image. Old files left on disk."
 }
