@@ -11,6 +11,8 @@ import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { categoryName, loadCategoryTiles, loadListing, type ListingSearch } from "@/lib/catalog";
 import { parseListingSort } from "@/lib/listing-sort";
+import { canonicalMake } from "@/lib/search-intent";
+import { brand } from "@/lib/brand";
 import { FLUID_KIND_LABELS, type FluidKind } from "@/lib/fluid-classify";
 import { pageDescription, pageTitle } from "@/lib/seo";
 
@@ -42,7 +44,7 @@ export const Route = createFileRoute("/results")({
   },
   validateSearch: (search: Record<string, unknown>): ResultsSearch => ({
     type: str(search.type),
-    make: str(search.make),
+    make: canonicalMake(str(search.make)) || str(search.make),
     model: str(search.model),
     year: str(search.year),
     q: str(search.q),
@@ -194,13 +196,16 @@ function ResultsPage() {
         ) : (
           <div className="rounded-xl border border-line bg-card p-7 text-center">
             <h2 className="mb-2 text-lg font-semibold">לא מצאנו התאמה בקטלוג</h2>
-            <p className="mb-4 text-muted">שלחו לנו מק״ט או תמונה בוואטסאפ — נאתר את השמן.</p>
+            <p className="mb-4 text-muted">
+              {state.q ? `לא מצאנו תוצאות ל«${state.q}». ` : ""}
+              שלחו לנו מק״ט או תמונה בוואטסאפ — נעזור למצוא את החלק.
+            </p>
             <div className="flex flex-col items-center justify-center gap-2 sm:flex-row">
-              <Link to="/results" search={{ category: "fluids" }}>
-                <Button variant="ghost">כל השמנים</Button>
-              </Link>
+              <a href={`https://wa.me/${brand.whatsapp}?text=${encodeURIComponent(state.q ? `שלום, חיפשתי "${state.q}" באתר ולא מצאתי` : "שלום, לא מצאתי את החלק באתר")}`} target="_blank" rel="noopener noreferrer">
+                <Button variant="accent">שלחו לנו בוואטסאפ</Button>
+              </a>
               <Link to="/help">
-                <Button variant="accent">לא מצאת? דברו איתנו</Button>
+                <Button variant="ghost">לא מצאת? דברו איתנו</Button>
               </Link>
             </div>
           </div>
