@@ -1,14 +1,14 @@
 import { CategoryImage } from "@/components/category-image";
 import { categoryImage } from "@/lib/category-images";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { Phone, Search, ShoppingBag } from "lucide-react";
+import { Phone, Search, ShoppingBag, Truck } from "lucide-react";
 import { visibleCategories } from "@/lib/catalog";
 import { useCart } from "@/lib/cart";
 import { brand } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
-/** Two-stage sticky: logo/icons stay; search sticks then unsticks on deeper scroll. */
+/** Two-stage sticky: shipping bar and logo/icons stay; search sticks then unsticks on deeper scroll. */
 export function SiteHeader() {
   const navigate = useNavigate();
   const packsActive = useRouterState({
@@ -19,12 +19,23 @@ export function SiteHeader() {
   const items = useCart((s) => s.items);
   const [mounted, setMounted] = useState(false);
   const [searchUnstuck, setSearchUnstuck] = useState(false);
+  const stickyRef = useRef<HTMLElement>(null);
+  const [stickyH, setStickyH] = useState(84);
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     const onScroll = () => setSearchUnstuck(window.scrollY > 140);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  useEffect(() => {
+    const el = stickyRef.current;
+    if (!el) return;
+    const update = () => setStickyH(el.offsetHeight);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
   const count = mounted ? items.reduce((s, x) => s + x.qty, 0) : 0;
 
@@ -36,16 +47,20 @@ export function SiteHeader() {
 
   return (
     <>
-      <div className="bg-[#121212] px-3.5 py-1.5 text-center text-[11.5px] font-semibold text-white/85 md:px-5 md:text-xs">
-        <span>המחירים כוללים מע״מ</span>
-        <span aria-hidden className="mx-2 text-accent-hot">•</span>
-        <span>בדיקת התאמה בוואטסאפ</span>
-        <span aria-hidden className="mx-2 hidden text-accent-hot sm:inline">•</span>
-        <a href={`tel:${brand.phoneTel}`} className="hidden hover:text-white sm:inline">
-          {brand.phone}
-        </a>
-      </div>
-      <header className="sticky top-0 z-50 border-b border-line bg-panel/95 backdrop-blur-md">
+      <header
+        ref={stickyRef}
+        className="sticky top-0 z-50 border-b border-line bg-panel/95 backdrop-blur-md"
+      >
+          <div
+            role="region"
+            aria-label={`משלוח חינם בקנייה מעל ${brand.freeShipFrom}₪`}
+            className="bg-[#121212] px-3.5 py-1.5 text-center text-[11.5px] font-semibold text-white/90 md:px-5 md:text-xs"
+          >
+            <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
+              <Truck className="size-3.5 shrink-0 text-accent-hot" aria-hidden />
+              <span>משלוח חינם בקנייה מעל {brand.freeShipFrom}₪!</span>
+            </span>
+          </div>
           <div className="mx-auto flex max-w-[1180px] items-center justify-between gap-3 px-3.5 py-2.5 md:px-5">
             <Link to="/" className="flex min-w-0 items-center gap-2">
               <img
@@ -100,8 +115,9 @@ export function SiteHeader() {
           id="search"
           className={cn(
             "z-40 border-b border-line bg-panel/95 backdrop-blur-md",
-            searchUnstuck ? "relative" : "sticky top-[53px] md:top-[61px]",
+            searchUnstuck ? "relative" : "sticky",
           )}
+          style={searchUnstuck ? undefined : { top: stickyH }}
         >
           <form
             onSubmit={onSearch}

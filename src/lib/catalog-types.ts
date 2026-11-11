@@ -1,3 +1,4 @@
+import { brand } from "@/lib/brand";
 import { displayCategories, isHiddenCategory } from "@/lib/display-taxonomy";
 import catalogManifest from "../../public/catalog/manifest.json";
 export type VehicleFitment = {
@@ -241,7 +242,7 @@ export const faqs = [
   },
   {
     q: "יש איסוף עצמי מנהריה?",
-    a: "כן. אפשר לאסוף מלוחמי הגטאות 24, נהריה, בימים א׳–ה׳ 08:00–17:00, או לקבל משלוח.",
+    a: `כן. אפשר לאסוף מלוחמי הגטאות 24, נהריה, בימים א׳–ה׳ 08:00–17:00, או לקבל משלוח. משלוח בארץ ${brand.shipping}₪, חינם בקנייה מעל ${brand.freeShipFrom}₪.`,
   },
   {
     q: "צריך לאשר התאמה לפני התקנה?",

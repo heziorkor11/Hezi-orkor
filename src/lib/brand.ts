@@ -6,7 +6,7 @@ export const brand = {
   phone: "052-485-8516",
   phoneTel: "972524858516",
   whatsapp: "972524858516",
-  freeShipFrom: 299,
+  freeShipFrom: 399,
   shipping: 49,
   hours: "שעות הפעילות לא אומתו — יש לתאם בטלפון",
   hoursVerified: false,
