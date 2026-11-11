@@ -7,6 +7,7 @@ import { displayModel, polishText, unique } from "@/lib/catalog-runtime";
 import { catalogJson } from "@/lib/catalog-io";
 import { imageLooksLikeSharedOe, inferCategory, yearsFromTitle } from "@/lib/part-display";
 import { expandProductName } from "@/lib/name-expand";
+import { applySearchHitNameOverride, getNameOverride } from "@/lib/name-overrides";
 
 const cache = {
   searchIndex: undefined as SearchHit[] | undefined,
@@ -74,12 +75,15 @@ function cardToProduct(card: ListingCard & Partial<Product>): Product {
   else if (!/^בולם\b/.test(nm) && /תפוח פרונט|ת\.פרונט|גומי מייצב|זרוע קדמית|ז\.פרונט|תושבת בולם|ת\.בולם/.test(nm) && (category === "general" || category === "shocks")) category = "suspension";
   else if (/^בולם\b/.test(nm) && category === "general") category = "shocks";
   category = displayCategory(card.sku, category);
+  const sourceName = card.name || "";
+  const nameOverride = getNameOverride(card.sku);
+  const displayName = nameOverride || sourceName;
   return {
     id: card.id || card.sku,
     sku: card.sku,
     oe: card.oe || "",
-    name: displaySpacing(card.sku, polishText(expandProductName(card.name).name)),
-    nameOriginal: card.nameOriginal || expandProductName(card.name).nameOriginal,
+    name: displaySpacing(card.sku, polishText(expandProductName(displayName).name)),
+    nameOriginal: card.nameOriginal || (nameOverride && nameOverride !== sourceName ? sourceName : expandProductName(sourceName).nameOriginal),
     type: typeFromCategory(category),
     category,
     make,
@@ -162,10 +166,17 @@ export async function loadRelatedImpl(product: Product, limit = 4): Promise<Prod
 }
 
 
-export async function loadSearchHits(): Promise<SearchHit[]> {
+async function loadSearchIndex(): Promise<SearchHit[]> {
   await loadImageMap();
-  if (!cache.searchIndex) cache.searchIndex = await catalogJson<SearchHit[]>("search-index.json");
+  if (!cache.searchIndex) {
+    const rows = await catalogJson<SearchHit[]>("search-index.json");
+    cache.searchIndex = rows.map(applySearchHitNameOverride);
+  }
   return cache.searchIndex;
+}
+
+export async function loadSearchHits(): Promise<SearchHit[]> {
+  return loadSearchIndex();
 }
 
 export function resolveProductImage(sku: string, oe?: string): string | undefined {
@@ -179,10 +190,10 @@ export async function loadListingImpl(
   await loadImageMap();
   const manifest = await (await import("./catalog-runtime")).loadManifest();
   const page = Math.max(1, state.page ?? 1);
-  if (!cache.searchIndex) cache.searchIndex = await catalogJson<SearchHit[]>("search-index.json");
+  const searchIndex = await loadSearchIndex();
   // Sort the full filtered result BEFORE pagination, not just the visible page.
   // Default: monthly deals first, then cheapest → most expensive (no-price last).
-  const filtered = cache.searchIndex.filter((hit) => opts.filterHit(hit, state));
+  const filtered = searchIndex.filter((hit) => opts.filterHit(hit, state));
   const hits = sortListingHits(filtered, parseListingSort(state.sort));
   const pages = Math.max(1, Math.ceil(hits.length / PAGE_SIZE));
   const current = Math.min(page, pages);
