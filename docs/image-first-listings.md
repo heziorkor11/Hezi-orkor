@@ -16,3 +16,9 @@
 The branch is based on current main `cdf63a7` and includes merged #16 and #17 (no rebase needed; no history rewritten). Reported preview-only empty fluids page 2/additives could not be reproduced against either the emitted handler or browser-path catalog loading with static fixtures. Added explicit regression gates: fluids pages have 60+32 of 92; Hebrew תוספים search and additives category each return 17; all expected SKUs and image-first ordering preserved, with no duplicates. The client-path test executes catalog code with `window` defined and serves exact static JSON assets; it is NOT browser/hydration/Deployment Protection QA. Runtime logs for the old deployment showed no records in the inspected window. No speculative functional changes have been made.
 
 If fresh preview browser QA still fails, inspect status/content-type/body for `/catalog/sku-map.json`, `/catalog/chunks/53.json`, `/catalog/chunks/58.json`, and browser console errors. SSR tests cannot prove client networking or hydration works through a deployment checkpoint. An empty rendered list is not evidence source data was removed.
+
+## Listing default sort (later)
+
+Category / search listing pages no longer use image-first as the default order.
+Default is monthly deals, then cheapest-to-most-expensive (see `docs/listing-sort.md`).
+Home featured rails and related products still use image-first.

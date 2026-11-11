@@ -52,17 +52,11 @@ assert.deepEqual(
 );
 const fluids = [...results[0].items, ...results[1].items];
 assert.equal(new Set(fluids.map((p) => p.sku)).size, 92);
-for (const items of [fluids, results[2].items, results[3].items]) {
-  let placeholder = false;
-  for (const p of items) {
-    if (!p.image) placeholder = true;
-    else assert.equal(placeholder, false, "real photo after placeholder");
-  }
-}
 assert.deepEqual(
-  results[2].items.map((p) => p.sku),
-  results[3].items.map((p) => p.sku),
+  new Set(results[2].items.map((p) => p.sku)),
+  new Set(results[3].items.map((p) => p.sku)),
+  "Hebrew additives search and category return the same SKU set",
 );
 console.log(
-  "PASS client-path regression: fluids 60+32/92, Hebrew additives search and category 17, no duplicate SKUs, photos before placeholders. This is not browser interaction QA.",
+  "PASS client-path regression: fluids 60+32/92, Hebrew additives search and category 17, no duplicate SKUs. Listing order is covered by check-listing-sort.mjs. This is not browser interaction QA.",
 );

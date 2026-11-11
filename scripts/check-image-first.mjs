@@ -107,42 +107,33 @@ async function page(path) {
 function skus(html) {
   return [...new Set([...html.matchAll(/href="\/product\/(HZ-[A-Z]+-\d+)"/g)].map((m) => m[1]))];
 }
-for (const p of new Set([1, Math.floor(realCount / 60) + 1, Math.ceil(expected.length / 60)])) {
-  const actual = skus(await page("/results?category=brakes&page=" + p));
-  assert.deepEqual(
-    actual,
-    expected.slice((p - 1) * 60, p * 60),
-    "stable global partition BEFORE pagination, page " + p,
-  );
-}
 const fluidsOriginal = index.filter(
   (h) =>
     (taxonomy.bySku[h.sku]?.category || h.category) === "fluids" && !taxonomy.bySku[h.sku]?.hidden,
 );
-const fluidsExpected = imagesFirst(fluidsOriginal, hasImage).map((h) => h.sku);
-for (const p of [1, 2]) {
-  const actual = skus(await page("/results?category=fluids&page=" + p));
-  assert.deepEqual(actual, fluidsExpected.slice((p - 1) * 60, p * 60), "fluids page " + p);
-  assert.ok(actual.length > 0);
-}
 const query = "תוספים";
 const additiveOriginal = index.filter(
   (h) =>
     (taxonomy.bySku[h.sku]?.category || h.category) === "additives" &&
     !taxonomy.bySku[h.sku]?.hidden,
 );
-assert.deepEqual(
-  skus(await page("/results?q=" + encodeURIComponent(query))),
-  imagesFirst(additiveOriginal, hasImage).map((h) => h.sku),
-);
 assert.equal(additiveOriginal.length, 17);
-assert.equal(skus(await page("/results?category=additives")).length, 17);
-for (const path of [
-  "/",
-  "/results?category=brakes",
-  "/results?q=" + encodeURIComponent(query),
-  "/product/HZ-BRK-00001",
-]) {
+const additivesPage = skus(await page("/results?category=additives"));
+assert.equal(additivesPage.length, 17);
+assert.deepEqual(
+  new Set(skus(await page("/results?q=" + encodeURIComponent(query)))),
+  new Set(additiveOriginal.map((h) => h.sku)),
+  "Hebrew additives search returns the additives category set",
+);
+const fluidsPage1 = skus(await page("/results?category=fluids"));
+const fluidsPage2 = skus(await page("/results?category=fluids&page=2"));
+assert.equal(fluidsOriginal.length, 92);
+assert.equal(fluidsPage1.length, 60, "fluids page 1 size");
+assert.equal(fluidsPage2.length, 32, "fluids page 2 size");
+assert.equal(new Set([...fluidsPage1, ...fluidsPage2]).size, 92);
+void expected; // listing order is now deals-then-price; asserted in check-listing-sort.mjs
+// Home featured + related products still use image-first. Listing pages do not.
+for (const path of ["/", "/product/HZ-BRK-00001"]) {
   const html = await page(path);
   const flags = [...html.matchAll(/<article[\s\S]*?<\/article>/g)].map(
     ([article]) => !article.includes("data-product-placeholder"),
@@ -153,5 +144,5 @@ for (const path of [
   );
 }
 console.log(
-  `PASS image-first: shared placeholder policy; stable non-mutating partition; ${realCount}/${original.length} brake products with photos; first/transition/last pages match global order; Hebrew search and featured cards; readonly/no network.`,
+  `PASS image-first: shared placeholder policy; non-mutating helper; ${realCount}/${original.length} brake products with photos; fluids 60+32/92; Hebrew additives search 17; home/related stay image-first; readonly/no network.`,
 );

@@ -1,6 +1,7 @@
 import { subcategories, normalizeDisplayCategory, isHiddenCategory } from "@/lib/display-taxonomy";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { ActiveFilters } from "@/components/active-filters";
+import { ListingSortControl } from "@/components/listing-sort-control";
 import { CategoryPhotoTiles } from "@/components/category-photo-tiles";
 import { DemoBanner } from "@/components/demo-banner";
 import { Finder } from "@/components/finder";
@@ -9,6 +10,7 @@ import { Pagination } from "@/components/pagination";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { categoryName, loadCategoryTiles, loadListing, type ListingSearch } from "@/lib/catalog";
+import { parseListingSort } from "@/lib/listing-sort";
 import { FLUID_KIND_LABELS, type FluidKind } from "@/lib/fluid-classify";
 import { pageDescription, pageTitle } from "@/lib/seo";
 
@@ -21,6 +23,11 @@ function str(v: unknown): string | undefined {
 function num(v: unknown): number | undefined {
   const n = typeof v === "number" ? v : typeof v === "string" ? Number(v) : NaN;
   return Number.isFinite(n) && n > 1 ? Math.floor(n) : undefined;
+}
+
+function sortParam(v: unknown): ResultsSearch["sort"] {
+  const parsed = parseListingSort(v);
+  return parsed === "recommended" ? undefined : parsed;
 }
 
 export const Route = createFileRoute("/results")({
@@ -47,6 +54,7 @@ export const Route = createFileRoute("/results")({
     axle: str(search.axle),
     hand: str(search.hand),
     page: num(search.page),
+    sort: sortParam(search.sort),
   }),
   loaderDeps: ({ search }) => search,
   loader: async ({ deps }) => {
@@ -173,6 +181,7 @@ function ResultsPage() {
           </nav>
         ) : null}
         <ActiveFilters state={state} />
+        <ListingSortControl state={state} />
         {listing.items.length ? (
           <>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">

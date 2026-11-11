@@ -50,7 +50,6 @@ for (const cat of ["ac-compressor", "ac-condenser"]) {
   const count = index.filter(
     (h) => (tax.bySku[h.sku]?.category || h.category) === cat && !tax.bySku[h.sku]?.hidden,
   ).length;
-  let placeholder = false;
   for (let p = 1; p <= Math.ceil(count / 60); p++) {
     const html = await page(`/results?category=${cat}&page=${p}`);
     const articles = [...html.matchAll(/<article[\s\S]*?<\/article>/g)].map((m) => m[0]);
@@ -61,12 +60,10 @@ for (const cat of ["ac-compressor", "ac-condenser"]) {
         assert.ok(article.includes(mapping[sku]), sku + " exact approved image on listing");
         seen.add(sku);
       }
-      if (article.includes("data-product-placeholder")) placeholder = true;
-      else assert.equal(placeholder, false, "photo after placeholder across " + cat + " pages");
     }
   }
 }
 assert.equal(seen.size, 132, "all approved photos resolve in product listings");
 console.log(
-  "PASS additional approved AC photos (125 AI-upscaled + 7 background fixes): 132 exact approved SKU WebPs/hash/bytes; 101 compressors+31 condensers; 516 needs-source excluded from new map; both product pages, all category pages and global image-first ordering; readonly cwd, zero network",
+  "PASS additional approved AC photos (125 AI-upscaled + 7 background fixes): 132 exact approved SKU WebPs/hash/bytes; 101 compressors+31 condensers; 516 needs-source excluded from new map; both product pages, all category pages and listing cards (order is deals-then-price, see check-listing-sort.mjs); readonly cwd, zero network",
 );

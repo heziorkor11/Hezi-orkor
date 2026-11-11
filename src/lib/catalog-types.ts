@@ -141,7 +141,13 @@ export type ProductFilter = {
   hand?: string;
 };
 
-export type ListingSearch = ProductFilter & { page?: number };
+export type ListingSortParam = "price-asc" | "price-desc";
+
+export type ListingSearch = ProductFilter & {
+  page?: number;
+  /** Listing sort. Omit for recommended (monthly deals, then cheapest). */
+  sort?: ListingSortParam;
+};
 
 export type ListingResult = {
   items: Product[];
