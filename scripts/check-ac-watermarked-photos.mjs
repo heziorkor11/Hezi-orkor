@@ -72,7 +72,6 @@ for (const cat of ["ac-compressor", "ac-condenser"]) {
   const count = index.filter(
     (h) => (tax.bySku[h.sku]?.category || h.category) === cat && !tax.bySku[h.sku]?.hidden,
   ).length;
-  let placeholder = false;
   for (let p = 1; p <= Math.ceil(count / 60); p++) {
     const html = await page(`/results?category=${cat}&page=${p}`);
     const articles = [...html.matchAll(/<article[\s\S]*?<\/article>/g)].map((m) => m[0]);
@@ -87,12 +86,10 @@ for (const cat of ["ac-compressor", "ac-condenser"]) {
           seen.add(sku);
         }
       }
-      if (article.includes("data-product-placeholder")) placeholder = true;
-      else assert.equal(placeholder, false, "photo after placeholder across " + cat + " pages");
     }
   }
 }
 assert.equal(seen.size, stillActive.length, "all non-superseded watermarked photos resolve in product listings");
 console.log(
-  "PASS preserved watermark photos: 215 exact approved SKU WebPs/hash/bytes; 88 compressors+127 condensers; 298 drawings/wrong-content/background excluded; watermarks retained; white-border/dimensions audit; both product pages, all category pages and global image-first ordering; readonly cwd, zero network",
+  "PASS preserved watermark photos: 215 exact approved SKU WebPs/hash/bytes; 88 compressors+127 condensers; 298 drawings/wrong-content/background excluded; watermarks retained; white-border/dimensions audit; both product pages, all category pages and listing cards (order is deals-then-price, see check-listing-sort.mjs); readonly cwd, zero network",
 );
