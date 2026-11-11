@@ -60,3 +60,10 @@ test("a conflicting part type in the query overrides the current category", () =
   assert.equal(next.sub, "pads");
   assert.equal(next.make, "טויוטה");
 });
+
+test("English type words map to the same categories as Hebrew", () => {
+  assert.deepEqual(parseSearchIntent("additives").allowed, [{ category: "additives" }]);
+  assert.deepEqual(parseSearchIntent("oils").allowed, [{ category: "fluids" }]);
+  assert.equal(parseSearchIntent("additives").restTokens.length, 0);
+  assert.equal(parseSearchIntent("oils").restTokens.length, 0);
+});

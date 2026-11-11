@@ -111,7 +111,7 @@ type TypePattern = { keys: string[][]; allowed: TypeRule[] };
 /** Longer phrases first. Keys are already normalizeKey'd (no geresh / dots / extra marks). */
 const TYPE_PATTERNS: TypePattern[] = [
   { keys: [["פילטר", "מזגן"], ["מסנן", "מזגן"], ["פילטר", "קבינה"], ["מסנן", "קבינה"], ["פולן"]], allowed: [{ category: "filters", sub: "cabin" }] },
-  { keys: [["פילטר", "שמן"], ["מסנן", "שמן"]], allowed: [{ category: "filters", sub: "oil" }] },
+  { keys: [["פילטר", "שמן"], ["מסנן", "שמן"], ["oil", "filter"], ["filter", "oil"]], allowed: [{ category: "filters", sub: "oil" }] },
   { keys: [["פילטר", "אוויר"], ["מסנן", "אוויר"], ["פילטר", "אויר"], ["מסנן", "אויר"]], allowed: [{ category: "filters", sub: "air" }] },
   { keys: [["פילטר", "סולר"], ["מסנן", "סולר"], ["פילטר", "דלק"], ["מסנן", "דלק"]], allowed: [{ category: "filters", sub: "diesel" }] },
   { keys: [["פילטר", "גיר"], ["מסנן", "גיר"]], allowed: [{ category: "filters", sub: "gear" }] },
@@ -137,11 +137,11 @@ const TYPE_PATTERNS: TypePattern[] = [
   { keys: [["בית", "מצערת"], ["בתי", "מצערת"]], allowed: [{ category: "throttle-body" }] },
   { keys: [["תפוח"], ["מתלה"], ["מתלים"], ["זרוע"]], allowed: [{ category: "suspension" }] },
   { keys: [["נורה"], ["נורות"], ["תאורה"]], allowed: [{ category: "lighting" }] },
-  { keys: [["תוסף"], ["תוספים"]], allowed: [{ category: "additives" }] },
+  { keys: [["תוסף"], ["תוספים"], ["additive"], ["additives"]], allowed: [{ category: "additives" }] },
   { keys: [["ניקוי"], ["תחזוקה"]], allowed: [{ category: "cleaning-maintenance" }] },
   { keys: [["מארז"], ["מארזים"]], allowed: [{ category: "workshop-packs" }] },
-  { keys: [["שמן"], ["שמנים"], ["נוזל"], ["נוזלים"]], allowed: [{ category: "fluids" }] },
-  { keys: [["פילטר"], ["פילטרים"], ["מסנן"], ["מסננים"]], allowed: [{ category: "filters" }] },
+  { keys: [["שמן"], ["שמנים"], ["נוזל"], ["נוזלים"], ["oil"], ["oils"], ["fluid"], ["fluids"]], allowed: [{ category: "fluids" }] },
+  { keys: [["פילטר"], ["פילטרים"], ["מסנן"], ["מסננים"], ["filter"], ["filters"]], allowed: [{ category: "filters" }] },
   {
     keys: [["מזגן"]],
     allowed: [
