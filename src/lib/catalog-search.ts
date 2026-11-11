@@ -23,6 +23,7 @@ import {
 } from "@/lib/fluid-classify";
 import { matchAxle, matchHand, parseViscosity } from "@/lib/tile-facets";
 import type { CategoryTile } from "@/lib/category-tiles";
+import { classifyPartType, selectedPartType, hasPartTypeChips, buildPartTypeChips, isPartTypeChip, type PartTypeChip } from "./part-types.ts";
 
 function escapeReg(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -78,7 +79,12 @@ function filterHit(hit: SearchHit, state: ProductFilter) {
   const category = normalizeDisplayCategory(merged.category);
   const sub = merged.sub;
   const overrideSub = displayOverride(hit.sku)?.sub;
-  if (sub && overrideSub !== sub) return false;
+  const chipType = selectedPartType(merged);
+  if (chipType) {
+    if (classifyPartType(hit, merged.category) !== chipType) return false;
+  } else if (sub && overrideSub !== sub) {
+    return false;
+  }
   if (merged.allowed.length && !typeAllows(hit.category, overrideSub, merged.allowed)) return false;
   const fluidsBrowse = category === "fluids" || Boolean(merged.fluidKind) || Boolean(merged.oilBrand);
   if (fluidsBrowse) {
@@ -98,7 +104,7 @@ function filterHit(hit: SearchHit, state: ProductFilter) {
   if (!fluidsBrowse && !VEHICLE_OPTIONAL_CATEGORIES.includes(category || "") && (merged.make || merged.model || merged.year)) {
     if (!productFitsVehicle(hit, merged.make, merged.model, merged.year)) return false;
   }
-  if (merged.type) {
+  if (merged.type && !isPartTypeChip(merged.type)) {
     if (typeFromCategory(hit.category) !== merged.type && hit.category !== merged.type) return false;
   }
   if (merged.q) {
@@ -126,6 +132,20 @@ export async function loadListing(state: ListingSearch = {}): Promise<ListingRes
   } catch (err) {
     console.error("[catalog] loadListing failed", err);
     return { items: [], total: 0, page: 1, pages: 1 };
+  }
+}
+
+export async function loadPartTypeChips(state: ListingSearch = {}): Promise<PartTypeChip[]> {
+  try {
+    const { loadSearchHits } = await import("./catalog-listing");
+    const merged = mergeFilterWithIntent(state);
+    const category = normalizeDisplayCategory(merged.category);
+    if (!hasPartTypeChips(category)) return [];
+    const hits = await loadSearchHits();
+    return buildPartTypeChips(merged, category, hits, filterHit);
+  } catch (err) {
+    console.error("[catalog] loadPartTypeChips failed", err);
+    return [];
   }
 }
 

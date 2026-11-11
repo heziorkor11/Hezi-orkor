@@ -1,5 +1,5 @@
-import taxonomy from '../../public/catalog/display-taxonomy.json';
-import hiddenCategoriesConfig from '../../public/catalog/hidden-categories.json';
+import taxonomy from '../../public/catalog/display-taxonomy.json' with { type: 'json' };
+import hiddenCategoriesConfig from '../../public/catalog/hidden-categories.json' with { type: 'json' };
 
 type Override = { category: string; sub?: string; hidden?: boolean };
 

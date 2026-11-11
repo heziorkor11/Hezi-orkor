@@ -514,8 +514,14 @@ export function listingSearchFromQuery(q: string, current?: ProductFilter): Prod
       (!next.category || intent.allowed.some((r) => r.category === next.category && r.sub === subs[0]))
     ) {
       next.sub = subs[0];
+      next.type = subs[0];
+    } else if (intent.allowed.length && subs.length === 0) {
+      // Generic type word like "פילטר": do not keep a leftover sub from the previous page.
+      delete next.sub;
+      delete next.type;
     } else if (intent.allowed.every((r) => r.sub) && next.sub && !subs.includes(next.sub)) {
       delete next.sub;
+      if (next.type && !subs.includes(next.type)) delete next.type;
     }
   }
   return next;
