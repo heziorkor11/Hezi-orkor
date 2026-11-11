@@ -5,6 +5,7 @@ import { FormField } from "@/components/form-field";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { brand } from "@/lib/brand";
 import { useCart } from "@/lib/cart";
 import { loadProduct, type Product } from "@/lib/catalog";
 import { useOrderForm } from "@/lib/order-form";
@@ -331,7 +332,7 @@ function CartPage() {
               <bdi>{formatCatalogPrice(cartSummary.subtotal)}</bdi>
             </div>
             <p className="mt-2 text-sm text-muted">
-              כולל מע״מ · לפני דמי משלוח, אם יחולו. המחיר הסופי יאושר בוואטסאפ.
+              כולל מע״מ · משלוח {brand.shipping}₪, חינם בקנייה מעל {brand.freeShipFrom}₪. המחיר הסופי יאושר בוואטסאפ.
             </p>
             {cartSummary.quoteCount > 0 && (
               <p className="mt-2 text-sm font-semibold">
