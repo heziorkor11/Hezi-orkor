@@ -1,6 +1,7 @@
 import { visibleCategories, type ListingSearch, type SearchHit } from "@/lib/catalog-types";
 import { isHiddenProduct, subcategories } from "@/lib/display-taxonomy";
 import { hasPartTypeChips } from "./part-types.ts";
+import { mergeFilterWithIntent } from "./search-intent.ts";
 import { classifyFluidKind } from "@/lib/fluid-classify";
 import { hasRealProductImage } from "@/lib/product-image-policy";
 import { AXLE_LABELS, parseViscosity } from "@/lib/tile-facets";
@@ -292,10 +293,11 @@ function pickImage(members: SearchHit[], preferSku: string | undefined, imageOf:
  * real catalog photo are omitted. A row of fewer than 2 tiles is dropped.
  */
 export function buildCategoryTiles(
-  state: ListingSearch,
+  rawState: ListingSearch,
   hits: SearchHit[],
   opts: { imageOf: ImageFn; hitMatches: MatchFn },
 ): CategoryTile[] {
+  const state = mergeFilterWithIntent(rawState);
   const visible = hits.filter((hit) => !isHiddenProduct(hit.sku));
   const baseState: ListingSearch = {
     ...state,

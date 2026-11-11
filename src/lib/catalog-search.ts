@@ -142,7 +142,7 @@ export async function loadPartTypeChips(state: ListingSearch = {}): Promise<Part
     const category = normalizeDisplayCategory(merged.category);
     if (!hasPartTypeChips(category)) return [];
     const hits = await loadSearchHits();
-    return buildPartTypeChips(state, category, hits, filterHit);
+    return buildPartTypeChips(merged, category, hits, filterHit);
   } catch (err) {
     console.error("[catalog] loadPartTypeChips failed", err);
     return [];

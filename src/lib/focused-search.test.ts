@@ -12,7 +12,7 @@ import {
   looksLikePartNumber,
   sameMake,
 } from "./search-intent.ts";
-import { classifyPartType, selectedPartType } from "./part-types.ts";
+import { buildPartTypeChips, classifyPartType, selectedPartType } from "./part-types.ts";
 
 type Row = {
   sku: string;
@@ -228,6 +228,27 @@ for (const testCase of CASES) {
     testCase.expect(rows);
   });
 }
+
+test("generic פילטר shows all five type chips and none is pre-selected", () => {
+  const state = mergeFilterWithIntent({ q: "פילטר" });
+  const chips = buildPartTypeChips(state, state.category, hits, hitMatches);
+  assert.deepEqual(
+    chips.map((c) => c.id),
+    ["cabin", "air", "oil", "diesel", "gear"],
+  );
+  assert.ok(chips.every((c) => !c.active));
+  assert.ok(chips.every((c) => c.count > 0));
+});
+
+test("פילטר מזגן דאציה auto-selects the cabin chip and still shows it", () => {
+  const state = mergeFilterWithIntent({ q: "פילטר מזגן דאציה" });
+  assert.equal(state.sub, "cabin");
+  const chips = buildPartTypeChips(state, state.category, hits, hitMatches);
+  const cabin = chips.find((c) => c.id === "cabin");
+  assert.ok(cabin, "cabin chip should remain visible");
+  assert.equal(cabin?.active, true);
+  assert.equal(cabin?.count, 6);
+});
 
 if (process.argv.includes("--report")) {
   console.log(JSON.stringify(reportCounts(), null, 2));
