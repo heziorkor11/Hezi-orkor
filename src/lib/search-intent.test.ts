@@ -58,7 +58,6 @@ test("a conflicting part type in the query overrides the current category", () =
   const next = listingSearchFromQuery("רפידות טויוטה", { category: "filters" });
   assert.equal(next.category, "brakes");
   assert.equal(next.sub, "pads");
-  assert.equal(next.type, "pads");
   assert.equal(next.make, "טויוטה");
 });
 
@@ -67,20 +66,4 @@ test("English type words map to the same categories as Hebrew", () => {
   assert.deepEqual(parseSearchIntent("oils").allowed, [{ category: "fluids" }]);
   assert.equal(parseSearchIntent("additives").restTokens.length, 0);
   assert.equal(parseSearchIntent("oils").restTokens.length, 0);
-});
-
-test("generic פילטר clears a leftover cabin sub and does not auto-select a type", () => {
-  const next = listingSearchFromQuery("פילטר", { category: "filters", sub: "cabin", type: "cabin" });
-  assert.equal(next.category, "filters");
-  assert.equal(next.sub, undefined);
-  assert.equal(next.type, undefined);
-  assert.equal(next.q, "פילטר");
-});
-
-test("פילטר מזגן דאציה auto-selects cabin in the URL type", () => {
-  const next = listingSearchFromQuery("פילטר מזגן דאציה", {});
-  assert.equal(next.category, "filters");
-  assert.equal(next.sub, "cabin");
-  assert.equal(next.type, "cabin");
-  assert.equal(next.make, "דאצ'יה");
 });

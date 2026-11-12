@@ -1,8 +1,7 @@
-import { normalizeDisplayCategory, isHiddenCategory } from "@/lib/display-taxonomy";
+import { subcategories, normalizeDisplayCategory, isHiddenCategory } from "@/lib/display-taxonomy";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { ActiveFilters } from "@/components/active-filters";
 import { ListingSortControl } from "@/components/listing-sort-control";
-import { TypeChips } from "@/components/type-chips";
 import { CategoryPhotoTiles } from "@/components/category-photo-tiles";
 import { DemoBanner } from "@/components/demo-banner";
 import { Finder } from "@/components/finder";
@@ -10,7 +9,7 @@ import { FluidsFilters } from "@/components/fluids-filters";
 import { Pagination } from "@/components/pagination";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
-import { categoryName, loadCategoryTiles, loadListing, loadPartTypeChips, type ListingSearch } from "@/lib/catalog";
+import { categoryName, loadCategoryTiles, loadListing, type ListingSearch } from "@/lib/catalog";
 import { parseListingSort } from "@/lib/listing-sort";
 import { canonicalMake } from "@/lib/search-intent";
 import { brand } from "@/lib/brand";
@@ -62,12 +61,11 @@ export const Route = createFileRoute("/results")({
   loaderDeps: ({ search }) => search,
   loader: async ({ deps }) => {
     if (deps.category && !categoryName(deps.category)) {
-      return { items: [], total: 0, page: 1, pages: 0, tiles: [], typeChips: [] };
+      return { items: [], total: 0, page: 1, pages: 0, tiles: [] };
     }
     const listing = await loadListing(deps);
     const tiles = await loadCategoryTiles(deps);
-    const typeChips = await loadPartTypeChips(deps);
-    return { ...listing, tiles, typeChips };
+    return { ...listing, tiles };
   },
   pendingComponent: PendingResults,
   head: ({ match }) => {
@@ -150,7 +148,6 @@ function ResultsPage() {
             {listing.pages > 1 ? ` · עמוד ${listing.page} מתוך ${listing.pages}` : ""}
           </p>
         </div>
-        <TypeChips chips={listing.typeChips || []} state={state} />
         <CategoryPhotoTiles tiles={listing.tiles || []} />
         {isFluids ? (
           <FluidsFilters state={{ ...state, category: state.category || "fluids" }} />
@@ -162,6 +159,29 @@ function ResultsPage() {
             <Finder key={JSON.stringify({ ...state, page: undefined })} state={state} />
           </section>
         )}
+        {!listing.tiles?.length && state.category && state.category !== "fluids" && subcategories[state.category] ? (
+          <nav aria-label="תתי קטגוריות" className="mb-5 flex flex-wrap gap-2">
+            <Link
+              to="/results"
+              search={{ ...state, sub: undefined, fluidKind: undefined, page: undefined }}
+              className={`rounded-full border px-4 py-2 text-sm ${!state.sub ? "bg-accent text-on-accent" : "bg-card"}`}
+            >
+              הכל
+            </Link>
+            {subcategories[state.category]
+              .filter((s) => s.count > 0)
+              .map((s) => (
+                <Link
+                  key={s.id}
+                  to="/results"
+                  search={{ ...state, sub: s.id, fluidKind: undefined, page: undefined }}
+                  className={`rounded-full border px-4 py-2 text-sm ${state.sub === s.id ? "bg-accent text-on-accent" : "bg-card"}`}
+                >
+                  {s.name} ({s.count})
+                </Link>
+              ))}
+          </nav>
+        ) : null}
         <ActiveFilters state={state} />
         <ListingSortControl state={state} />
         {listing.items.length ? (
