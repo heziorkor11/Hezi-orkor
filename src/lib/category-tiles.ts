@@ -1,7 +1,5 @@
 import { visibleCategories, type ListingSearch, type SearchHit } from "@/lib/catalog-types";
 import { isHiddenProduct, subcategories } from "@/lib/display-taxonomy";
-import { hasPartTypeChips } from "./part-types.ts";
-import { mergeFilterWithIntent } from "./search-intent.ts";
 import { classifyFluidKind } from "@/lib/fluid-classify";
 import { hasRealProductImage } from "@/lib/product-image-policy";
 import { AXLE_LABELS, parseViscosity } from "@/lib/tile-facets";
@@ -151,14 +149,16 @@ function defsFor(state: ListingSearch, hitsInCategory: SearchHit[]): TileDef[] {
     return viscosityDefs(hitsInCategory, "שמני מנוע");
   }
   if (category === "workshop-packs") {
-    // Type chips cover pack kinds; viscosity tiles stay when viewing engine oils.
-    if (state.sub === "engine" || state.type === "engine") {
-      return viscosityDefs(hitsInCategory, "שמני מנוע");
+    const packs = subDefs(category);
+    // When already viewing engine packs, also offer viscosity tiles from those hits.
+    if (state.sub === "engine") {
+      return [...packs, ...viscosityDefs(hitsInCategory, "שמני מנוע")];
     }
-    return [];
+    return packs;
   }
   if (category === "brakes") {
     return [
+      ...subDefs(category),
       {
         id: "brakes:axle:front",
         label: AXLE_LABELS.front,
@@ -177,6 +177,7 @@ function defsFor(state: ListingSearch, hitsInCategory: SearchHit[]): TileDef[] {
   }
   if (category === "steering") {
     return [
+      ...subDefs(category),
       {
         id: "steering:hand:right",
         label: "קצה הגה ימין",
@@ -224,10 +225,6 @@ function defsFor(state: ListingSearch, hitsInCategory: SearchHit[]): TileDef[] {
         facet: { axle: "rear" },
       },
     ];
-  }
-  // Part-type chips replace photo tiles for the type/sub family.
-  if (hasPartTypeChips(category)) {
-    return [];
   }
   if (subcategories[category]?.some((s) => s.count > 0)) {
     return subDefs(category);
@@ -293,11 +290,10 @@ function pickImage(members: SearchHit[], preferSku: string | undefined, imageOf:
  * real catalog photo are omitted. A row of fewer than 2 tiles is dropped.
  */
 export function buildCategoryTiles(
-  rawState: ListingSearch,
+  state: ListingSearch,
   hits: SearchHit[],
   opts: { imageOf: ImageFn; hitMatches: MatchFn },
 ): CategoryTile[] {
-  const state = mergeFilterWithIntent(rawState);
   const visible = hits.filter((hit) => !isHiddenProduct(hit.sku));
   const baseState: ListingSearch = {
     ...state,
