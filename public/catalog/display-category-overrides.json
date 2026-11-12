@@ -1,0 +1,17 @@
+{
+  "description": "Display-only per-SKU category remaps. Source catalog rows, prices, names, and images are unchanged. Applied by build-display-taxonomy.mjs.",
+  "bySku": {
+    "HZ-PLUG-00071": {
+      "category": "spark-plugs",
+      "reason": "מצת — הועבר למצתים לפי בקשת מתן"
+    },
+    "HZ-PLUG-00072": {
+      "category": "spark-plugs",
+      "reason": "מצת — הועבר למצתים לפי בקשת מתן"
+    },
+    "HZ-PLUG-00162": {
+      "category": "spark-plugs",
+      "reason": "מצת מכסחת דשא — גם כן מצת, הועבר למצתים"
+    }
+  }
+}

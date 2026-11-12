@@ -22,6 +22,7 @@ if(!Array.isArray(hiddenCfg.hiddenCategories)) throw new Error('hidden-categorie
 // Structural merges (oil-filter, cabin-filter, general) stay out of the storefront category list.
 const categories=manifest.categories.filter(c=>!['oil-filter','cabin-filter','general'].includes(c.id)).map(c=>({id:c.id,name:c.name})).concat(newCategories.map(([id,name])=>({id,name})));
 const reviewed=JSON.parse(fs.readFileSync(root+'general-review-overrides.json','utf8')).bySku;
+const categoryOverrides=JSON.parse(fs.readFileSync(root+'display-category-overrides.json','utf8')).bySku||{};
 const visibility=JSON.parse(fs.readFileSync(root+'visibility-overrides.json','utf8')).bySku;
 const bySku={};
 for(const p of products){
@@ -29,6 +30,7 @@ for(const p of products){
  if(category==='general')category=generalRules.find(([,re])=>re.test(text))?.[0]||'general';
  if(['oil-filter','cabin-filter'].includes(category))category='filters';
  if(reviewed[p.sku])category=reviewed[p.sku].category;
+ if(categoryOverrides[p.sku]?.category)category=categoryOverrides[p.sku].category;
  const sub=definitions[category]?.find(([, , re])=>re.test(text))?.[0];
  // Per-SKU hides come only from visibility-overrides. Category hides are applied at runtime from hidden-categories.json.
  bySku[p.sku]={category,...(sub?{sub}:{}),...(visibility[p.sku]?.hidden?{hidden:true}:{})};
