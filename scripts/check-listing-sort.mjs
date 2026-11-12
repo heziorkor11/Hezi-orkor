@@ -11,8 +11,13 @@ const pricesBySku = await json("prices.json");
 const hiddenPrices = new Set(
   ((await json("price-hide-overrides.json").catch(() => ({ skus: [] }))).skus) || [],
 );
+const priceOverrides =
+  ((await json("price-overrides.json").catch(() => ({ bySku: {} }))).bySku) || {};
 function catalogPrice(sku) {
-  if (!sku || hiddenPrices.has(sku)) return null;
+  if (!sku) return null;
+  const override = priceOverrides[sku];
+  if (typeof override === "number" && Number.isFinite(override) && override > 0) return override;
+  if (hiddenPrices.has(sku)) return null;
   const v = pricesBySku[sku];
   return typeof v === "number" && Number.isFinite(v) && v > 0 ? v : null;
 }
