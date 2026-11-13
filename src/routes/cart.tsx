@@ -29,7 +29,7 @@ export const Route = createFileRoute("/cart")({
       { title: "סל הקניות | חזי אורקור | נהריה" },
       {
         name: "description",
-        content: "סל הקניות של חזי אורקור. שליחת הזמנה כ־PDF בוואטסאפ, בלי סליקה באתר.",
+        content: "סל הקניות של חזי אורקור. שליחת הזמנה בוואטסאפ עם פירוט פריטים, בלי סליקה באתר.",
       },
     ],
   }),
@@ -53,6 +53,7 @@ function CartPage() {
   const [sending, setSending] = useState(false);
   const [pdfReady, setPdfReady] = useState(false);
   const [shareError, setShareError] = useState<string | null>(null);
+  const [sendStatus, setSendStatus] = useState<string | null>(null);
   const pdfCacheRef = useRef<PdfCache | null>(null);
   const genSeq = useRef(0);
 
@@ -179,22 +180,22 @@ function CartPage() {
     })();
   }, [cacheKey, customer, orderLines]);
 
-  const fallbackSend = useCallback(
-    (blob: Blob, orderRef: string, subtotal: number) => {
-      downloadBlob(blob, `${orderRef}.pdf`);
-      const text = buildOrderShareText({
-        orderRef,
-        customer,
-        itemCount: orderLines.length,
-        subtotal,
-      });
-      window.open(waMeUrlForShareText(text), "_blank", "noopener,noreferrer");
-    },
-    [customer, orderLines.length],
-  );
+  const openWhatsApp = useCallback((text: string) => {
+    const url = waMeUrlForShareText(text);
+    const opened = window.open(url, "_blank", "noopener,noreferrer");
+    if (!opened) window.location.assign(url);
+  }, []);
+
+  const downloadCurrentPdf = useCallback(() => {
+    const cache = pdfCacheRef.current;
+    if (!cache) return false;
+    downloadBlob(cache.blob, `${cache.orderRef}.pdf`);
+    return true;
+  }, []);
 
   const onSendOrder = useCallback(async () => {
     setShareError(null);
+    setSendStatus(null);
     if (!valid) {
       setTouched(true);
       return;
@@ -220,43 +221,54 @@ function CartPage() {
       const file = new File([cache.blob], `${cache.orderRef}.pdf`, {
         type: "application/pdf",
       });
-      const text = buildOrderShareText({
+      const shareInput = {
         orderRef: cache.orderRef,
         customer,
-        itemCount: orderLines.length,
+        lines: orderLines,
         subtotal: cache.subtotal,
-      });
+        quoteCount: cache.quoteCount,
+      };
 
       if (canSharePdfFile(file)) {
         try {
+          const { text } = buildOrderShareText({ ...shareInput, pdfAttached: true });
           await navigator.share({
             files: [file],
             text,
             title: `הזמנה ${cache.orderRef}`,
           });
+          setSendStatus(
+            "השיתוף נפתח. בחרו וואטסאפ וודאו שה-PDF צורף לשיחה. אם הקובץ לא הופיע, הורידו אותו מהכפתור למטה וצרפו ידנית.",
+          );
           return;
         } catch (err) {
-          // Cancel or share failure → fallback
           const name = err instanceof Error ? err.name : "";
-          if (name !== "AbortError") {
-            setShareError("השיתוף לא הושלם — מורידים PDF ופותחים וואטסאפ.");
+          if (name === "AbortError") {
+            setSendStatus("השיתוף בוטל. אפשר להוריד את ה-PDF או לנסות שוב.");
+            return;
           }
+          setShareError("השיתוף לא הושלם. מורידים את ה-PDF ופותחים וואטסאפ עם פירוט הפריטים.");
         }
       }
 
-      fallbackSend(cache.blob, cache.orderRef, cache.subtotal);
+      downloadBlob(cache.blob, `${cache.orderRef}.pdf`);
+      const { text } = buildOrderShareText(shareInput);
+      openWhatsApp(text);
+      setSendStatus(
+        "וואטסאפ נפתח עם פירוט כל הפריטים. ה-PDF ירד למכשיר. קישור wa.me לא יכול לצרף קבצים — צרפו את הקובץ לשיחה מההורדות אם הוא לא צורף אוטומטית.",
+      );
     } catch {
       setShareError("לא הצלחנו ליצור את ה־PDF. נסו שוב.");
     } finally {
       setSending(false);
     }
-  }, [valid, orderLines, cacheKey, customer, fallbackSend]);
+  }, [valid, orderLines, cacheKey, customer, openWhatsApp]);
 
   return (
     <div className="mx-auto max-w-[1180px] px-3.5 pt-7 pb-16 md:px-5">
       <div className="mb-4.5">
         <h1 className="text-[26px] tracking-tight">סל הקניות</h1>
-        <p className="text-muted">{rows.length} פריטים · שליחת הזמנה כ־PDF בוואטסאפ</p>
+        <p className="text-muted">{rows.length} פריטים · שליחת הזמנה בוואטסאפ עם פירוט פריטים וקובץ PDF</p>
       </div>
 
       {items.length && !rows.length ? <p className="text-muted">טוען פריטים מהקטלוג…</p> : null}
@@ -478,15 +490,30 @@ function CartPage() {
                   תנאי שימוש
                 </Link>
               </p>
-              <Button
-                type="button"
-                className="h-12 w-full rounded-xl text-sm font-extrabold sm:w-auto"
-                disabled={sending}
-                onClick={() => void onSendOrder()}
-              >
-                <WhatsAppIcon className="size-4" />
-                {sending ? "יוצר PDF…" : "שלח הזמנה"}
-              </Button>
+              <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+                <Button
+                  type="button"
+                  className="h-12 w-full rounded-xl text-sm font-extrabold sm:w-auto"
+                  disabled={sending || (valid && Boolean(orderLines.length) && !pdfReady)}
+                  onClick={() => void onSendOrder()}
+                >
+                  <WhatsAppIcon className="size-4" />
+                  {sending ? "שולח…" : "שלח הזמנה"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-12 w-full rounded-xl text-sm font-extrabold sm:w-auto"
+                  disabled={!pdfReady}
+                  onClick={() => {
+                    if (downloadCurrentPdf()) {
+                      setSendStatus("ה-PDF ירד למכשיר.");
+                    }
+                  }}
+                >
+                  הורד PDF
+                </Button>
+              </div>
               <p className="mt-2 text-xs text-muted">{ORDER_SHARE_HINT}</p>
               {valid && !pdfReady ? (
                 <p className="mt-1 text-xs text-muted">מכין את קובץ ההזמנה ברקע…</p>
@@ -495,6 +522,7 @@ function CartPage() {
                 <p className="mt-2 text-xs text-accent-hot">נא להשלים את שדות החובה לפני השליחה.</p>
               ) : null}
               {shareError ? <p className="mt-2 text-xs text-accent-hot">{shareError}</p> : null}
+              {sendStatus ? <p className="mt-2 text-xs text-muted">{sendStatus}</p> : null}
             </div>
           </section>
         </>

@@ -4,12 +4,14 @@ import { expandProductName } from "@/lib/name-expand";
 import { splitOe } from "@/lib/part-display";
 import {
   brandMfgPairs,
+  buildOrderShareMessage,
   formatIlPlate,
   formatTimestampIl,
   orderRefNow,
   productAbsoluteUrl,
   type OrderCustomer,
   type OrderLineInput,
+  type OrderShareTextInput,
 } from "@/lib/order-quote";
 import { catalogPrice, formatCatalogPrice, priceOrQuoteLabel } from "@/lib/prices";
 
@@ -177,7 +179,7 @@ function unitPriceLabel(sku: string) {
 
 function lineTotalLabel(sku: string, qty: number) {
   const p = catalogPrice(sku);
-  if (p == null) return "הצעת מחיר";
+  if (p == null) return priceOrQuoteLabel(sku);
   return formatCatalogPrice(p * qty);
 }
 
@@ -445,22 +447,8 @@ export async function buildOrderPdfBlob(input: OrderPdfInput): Promise<{
   return { blob, orderRef, now, subtotal, quoteCount };
 }
 
-export function buildOrderShareText(opts: {
-  orderRef: string;
-  customer: OrderCustomer;
-  itemCount: number;
-  subtotal: number;
-}) {
-  const { orderRef, customer, itemCount, subtotal } = opts;
-  return [
-    `הזמנה ${orderRef}`,
-    `שם: ${customer.name.trim()}`,
-    `טלפון: ${customer.phone.trim()}`,
-    `מס׳ רישוי: ${formatIlPlate(customer.plate) || customer.plate.trim()}`,
-    `פריטים: ${itemCount}`,
-    `סכום ביניים: ${formatCatalogPrice(subtotal)}`,
-    "PDF מצורף",
-  ].join("\n");
+export function buildOrderShareText(opts: OrderShareTextInput) {
+  return buildOrderShareMessage(opts);
 }
 
 export function waMeUrlForShareText(text: string) {
@@ -488,5 +476,5 @@ export function downloadBlob(blob: Blob, filename: string) {
   setTimeout(() => URL.revokeObjectURL(url), 30_000);
 }
 
-export const ORDER_SHARE_HINT = "בחרו וואטסאפ ← חזי אורקור";
+export const ORDER_SHARE_HINT = "וואטסאפ ייפתח עם פירוט כל הפריטים. קישור wa.me לא יכול לצרף קובץ — אם ה-PDF לא צורף אוטומטית, הורידו אותו וצרפו לשיחה.";
 export const ORDER_DISCLAIMER = DISCLAIMER;

@@ -1,12 +1,12 @@
-import { brand } from "@/lib/brand";
-import { expandProductName } from "@/lib/name-expand";
-import { splitOe } from "@/lib/part-display";
-import { catalogPrice, formatCatalogPrice, priceOrQuoteLabel } from "@/lib/prices";
+import { brand } from "./brand.ts";
+import { expandProductName } from "./name-expand.ts";
+import { splitOe } from "./part-display.ts";
+import { catalogPrice, formatCatalogPrice, priceOrQuoteLabel } from "./prices.ts";
 
 export const PRODUCT_SITE = "https://hezi-orkor.vercel.app";
 export const CART_URL = `${PRODUCT_SITE}/cart`;
-/** Soft cap for encoded wa.me URLs (Hebrew expands ~3×). */
-export const WA_URL_SOFT_LIMIT = 6000;
+/** Soft cap for encoded wa.me URLs. ~2000 is conservative; 4000 still stays under common wa.me truncation and leaves room for Hebrew names. */
+export const WA_URL_SOFT_LIMIT = 4000;
 
 export type OrderCustomer = {
   name: string;
@@ -112,20 +112,20 @@ export function brandMfgPairs(raw?: string, cap = 3): string[] {
   return out;
 }
 
-function deliveryLabel(v: OrderCustomer["delivery"]) {
-  if (v === "pickup") return "איסוף עצמי מלוחמי הגטאות 24, נהריה";
+export function deliveryLabel(v: OrderCustomer["delivery"], short = false) {
+  if (v === "pickup") return short ? "איסוף עצמי, נהריה" : "איסוף עצמי מלוחמי הגטאות 24, נהריה";
   if (v === "delivery") return "משלוח";
   return "—";
 }
 
-function unitPriceLabel(sku: string) {
+export function unitPriceLabel(sku: string) {
   const p = catalogPrice(sku);
   return p == null ? priceOrQuoteLabel(sku) : formatCatalogPrice(p);
 }
 
-function lineTotalLabel(sku: string, qty: number) {
+export function lineTotalLabel(sku: string, qty: number) {
   const p = catalogPrice(sku);
-  if (p == null) return "הצעת מחיר";
+  if (p == null) return priceOrQuoteLabel(sku);
   return formatCatalogPrice(p * qty);
 }
 
@@ -261,6 +261,96 @@ export function buildQuickQuoteMessage(product: { sku: string; name: string; oe?
     "אשמח שתשלחו גם מספר רישוי של הרכב לאישור התאמה.",
   );
   return lines.join("\n");
+}
+
+
+export type OrderShareTextInput = {
+  orderRef: string;
+  customer: OrderCustomer;
+  lines: OrderLineInput[];
+  subtotal: number;
+  quoteCount?: number;
+  /** Durable view/download URL, if the order was stored server-side. */
+  pdfUrl?: string;
+  /** True only when this text is sent together with a PDF file via Web Share. */
+  pdfAttached?: boolean;
+};
+
+function shortName(name: string, max: number) {
+  const n = displayName(name);
+  if (max <= 0) return "";
+  if (n.length <= max) return n;
+  return `${n.slice(0, Math.max(1, max - 1))}…`;
+}
+
+function compactItemLine(line: OrderLineInput, index: number, nameMax: number) {
+  const unit = unitPriceLabel(line.sku);
+  const total = lineTotalLabel(line.sku, line.qty);
+  const p = catalogPrice(line.sku);
+  const name = shortName(line.name, nameMax);
+  const namePart = name ? ` ${name}` : "";
+  if (p == null) return `${index + 1}. ${line.sku}${namePart} ×${line.qty} — ${unit}`;
+  return `${index + 1}. ${line.sku}${namePart} ×${line.qty} — ${unit} / ${total}`;
+}
+
+function composeShareText(
+  opts: OrderShareTextInput & { nameMax: number; includeVehicle: boolean; includeNotes: boolean },
+) {
+  const { orderRef, customer, lines, subtotal, pdfUrl, pdfAttached, nameMax } = opts;
+  const quoteCount = opts.quoteCount ?? lines.filter((l) => catalogPrice(l.sku) == null).length;
+  const rows = [
+    `הזמנה ${orderRef}`,
+    `שם: ${customer.name.trim()}`,
+    `טלפון: ${customer.phone.trim()}`,
+    `מס׳ רישוי: ${formatIlPlate(customer.plate) || customer.plate.trim()}`,
+    `משלוח: ${deliveryLabel(customer.delivery, true)}`,
+  ];
+  if (customer.city.trim()) rows.push(`עיר: ${customer.city.trim()}`);
+  if (opts.includeVehicle) {
+    const veh = [customer.make, customer.model, customer.year].filter(Boolean).join(" ");
+    if (veh) rows.push(`רכב: ${veh}`);
+    if (customer.engine.trim()) rows.push(`מנוע: ${customer.engine.trim()}`);
+  }
+  if (opts.includeNotes && customer.notes.trim()) rows.push(`הערות: ${customer.notes.trim()}`);
+  rows.push("", "פריטים:");
+  lines.forEach((line, i) => rows.push(compactItemLine(line, i, nameMax)));
+  rows.push("", `סכום ביניים: ${formatCatalogPrice(subtotal)}`);
+  if (quoteCount) rows.push(`פריטים ללא מחיר מחירון: ${quoteCount}`);
+  if (pdfUrl) rows.push(`PDF: ${pdfUrl}`);
+  if (pdfAttached) rows.push("קובץ PDF צורף לשיתוף");
+  rows.push("המחירים מחירון באתר — אישור סופי אצלכם. אין סליקה באתר.");
+  return rows.join("\n");
+}
+
+export type OrderShareFit = {
+  text: string;
+  url: string;
+  /** Encoded wa.me URL length. */
+  urlLength: number;
+  overLimit: boolean;
+};
+
+/**
+ * Compact WhatsApp order text that lists every line (SKU, short name, qty, unit, line total).
+ * Fits encoded wa.me URLs under WA_URL_SOFT_LIMIT when possible; never drops line items.
+ * Does not claim a PDF is attached unless pdfAttached or pdfUrl is set.
+ */
+export function buildOrderShareMessage(opts: OrderShareTextInput): OrderShareFit {
+  const attempts: Array<{ nameMax: number; includeVehicle: boolean; includeNotes: boolean }> = [
+    { nameMax: 36, includeVehicle: true, includeNotes: true },
+    { nameMax: 24, includeVehicle: true, includeNotes: false },
+    { nameMax: 16, includeVehicle: false, includeNotes: false },
+    { nameMax: 8, includeVehicle: false, includeNotes: false },
+    { nameMax: 0, includeVehicle: false, includeNotes: false },
+  ];
+  let last: OrderShareFit | null = null;
+  for (const a of attempts) {
+    const text = composeShareText({ ...opts, ...a });
+    const url = waLinkForText(text);
+    last = { text, url, urlLength: url.length, overLimit: url.length > WA_URL_SOFT_LIMIT };
+    if (!last.overLimit) return last;
+  }
+  return last!;
 }
 
 export function waLinkForText(text: string) {
