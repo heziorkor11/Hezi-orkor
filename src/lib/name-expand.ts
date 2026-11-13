@@ -1,4 +1,4 @@
-import nameAbbr from "../../public/catalog/name-abbreviations.json";
+import nameAbbr from "../../public/catalog/name-abbreviations.json" with { type: "json" };
 
 type Rule = { abbr: string; full: string; mode: "literal" | "token" };
 
