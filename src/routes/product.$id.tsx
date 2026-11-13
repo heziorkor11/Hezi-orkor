@@ -13,6 +13,8 @@ import { displayYears, yearsFromTitle, primaryOeLine, splitOe } from "@/lib/part
 import { breadcrumbJsonLd, pageDescription, pageTitle, productJsonLd } from "@/lib/seo";
 import { priceOrQuoteLabel } from "@/lib/prices";
 import { packUnitPriceLabel } from "@/lib/pack-price";
+import { isWorkshopPackSku } from "@/lib/display-taxonomy";
+import { DeliveryLeadTimes } from "@/components/delivery-lead-times";
 
 export const Route = createFileRoute("/product/$id")({
   loader: async ({ params }) => {
@@ -160,6 +162,7 @@ function ProductPage() {
             </p>
           ) : null}
           <p className="mb-4 leading-relaxed text-fg-soft">{product.description}</p>
+          <DeliveryLeadTimes className="mb-4 rounded-md border border-line bg-elevated px-3 py-2.5 text-sm text-fg-soft space-y-1" />
           <p className="mb-4 rounded-md border border-line bg-elevated px-3 py-2.5 text-sm text-muted">
             לפני התקנה יש לאשר התאמה לפי מספר רכב או מק״ט יצרן. חלק חליפי אינו בהכרח מקורי.{" "}
             <Link
@@ -171,6 +174,7 @@ function ProductPage() {
             </Link>
           </p>
           <div className="flex flex-col gap-2 sm:flex-row">
+            {isWorkshopPackSku(product.sku) ? null : (
             <Button
               className="flex-1"
               onClick={() => {
@@ -180,6 +184,7 @@ function ProductPage() {
             >
               הוסף להצעה
             </Button>
+            )}
             <a
               className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-md bg-accent px-4 text-sm font-semibold text-fg hover:bg-accent-hot"
               target="_blank"
@@ -187,7 +192,7 @@ function ProductPage() {
               href={waLink(quoteMessage(product))}
             >
               <WhatsAppIcon className="size-4" />
-              לבירור מלאי
+              {isWorkshopPackSku(product.sku) ? "בירור מחיר בוואטסאפ" : "לבירור מלאי"}
             </a>
           </div>
         </div>

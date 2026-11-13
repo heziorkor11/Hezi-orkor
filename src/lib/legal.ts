@@ -1,7 +1,7 @@
 
 export const legalMeta = {
-  lastUpdated: "2 בספטמבר 2026",
-  lastUpdatedIso: "2026-09-02",
+  lastUpdated: "13 בנובמבר 2026",
+  lastUpdatedIso: "2026-11-13",
   coordinatorName: "חזי אורקור",
   jurisdiction: "בתי המשפט המוסמכים במחוז חיפה",
   standard: "ת״י 5568 (WCAG 2.0 רמת AA)",

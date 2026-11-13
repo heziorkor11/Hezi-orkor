@@ -1,4 +1,4 @@
-import { catalogPrice, formatCatalogPrice } from "@/lib/prices";
+import { catalogPrice, ceilShekel, formatCatalogPrice } from "@/lib/prices";
 
 export type PackSize =
   | { kind: "unit"; qty: number; unitLiters?: number }
@@ -65,10 +65,7 @@ export function packUnitPriceLabel(sku: string | undefined | null, name?: string
   if (!pack || !pack.qty || pack.qty < 2) return null;
   const unit = total / pack.qty;
   if (!Number.isFinite(unit) || unit <= 0) return null;
-  // keep one decimal max for non-integers
-  const pretty = Number.isInteger(unit)
-    ? String(unit)
-    : (Math.round(unit * 10) / 10).toString();
+  const pretty = String(ceilShekel(unit));
   if (pack.kind === "liter") return `≈ ${pretty} ₪ לליטר`;
   return `≈ ${pretty} ₪ ליחידה`;
 }

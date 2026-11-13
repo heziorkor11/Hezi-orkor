@@ -131,7 +131,7 @@ assert.equal(fluidsOriginal.length, 92);
 assert.equal(fluidsPage1.length, 60, "fluids page 1 size");
 assert.equal(fluidsPage2.length, 32, "fluids page 2 size");
 assert.equal(new Set([...fluidsPage1, ...fluidsPage2]).size, 92);
-void expected; // listing order is now deals-then-price; asserted in check-listing-sort.mjs
+void expected; // listing default is image-then-name; asserted in check-listing-sort.mjs
 // Home featured + related products still use image-first. Listing pages do not.
 for (const path of ["/", "/product/HZ-BRK-00001"]) {
   const html = await page(path);

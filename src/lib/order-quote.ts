@@ -1,7 +1,7 @@
 import { brand } from "@/lib/brand";
 import { expandProductName } from "@/lib/name-expand";
 import { splitOe } from "@/lib/part-display";
-import { catalogPrice, formatCatalogPrice } from "@/lib/prices";
+import { catalogPrice, formatCatalogPrice, priceOrQuoteLabel } from "@/lib/prices";
 
 export const PRODUCT_SITE = "https://hezi-orkor.vercel.app";
 export const CART_URL = `${PRODUCT_SITE}/cart`;
@@ -120,7 +120,7 @@ function deliveryLabel(v: OrderCustomer["delivery"]) {
 
 function unitPriceLabel(sku: string) {
   const p = catalogPrice(sku);
-  return p == null ? "הצעת מחיר" : formatCatalogPrice(p);
+  return p == null ? priceOrQuoteLabel(sku) : formatCatalogPrice(p);
 }
 
 function lineTotalLabel(sku: string, qty: number) {

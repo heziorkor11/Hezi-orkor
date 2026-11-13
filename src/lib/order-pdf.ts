@@ -11,7 +11,7 @@ import {
   type OrderCustomer,
   type OrderLineInput,
 } from "@/lib/order-quote";
-import { catalogPrice, formatCatalogPrice } from "@/lib/prices";
+import { catalogPrice, formatCatalogPrice, priceOrQuoteLabel } from "@/lib/prices";
 
 const FONT_REGULAR_URL = "/fonts/Heebo-Regular.ttf";
 const FONT_BOLD_URL = "/fonts/Heebo-Bold.ttf";
@@ -172,7 +172,7 @@ function deliveryLabel(v: OrderCustomer["delivery"]) {
 
 function unitPriceLabel(sku: string) {
   const p = catalogPrice(sku);
-  return p == null ? "הצעת מחיר" : formatCatalogPrice(p);
+  return p == null ? priceOrQuoteLabel(sku) : formatCatalogPrice(p);
 }
 
 function lineTotalLabel(sku: string, qty: number) {

@@ -294,13 +294,14 @@ function ShippingBody() {
     <>
       <LegalSection title="1. איסוף עצמי">
         <p>
-          איסוף מ{brand.address}, {brand.hours}. יש לתאם שהחלק מוכן. הביאו אמצעי זיהוי ומספר הזמנה.
+          איסוף מ{brand.address}, {brand.hours}. יש לתאם שהחלק מוכן. הביאו אמצעי זיהוי ומספר הזמנה.{" "}
+          {brand.pickupLeadTime}.
         </p>
       </LegalSection>
       <LegalSection title="2. משלוח">
         <p>
-          משלוח בארץ {brand.shipping} ₪. חינם בהזמנה מ־{brand.freeShipFrom} ₪ (לפי המחיר שאושר בוואטסאפ, כולל מע״מ).
-          זמן אספקה יימסר באישור ההזמנה — תלוי במלאי ובמוביל. איננו אחראים לעיכוב מוביל חיצוני מעבר לחובתנו לפי דין.
+          משלוח בארץ {brand.shipping} ₪. חינם בהזמנה מ־{brand.freeShipFrom} ₪ (לפי המחיר שאושר בוואטסאפ, כולל מע״מ).{" "}
+          {brand.shippingLeadTime}. איננו אחראים לעיכוב מוביל חיצוני מעבר לחובתנו לפי דין.
         </p>
       </LegalSection>
       <LegalSection title="3. נזק בדרך">

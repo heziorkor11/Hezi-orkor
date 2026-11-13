@@ -192,9 +192,15 @@ export async function loadListingImpl(
   const page = Math.max(1, state.page ?? 1);
   const searchIndex = await loadSearchIndex();
   // Sort the full filtered result BEFORE pagination, not just the visible page.
-  // Default: monthly deals first, then cheapest → most expensive (no-price last).
+  // Default: real photo first, then display name. Workshop-packs always photo-first.
   const filtered = searchIndex.filter((hit) => opts.filterHit(hit, state));
-  const hits = sortListingHits(filtered, parseListingSort(state.sort));
+  const sort = parseListingSort(state.sort);
+  const workshopListing = state.category === "workshop-packs";
+  const hits = sortListingHits(filtered, sort, {
+    hasImage: (hit) => hasRealProductImage(resolveImage(hit.sku, undefined, hit.oe)),
+    nameOf: (hit) => hit.title || "",
+    forceImageFirst: workshopListing,
+  });
   const pages = Math.max(1, Math.ceil(hits.length / PAGE_SIZE));
   const current = Math.min(page, pages);
   const slice = hits.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);
