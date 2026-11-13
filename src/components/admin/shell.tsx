@@ -28,6 +28,7 @@ const MASTER_NAV = [
   { to: "/admin/tags", label: "תגים ומבצעים", ico: "★", master: true },
   { to: "/admin/activity", label: "יומן פעילות", ico: "⌚" },
   { to: "/admin/users", label: "משתמשים והרשאות", ico: "👤", master: true },
+  { to: "/admin/mail-preview", label: "דוא״ל והתראות", ico: "✉", master: true },
 ] as const;
 
 export function AdminGate({ children }: { children?: ReactNode }) {
@@ -134,6 +135,7 @@ export function AdminGate({ children }: { children?: ReactNode }) {
     "/admin/tags": "תגים ומבצעים",
     "/admin/activity": "יומן פעילות",
     "/admin/users": "משתמשים והרשאות",
+    "/admin/mail-preview": "דוא״ל והתראות",
   };
   const title =
     titleMap[pathname] ||

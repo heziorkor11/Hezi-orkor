@@ -169,3 +169,46 @@ test("SMTP falls back from 465 TLS failure to 587 STARTTLS, but not on session e
   );
   assert.deepEqual(bothTried, [465, 587]);
 });
+
+test("test notification email is marked sample and uses a no-op revert link", async () => {
+  const { buildChangeNotification, SAMPLE_REVERT_PATH, smtpErrorMessageHe } = await import("./mail-template.ts");
+  const mail = buildChangeNotification({
+    actorName: "יואב לוי",
+    actorRole: "עובד",
+    action: "עריכת מוצר (price) — דוגמת בדיקה",
+    target: "HZ-CAF-00195",
+    at: "2026-11-13T21:40:00.000Z",
+    before: { price: 11 },
+    after: { price: 13 },
+    revertUrl: `https://preview.example${SAMPLE_REVERT_PATH}`,
+    sample: true,
+  });
+  assert.match(mail.subject, /בדיקת דוא״ל/);
+  assert.match(mail.subject, /לא מבטל שינוי/);
+  assert.match(mail.html, /מייל בדיקה בלבד/);
+  assert.match(mail.html, /אינו מבטל שינוי אמיתי/);
+  assert.match(mail.html, /\/admin\/revert\?sample=1/);
+  assert.doesNotMatch(mail.html, /[?&]token=/);
+  assert.match(mail.text, /לדוגמה/);
+  assert.equal(SAMPLE_REVERT_PATH, "/admin/revert?sample=1");
+
+  const live = buildChangeNotification({
+    actorName: "יואב לוי",
+    actorRole: "עובד",
+    action: "עריכת מוצר (price)",
+    target: "HZ-CAF-00195",
+    at: "2026-11-13T21:40:00.000Z",
+    before: { price: 11 },
+    after: { price: 13 },
+    revertUrl: "https://preview.example/admin/revert?token=abc",
+  });
+  assert.match(live.subject, /^שינוי עלה לאתר/);
+  assert.doesNotMatch(live.html, /מייל בדיקה בלבד/);
+  assert.match(live.html, /token=abc/);
+
+  assert.match(smtpErrorMessageHe("smtp-not-configured"), /חסרות הגדרות Gmail/);
+  assert.match(smtpErrorMessageHe("smtp-failed", new Error("SMTP timeout")), /פג הזמן/);
+  assert.match(smtpErrorMessageHe("smtp-failed", new Error("Client network socket disconnected before secure TLS connection was established")), /TLS/);
+  const leaked = smtpErrorMessageHe("smtp-failed", new Error("fail abcdefghijklmnopqrstuvwx=="));
+  assert.doesNotMatch(leaked, /abcdefghijklmnopqrstuvwx/);
+});

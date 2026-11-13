@@ -6,7 +6,7 @@ import { clientIp, rateLimit, rateLimitReset } from "./rate-limit";
 import { ensureAdminOverlay, readActivity, appendActivity, saveActivityList, writeCatalogFile, readCatalogFile, buildPublicOverlay } from "./storage.server";
 import { adminProductRow, homeStats, listAdminProducts } from "./catalog-query.server";
 import { getOrder, listOrders, saveOrder, ingestCartOrder, ordersPersistence, nextStatus } from "./orders.server";
-import { notifyMasterChange } from "./mail.server";
+import { notifyMasterChange, sendTestNotification, smtpConfigured, notifyEmail } from "./mail.server";
 import { catalogPrice, ceilShekel } from "@/lib/prices";
 import { isWorkshopPackSku, allTaxonomyCategories, categoryDisplayName, isHiddenCategory } from "@/lib/display-taxonomy";
 import { brand } from "@/lib/brand";
@@ -510,10 +510,29 @@ export async function adminApi(req: Request): Promise<Response> {
     return json({ ok: true, order: next });
   }
 
+  if (path === "/api/admin/mail/status" && method === "GET") {
+    const u = requireMaster(req);
+    if (u instanceof Response) return u;
+    return json({ configured: smtpConfigured(), to: notifyEmail() || null });
+  }
+
+  if (path === "/api/admin/mail/test" && method === "POST") {
+    const u = requireMaster(req);
+    if (u instanceof Response) return u;
+    const rl = rateLimit(`mail-test:${u.sub}`, 5, 60_000);
+    if (!rl.ok) return json({ error: "יותר מדי ניסיונות. נסו שוב בעוד דקה." }, 429);
+    const result = await sendTestNotification();
+    return json(result);
+  }
+
   if (path === "/api/admin/revert-by-token" && (method === "POST" || method === "GET")) {
     const rl = rateLimit(`revert:${clientIp(req)}`, 20, 60_000);
     if (!rl.ok) return json({ error: "יותר מדי בקשות" }, 429);
-    const token = method === "GET" ? url.searchParams.get("token") : (await bodyOf<{ token?: string }>(req)).token;
+    const body = method === "GET" ? {} : await bodyOf<{ token?: string; sample?: boolean }>(req);
+    if (url.searchParams.get("sample") === "1" || body.sample) {
+      return json({ ok: false, sample: true, error: "זה קישור לדוגמה בלבד — הוא לא מבטל שינוי אמיתי באתר." }, 200);
+    }
+    const token = method === "GET" ? url.searchParams.get("token") : body.token;
     const id = readRevertToken(token || "");
     if (!id) return json({ error: "הקישור אינו תקף או שפג תוקפו" }, 400);
     const result = await revertActivity(id, "קישור מהדוא״ל");
