@@ -73,3 +73,99 @@ test("merge overlay keeps existing keys", () => {
   assert.equal(getPublicOverlay().nameBySku?.["HZ-X"], "שם");
   setPublicOverlay(prev);
 });
+
+test("normalizeAdminPath collapses double slashes and /admin/admin prefix", async () => {
+  const { normalizeAdminPath, isAdminHomePath, ADMIN_HOME } = await import("./paths.ts");
+  assert.equal(normalizeAdminPath("/admin//admin/"), ADMIN_HOME);
+  assert.equal(normalizeAdminPath("/admin/admin"), ADMIN_HOME);
+  assert.equal(normalizeAdminPath("/admin/admin/"), ADMIN_HOME);
+  assert.equal(normalizeAdminPath("/admin/admin/orders"), "/admin/orders");
+  assert.equal(normalizeAdminPath("/admin//orders"), "/admin/orders");
+  assert.equal(normalizeAdminPath("/admin/orders"), "/admin/orders");
+  assert.equal(normalizeAdminPath("/admin/login"), "/admin/login");
+  assert.equal(normalizeAdminPath("/admin"), ADMIN_HOME);
+  assert.equal(normalizeAdminPath("/results"), "/results");
+  assert.equal(isAdminHomePath("/admin"), true);
+  assert.equal(isAdminHomePath(ADMIN_HOME), true);
+  assert.equal(isAdminHomePath("/admin/orders"), false);
+});
+
+test("SMTP falls back from 465 TLS failure to 587 STARTTLS, but not on session errors", async () => {
+  const { sendSmtp, SmtpError, isSmtpConnectOrTlsFailure, SMTP_TRANSPORTS } = await import("./smtp.ts");
+  assert.deepEqual(
+    SMTP_TRANSPORTS.map((t) => [t.port, t.mode]),
+    [
+      [465, "implicit-tls"],
+      [587, "starttls"],
+    ],
+  );
+
+  const tlsErr = new SmtpError("Client network socket disconnected before secure TLS connection was established", "tls");
+  assert.equal(isSmtpConnectOrTlsFailure(tlsErr), true);
+  assert.equal(isSmtpConnectOrTlsFailure(new Error("Client network socket disconnected before secure TLS connection was established")), true);
+  const eof = Object.assign(new Error("[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol"), {
+    code: "EPROTO",
+  });
+  assert.equal(isSmtpConnectOrTlsFailure(eof), true);
+
+  const authErr = new SmtpError("SMTP 535: authentication failed", "session");
+  assert.equal(isSmtpConnectOrTlsFailure(authErr), false);
+
+  const tried: Array<number> = [];
+  const result = await sendSmtp(
+    { to: "owner@example.com", subject: "t", html: "<p>x</p>", text: "x" },
+    {
+      sendWithTransport: async (_opts, transport) => {
+        tried.push(transport.port);
+        if (transport.port === 465) throw tlsErr;
+      },
+    },
+  );
+  assert.deepEqual(tried, [465, 587]);
+  assert.equal(result.transport.port, 587);
+  assert.equal(result.transport.mode, "starttls");
+
+  const only465: number[] = [];
+  const ok = await sendSmtp(
+    { to: "owner@example.com", subject: "t", html: "<p>x</p>", text: "x" },
+    {
+      sendWithTransport: async (_opts, transport) => {
+        only465.push(transport.port);
+      },
+    },
+  );
+  assert.deepEqual(only465, [465]);
+  assert.equal(ok.transport.port, 465);
+
+  const authTried: number[] = [];
+  await assert.rejects(
+    () =>
+      sendSmtp(
+        { to: "owner@example.com", subject: "t", html: "<p>x</p>", text: "x" },
+        {
+          sendWithTransport: async (_opts, transport) => {
+            authTried.push(transport.port);
+            throw authErr;
+          },
+        },
+      ),
+    (err: unknown) => err instanceof SmtpError && err.phase === "session",
+  );
+  assert.deepEqual(authTried, [465]);
+
+  const bothTried: number[] = [];
+  await assert.rejects(
+    () =>
+      sendSmtp(
+        { to: "owner@example.com", subject: "t", html: "<p>x</p>", text: "x" },
+        {
+          sendWithTransport: async (_opts, transport) => {
+            bothTried.push(transport.port);
+            throw new SmtpError("SMTP timeout", transport.port === 465 ? "tls" : "connect");
+          },
+        },
+      ),
+    (err: unknown) => err instanceof SmtpError,
+  );
+  assert.deepEqual(bothTried, [465, 587]);
+});

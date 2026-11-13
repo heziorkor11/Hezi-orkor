@@ -159,7 +159,7 @@ function ProductEditPage() {
         {saved ? <p className="muted">{saved}</p> : null}
         <div style={{ display: "flex", gap: 8, marginTop: 18, flexWrap: "wrap" }}>
           <button className="btn btn-accent" type="submit" disabled={busy}>{busy ? "שומר…" : "שמירה"}</button>
-          <Link className="btn btn-ghost" to="/admin/products">ביטול</Link>
+          <Link from="/" className="btn btn-ghost" to="/admin/products">ביטול</Link>
         </div>
       </div>
       <div>

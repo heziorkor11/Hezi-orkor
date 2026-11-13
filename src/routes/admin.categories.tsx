@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAdmin } from "@/components/admin/shell";
 import { adminFetch } from "@/components/admin/api";
+import { ADMIN_HOME } from "@/lib/admin/paths";
 
 export const Route = createFileRoute("/admin/categories")({
   component: CategoriesPage,
@@ -18,7 +19,7 @@ function CategoriesPage() {
 
   useEffect(() => {
     if (user.role !== "master") {
-      void navigate({ to: "/admin" });
+      void navigate({ from: "/", to: ADMIN_HOME });
       return;
     }
     void adminFetch<{ categories: Cat[] }>("/api/admin/categories")

@@ -58,7 +58,7 @@ function OrderDetailPage() {
   return (
     <>
       <p className="muted" style={{ marginTop: 0 }}>
-        <Link to="/admin/orders">← לכל ההזמנות</Link>
+        <Link from="/" to="/admin/orders">← לכל ההזמנות</Link>
       </p>
       <div className="grid-2">
         <div className="card">

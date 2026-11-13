@@ -4,6 +4,7 @@ import { useAdmin } from "@/components/admin/shell";
 import { adminFetch } from "@/components/admin/api";
 import type { TagDef } from "@/lib/admin/types";
 import { currentHomeDealsSkus } from "@/lib/home-deals";
+import { ADMIN_HOME } from "@/lib/admin/paths";
 
 export const Route = createFileRoute("/admin/tags")({
   component: TagsPage,
@@ -23,7 +24,7 @@ function TagsPage() {
 
   useEffect(() => {
     if (user.role !== "master") {
-      void navigate({ to: "/admin" });
+      void navigate({ from: "/", to: ADMIN_HOME });
       return;
     }
     void adminFetch<{ tags: TagDef[]; deals: string[] }>("/api/admin/tags")

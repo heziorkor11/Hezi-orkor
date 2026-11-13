@@ -3,6 +3,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { useAdmin } from "@/components/admin/shell";
 import { adminFetch } from "@/components/admin/api";
 import type { SafeUser } from "@/lib/admin/types";
+import { ADMIN_HOME } from "@/lib/admin/paths";
 
 export const Route = createFileRoute("/admin/users")({
   component: UsersPage,
@@ -21,7 +22,7 @@ function UsersPage() {
 
   useEffect(() => {
     if (user.role !== "master") {
-      void navigate({ to: "/admin" });
+      void navigate({ from: "/", to: ADMIN_HOME });
       return;
     }
     void adminFetch<{ users: SafeUser[] }>("/api/admin/users")

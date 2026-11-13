@@ -51,7 +51,7 @@ function OrdersPage() {
       {list.length === 0 ? <p className="muted">אין הזמנות בסטטוס הזה.</p> : null}
       <div className="card" style={{ padding: 0 }}>
         {list.map((o) => (
-          <Link key={o.id} to="/admin/orders/$id" params={{ id: o.id }} className="log-row">
+          <Link from="/" key={o.id} to="/admin/orders/$id" params={{ id: o.id }} className="log-row">
             <div style={{ flex: 1, minWidth: 0 }}>
               <div className="sku">{o.id}</div>
               <div>

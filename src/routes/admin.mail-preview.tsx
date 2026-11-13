@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAdmin } from "@/components/admin/shell";
+import { ADMIN_HOME } from "@/lib/admin/paths";
 
 export const Route = createFileRoute("/admin/mail-preview")({
   component: MailPreviewPage,
@@ -10,7 +11,7 @@ function MailPreviewPage() {
   const { user } = useAdmin();
   const navigate = useNavigate();
   useEffect(() => {
-    if (user.role !== "master") void navigate({ to: "/admin" });
+    if (user.role !== "master") void navigate({ from: "/", to: ADMIN_HOME });
   }, [user.role, navigate]);
   if (user.role !== "master") return null;
   return (

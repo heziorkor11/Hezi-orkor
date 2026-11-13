@@ -90,7 +90,7 @@ function ProductsPage() {
                       {p.image ? <img className="thumb" src={p.image} alt="" /> : <div className="ph">אין תמונה</div>}
                     </td>
                     <td>
-                      <Link to="/admin/products/$sku" params={{ sku: p.sku }} style={{ fontWeight: 700 }}>
+                      <Link from="/" to="/admin/products/$sku" params={{ sku: p.sku }} style={{ fontWeight: 700 }}>
                         {p.name}
                       </Link>
                       <div className="sku">{p.sku}</div>

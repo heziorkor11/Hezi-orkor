@@ -68,7 +68,7 @@ function HomePage() {
           <h2 className="section-title">הזמנות נכנסות</h2>
           {data.orders.length === 0 ? <p className="muted">אין הזמנות עדיין. הזמנה שנשלחת בוואטסאפ מהעגלה תגיע לכאן.</p> : null}
           {data.orders.map((o) => (
-            <Link key={o.id} to="/admin/orders/$id" params={{ id: o.id }} className="log-row">
+            <Link from="/" key={o.id} to="/admin/orders/$id" params={{ id: o.id }} className="log-row">
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div className="sku">{o.id}</div>
                 <div>
@@ -83,7 +83,7 @@ function HomePage() {
             </Link>
           ))}
           <div style={{ marginTop: 12 }}>
-            <Link className="btn btn-sm btn-accent" to="/admin/orders">
+            <Link from="/" className="btn btn-sm btn-accent" to="/admin/orders">
               לכל ההזמנות
             </Link>
           </div>
@@ -119,7 +119,7 @@ function HomePage() {
             </div>
           ))}
           <div style={{ marginTop: 12 }}>
-            <Link className="btn btn-sm btn-ghost" to="/admin/activity">
+            <Link from="/" className="btn btn-sm btn-ghost" to="/admin/activity">
               לכל יומן הפעילות
             </Link>
           </div>
@@ -128,18 +128,18 @@ function HomePage() {
       <div className="card" style={{ marginTop: 16 }}>
         <h2 className="section-title">פעולות מהירות</h2>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <Link className="btn btn-accent" to="/admin/orders">
+          <Link from="/" className="btn btn-accent" to="/admin/orders">
             הזמנות נכנסות
           </Link>
-          <Link className="btn btn-ghost" to="/admin/products">
+          <Link from="/" className="btn btn-ghost" to="/admin/products">
             ניהול מוצרים
           </Link>
           {user.role === "master" ? (
             <>
-              <Link className="btn btn-ghost" to="/admin/tags">
+              <Link from="/" className="btn btn-ghost" to="/admin/tags">
                 תגים ומבצעי החודש
               </Link>
-              <Link className="btn btn-ghost" to="/admin/users">
+              <Link from="/" className="btn btn-ghost" to="/admin/users">
                 הוספת עובד
               </Link>
             </>

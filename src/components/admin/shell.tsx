@@ -1,4 +1,5 @@
-import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Link, Outlet, useNavigate, useRouter, useRouterState } from "@tanstack/react-router";
+import { ADMIN_HOME, ADMIN_LOGIN, isAdminHomePath, normalizeAdminPath } from "@/lib/admin/paths";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { SafeUser } from "@/lib/admin/types";
 import { adminFetch, type MeResponse } from "./api";
@@ -20,7 +21,7 @@ export function useAdmin() {
 }
 
 const MASTER_NAV = [
-  { to: "/admin", label: "סקירה", ico: "⌂", end: true },
+  { to: ADMIN_HOME, label: "סקירה", ico: "⌂", end: true },
   { to: "/admin/orders", label: "הזמנות", ico: "▤", badge: true },
   { to: "/admin/products", label: "מוצרים", ico: "▣" },
   { to: "/admin/categories", label: "קטגוריות", ico: "☰", master: true },
@@ -39,6 +40,13 @@ export function AdminGate({ children }: { children?: ReactNode }) {
   const [blocked, setBlocked] = useState<string | null>(null);
   const [newOrders, setNewOrders] = useState(0);
   const [menu, setMenu] = useState(false);
+
+  const router = useRouter();
+  useEffect(() => {
+    const clean = normalizeAdminPath(pathname);
+    if (clean !== pathname) router.history.replace(clean);
+  }, [pathname, router]);
+
 
   async function loadMe() {
     try {
@@ -69,7 +77,7 @@ export function AdminGate({ children }: { children?: ReactNode }) {
       if (isPublic) return;
       if (!me) return;
       if (!me.user) {
-        void navigate({ to: "/admin/login" });
+        void navigate({ from: "/", to: ADMIN_LOGIN });
         return;
       }
       void refreshBadge();
@@ -80,7 +88,7 @@ export function AdminGate({ children }: { children?: ReactNode }) {
   async function logout() {
     await adminFetch("/api/admin/logout", { method: "POST", body: "{}" });
     setUser(null);
-    void navigate({ to: "/admin/login" });
+    void navigate({ from: "/", to: ADMIN_LOGIN });
   }
 
   if (!ready) {
@@ -119,6 +127,7 @@ export function AdminGate({ children }: { children?: ReactNode }) {
   const initial = user.name.trim().slice(0, 1) || "מ";
   const titleMap: Record<string, string> = {
     "/admin": "סקירה",
+    "/admin/": "סקירה",
     "/admin/orders": "הזמנות",
     "/admin/products": "מוצרים",
     "/admin/categories": "קטגוריות",
@@ -152,9 +161,9 @@ export function AdminGate({ children }: { children?: ReactNode }) {
             <div className="nav-label">ניהול</div>
             {nav.map((n) => {
               const exact = "end" in n && Boolean(n.end);
-              const active = exact ? pathname === n.to : pathname === n.to || pathname.startsWith(n.to + "/");
+              const active = exact ? isAdminHomePath(pathname) : pathname === n.to || pathname.startsWith(n.to + "/");
               return (
-                <Link key={n.to} to={n.to} className={`nav-item${active ? " active" : ""}`} onClick={() => setMenu(false)}>
+                <Link key={n.to} from="/" to={n.to} className={`nav-item${active ? " active" : ""}`} onClick={() => setMenu(false)}>
                   <span className="ico">{n.ico}</span>
                   {n.label}
                   {"badge" in n && n.badge && newOrders > 0 ? <span className="nav-count">{newOrders}</span> : null}
@@ -180,7 +189,7 @@ export function AdminGate({ children }: { children?: ReactNode }) {
               </button>
               <h1>{title}</h1>
               <div className="grow" />
-              <Link to="/admin/orders" className="icon-btn" aria-label="התראות">
+              <Link from="/" to="/admin/orders" className="icon-btn" aria-label="התראות">
                 🔔{newOrders > 0 ? <span className="badge">{newOrders}</span> : null}
               </Link>
               <div className="avatar">{initial}</div>
@@ -196,10 +205,10 @@ export function AdminGate({ children }: { children?: ReactNode }) {
             .slice(0, 5)
             .map((n) => {
               const exact = "end" in n && Boolean(n.end);
-              const active = exact ? pathname === n.to : pathname === n.to || pathname.startsWith(n.to + "/");
+              const active = exact ? isAdminHomePath(pathname) : pathname === n.to || pathname.startsWith(n.to + "/");
               const short = n.label === "יומן פעילות" ? "פעילות" : n.label;
               return (
-                <Link key={n.to} to={n.to} className={active ? "active" : ""}>
+                <Link key={n.to} from="/" to={n.to} className={active ? "active" : ""}>
                   <div className="ico">{n.ico}</div>
                   {short}
                 </Link>
@@ -212,4 +221,3 @@ export function AdminGate({ children }: { children?: ReactNode }) {
   );
 }
 
-void Link;

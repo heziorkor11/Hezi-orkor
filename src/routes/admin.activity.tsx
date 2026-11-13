@@ -39,7 +39,7 @@ function ActivityPage() {
         {user.role === "master" ? (
           <>
             {" "}
-            <Link to="/admin/mail-preview">תצוגת דוא״ל לדוגמה</Link>
+            <Link from="/" to="/admin/mail-preview">תצוגת דוא״ל לדוגמה</Link>
           </>
         ) : null}
       </p>

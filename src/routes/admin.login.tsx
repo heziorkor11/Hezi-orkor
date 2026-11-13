@@ -1,4 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { ADMIN_HOME } from "@/lib/admin/paths";
 import { useState, type FormEvent } from "react";
 import { adminFetch } from "@/components/admin/api";
 
@@ -25,7 +26,7 @@ function LoginPage() {
     setBusy(true);
     try {
       await adminFetch("/api/admin/login", { method: "POST", body: JSON.stringify({ username, password }) });
-      void navigate({ to: "/admin" });
+      void navigate({ from: "/", to: ADMIN_HOME });
     } catch (err) {
       setError(err instanceof Error ? err.message : "הכניסה נכשלה");
     } finally {
