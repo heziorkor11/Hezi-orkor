@@ -82,18 +82,19 @@ export async function sendSmtp(opts: MailPayload, deps?: SmtpSendDeps): Promise<
 
 async function sendWithTransport(opts: MailPayload, transport: SmtpTransport): Promise<void> {
   const host = SMTP_HOST;
-  const socket = await openSocket(host, transport.port, transport.mode === "implicit-tls", transport.mode === "implicit-tls" ? "tls" : "connect");
+  // Attach I/O before the connect/TLS callback so the 220 greeting cannot be missed.
+  const opened = await openSocket(host, transport.port, transport.mode === "implicit-tls", transport.mode === "implicit-tls" ? "tls" : "connect");
+  let socket: Socket | TLSSocket = opened.socket;
+  let io = opened.io;
   try {
-    let io = attachIo(socket);
     await expectCode(io, 220, "session");
     await command(io, "EHLO hezi-orkor", 250, "session");
-    let active: Socket | TLSSocket = socket;
     if (transport.mode === "starttls") {
       await command(io, "STARTTLS", 220, "tls");
       io.detach();
-      const secure = await upgradeToTls(socket, host);
-      active = secure;
-      io = attachIo(secure);
+      const upgraded = await upgradeToTls(socket, host);
+      socket = upgraded.socket;
+      io = upgraded.io;
       await command(io, "EHLO hezi-orkor", 250, "session");
     }
     await sendAuthenticatedMessage(io, opts);
@@ -102,27 +103,34 @@ async function sendWithTransport(opts: MailPayload, transport: SmtpTransport): P
     } catch {
       /* ignore */
     }
-    active.end();
+    socket.end();
   } catch (err) {
     socket.destroy();
     throw err;
   }
 }
 
-function openSocket(host: string, port: number, implicitTls: boolean, phase: "connect" | "tls"): Promise<Socket | TLSSocket> {
+function openSocket(
+  host: string,
+  port: number,
+  implicitTls: boolean,
+  phase: "connect" | "tls",
+): Promise<{ socket: Socket | TLSSocket; io: SmtpIo }> {
   return new Promise((resolve, reject) => {
     const sock: Socket | TLSSocket = implicitTls
-      ? tlsConnect({ host, port, servername: host }, () => finish(sock))
-      : netConnect({ host, port }, () => finish(sock));
+      ? tlsConnect({ host, port, servername: host })
+      : netConnect({ host, port });
+    const io = attachIo(sock);
     const timer = setTimeout(() => {
       sock.destroy();
       reject(new SmtpError("SMTP timeout", phase));
     }, SMTP_TIMEOUT_MS);
-    const finish = (s: Socket | TLSSocket) => {
+    const finish = () => {
       clearTimeout(timer);
-      s.setTimeout(SMTP_TIMEOUT_MS);
-      resolve(s);
+      sock.setTimeout(SMTP_TIMEOUT_MS);
+      resolve({ socket: sock, io });
     };
+    sock.once(implicitTls ? "secureConnect" : "connect", finish);
     sock.once("error", (err) => {
       clearTimeout(timer);
       sock.destroy();
@@ -131,17 +139,19 @@ function openSocket(host: string, port: number, implicitTls: boolean, phase: "co
   });
 }
 
-function upgradeToTls(socket: Socket, host: string): Promise<TLSSocket> {
+function upgradeToTls(socket: Socket, host: string): Promise<{ socket: TLSSocket; io: SmtpIo }> {
   return new Promise((resolve, reject) => {
-    const secure = tlsConnect({ socket, host, servername: host }, () => {
-      clearTimeout(timer);
-      secure.setTimeout(SMTP_TIMEOUT_MS);
-      resolve(secure);
-    });
+    const secure = tlsConnect({ socket, host, servername: host });
+    const io = attachIo(secure);
     const timer = setTimeout(() => {
       secure.destroy();
       reject(new SmtpError("SMTP STARTTLS timeout", "tls"));
     }, SMTP_TIMEOUT_MS);
+    secure.once("secureConnect", () => {
+      clearTimeout(timer);
+      secure.setTimeout(SMTP_TIMEOUT_MS);
+      resolve({ socket: secure, io });
+    });
     secure.once("error", (err) => {
       clearTimeout(timer);
       secure.destroy();
