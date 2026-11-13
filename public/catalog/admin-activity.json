@@ -24,7 +24,10 @@
         "category": "filters",
         "hidden": false,
         "tags": []
-      }
+      },
+      "reverted": true,
+      "revertedAt": "2026-11-13T21:29:43.594Z",
+      "revertedBy": "קישור מהדוא״ל"
     },
     {
       "id": "act_586f101d001c53b6",
