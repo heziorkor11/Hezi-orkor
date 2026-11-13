@@ -38,7 +38,7 @@ function AboutPage() {
         <div className="rounded-xl border border-line bg-card p-4">
           <MapPin className="mb-2 size-4 text-accent-hot" />
           <strong className="block">{brand.address}</strong>
-          <span className="text-sm text-muted">איסוף עצמי בתיאום</span>
+          <span className="text-sm text-muted">{brand.pickupLeadTime}</span>
         </div>
         <div className="rounded-xl border border-line bg-card p-4">
           <Phone className="mb-2 size-4 text-accent-hot" />
@@ -60,7 +60,7 @@ function AboutPage() {
         </li>
         <li className="flex gap-2">
           <Wrench className="mt-1 size-4 shrink-0 text-accent-hot" />
-          איסוף מנהריה או משלוח לכל הארץ
+          איסוף מנהריה או משלוח לכל הארץ. {brand.pickupLeadTime}. {brand.shippingLeadTime}
         </li>
       </ul>
 

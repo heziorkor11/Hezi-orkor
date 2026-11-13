@@ -113,7 +113,10 @@ for (const sku of [sampleBulb, sampleCompressor, sampleHdlCompressor]) {
   const r = await fetchPath("/results?category=ac-compressor");
   assert.equal(r.status, 200);
   const html = await r.text();
-  assert.match(html, /href="\/product\/HZ-CMP-00014"/);
+  assert.match(html, /href="\/product\/HZ-CMP-/);
+  const cmp = await fetchPath("/results?q=HZ-CMP-00014");
+  assert.equal(cmp.status, 200);
+  assert.match(await cmp.text(), /href="\/product\/HZ-CMP-00014"/);
   const hdl = await fetchPath("/results?q=HZ-HDL-03518");
   assert.equal(hdl.status, 200);
   assert.match(await hdl.text(), /href="\/product\/HZ-HDL-03518"/);

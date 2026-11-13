@@ -1,4 +1,4 @@
-/** Uses the existing price resolver verbatim; no VAT addition, fallback price or rounding. */
+/** Uses the existing price resolver verbatim; no VAT addition or fallback price. Totals are the sum of catalogPrice (already ceiled) × qty. */
 export function summarizeCart(
   lines: { sku: string; qty: number }[],
   priceForSku: (sku: string) => number | null,

@@ -16,6 +16,7 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { hideVehicleFitmentForFluid } from "@/lib/fluid-classify";
 import { priceOrQuoteLabel } from "@/lib/prices";
 import { packUnitPriceLabel } from "@/lib/pack-price";
+import { isWorkshopPackSku } from "@/lib/display-taxonomy";
 
 function yearRange(from?: number, to?: number) {
   if (!from) return null;
@@ -140,23 +141,29 @@ export function ProductCard({
           ) : null}
         </div>
         <div className="flex gap-2">
-          <Button
-            className="flex-1"
-            onClick={() => {
-              add(product.id, 1);
-              toast.success("נוסף לרשימת הצעת מחיר", { description: product.name });
-            }}
-          >
-            הוסף להצעה
-          </Button>
+          {isWorkshopPackSku(product.sku) ? null : (
+            <Button
+              className="flex-1"
+              onClick={() => {
+                add(product.id, 1);
+                toast.success("נוסף לרשימת הצעת מחיר", { description: product.name });
+              }}
+            >
+              הוסף להצעה
+            </Button>
+          )}
           <a
             href={waLink(quoteMessage(product))}
             target="_blank"
             rel="noreferrer"
-            className="sq-btn inline-flex h-11 items-center justify-center gap-1 border border-line-strong bg-elevated px-3 text-sm font-semibold text-fg-soft hover:border-accent hover:text-fg"
+            className={
+              isWorkshopPackSku(product.sku)
+                ? "sq-btn inline-flex h-11 flex-1 items-center justify-center gap-1 rounded-md bg-accent px-3 text-sm font-semibold text-fg hover:bg-accent-hot"
+                : "sq-btn inline-flex h-11 items-center justify-center gap-1 border border-line-strong bg-elevated px-3 text-sm font-semibold text-fg-soft hover:border-accent hover:text-fg"
+            }
           >
             <WhatsAppIcon className="size-4" />
-            לבירור מלאי
+            {isWorkshopPackSku(product.sku) ? "בירור מחיר בוואטסאפ" : "לבירור מלאי"}
           </a>
         </div>
       </div>

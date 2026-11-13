@@ -13,26 +13,65 @@ const hiddenPrices = new Set(
 );
 const priceOverrides =
   ((await json("price-overrides.json").catch(() => ({ bySku: {} }))).bySku) || {};
+const taxonomyAll = await json("display-taxonomy.json");
+const workshopPacks = new Set(
+  Object.entries(taxonomyAll.bySku || {})
+    .filter(([, v]) => v && v.category === "workshop-packs")
+    .map(([sku]) => sku),
+);
+const nameOverrides = ((await json("name-overrides.json").catch(() => ({ bySku: {} }))).bySku) || {};
+function ceilShekel(value) {
+  if (!Number.isFinite(value) || value <= 0) return value;
+  const cents = Math.round((value + Number.EPSILON) * 100);
+  return Math.ceil(cents / 100 - 1e-12);
+}
 function catalogPrice(sku) {
   if (!sku) return null;
+  if (workshopPacks.has(sku)) return null;
   const override = priceOverrides[sku];
-  if (typeof override === "number" && Number.isFinite(override) && override > 0) return override;
+  if (typeof override === "number" && Number.isFinite(override) && override > 0) return ceilShekel(override);
   if (hiddenPrices.has(sku)) return null;
   const v = pricesBySku[sku];
-  return typeof v === "number" && Number.isFinite(v) && v > 0 ? v : null;
+  return typeof v === "number" && Number.isFinite(v) && v > 0 ? ceilShekel(v) : null;
 }
 
-// Mirrors src/lib/home-deals.ts — monthly-deals carousel SKUs.
-const DEAL_SKUS = new Set([
-  "HZ-BRK-00248",
-  "HZ-BRK-00680",
-  "HZ-BRK-00449",
-  "HZ-CMP-00014",
-  "HZ-CMP-00047",
-  "HZ-OIL-00011",
-  "HZ-GEN-04977",
-  "HZ-CND-00001",
-]);
+const listedImageFiles = ["images-a.json", "images-b.json", "images-hot.json", "images-new.json"];
+const packManifest = await json("images/manifest.json").catch(() => ({ files: [] }));
+const imageParts = await Promise.all(
+  listedImageFiles
+    .concat((packManifest.files || []).map((f) => "images/" + f))
+    .map((f) => json(f).catch(() => ({}))),
+);
+const imageMap = Object.assign({}, ...imageParts);
+function usableRaw(value) {
+  if (!value) return false;
+  if (value.startsWith("/products/")) return false;
+  if (value.startsWith("/catalog/") && !value.startsWith("/catalog/images/")) return false;
+  if (value.endsWith("/photos/") || value.endsWith("/photos")) return false;
+  return true;
+}
+function hasRealProductImage(src) {
+  return Boolean(
+    src &&
+      !/(?:placeholder|generic|no[-_]?image|no[-_]?photo|\/category-photos\/|\/images\/parts\/)/i.test(src),
+  );
+}
+function imageLooksLikeSharedOe(image, oe) {
+  if (!image) return false;
+  if (image.startsWith("/products/")) return true;
+  const m = image.match(/(\d{5,8})\.(?:jpe?g|png|webp)(?:\?|$)/i);
+  if (!m) return false;
+  return (oe || "").includes(m[1]);
+}
+function hitHasImage(hit) {
+  const mapped = imageMap[hit.sku];
+  const candidate = mapped && usableRaw(mapped) ? mapped : undefined;
+  if (!candidate || imageLooksLikeSharedOe(candidate, hit.oe)) return false;
+  return hasRealProductImage(candidate);
+}
+function hitName(hit) {
+  return nameOverrides[hit.sku] || hit.title || hit.name || "";
+}
 
 function sortHits(hits, mode) {
   const decorated = hits.map((hit, index) => ({ hit, index }));
@@ -54,10 +93,12 @@ function sortHits(hits, mode) {
   decorated.sort((a, b) => {
     if (mode === "price-asc") return cmp(a, b, priceAsc);
     if (mode === "price-desc") return cmp(a, b, priceDesc);
-    const ga = DEAL_SKUS.has(a.hit.sku) ? 0 : 1;
-    const gb = DEAL_SKUS.has(b.hit.sku) ? 0 : 1;
-    if (ga !== gb) return ga - gb;
-    return cmp(a, b, priceAsc);
+    const ia = hitHasImage(a.hit) ? 0 : 1;
+    const ib = hitHasImage(b.hit) ? 0 : 1;
+    if (ia !== ib) return ia - ib;
+    const byName = hitName(a.hit).localeCompare(hitName(b.hit), "he", { numeric: true, sensitivity: "base" });
+    if (byName) return byName;
+    return a.index - b.index;
   });
   return decorated.map((d) => d.hit);
 }
@@ -111,23 +152,28 @@ const recFilters = sortHits(filters, "recommended");
 const ascBrakes = sortHits(brakes, "price-asc");
 const descBrakes = sortHits(brakes, "price-desc");
 
-const brakeDeals = recBrakes.filter((h) => DEAL_SKUS.has(h.sku));
-assert.deepEqual(
-  brakeDeals.map((h) => h.sku),
-  ["HZ-BRK-00248", "HZ-BRK-00680", "HZ-BRK-00449"],
-  "brakes recommended starts with monthly-deal SKUs cheapest-first",
-);
-assert.deepEqual(
-  recBrakes.slice(0, 3).map((h) => h.sku),
-  ["HZ-BRK-00248", "HZ-BRK-00680", "HZ-BRK-00449"],
-);
-
-assertGroupPriceAsc(recBrakes, (h) => DEAL_SKUS.has(h.sku));
-assertGroupPriceAsc(recBrakes, (h) => !DEAL_SKUS.has(h.sku));
-assertGroupPriceAsc(recFluids, (h) => DEAL_SKUS.has(h.sku));
-assertGroupPriceAsc(recFluids, (h) => !DEAL_SKUS.has(h.sku));
-assertGroupPriceAsc(recFilters, (h) => DEAL_SKUS.has(h.sku));
-assertGroupPriceAsc(recFilters, (h) => !DEAL_SKUS.has(h.sku));
+function assertImageThenName(hits, label) {
+  let seenNoImage = false;
+  let prevName = "";
+  let prevHadImage = true;
+  for (const h of hits) {
+    const has = hitHasImage(h);
+    if (!has) seenNoImage = true;
+    else assert.equal(seenNoImage, false, label + " imaged item after a no-image item: " + h.sku);
+    const name = hitName(h);
+    if (has === prevHadImage && prevName) {
+      assert.ok(
+        prevName.localeCompare(name, "he", { numeric: true, sensitivity: "base" }) <= 0,
+        label + " name went backwards: " + prevName + " -> " + name,
+      );
+    }
+    prevName = name;
+    prevHadImage = has;
+  }
+}
+assertImageThenName(recBrakes, "brakes recommended");
+assertImageThenName(recFluids, "fluids recommended");
+assertImageThenName(recFilters, "filters recommended");
 assertGroupPriceAsc(ascBrakes, () => true);
 
 // price-desc: priced descending, no-price last, deals not special
@@ -144,11 +190,7 @@ for (const h of descBrakes) {
   prev = p;
 }
 
-// fluids deal HZ-OIL-00011 comes first when present
-const fluidDeals = recFluids.filter((h) => DEAL_SKUS.has(h.sku)).map((h) => h.sku);
-if (fluidDeals.length) {
-  assert.equal(recFluids[0].sku, fluidDeals[0], "fluids recommended starts with the monthly deal");
-}
+// monthly deals stay on the home carousel only; listing default is image then name
 
 const handler = new URL(".vercel/output/functions/__server.func/index.mjs", root);
 process.env.VERCEL = "1";
@@ -210,6 +252,20 @@ if (lastPrices.some((p) => p == null)) {
   );
 }
 
+const packs = categoryHits("workshop-packs");
+assert.ok(packs.length > 20, "workshop-packs sample category");
+const recPacks = sortHits(packs, "recommended");
+assertImageThenName(recPacks, "workshop-packs recommended");
+assert.ok(hitHasImage(recPacks[0]), "workshop-packs start with a photographed product");
+const packHtml = await page("/results?category=workshop-packs");
+assert.match(packHtml, /מחיר מיוחד למוסכים וספקים/);
+const packCards = articles(packHtml);
+assert.ok(packCards.length > 0, "workshop-packs has product cards");
+for (const card of packCards) {
+  assert.match(card, /מחיר מיוחד למוסכים וספקים/, "workshop-packs card must not show a numeric price");
+  assert.doesNotMatch(card, /\d+\s*₪/, "workshop-packs card leaked a shekel price");
+}
+
 // sort is kept on page 2
 const p2 = await page("/results?category=brakes&sort=price-desc&page=2");
 assert.deepEqual(
@@ -225,15 +281,15 @@ console.log(
       newArrivalFields: {
         createdAt: false,
         isNew: false,
-        note: "No new-arrival flag in the catalog; recommended is deals then price only.",
+        note: "No new-arrival or popularity flag in the catalog; recommended is image-first then name.",
       },
-      dealsSource: "homeDealsSkus (מבצעי החודש carousel)",
-      brakesFirst: recBrakes.slice(0, 5).map((h) => ({ sku: h.sku, price: catalogPrice(h.sku), deal: DEAL_SKUS.has(h.sku) })),
-      fluidsFirst: recFluids.slice(0, 5).map((h) => ({ sku: h.sku, price: catalogPrice(h.sku), deal: DEAL_SKUS.has(h.sku) })),
-      filtersFirst: recFilters.slice(0, 5).map((h) => ({ sku: h.sku, price: catalogPrice(h.sku), deal: DEAL_SKUS.has(h.sku) })),
+      defaultSort: "image-first then name (he); no popularity signal in the catalog",
+      brakesFirst: recBrakes.slice(0, 5).map((h) => ({ sku: h.sku, price: catalogPrice(h.sku), image: hitHasImage(h), name: hitName(h) })),
+      fluidsFirst: recFluids.slice(0, 5).map((h) => ({ sku: h.sku, price: catalogPrice(h.sku), image: hitHasImage(h), name: hitName(h) })),
+      filtersFirst: recFilters.slice(0, 5).map((h) => ({ sku: h.sku, price: catalogPrice(h.sku), image: hitHasImage(h), name: hitName(h) })),
     },
     null,
     2,
   ),
 );
-console.log("PASS listing sort: deals-then-price default, price sorts, visible prices, no-price last");
+console.log("PASS listing sort: image-then-name default, price sorts, visible prices, no-price last");

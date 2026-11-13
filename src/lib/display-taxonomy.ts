@@ -1,5 +1,5 @@
-import taxonomy from '../../public/catalog/display-taxonomy.json';
-import hiddenCategoriesConfig from '../../public/catalog/hidden-categories.json';
+import taxonomy from '../../public/catalog/display-taxonomy.json' with { type: "json" };
+import hiddenCategoriesConfig from '../../public/catalog/hidden-categories.json' with { type: "json" };
 
 type Override = { category: string; sub?: string; hidden?: boolean };
 
@@ -27,4 +27,8 @@ export function isHiddenProduct(sku:string) {
 export function displayCategory(sku:string, fallback:string) { return bySku[sku]?.category || fallback; }
 export function normalizeDisplayCategory(category?: string) {
   return category && ['oil-filter','cabin-filter'].includes(category) ? 'filters' : category;
+}
+
+export function isWorkshopPackSku(sku?: string | null) {
+  return Boolean(sku && bySku[sku]?.category === "workshop-packs");
 }

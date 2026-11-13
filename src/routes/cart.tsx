@@ -6,6 +6,7 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { brand } from "@/lib/brand";
+import { DeliveryLeadTimes } from "@/components/delivery-lead-times";
 import { useCart } from "@/lib/cart";
 import { loadProduct, type Product } from "@/lib/catalog";
 import { useOrderForm } from "@/lib/order-form";
@@ -308,7 +309,7 @@ function CartPage() {
                     סה״כ שורה:{" "}
                     <bdi>
                       {cartSummary.bySku[x.product.sku].lineTotal == null
-                        ? "לפי הצעת מחיר"
+                        ? priceOrQuoteLabel(x.product.sku)
                         : formatCatalogPrice(cartSummary.bySku[x.product.sku].lineTotal!)}
                     </bdi>
                   </p>
@@ -334,6 +335,7 @@ function CartPage() {
             <p className="mt-2 text-sm text-muted">
               כולל מע״מ · משלוח {brand.shipping}₪, חינם בקנייה מעל {brand.freeShipFrom}₪. המחיר הסופי יאושר בוואטסאפ.
             </p>
+            <DeliveryLeadTimes className="mt-2 text-sm text-fg-soft space-y-0.5" />
             {cartSummary.quoteCount > 0 && (
               <p className="mt-2 text-sm font-semibold">
                 {cartSummary.quoteCount} שורות להצעת מחיר אינן כלולות בסכום.
@@ -394,6 +396,7 @@ function CartPage() {
                   <option value="pickup">איסוף עצמי מנהריה</option>
                   <option value="delivery">משלוח</option>
                 </select>
+                <DeliveryLeadTimes className="mt-1.5 text-xs text-muted space-y-0.5" />
               </FormField>
               <FormField label="מספר רישוי *" hint="7 או 8 ספרות">
                 <Input

@@ -8,6 +8,8 @@ export const brand = {
   whatsapp: "972524858516",
   freeShipFrom: 399,
   shipping: 49,
+  pickupLeadTime: "הגעה בתיאום מראש לקבלת חלק: בין 3-4 ימי עסקים",
+  shippingLeadTime: "משלוח: בין 3-7 ימי עסקים",
   hours: "שעות הפעילות לא אומתו — יש לתאם בטלפון",
   hoursVerified: false,
   mapsUrl: "https://www.google.com/maps?cid=14144033757848644460",
