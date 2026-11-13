@@ -1,5 +1,57 @@
 {
   "version": 1,
   "description": "Catalog-change activity only. No customer personal data.",
-  "entries": []
+  "entries": [
+    {
+      "id": "act_02151009d7c526e2",
+      "at": "2026-11-13T21:16:02.460Z",
+      "actorId": "user_worker_demo",
+      "actorName": "יואב לוי",
+      "actorRole": "worker",
+      "action": "עריכת מוצר (price)",
+      "sku": "HZ-CAF-00195",
+      "target": "HZ-CAF-00195",
+      "before": {
+        "name": "פילטר מזגן | סרס 3 מ-2022",
+        "price": 11,
+        "category": "filters",
+        "hidden": false,
+        "tags": []
+      },
+      "after": {
+        "name": "פילטר מזגן | סרס 3 מ-2022",
+        "price": 19,
+        "category": "filters",
+        "hidden": false,
+        "tags": []
+      }
+    },
+    {
+      "id": "act_02ac2c93124bfeec",
+      "at": "2026-11-13T17:19:39.885Z",
+      "actorId": "user_worker_demo",
+      "actorName": "יואב לוי",
+      "actorRole": "worker",
+      "action": "עריכת מוצר (price)",
+      "sku": "HZ-CAF-00195",
+      "target": "HZ-CAF-00195",
+      "before": {
+        "name": "פילטר מזגן | סרס 3 מ-2022",
+        "price": 11,
+        "category": "filters",
+        "hidden": false,
+        "tags": []
+      },
+      "after": {
+        "name": "פילטר מזגן | סרס 3 מ-2022",
+        "price": 13,
+        "category": "filters",
+        "hidden": false,
+        "tags": []
+      },
+      "reverted": true,
+      "revertedAt": "2026-11-13T17:19:46.668Z",
+      "revertedBy": "מתן יחזקאלי"
+    }
+  ]
 }
