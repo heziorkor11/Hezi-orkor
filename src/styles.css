@@ -366,3 +366,22 @@ details summary::-webkit-details-marker {
     border-radius: 32%;
   }
 }
+
+
+/* Product tags overlaid on the photo — one at top-right, two mirrored (top-right + top-left). */
+.product-img-tag {
+  position: absolute;
+  top: 0.5rem;
+  z-index: 1;
+  padding: 0.2rem 0.65rem;
+  border-radius: 0.5rem;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.25;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.18);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.product-img-tag.tr { right: 0.5rem; }
+.product-img-tag.tl { left: 0.5rem; }

@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "description": "Display-only tags on product images. Max two tags per SKU (first = top-right, second = top-left, mirrored).",
+  "bySku": {
+    "HZ-BRK-00248": [
+      "sale"
+    ],
+    "HZ-BRK-00680": [
+      "sale"
+    ],
+    "HZ-BRK-00449": [
+      "sale"
+    ],
+    "HZ-CMP-00014": [
+      "sale"
+    ],
+    "HZ-CMP-00047": [
+      "sale"
+    ],
+    "HZ-OIL-00011": [
+      "sale"
+    ],
+    "HZ-GEN-04977": [
+      "sale"
+    ],
+    "HZ-CND-00001": [
+      "sale"
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "description": "SKUs for the home «מבצעי החודש» carousel. Source list in src/lib/home-deals.ts is the fallback.",
+  "skus": [
+    "HZ-BRK-00248",
+    "HZ-BRK-00680",
+    "HZ-BRK-00449",
+    "HZ-CMP-00014",
+    "HZ-CMP-00047",
+    "HZ-OIL-00011",
+    "HZ-GEN-04977",
+    "HZ-CND-00001"
+  ]
+}

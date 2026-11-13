@@ -4,6 +4,7 @@ import { AuthProvider } from "@/lib/auth/provider";
 import { AppErrorComponent } from "@/lib/error-component";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { ShopShell } from "@/components/shop-shell";
+import { CatalogOverlaySync } from "@/components/catalog-overlay-sync";
 import appCss from "../styles.css?url";
 
 const APP_NAME = "חזי אורקור | חלקי חילוף לרכב בנהריה";
@@ -47,6 +48,7 @@ function RootComponent() {
       </head>
       <body className="bg-paper text-fg">
         <PreviewHostBridge />
+        <CatalogOverlaySync />
         <AuthProvider>
           <ShopShell>
             <Outlet />

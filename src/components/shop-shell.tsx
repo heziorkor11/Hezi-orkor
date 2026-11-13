@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { Toaster } from "sonner";
 import { MobileTabBar } from "@/components/mobile-tabbar";
 import { SiteFooter } from "@/components/site-footer";
@@ -7,6 +8,10 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { brand } from "@/lib/brand";
 
 export function ShopShell({ children }: { children: ReactNode }) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) {
+    return <>{children}</>;
+  }
   return (
     <div className="has-mobile-tabbar flex min-h-dvh flex-col bg-paper text-fg">
       <a href="#main-content" className="skip-link">

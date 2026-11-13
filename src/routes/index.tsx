@@ -10,13 +10,13 @@ import { HomeProductCarousel } from "@/components/home-product-carousel";
 import { JsonLd } from "@/components/json-ld";
 import { brand } from "@/lib/brand";
 import { categoryName, faqs, loadProductsBySkus } from "@/lib/catalog";
-import { homeDealsSkus, homeRecommendedSkus } from "@/lib/home-deals";
+import { currentHomeDealsSkus, homeRecommendedSkus } from "@/lib/home-deals";
 import { localBusinessJsonLd, pageDescription, websiteJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
     const [deals, recommended] = await Promise.all([
-      loadProductsBySkus(homeDealsSkus),
+      loadProductsBySkus(currentHomeDealsSkus()),
       loadProductsBySkus(homeRecommendedSkus),
     ]);
     return { deals, recommended };

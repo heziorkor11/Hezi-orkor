@@ -2,6 +2,7 @@ import pricesBySku from "../../public/catalog/prices.json" with { type: "json" }
 import priceHideOverrides from "../../public/catalog/price-hide-overrides.json" with { type: "json" };
 import priceOverrides from "../../public/catalog/price-overrides.json" with { type: "json" };
 import { isWorkshopPackSku } from "./display-taxonomy.ts";
+import { overlayPrice, overlayPriceHidden } from "./admin/public-overlay.ts";
 
 const map = pricesBySku as Record<string, number>;
 const hidden = new Set(
@@ -25,9 +26,11 @@ export function ceilShekel(value: number): number {
 }
 
 function rawCatalogPrice(sku: string): number | null {
+  const live = overlayPrice(sku);
+  if (typeof live === "number") return live;
   const override = overrides[sku];
   if (typeof override === "number" && Number.isFinite(override) && override > 0) return override;
-  if (hidden.has(sku)) return null;
+  if (overlayPriceHidden(sku) || hidden.has(sku)) return null;
   const v = map[sku];
   return typeof v === "number" && Number.isFinite(v) && v > 0 ? v : null;
 }
@@ -35,6 +38,8 @@ function rawCatalogPrice(sku: string): number | null {
 /** Display WJS / sale-price override when present. Source prices.json is unchanged. */
 export function getPriceOverride(sku?: string | null): number | undefined {
   if (!sku) return undefined;
+  const live = overlayPrice(sku);
+  if (typeof live === "number") return live;
   const v = overrides[sku];
   return typeof v === "number" && Number.isFinite(v) && v > 0 ? v : undefined;
 }

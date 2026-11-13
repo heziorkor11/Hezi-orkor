@@ -17,6 +17,7 @@ import { hideVehicleFitmentForFluid } from "@/lib/fluid-classify";
 import { priceOrQuoteLabel } from "@/lib/prices";
 import { packUnitPriceLabel } from "@/lib/pack-price";
 import { isWorkshopPackSku } from "@/lib/display-taxonomy";
+import { ProductTagBadges } from "@/components/product-tag-badges";
 
 function yearRange(from?: number, to?: number) {
   if (!from) return null;
@@ -49,6 +50,7 @@ export function ProductCard({
           data-product-photo
           className="relative grid aspect-[4/5] max-h-[220px] w-full place-items-center bg-white md:max-h-[280px]"
         >
+          <ProductTagBadges sku={product.sku} />
           <ProductImage
             src={product.image}
             alt={product.name}

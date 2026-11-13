@@ -1,0 +1,75 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { test } from "node:test";
+import { PUBLIC_GIT_PATHS } from "./types.ts";
+import { overlayProductTags, setPublicOverlay, getPublicOverlay, mergeOverlay } from "./public-overlay.ts";
+import { catalogPrice, ceilShekel } from "../prices.ts";
+import { isHiddenCategory, isWorkshopPackSku } from "../display-taxonomy.ts";
+
+test("public git allowlist never includes orders or user files", () => {
+  const forbidden = ["orders/orders.json", "private-orders.json", "private-users.json", "users.json"];
+  for (const path of forbidden) {
+    assert.equal((PUBLIC_GIT_PATHS as readonly string[]).includes(path), false, path);
+  }
+  assert.ok((PUBLIC_GIT_PATHS as readonly string[]).includes("public/catalog/price-overrides.json"));
+});
+
+test("product tags cap at two and overlay wins", () => {
+  const prev = getPublicOverlay();
+  setPublicOverlay({
+    ...prev,
+    productTags: { "HZ-TEST-TAG": ["sale", "new", "recommended"] },
+  });
+  const ids = overlayProductTags("HZ-TEST-TAG", []);
+  assert.deepEqual(ids, ["sale", "new"]);
+  setPublicOverlay(prev);
+});
+
+test("tag library seed includes sale and deal SKUs are tagged", () => {
+  const library = JSON.parse(readFileSync(new URL("../../../public/catalog/tag-library.json", import.meta.url), "utf8")) as {
+    tags: { id: string; label: string }[];
+  };
+  assert.ok(library.tags.some((t) => t.id === "sale" && t.label === "מבצע"));
+  const tags = JSON.parse(readFileSync(new URL("../../../public/catalog/product-tags.json", import.meta.url), "utf8")) as {
+    bySku: Record<string, string[]>;
+  };
+  assert.deepEqual(tags.bySku["HZ-BRK-00248"], ["sale"]);
+});
+
+test("catalog prices still ceil and workshop packs have no numeric price", () => {
+  assert.equal(ceilShekel(10.1), 11);
+  assert.equal(typeof isWorkshopPackSku, "function");
+  assert.equal(typeof catalogPrice, "function");
+});
+
+test("headlights and small engines stay hidden categories", () => {
+  assert.equal(isHiddenCategory("lights"), true);
+  assert.equal(isHiddenCategory("small-engine"), true);
+});
+
+test("session and revert tokens verify and expire", async () => {
+  process.env.ADMIN_SESSION_SECRET = "test-session-secret-32chars-ok";
+  const { issueSession, readSession, issueRevertToken, readRevertToken, signPayload, verifyPayload } = await import(
+    "./tokens.ts"
+  );
+  const token = issueSession({ id: "user_master", username: "matan", name: "מתן", role: "master" });
+  const session = readSession(token);
+  assert.ok(session);
+  assert.equal(session?.username, "matan");
+  assert.equal(session?.role, "master");
+  const bad = readSession(token.slice(0, -2) + "aa");
+  assert.equal(bad, null);
+
+  const revert = issueRevertToken("act_1");
+  assert.equal(readRevertToken(revert), "act_1");
+  const expired = signPayload({ typ: "revert", id: "act_1", exp: Date.now() - 1000 });
+  assert.equal(readRevertToken(expired), null);
+  assert.equal(verifyPayload("nope"), null);
+});
+
+test("merge overlay keeps existing keys", () => {
+  const prev = getPublicOverlay();
+  mergeOverlay({ nameBySku: { "HZ-X": "שם" } });
+  assert.equal(getPublicOverlay().nameBySku?.["HZ-X"], "שם");
+  setPublicOverlay(prev);
+});
