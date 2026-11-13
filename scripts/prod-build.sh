@@ -58,3 +58,5 @@ node scripts/check-ac-batch-002.mjs
 node scripts/check-ac-batch-a01.mjs
 
 node scripts/check-ac-batch-005.mjs
+
+node scripts/check-wjs-additives-2026-11-13.mjs
