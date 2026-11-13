@@ -12,6 +12,10 @@
     "HZ-PLUG-00162": {
       "category": "spark-plugs",
       "reason": "מצת מכסחת דשא — גם כן מצת, הועבר למצתים"
+    },
+    "HZ-CAF-00195": {
+      "category": "filters",
+      "reason": "בוטל מדאשבורד הניהול"
     }
   }
 }
