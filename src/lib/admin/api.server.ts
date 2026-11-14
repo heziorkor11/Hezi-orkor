@@ -1,5 +1,5 @@
 import { adminEnabled, adminMode, publicSiteOrigin } from "./config";
-import { authenticate, addUser, listUsers, setUserActive } from "./users.server";
+import { authenticate, addUser, listUsers, setUserActive, deleteUser, findUserById, usersPersistence } from "./users.server";
 import { issueSession, readSession, issueRevertToken, readRevertToken, randomId, type SessionPayload } from "./tokens";
 import { sessionFromRequest, setSessionCookieHeader, clearSessionCookieHeader } from "./cookies";
 import { clientIp, rateLimit, rateLimitReset } from "./rate-limit";
@@ -33,14 +33,16 @@ function session(req: Request): SessionPayload | null {
   return tok ? readSession(tok) : null;
 }
 
-function requireUser(req: Request): SessionPayload | Response {
+async function requireUser(req: Request): Promise<SessionPayload | Response> {
   const s = session(req);
   if (!s) return json({ error: "נדרשת כניסה" }, 401);
+  const user = await findUserById(s.sub);
+  if (!user || !user.active) return json({ error: "נדרשת כניסה" }, 401);
   return s;
 }
 
-function requireMaster(req: Request): SessionPayload | Response {
-  const s = requireUser(req);
+async function requireMaster(req: Request): Promise<SessionPayload | Response> {
+  const s = await requireUser(req);
   if (s instanceof Response) return s;
   if (s.role !== "master") return json({ error: "פעולה זו למאסטר בלבד" }, 403);
   return s;
@@ -166,14 +168,16 @@ export async function adminApi(req: Request): Promise<Response> {
   if (path === "/api/admin/me" && method === "GET") {
     const s = session(req);
     if (!s) return json({ user: null, mode: adminMode() }, 200);
+    const live = await findUserById(s.sub);
+    if (!live || !live.active) return json({ user: null, mode: adminMode() }, 200);
     return json({
-      user: { id: s.sub, username: s.username, name: s.name, role: s.role, active: true } satisfies SafeUser,
+      user: { id: live.id, username: live.username, name: live.name, role: live.role, active: live.active } satisfies SafeUser,
       mode: adminMode(),
     });
   }
 
   if (path === "/api/admin/home" && method === "GET") {
-    const u = requireUser(req);
+    const u = await requireUser(req);
     if (u instanceof Response) return u;
     const [stats, activity, orders, persist] = await Promise.all([
       homeStats(),
@@ -191,7 +195,7 @@ export async function adminApi(req: Request): Promise<Response> {
   }
 
   if (path === "/api/admin/products" && method === "GET") {
-    const u = requireUser(req);
+    const u = await requireUser(req);
     if (u instanceof Response) return u;
     const list = await listAdminProducts({
       q: url.searchParams.get("q") || undefined,
@@ -208,14 +212,14 @@ export async function adminApi(req: Request): Promise<Response> {
 
   const productMatch = path.match(/^\/api\/admin\/products\/([^/]+)$/);
   if (productMatch && method === "GET") {
-    const u = requireUser(req);
+    const u = await requireUser(req);
     if (u instanceof Response) return u;
     const sku = decodeURIComponent(productMatch[1]);
     return json({ product: await adminProductRow(sku), tags: getTagLibrary() });
   }
 
   if (productMatch && method === "POST") {
-    const u = requireUser(req);
+    const u = await requireUser(req);
     if (u instanceof Response) return u;
     if (!canEditProduct(u.role)) return json({ error: "אין הרשאה" }, 403);
     const sku = decodeURIComponent(productMatch[1]);
@@ -307,7 +311,7 @@ export async function adminApi(req: Request): Promise<Response> {
   }
 
   if (path === "/api/admin/products/bulk" && method === "POST") {
-    const u = requireUser(req);
+    const u = await requireUser(req);
     if (u instanceof Response) return u;
     if (!canEditProduct(u.role)) return json({ error: "אין הרשאה" }, 403);
     const body = await bodyOf<{ skus: string[]; tag?: string; category?: string; hidden?: boolean }>(req);
@@ -325,7 +329,7 @@ export async function adminApi(req: Request): Promise<Response> {
   }
 
   if (path === "/api/admin/categories" && method === "GET") {
-    const u = requireUser(req);
+    const u = await requireUser(req);
     if (u instanceof Response) return u;
     const cats = allTaxonomyCategories.map((c) => ({
       ...c,
@@ -336,7 +340,7 @@ export async function adminApi(req: Request): Promise<Response> {
   }
 
   if (path === "/api/admin/categories" && method === "POST") {
-    const u = requireMaster(req);
+    const u = await requireMaster(req);
     if (u instanceof Response) return u;
     const body = await bodyOf<{ hidden?: string[]; labels?: Record<string, string>; order?: string[]; move?: { skus: string[]; category: string } }>(req);
     if (body.hidden) {
@@ -383,7 +387,7 @@ export async function adminApi(req: Request): Promise<Response> {
   }
 
   if (path === "/api/admin/tags" && method === "GET") {
-    const u = requireUser(req);
+    const u = await requireUser(req);
     if (u instanceof Response) return u;
     const library = await readCatalogFile<{ tags?: TagDef[] }>("public/catalog/tag-library.json", { tags: [] });
     const deals = await readCatalogFile<{ skus?: string[] }>("public/catalog/home-deals-overrides.json", { skus: [] });
@@ -391,7 +395,7 @@ export async function adminApi(req: Request): Promise<Response> {
   }
 
   if (path === "/api/admin/tags" && method === "POST") {
-    const u = requireMaster(req);
+    const u = await requireMaster(req);
     if (u instanceof Response) return u;
     const body = await bodyOf<{ tags?: TagDef[]; add?: TagDef; deals?: string[] }>(req);
     if (body.add) {
@@ -419,14 +423,14 @@ export async function adminApi(req: Request): Promise<Response> {
   }
 
   if (path === "/api/admin/activity" && method === "GET") {
-    const u = requireUser(req);
+    const u = await requireUser(req);
     if (u instanceof Response) return u;
     return json({ entries: await readActivity() });
   }
 
   const revertApi = path.match(/^\/api\/admin\/activity\/([^/]+)\/revert$/);
   if (revertApi && method === "POST") {
-    const u = requireMaster(req);
+    const u = await requireMaster(req);
     if (u instanceof Response) return u;
     const result = await revertActivity(revertApi[1], u.name);
     if (!result.ok) return json({ error: result.error }, 400);
@@ -434,13 +438,13 @@ export async function adminApi(req: Request): Promise<Response> {
   }
 
   if (path === "/api/admin/users" && method === "GET") {
-    const u = requireMaster(req);
+    const u = await requireMaster(req);
     if (u instanceof Response) return u;
-    return json({ users: await listUsers() });
+    return json({ users: await listUsers(), persist: await usersPersistence() });
   }
 
   if (path === "/api/admin/users" && method === "POST") {
-    const u = requireMaster(req);
+    const u = await requireMaster(req);
     if (u instanceof Response) return u;
     const body = await bodyOf<{ username: string; name: string; role: AdminRole; password: string }>(req);
     try {
@@ -453,8 +457,19 @@ export async function adminApi(req: Request): Promise<Response> {
   }
 
   const userPatch = path.match(/^\/api\/admin\/users\/([^/]+)$/);
+  if (userPatch && method === "DELETE") {
+    const u = await requireMaster(req);
+    if (u instanceof Response) return u;
+    try {
+      const removed = await deleteUser(userPatch[1]);
+      await logAndMaybeMail(u, { action: "מחיקת עובד", target: removed.username, before: { username: removed.username, role: removed.role }, after: null });
+      return json({ ok: true, user: removed, users: await listUsers() });
+    } catch (err) {
+      return json({ error: err instanceof Error ? err.message : "לא ניתן למחוק משתמש" }, 400);
+    }
+  }
   if (userPatch && method === "POST") {
-    const u = requireMaster(req);
+    const u = await requireMaster(req);
     if (u instanceof Response) return u;
     const body = await bodyOf<{ active?: boolean }>(req);
     if (typeof body.active === "boolean") {
@@ -465,7 +480,7 @@ export async function adminApi(req: Request): Promise<Response> {
   }
 
   if (path === "/api/admin/orders" && method === "GET") {
-    const u = requireUser(req);
+    const u = await requireUser(req);
     if (u instanceof Response) return u;
     const persist = await ordersPersistence();
     const orders = await listOrders();
@@ -482,7 +497,7 @@ export async function adminApi(req: Request): Promise<Response> {
 
   const orderMatch = path.match(/^\/api\/admin\/orders\/([^/]+)$/);
   if (orderMatch && method === "GET") {
-    const u = requireUser(req);
+    const u = await requireUser(req);
     if (u instanceof Response) return u;
     const order = await getOrder(decodeURIComponent(orderMatch[1]));
     if (!order) return json({ error: "הזמנה לא נמצאה" }, 404);
@@ -491,7 +506,7 @@ export async function adminApi(req: Request): Promise<Response> {
   }
 
   if (orderMatch && method === "POST") {
-    const u = requireUser(req);
+    const u = await requireUser(req);
     if (u instanceof Response) return u;
     const order = await getOrder(decodeURIComponent(orderMatch[1]));
     if (!order) return json({ error: "הזמנה לא נמצאה" }, 404);
@@ -511,13 +526,13 @@ export async function adminApi(req: Request): Promise<Response> {
   }
 
   if (path === "/api/admin/mail/status" && method === "GET") {
-    const u = requireMaster(req);
+    const u = await requireMaster(req);
     if (u instanceof Response) return u;
     return json({ configured: smtpConfigured(), to: notifyEmail() || null });
   }
 
   if (path === "/api/admin/mail/test" && method === "POST") {
-    const u = requireMaster(req);
+    const u = await requireMaster(req);
     if (u instanceof Response) return u;
     const rl = rateLimit(`mail-test:${u.sub}`, 5, 60_000);
     if (!rl.ok) return json({ error: "יותר מדי ניסיונות. נסו שוב בעוד דקה." }, 429);

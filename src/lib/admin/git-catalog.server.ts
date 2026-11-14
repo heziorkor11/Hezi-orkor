@@ -1,5 +1,5 @@
-import { adminGithubBranch, adminGithubRepo } from "./config";
-import { PUBLIC_GIT_PATHS } from "./types";
+import { adminGithubBranch, adminGithubRepo } from "./config.ts";
+import { PUBLIC_GIT_PATHS } from "./types.ts";
 
 type GhFile = { sha: string; content?: string };
 

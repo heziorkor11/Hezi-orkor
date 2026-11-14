@@ -7,8 +7,10 @@
 הריפו `heziorkor11/Hezi-orkor` הוא **ציבורי**. לכן:
 
 - שינויי קטלוג (מחירים, שמות, הסתרה, קטגוריות, תגים, מבצעים, יומן פעילות בלי פרטי לקוח) נשמרים לקובצי JSON ב־`public/catalog/` דרך GitHub API, ועולים לאתר תוך כ־2–5 דקות אחרי redeploy.
-- **הזמנות וסיסמאות לא נשמרות בריפו הציבורי.** עד שמחברים מאגר פרטי הן נשמרות רק באחסון זמני של המופע (`/tmp` ב־Vercel או `.data/admin` מקומית) ונמחקות ב-redeploy.
-- מוצע מאגר פרטי חינמי: `heziorkor11/hezi-orkor-data`. לא יוצרים אותו בלי אישור מפורש. אחרי יצירה מגדירים `ADMIN_DATA_GITHUB_REPO` — המערכת תבדוק שהוא באמת פרטי לפני כל כתיבה.
+- **הזמנות וחשבונות ניהול (סיסמאות כגיבוב scrypt בלבד) לא נשמרות בריפו הציבורי.** הן נכתבות למאגר הפרטי `heziorkor11/hezi-orkor-data` רק אחרי שהמערכת וידאה שהוא private: הזמנות ב־`orders/orders.json`, משתמשים בייצור ב־`admin/private-users.json`, ומשתמשי Preview ב־`admin/preview/private-users.json` (או `ADMIN_DATA_USERS_PATH` אם הוגדר לנתיב מותר) כדי שלא יתערבבו עם הייצור.
+- יומן הפעילות נשאר כרגע בריפו הציבורי (`public/catalog/admin-activity.json`) כי אין בו פרטי לקוח; הוא כולל שמות עובדים. מומלץ בעתיד להעביר אותו למאגר הפרטי, אבל זה לא חובה לתיקון הנוכחי (היומן כבר שורד redeploy).
+- הגדרות דוא״ל הן משתני סביבה בלבד. תגיות נשמרות בריפו הציבורי. סשן הוא עוגייה חתומה (בלי רשימת ביטול על הדיסק); אחרי מחיקת עובד הסשן שלו נדחה.
+- בלי מאגר פרטי, הזמנות ומשתמשים נשמרים רק באחסון זמני של המופע (`/tmp` ב־Vercel או `.data/admin` מקומית) ונמחקים ב-redeploy. לפני כל כתיבה למאגר הפרטי המערכת בודקת שהוא אכן private.
 
 ## תפקידים
 
@@ -40,8 +42,9 @@
 | `ADMIN_WORKER_USERNAME` / `ADMIN_WORKER_PASSWORD` / `ADMIN_WORKER_NAME` | יצירת עובד ראשוני (לתצוגה: `yoav`) |
 | `ADMIN_GITHUB_REPO` | `heziorkor11/Hezi-orkor` |
 | `ADMIN_GITHUB_BRANCH` | ענף הפריסה (`VERCEL_GIT_COMMIT_REF` או `main`) |
-| `ADMIN_DATA_GITHUB_REPO` | מאגר הזמנות פרטי, רק אחרי אישור ווידוא שהוא private |
-| `ADMIN_DATA_GITHUB_BRANCH` | ברירת מחדל כמו ענף הקטלוג |
+| `ADMIN_DATA_GITHUB_REPO` | מאגר הזמנות ומשתמשים פרטי, רק אחרי אישור ווידוא שהוא private |
+| `ADMIN_DATA_GITHUB_BRANCH` | ברירת מחדל כמו ענף הקטלוג (`main`) |
+| `ADMIN_DATA_USERS_PATH` | נתיב קובץ המשתמשים במאגר הפרטי. ברירת מחדל: `admin/private-users.json` בייצור, `admin/preview/private-users.json` ב-Preview/מקומי |
 | `ADMIN_PUBLIC_ORIGIN` | בסיס הקישור ב«בטל» (ייצור: https://hezi-orkor.vercel.app) |
 | `ADMIN_PREVIEW_DEMO` | `1` ב-Preview כדי להפעיל את הלוח בלי אסימון GitHub (שינויים זמניים) |
 | `ADMIN_LOCAL_ENABLED` | `1` לפיתוח מקומי |
