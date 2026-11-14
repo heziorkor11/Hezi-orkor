@@ -151,11 +151,17 @@ export async function ingestCartOrder(input: Omit<StoredOrder, "id" | "createdAt
   const id = input.id?.trim() || randomId("HZ-ORD");
   const existing = await getOrder(id);
   if (existing) return existing;
+  const createdAt = new Date().toISOString();
   const order: StoredOrder = {
     ...input,
     id,
-    createdAt: new Date().toISOString(),
+    createdAt,
     status: "new",
+    events: [
+      ...(input.events || []),
+      { at: createdAt, by: "system", byName: "האתר", type: "created", to: "new", detail: "הזמנה התקבלה מהעגלה" },
+    ],
+    pdfStored: Boolean(input.pdfStored),
   };
   return saveOrder(order);
 }

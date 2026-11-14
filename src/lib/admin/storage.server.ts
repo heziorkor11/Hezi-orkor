@@ -51,6 +51,9 @@ const catalogName: Record<string, string> = {
   "public/catalog/admin-activity.json": "admin-activity.json",
   "public/catalog/category-label-overrides.json": "category-label-overrides.json",
   "public/catalog/category-order-overrides.json": "category-order-overrides.json",
+  "public/catalog/product-additions.json": "product-additions.json",
+  "public/catalog/image-overrides.json": "image-overrides.json",
+  "public/catalog/stock-overrides.json": "stock-overrides.json",
 };
 
 export async function readCatalogFile<T>(path: PublicGitPath, fallback: T): Promise<T> {
@@ -90,29 +93,75 @@ export async function writeCatalogFile(opts: {
   return { committed, ephemeral: true };
 }
 
-export async function readActivity(): Promise<ActivityEntry[]> {
-  const file = await readCatalogFile<ActivityFile>("public/catalog/admin-activity.json", {
+const ACTIVITY_EPHEMERAL = "admin/activity.json";
+
+function activityPayload(entries: ActivityEntry[]): ActivityFile {
+  return {
     version: 1,
-    entries: [],
-  });
-  return Array.isArray(file.entries) ? file.entries : [];
+    description: "Admin activity. Stored in the private data repo. No customer personal data.",
+    entries,
+  };
+}
+
+async function readBundledPublicActivity(): Promise<ActivityEntry[]> {
+  try {
+    const file = await catalogJson<ActivityFile>("admin-activity.json");
+    return Array.isArray(file.entries) ? file.entries : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function readActivity(): Promise<ActivityEntry[]> {
+  const ephemeral = await readEphemeral(ACTIVITY_EPHEMERAL);
+  if (ephemeral) {
+    try {
+      const file = JSON.parse(ephemeral) as ActivityFile;
+      if (Array.isArray(file.entries)) return file.entries;
+    } catch {
+      /* ignore */
+    }
+  }
+  try {
+    const { privateDataRepoReady, privateActivityPath, readPrivateFile } = await import("./git-private.server");
+    if (await privateDataRepoReady()) {
+      const file = await readPrivateFile(privateActivityPath());
+      if (file?.content) {
+        const data = JSON.parse(file.content) as ActivityFile;
+        if (Array.isArray(data.entries)) {
+          await writeEphemeral(ACTIVITY_EPHEMERAL, file.content);
+          return data.entries;
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("[admin] private activity read failed", err instanceof Error ? err.message : err);
+  }
+  return readBundledPublicActivity();
+}
+
+async function persistActivity(entries: ActivityEntry[], message: string) {
+  const text = JSON.stringify(activityPayload(entries), null, 2) + "\n";
+  await writeEphemeral(ACTIVITY_EPHEMERAL, text);
+  try {
+    const { privateDataRepoReady, privateActivityPath, commitPrivateFile } = await import("./git-private.server");
+    if (await privateDataRepoReady()) {
+      await commitPrivateFile({ path: privateActivityPath(), content: text, message });
+      return { committed: true, ephemeral: true as const };
+    }
+  } catch (err) {
+    console.warn("[admin] private activity write failed", err instanceof Error ? err.message : err);
+  }
+  return { committed: false, ephemeral: true as const };
 }
 
 export async function appendActivity(entry: ActivityEntry, message: string) {
   const entries = [entry, ...(await readActivity())].slice(0, 500);
-  return writeCatalogFile({
-    path: "public/catalog/admin-activity.json",
-    data: { version: 1, description: "Catalog-change activity only. No customer personal data.", entries },
-    message,
-  });
+  return persistActivity(entries, message);
 }
 
 export async function saveActivityList(entries: ActivityEntry[], message: string) {
-  return writeCatalogFile({
-    path: "public/catalog/admin-activity.json",
-    data: { version: 1, description: "Catalog-change activity only. No customer personal data.", entries },
-    message,
-  });
+  return persistActivity(entries, message);
 }
 
 export async function buildPublicOverlay(): Promise<PublicOverlay> {
@@ -128,6 +177,9 @@ export async function buildPublicOverlay(): Promise<PublicOverlay> {
     deals,
     labels,
     order,
+    additions,
+    images,
+    stock,
   ] = await Promise.all([
     readCatalogFile<{ bySku?: Record<string, number> }>("public/catalog/price-overrides.json", { bySku: {} }),
     readCatalogFile<{ skus?: string[] }>("public/catalog/price-hide-overrides.json", { skus: [] }),
@@ -147,6 +199,12 @@ export async function buildPublicOverlay(): Promise<PublicOverlay> {
     readCatalogFile<HomeDealsFile>("public/catalog/home-deals-overrides.json", { version: 1, skus: [] }),
     readCatalogFile<{ byId?: Record<string, string> }>("public/catalog/category-label-overrides.json", { byId: {} }),
     readCatalogFile<{ ids?: string[] }>("public/catalog/category-order-overrides.json", { ids: [] }),
+    readCatalogFile<{ bySku?: Record<string, import("./added-product").AddedProduct> }>(
+      "public/catalog/product-additions.json",
+      { bySku: {} },
+    ),
+    readCatalogFile<{ bySku?: Record<string, string> }>("public/catalog/image-overrides.json", { bySku: {} }),
+    readCatalogFile<{ bySku?: Record<string, string> }>("public/catalog/stock-overrides.json", { bySku: {} }),
   ]);
   const hiddenSkus: Record<string, boolean> = {};
   for (const [sku, v] of Object.entries(visibility.bySku || {})) {
@@ -168,6 +226,9 @@ export async function buildPublicOverlay(): Promise<PublicOverlay> {
     tagLibrary: tags.tags || [],
     productTags: productTags.bySku || {},
     homeDeals: deals.skus || [],
+    additions: additions.bySku || {},
+    imageBySku: images.bySku || {},
+    stockBySku: stock.bySku || {},
   };
 }
 

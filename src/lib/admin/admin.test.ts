@@ -420,3 +420,59 @@ test("private repo writes are refused when the data repo is not private", async 
     else process.env.ADMIN_DATA_GITHUB_REPO = prevRepo;
   }
 });
+
+test("activity and order PDF paths stay isolated from production", async () => {
+  const prev = process.env.VERCEL_ENV;
+  const prevAct = process.env.ADMIN_DATA_ACTIVITY_PATH;
+  const prevOrd = process.env.ADMIN_DATA_ORDERS_PATH;
+  delete process.env.ADMIN_DATA_ACTIVITY_PATH;
+  delete process.env.ADMIN_DATA_ORDERS_PATH;
+  process.env.VERCEL_ENV = "preview";
+  const { privateActivityPath, privateOrderPdfPath, isPrivateGitPath, isOrderPdfPath } = await import("./git-private.server.ts");
+  assert.equal(privateActivityPath(), "admin/preview/activity.json");
+  assert.equal(privateOrderPdfPath("HZ-ORD_abc"), "orders/preview/pdfs/HZ-ORD_abc.pdf");
+  assert.equal(isPrivateGitPath("admin/activity.json"), true);
+  assert.equal(isPrivateGitPath("admin/preview/activity.json"), true);
+  assert.equal(isOrderPdfPath("orders/pdfs/HZ-ORD_abc.pdf"), true);
+  assert.equal(isPrivateGitPath("orders/orders.json"), true);
+  assert.equal(isPrivateGitPath("public/catalog/admin-activity.json"), false);
+  assert.equal(isPrivateGitPath("orders/pdfs/../orders.json"), false);
+  assert.equal(isOrderPdfPath("orders/preview/pdfs/not-an-order.pdf"), false);
+  process.env.VERCEL_ENV = "production";
+  assert.equal(privateActivityPath(), "admin/activity.json");
+  assert.equal(privateOrderPdfPath("HZ-ORD_abc"), "orders/pdfs/HZ-ORD_abc.pdf");
+  process.env.VERCEL_ENV = prev;
+  if (prevAct === undefined) delete process.env.ADMIN_DATA_ACTIVITY_PATH;
+  else process.env.ADMIN_DATA_ACTIVITY_PATH = prevAct;
+  if (prevOrd === undefined) delete process.env.ADMIN_DATA_ORDERS_PATH;
+  else process.env.ADMIN_DATA_ORDERS_PATH = prevOrd;
+});
+
+test("workshop packs and ceil prices format correctly on the products sheet", async () => {
+  const { formatSheetPrice, visibilityLabel, sheetRowToArray, PRODUCT_SHEET_HEADERS } = await import("./product-sheet.ts");
+  assert.equal(PRODUCT_SHEET_HEADERS.length, 14);
+  const shop = formatSheetPrice({ workshop: true, displayPrice: 99, basePrice: 80 });
+  assert.equal(shop.priceDisplayed, "מחיר מיוחד למוסכים וספקים");
+  const ceil = formatSheetPrice({ workshop: false, displayPrice: 10.8, basePrice: 15 });
+  assert.equal(ceil.priceDisplayed, "11");
+  assert.equal(ceil.basePrice, "15");
+  assert.equal(visibilityLabel(true), "מוסתר");
+  const row = sheetRowToArray({
+    sku: "HZ-CAF-00195",
+    name: "x",
+    category: "filters",
+    categoryHe: "פילטרים",
+    subType: "cabin",
+    fitment: "",
+    priceDisplayed: "11",
+    basePrice: "15",
+    imageUrl: "",
+    tags: "",
+    stock: "",
+    visibility: "מוצג",
+    updatedAt: "",
+    updatedBy: "",
+  });
+  assert.equal(row[0], "HZ-CAF-00195");
+  assert.equal(row.length, 14);
+});

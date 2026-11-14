@@ -29,6 +29,7 @@ const MASTER_NAV = [
   { to: "/admin/activity", label: "יומן פעילות", ico: "⌚" },
   { to: "/admin/users", label: "משתמשים והרשאות", ico: "👤", master: true },
   { to: "/admin/mail-preview", label: "דוא״ל והתראות", ico: "✉", master: true },
+  { to: "/admin/sheets", label: "גיליון מוצרים", ico: "▦", master: true },
 ] as const;
 
 export function AdminGate({ children }: { children?: ReactNode }) {
@@ -136,10 +137,11 @@ export function AdminGate({ children }: { children?: ReactNode }) {
     "/admin/activity": "יומן פעילות",
     "/admin/users": "משתמשים והרשאות",
     "/admin/mail-preview": "דוא״ל והתראות",
+    "/admin/sheets": "גיליון מוצרים",
   };
   const title =
     titleMap[pathname] ||
-    (pathname.startsWith("/admin/products/") ? "עריכת מוצר" : pathname.startsWith("/admin/orders/") ? "פרטי הזמנה" : "ניהול");
+    (pathname === "/admin/products/new" ? "מוצר חדש" : pathname.startsWith("/admin/products/") ? "עריכת מוצר" : pathname.startsWith("/admin/orders/") ? "פרטי הזמנה" : "ניהול");
 
   return (
     <AdminCtx.Provider value={{ user, mode, newOrders, refreshBadge, logout }}>

@@ -26,6 +26,7 @@ import { Route as AdminMailPreviewRouteImport } from './routes/admin.mail-previe
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminRevertRouteImport } from './routes/admin.revert'
+import { Route as AdminSheetsRouteImport } from './routes/admin.sheets'
 import { Route as AdminTagsRouteImport } from './routes/admin.tags'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as ApiCatalogOverlayRouteImport } from './routes/api.catalog-overlay'
@@ -37,7 +38,10 @@ import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.inde
 import { Route as AdminOrdersIdRouteImport } from './routes/admin.orders.$id'
 import { Route as AdminProductsIndexRouteImport } from './routes/admin.products.index'
 import { Route as AdminProductsSkuRouteImport } from './routes/admin.products.$sku'
+import { Route as AdminProductsNewRouteImport } from './routes/admin.products.new'
 import { Route as ApiAdminSplatRouteImport } from './routes/api.admin.$'
+import { Route as ApiCatalogImageSkuRouteImport } from './routes/api.catalog-image.$sku'
+import { Route as ApiOrdersSplatRouteImport } from './routes/api.orders.$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -124,6 +128,11 @@ const AdminRevertRoute = AdminRevertRouteImport.update({
   path: '/revert',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSheetsRoute = AdminSheetsRouteImport.update({
+  id: '/sheets',
+  path: '/sheets',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminTagsRoute = AdminTagsRouteImport.update({
   id: '/tags',
   path: '/tags',
@@ -179,10 +188,25 @@ const AdminProductsSkuRoute = AdminProductsSkuRouteImport.update({
   path: '/$sku',
   getParentRoute: () => AdminProductsRoute,
 } as any)
+const AdminProductsNewRoute = AdminProductsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AdminProductsRoute,
+} as any)
 const ApiAdminSplatRoute = ApiAdminSplatRouteImport.update({
   id: '/api/admin/$',
   path: '/api/admin/$',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCatalogImageSkuRoute = ApiCatalogImageSkuRouteImport.update({
+  id: '/api/catalog-image/$sku',
+  path: '/api/catalog-image/$sku',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiOrdersSplatRoute = ApiOrdersSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => ApiOrdersRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -202,17 +226,21 @@ export interface FileRoutesByFullPath {
   '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/products': typeof AdminProductsRouteWithChildren
   '/admin/revert': typeof AdminRevertRoute
+  '/admin/sheets': typeof AdminSheetsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/catalog-overlay': typeof ApiCatalogOverlayRoute
-  '/api/orders': typeof ApiOrdersRoute
+  '/api/orders': typeof ApiOrdersRouteWithChildren
   '/legal/$slug': typeof LegalSlugRoute
   '/product/$id': typeof ProductIdRoute
   '/admin/': typeof AdminIndexRoute
   '/legal/': typeof LegalIndexRoute
   '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/admin/products/$sku': typeof AdminProductsSkuRoute
+  '/admin/products/new': typeof AdminProductsNewRoute
   '/api/admin/$': typeof ApiAdminSplatRoute
+  '/api/catalog-image/$sku': typeof ApiCatalogImageSkuRoute
+  '/api/orders/$': typeof ApiOrdersSplatRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
 }
@@ -229,17 +257,21 @@ export interface FileRoutesByTo {
   '/admin/login': typeof AdminLoginRoute
   '/admin/mail-preview': typeof AdminMailPreviewRoute
   '/admin/revert': typeof AdminRevertRoute
+  '/admin/sheets': typeof AdminSheetsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/catalog-overlay': typeof ApiCatalogOverlayRoute
-  '/api/orders': typeof ApiOrdersRoute
+  '/api/orders': typeof ApiOrdersRouteWithChildren
   '/legal/$slug': typeof LegalSlugRoute
   '/product/$id': typeof ProductIdRoute
   '/admin': typeof AdminIndexRoute
   '/legal': typeof LegalIndexRoute
   '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/admin/products/$sku': typeof AdminProductsSkuRoute
+  '/admin/products/new': typeof AdminProductsNewRoute
   '/api/admin/$': typeof ApiAdminSplatRoute
+  '/api/catalog-image/$sku': typeof ApiCatalogImageSkuRoute
+  '/api/orders/$': typeof ApiOrdersSplatRoute
   '/admin/orders': typeof AdminOrdersIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
 }
@@ -261,17 +293,21 @@ export interface FileRoutesById {
   '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/products': typeof AdminProductsRouteWithChildren
   '/admin/revert': typeof AdminRevertRoute
+  '/admin/sheets': typeof AdminSheetsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/catalog-overlay': typeof ApiCatalogOverlayRoute
-  '/api/orders': typeof ApiOrdersRoute
+  '/api/orders': typeof ApiOrdersRouteWithChildren
   '/legal/$slug': typeof LegalSlugRoute
   '/product/$id': typeof ProductIdRoute
   '/admin/': typeof AdminIndexRoute
   '/legal/': typeof LegalIndexRoute
   '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/admin/products/$sku': typeof AdminProductsSkuRoute
+  '/admin/products/new': typeof AdminProductsNewRoute
   '/api/admin/$': typeof ApiAdminSplatRoute
+  '/api/catalog-image/$sku': typeof ApiCatalogImageSkuRoute
+  '/api/orders/$': typeof ApiOrdersSplatRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
 }
@@ -294,6 +330,7 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/products'
     | '/admin/revert'
+    | '/admin/sheets'
     | '/admin/tags'
     | '/admin/users'
     | '/api/catalog-overlay'
@@ -304,7 +341,10 @@ export interface FileRouteTypes {
     | '/legal/'
     | '/admin/orders/$id'
     | '/admin/products/$sku'
+    | '/admin/products/new'
     | '/api/admin/$'
+    | '/api/catalog-image/$sku'
+    | '/api/orders/$'
     | '/admin/orders/'
     | '/admin/products/'
   fileRoutesByTo: FileRoutesByTo
@@ -321,6 +361,7 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/admin/mail-preview'
     | '/admin/revert'
+    | '/admin/sheets'
     | '/admin/tags'
     | '/admin/users'
     | '/api/catalog-overlay'
@@ -331,7 +372,10 @@ export interface FileRouteTypes {
     | '/legal'
     | '/admin/orders/$id'
     | '/admin/products/$sku'
+    | '/admin/products/new'
     | '/api/admin/$'
+    | '/api/catalog-image/$sku'
+    | '/api/orders/$'
     | '/admin/orders'
     | '/admin/products'
   id:
@@ -352,6 +396,7 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/products'
     | '/admin/revert'
+    | '/admin/sheets'
     | '/admin/tags'
     | '/admin/users'
     | '/api/catalog-overlay'
@@ -362,7 +407,10 @@ export interface FileRouteTypes {
     | '/legal/'
     | '/admin/orders/$id'
     | '/admin/products/$sku'
+    | '/admin/products/new'
     | '/api/admin/$'
+    | '/api/catalog-image/$sku'
+    | '/api/orders/$'
     | '/admin/orders/'
     | '/admin/products/'
   fileRoutesById: FileRoutesById
@@ -378,9 +426,10 @@ export interface RootRouteChildren {
   LegalRoute: typeof LegalRouteWithChildren
   ResultsRoute: typeof ResultsRoute
   ApiCatalogOverlayRoute: typeof ApiCatalogOverlayRoute
-  ApiOrdersRoute: typeof ApiOrdersRoute
+  ApiOrdersRoute: typeof ApiOrdersRouteWithChildren
   ProductIdRoute: typeof ProductIdRoute
   ApiAdminSplatRoute: typeof ApiAdminSplatRoute
+  ApiCatalogImageSkuRoute: typeof ApiCatalogImageSkuRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -504,6 +553,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRevertRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/sheets': {
+      id: '/admin/sheets'
+      path: '/sheets'
+      fullPath: '/admin/sheets'
+      preLoaderRoute: typeof AdminSheetsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/tags': {
       id: '/admin/tags'
       path: '/tags'
@@ -581,12 +637,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProductsSkuRouteImport
       parentRoute: typeof AdminProductsRoute
     }
+    '/admin/products/new': {
+      id: '/admin/products/new'
+      path: '/new'
+      fullPath: '/admin/products/new'
+      preLoaderRoute: typeof AdminProductsNewRouteImport
+      parentRoute: typeof AdminProductsRoute
+    }
     '/api/admin/$': {
       id: '/api/admin/$'
       path: '/api/admin/$'
       fullPath: '/api/admin/$'
       preLoaderRoute: typeof ApiAdminSplatRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/api/catalog-image/$sku': {
+      id: '/api/catalog-image/$sku'
+      path: '/api/catalog-image/$sku'
+      fullPath: '/api/catalog-image/$sku'
+      preLoaderRoute: typeof ApiCatalogImageSkuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/orders/$': {
+      id: '/api/orders/$'
+      path: '/$'
+      fullPath: '/api/orders/$'
+      preLoaderRoute: typeof ApiOrdersSplatRouteImport
+      parentRoute: typeof ApiOrdersRoute
     }
   }
 }
@@ -607,11 +684,13 @@ const AdminOrdersRouteWithChildren = AdminOrdersRoute._addFileChildren(
 
 interface AdminProductsRouteChildren {
   AdminProductsSkuRoute: typeof AdminProductsSkuRoute
+  AdminProductsNewRoute: typeof AdminProductsNewRoute
   AdminProductsIndexRoute: typeof AdminProductsIndexRoute
 }
 
 const AdminProductsRouteChildren: AdminProductsRouteChildren = {
   AdminProductsSkuRoute: AdminProductsSkuRoute,
+  AdminProductsNewRoute: AdminProductsNewRoute,
   AdminProductsIndexRoute: AdminProductsIndexRoute,
 }
 
@@ -627,6 +706,7 @@ interface AdminRouteChildren {
   AdminOrdersRoute: typeof AdminOrdersRouteWithChildren
   AdminProductsRoute: typeof AdminProductsRouteWithChildren
   AdminRevertRoute: typeof AdminRevertRoute
+  AdminSheetsRoute: typeof AdminSheetsRoute
   AdminTagsRoute: typeof AdminTagsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -640,6 +720,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminOrdersRoute: AdminOrdersRouteWithChildren,
   AdminProductsRoute: AdminProductsRouteWithChildren,
   AdminRevertRoute: AdminRevertRoute,
+  AdminSheetsRoute: AdminSheetsRoute,
   AdminTagsRoute: AdminTagsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
@@ -659,6 +740,18 @@ const LegalRouteChildren: LegalRouteChildren = {
 
 const LegalRouteWithChildren = LegalRoute._addFileChildren(LegalRouteChildren)
 
+interface ApiOrdersRouteChildren {
+  ApiOrdersSplatRoute: typeof ApiOrdersSplatRoute
+}
+
+const ApiOrdersRouteChildren: ApiOrdersRouteChildren = {
+  ApiOrdersSplatRoute: ApiOrdersSplatRoute,
+}
+
+const ApiOrdersRouteWithChildren = ApiOrdersRoute._addFileChildren(
+  ApiOrdersRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
@@ -670,9 +763,10 @@ const rootRouteChildren: RootRouteChildren = {
   LegalRoute: LegalRouteWithChildren,
   ResultsRoute: ResultsRoute,
   ApiCatalogOverlayRoute: ApiCatalogOverlayRoute,
-  ApiOrdersRoute: ApiOrdersRoute,
+  ApiOrdersRoute: ApiOrdersRouteWithChildren,
   ProductIdRoute: ProductIdRoute,
   ApiAdminSplatRoute: ApiAdminSplatRoute,
+  ApiCatalogImageSkuRoute: ApiCatalogImageSkuRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

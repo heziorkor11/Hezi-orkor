@@ -157,9 +157,57 @@ function OrderDetailPage() {
               וואטסאפ ללקוח
             </a>
           </div>
-          <p className="muted" style={{ fontSize: 12, marginTop: 12 }}>
-            קובץ ה-PDF נוצר בעגלת הלקוח ונשלח בוואטסאפ. הוא לא נשמר כאן כדי לא להעתיק פרטים אישיים לריפו הציבורי.
-          </p>
+          <h2 className="section-title" style={{ marginTop: 24 }}>קובץ PDF</h2>
+          {order.pdfStored ? (
+            <p>
+              <a className="btn btn-ghost" href={`/api/admin/orders/${encodeURIComponent(order.id)}/pdf`} target="_blank" rel="noreferrer">
+                הורדת PDF
+              </a>
+            </p>
+          ) : (
+            <p className="muted">עדיין אין PDF שמור. אם הלקוח שלח מהעגלה, הקובץ אמור לעלות אוטומטית. אפשר גם להעלות כאן.</p>
+          )}
+          <label className="btn btn-sm btn-ghost" style={{ display: "inline-block", cursor: "pointer" }}>
+            העלאת PDF
+            <input
+              type="file"
+              accept="application/pdf"
+              hidden
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                e.target.value = "";
+                if (!file) return;
+                setError("");
+                void file.arrayBuffer().then(async (buf) => {
+                  const res = await fetch(`/api/admin/orders/${encodeURIComponent(order.id)}/pdf`, {
+                    method: "POST",
+                    credentials: "same-origin",
+                    headers: { "Content-Type": "application/pdf" },
+                    body: buf,
+                  });
+                  const data = await res.json().catch(() => ({})) as { order?: typeof order; error?: string };
+                  if (!res.ok) throw new Error(data.error || "העלאה נכשלה");
+                  if (data.order) setOrder(data.order);
+                  setSaved("ה-PDF נשמר במאגר הפרטי.");
+                }).catch((err) => setError(err instanceof Error ? err.message : "העלאה נכשלה"));
+              }}
+            />
+          </label>
+          <h2 className="section-title" style={{ marginTop: 24 }}>היסטוריית סטטוס</h2>
+          {order.events?.length ? (
+            <ol style={{ margin: 0, paddingInlineStart: 18 }}>
+              {order.events.map((ev, i) => (
+                <li key={`${ev.at}-${i}`} style={{ marginBottom: 8 }}>
+                  <div>{formatWhen(ev.at)} · {ev.byName}</div>
+                  <div className="muted">
+                    {ev.type === "created" ? "הזמנה נוצרה" : ev.type === "status" ? `סטטוס: ${STATUS_LABEL[ev.from as keyof typeof STATUS_LABEL] || ev.from || ""} → ${STATUS_LABEL[ev.to as keyof typeof STATUS_LABEL] || ev.to || ""}` : ev.type === "assign" ? `שיוך: ${ev.detail || ev.to || ""}` : ev.type === "schedule" ? `תאריך מתוכנן: ${ev.detail || ev.to || ""}` : ev.type === "pdf" ? "נשמר PDF" : ev.detail || ev.type}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="muted">אין עדיין אירועים שמורים להזמנה הזו. שינויי סטטוס מכאן ייכתבו ליומן.</p>
+          )}
         </div>
       </div>
     </>

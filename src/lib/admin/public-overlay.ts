@@ -1,4 +1,5 @@
 import type { PublicOverlay, TagDef } from "./types";
+import type { AddedProduct } from "./added-product";
 
 let runtime: PublicOverlay = {};
 
@@ -58,4 +59,22 @@ export function overlayCategoryLabel(id: string, fallback: string): string {
 
 export function overlayCategoryOfSku(sku: string): string | undefined {
   return runtime.categoryBySku?.[sku];
+}
+
+export function overlayImage(sku: string): string | undefined {
+  const v = runtime.imageBySku?.[sku];
+  return v?.trim() || undefined;
+}
+
+export function overlayStock(sku: string): string | undefined {
+  const v = runtime.stockBySku?.[sku];
+  return v?.trim() || undefined;
+}
+
+export function overlayAdditions(): Record<string, AddedProduct> {
+  return runtime.additions || {};
+}
+
+export function overlayAddedProduct(sku: string): AddedProduct | undefined {
+  return runtime.additions?.[sku];
 }

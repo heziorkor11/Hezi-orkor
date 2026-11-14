@@ -8,6 +8,8 @@ import { catalogJson } from "@/lib/catalog-io";
 import { imageLooksLikeSharedOe, inferCategory, yearsFromTitle } from "@/lib/part-display";
 import { expandProductName } from "@/lib/name-expand";
 import { applySearchHitNameOverride, getNameOverride } from "@/lib/name-overrides";
+import { overlayAddedProduct, overlayAdditions, overlayImage } from "@/lib/admin/public-overlay";
+import { addedToProduct, addedToSearchHit } from "@/lib/admin/added-product";
 
 const cache = {
   searchIndex: undefined as SearchHit[] | undefined,
@@ -27,6 +29,8 @@ function wixImage(id: string) {
 function usableRaw(value?: string) {
   if (!value) return false;
   if (value.startsWith("/products/")) return false;
+  if (value.startsWith("/api/catalog-image/")) return true;
+  if (value.startsWith("/catalog/admin-images/")) return true;
   if (value.startsWith("/catalog/") && !value.startsWith("/catalog/images/")) return false;
   if (value.endsWith("/photos/") || value.endsWith("/photos")) return false;
   return true;
@@ -44,6 +48,8 @@ async function loadImageMap() {
 }
 
 function resolveImage(sku?: string, existing?: string, oe?: string) {
+  const live = sku ? overlayImage(sku) : undefined;
+  if (live && usableRaw(live)) return live.startsWith("/") || live.startsWith("http") ? live : live;
   const mapped = sku && cache.images ? cache.images[sku] : undefined;
   const candidate = (mapped && usableRaw(mapped) ? mapped : undefined) || (usableRaw(existing) ? existing : undefined);
   if (!candidate) return undefined;
@@ -147,6 +153,14 @@ export async function loadFeaturedImpl(): Promise<Product[]> {
 export async function loadProductImpl(sku: string): Promise<Product | undefined> {
   const id = decodeURIComponent(sku || "").trim();
   if (!id || isHiddenProduct(id)) return undefined;
+  const added = overlayAddedProduct(id);
+  if (added) {
+    const product = addedToProduct(added);
+    const name = getNameOverride(product.sku);
+    const withName = name && name !== product.name ? { ...product, name } : product;
+    const image = resolveImage(withName.sku, withName.image, withName.oe) || withName.image;
+    return image && image !== withName.image ? { ...withName, image } : withName;
+  }
   const map = await loadSkuMap();
   const chunkId = map[id];
   if (!chunkId) return undefined;
@@ -154,7 +168,9 @@ export async function loadProductImpl(sku: string): Promise<Product | undefined>
   const product = chunk.find((p) => p.sku === id || p.id === id);
   if (!product) return undefined;
   const name = getNameOverride(product.sku);
-  return name && name !== product.name ? { ...product, name } : product;
+  const withName = name && name !== product.name ? { ...product, name } : product;
+  const image = resolveImage(withName.sku, withName.image, withName.oe) || withName.image;
+  return image && image !== withName.image ? { ...withName, image } : withName;
 }
 
 export async function loadRelatedImpl(product: Product, limit = 4): Promise<Product[]> {
@@ -175,7 +191,11 @@ async function loadSearchIndex(): Promise<SearchHit[]> {
     const rows = await catalogJson<SearchHit[]>("search-index.json");
     cache.searchIndex = rows;
   }
-  return cache.searchIndex.map(applySearchHitNameOverride);
+  const base = cache.searchIndex.map(applySearchHitNameOverride);
+  const extras = Object.values(overlayAdditions()).map(addedToSearchHit).map(applySearchHitNameOverride);
+  if (!extras.length) return base;
+  const have = new Set(base.map((h) => h.sku));
+  return base.concat(extras.filter((h) => !have.has(h.sku)));
 }
 
 export async function loadSearchHits(): Promise<SearchHit[]> {
@@ -214,7 +234,13 @@ export async function loadListingImpl(
   for (const hit of slice) {
     const chunk = cache.chunks.get(map[hit.sku]);
     const product = chunk?.find((p) => p.sku === hit.sku);
-    if (product) items.push(product);
+    if (product) {
+      const image = resolveImage(product.sku, product.image, product.oe) || product.image;
+      items.push(image && image !== product.image ? { ...product, image } : product);
+      continue;
+    }
+    const added = overlayAddedProduct(hit.sku);
+    if (added) items.push(addedToProduct(added));
   }
   return { items, total: hits.length, page: current, pages };
 }

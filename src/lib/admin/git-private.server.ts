@@ -7,6 +7,8 @@ export const PRIVATE_GIT_PATHS = [
   "orders/preview/orders.json",
   "admin/private-users.json",
   "admin/preview/private-users.json",
+  "admin/activity.json",
+  "admin/preview/activity.json",
 ] as const;
 
 export type PrivateGitPath = (typeof PRIVATE_GIT_PATHS)[number];
@@ -32,14 +34,42 @@ export function setPrivateGitOpsForTests(ops: PrivateGitOps | null) {
   testOps = ops;
 }
 
-export function isPrivateGitPath(path: string): path is PrivateGitPath {
-  return (PRIVATE_GIT_PATHS as readonly string[]).includes(path);
+const ORDER_PDF_PATH = /^orders\/(preview\/)?pdfs\/HZ-ORD[A-Za-z0-9_-]+\.pdf$/;
+
+export function isOrderPdfPath(path: string): boolean {
+  return ORDER_PDF_PATH.test(path);
 }
 
-export function assertPrivateGitPath(path: string): asserts path is PrivateGitPath {
+export function isPrivateGitPath(path: string): path is PrivateGitPath | (string & { __private: true }) {
+  return (PRIVATE_GIT_PATHS as readonly string[]).includes(path) || isOrderPdfPath(path);
+}
+
+export function assertPrivateGitPath(path: string): asserts path is string {
   if (!isPrivateGitPath(path)) {
     throw new Error("Refusing to use a non-allowlisted path in the private data repo");
   }
+}
+
+/** Production activity lives at admin/activity.json. Preview/local use a separate path. */
+export function privateActivityPath(): string {
+  const override = (process.env.ADMIN_DATA_ACTIVITY_PATH || "").trim();
+  if (override) {
+    assertPrivateGitPath(override);
+    if (!override.endsWith("activity.json")) {
+      throw new Error("ADMIN_DATA_ACTIVITY_PATH must be an activity.json file");
+    }
+    return override;
+  }
+  return process.env.VERCEL_ENV === "production" ? "admin/activity.json" : "admin/preview/activity.json";
+}
+
+export function privateOrderPdfPath(orderId: string): string {
+  const safe = String(orderId || "").replace(/[^A-Za-z0-9_-]/g, "");
+  if (!safe.startsWith("HZ-ORD")) throw new Error("מזהה הזמנה לא תקין לקובץ PDF");
+  const folder = privateOrdersPath().includes("preview") ? "orders/preview/pdfs" : "orders/pdfs";
+  const path = `${folder}/${safe}.pdf`;
+  assertPrivateGitPath(path);
+  return path;
 }
 
 /** Production users live at admin/private-users.json. Preview/local use a separate path so they never mix. */
@@ -162,4 +192,53 @@ export async function commitPrivateOrders(content: string) {
     content,
     message: "chore(admin): update orders (private)",
   });
+}
+
+export async function readPrivateBinary(path: string): Promise<{ bytes: Buffer; sha: string } | null> {
+  assertPrivateGitPath(path);
+  const file = await readPrivateFile(path);
+  if (!file) return null;
+  // Files were stored as standard GitHub base64 of the raw bytes. readPrivateFile
+  // already decoded that as UTF-8, which corrupts PDFs — read via ops again as raw.
+  const repo = await assertPrivateDataRepo();
+  const token = process.env.ADMIN_GITHUB_TOKEN;
+  if (!testOps && !token) throw new Error("ADMIN_GITHUB_TOKEN is not set");
+  if (testOps) {
+    // Test ops store latin1-safe text; interpret content as binary string.
+    return { bytes: Buffer.from(file.content, "latin1"), sha: file.sha };
+  }
+  const get = await fetch(
+    `https://api.github.com/repos/${repo}/contents/${path}?ref=${encodeURIComponent(privateDataBranch())}`,
+    { headers: authHeaders() },
+  );
+  if (get.status === 404) return null;
+  if (!get.ok) throw new Error(`Private repo read failed (${get.status})`);
+  const body = (await get.json()) as { sha?: string; content?: string };
+  if (!body.sha) throw new Error("Private repo read missing sha");
+  const bytes = Buffer.from((body.content || "").replace(/\n/g, ""), "base64");
+  return { bytes, sha: body.sha };
+}
+
+export async function commitPrivateBinary(opts: { path: string; bytes: Buffer; message: string }) {
+  assertPrivateGitPath(opts.path);
+  const repo = await assertPrivateDataRepo();
+  if (!process.env.ADMIN_GITHUB_TOKEN && !testOps) throw new Error("ADMIN_GITHUB_TOKEN is not set");
+  const branch = privateDataBranch();
+  const current = await ops().readFile(repo, branch, opts.path);
+  const b64 = opts.bytes.toString("base64");
+  if (testOps) {
+    await ops().putFile(repo, branch, opts.path, opts.bytes.toString("latin1"), opts.message, current?.sha);
+    return;
+  }
+  const put = await fetch(`https://api.github.com/repos/${repo}/contents/${opts.path}`, {
+    method: "PUT",
+    headers: { ...authHeaders(), "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message: opts.message,
+      content: b64,
+      branch,
+      sha: current?.sha,
+    }),
+  });
+  if (!put.ok) throw new Error(`Private repo commit failed (${put.status})`);
 }
