@@ -19,14 +19,18 @@ function UsersPage() {
   const [role, setRole] = useState<"worker" | "master">("worker");
   const [error, setError] = useState("");
   const [saved, setSaved] = useState("");
+  const [persist, setPersist] = useState("");
 
   useEffect(() => {
     if (user.role !== "master") {
       void navigate({ from: "/", to: ADMIN_HOME });
       return;
     }
-    void adminFetch<{ users: SafeUser[] }>("/api/admin/users")
-      .then((d) => setUsers(d.users))
+    void adminFetch<{ users: SafeUser[]; persist?: { durable: boolean; reason: string } }>("/api/admin/users")
+      .then((d) => {
+        setUsers(d.users);
+        if (d.persist) setPersist(d.persist.durable ? "נשמר במאגר הפרטי (רק גיבוב סיסמה, בלי סיסמה גלויה)." : d.persist.reason);
+      })
       .catch((e) => setError(e instanceof Error ? e.message : "שגיאה"));
   }, [user.role, navigate]);
 
@@ -57,6 +61,22 @@ function UsersPage() {
     setUsers(res.users);
   }
 
+  async function remove(u: SafeUser) {
+    if (u.id === "user_master") return;
+    if (!window.confirm(`למחוק את המשתמש ${u.username}? לא ניתן לשחזר.`)) return;
+    setError("");
+    try {
+      const res = await adminFetch<{ users: SafeUser[] }>(`/api/admin/users/${u.id}`, {
+        method: "POST",
+        body: JSON.stringify({ delete: true }),
+      });
+      setUsers(res.users);
+      setSaved(`המשתמש ${u.username} נמחק.`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "שגיאה");
+    }
+  }
+
   if (user.role !== "master") return null;
 
   return (
@@ -73,9 +93,12 @@ function UsersPage() {
             <div>
               {u.active ? <span className="chip new">פעיל</span> : <span className="chip">מושבת</span>}
               {u.id !== "user_master" ? (
-                <div style={{ marginTop: 8 }}>
+                <div style={{ marginTop: 8, display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "flex-end" }}>
                   <button className="btn btn-sm btn-ghost" type="button" onClick={() => void toggle(u)}>
                     {u.active ? "השבתה" : "הפעלה"}
+                  </button>
+                  <button className="btn btn-sm btn-ghost" type="button" onClick={() => void remove(u)}>
+                    מחיקה
                   </button>
                 </div>
               ) : null}
@@ -109,8 +132,9 @@ function UsersPage() {
         {error ? <p className="error-text">{error}</p> : null}
         {saved ? <p className="muted">{saved}</p> : null}
         <button className="btn btn-accent" type="submit" style={{ marginTop: 14 }}>הוספה</button>
+        {persist ? <p className="muted" style={{ fontSize: 12, marginTop: 10 }}>{persist}</p> : null}
         <p className="muted" style={{ fontSize: 12, marginTop: 10 }}>
-          משתמשים נשמרים באחסון פרטי זמני (לא בריפו הציבורי). לשימור קבוע צריך מאגר פרטי אחרי אישור.
+          סיסמאות נשמרות רק כגיבוב scrypt במאגר הפרטי, לא בריפו הציבורי ולא בטקסט גלוי. ב-Preview נשמר נתיב נפרד כדי לא לערבב עם משתמשי הייצור.
         </p>
       </form>
     </div>

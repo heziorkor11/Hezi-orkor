@@ -82,6 +82,20 @@ export async function ordersPersistence(): Promise<{
   };
 }
 
+async function readFromPrivateRepo(): Promise<StoredOrder[] | null> {
+  if (!adminDataRepo()) return null;
+  try {
+    const { assertPrivateDataRepo, privateOrdersPath, readPrivateFile } = await import("./git-private.server.ts");
+    await assertPrivateDataRepo();
+    const file = await readPrivateFile(privateOrdersPath());
+    if (!file) return [];
+    const data = JSON.parse(file.content) as OrdersFile;
+    return Array.isArray(data.orders) ? data.orders : [];
+  } catch {
+    return null;
+  }
+}
+
 async function readAll(): Promise<StoredOrder[]> {
   try {
     const raw = await readFile(await filePath(), "utf8");
@@ -90,13 +104,19 @@ async function readAll(): Promise<StoredOrder[]> {
   } catch {
     /* empty */
   }
+  const fromGit = await readFromPrivateRepo();
+  if (fromGit && fromGit.length) {
+    await writeFile(await filePath(), `${JSON.stringify({ version: 1, orders: fromGit }, null, 2)}\n`, "utf8");
+    return fromGit;
+  }
   const mode = adminMode();
   if (mode === "preview-demo" || mode === "local") {
     const demo = demoOrders();
+    // Local/demo cache only — never write sample customer data to the private repo.
     await writeFile(await filePath(), `${JSON.stringify({ version: 1, orders: demo }, null, 2)}\n`, "utf8");
     return demo;
   }
-  return [];
+  return fromGit || [];
 }
 
 async function writeAll(orders: StoredOrder[]) {
@@ -105,7 +125,7 @@ async function writeAll(orders: StoredOrder[]) {
   if (!dataRepo) return;
   const priv = await githubRepoIsPrivate(dataRepo);
   if (priv !== true) return;
-  const { commitPrivateOrders } = await import("./git-private.server");
+  const { commitPrivateOrders } = await import("./git-private.server.ts");
   await commitPrivateOrders(`${JSON.stringify({ version: 1, orders }, null, 2)}\n`);
 }
 

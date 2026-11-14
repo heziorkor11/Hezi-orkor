@@ -6,12 +6,23 @@ import { overlayProductTags, setPublicOverlay, getPublicOverlay, mergeOverlay } 
 import { catalogPrice, ceilShekel } from "../prices.ts";
 import { isHiddenCategory, isWorkshopPackSku } from "../display-taxonomy.ts";
 
-test("public git allowlist never includes orders or user files", () => {
-  const forbidden = ["orders/orders.json", "private-orders.json", "private-users.json", "users.json"];
+test("public git allowlist never includes orders or user files", async () => {
+  const { PRIVATE_GIT_PATHS } = await import("./git-private.server.ts");
+  const forbidden = [
+    "orders/orders.json",
+    "private-orders.json",
+    "private-users.json",
+    "users.json",
+    "admin/private-users.json",
+    "admin/preview/private-users.json",
+  ];
   for (const path of forbidden) {
     assert.equal((PUBLIC_GIT_PATHS as readonly string[]).includes(path), false, path);
   }
   assert.ok((PUBLIC_GIT_PATHS as readonly string[]).includes("public/catalog/price-overrides.json"));
+  assert.ok((PRIVATE_GIT_PATHS as readonly string[]).includes("admin/private-users.json"));
+  assert.ok((PRIVATE_GIT_PATHS as readonly string[]).includes("admin/preview/private-users.json"));
+  assert.ok((PRIVATE_GIT_PATHS as readonly string[]).includes("orders/orders.json"));
 });
 
 test("product tags cap at two and overlay wins", () => {
@@ -211,4 +222,177 @@ test("test notification email is marked sample and uses a no-op revert link", as
   assert.match(smtpErrorMessageHe("smtp-failed", new Error("Client network socket disconnected before secure TLS connection was established")), /TLS/);
   const leaked = smtpErrorMessageHe("smtp-failed", new Error("fail abcdefghijklmnopqrstuvwx=="));
   assert.doesNotMatch(leaked, /abcdefghijklmnopqrstuvwx/);
+});
+
+test("preview users path is isolated from production and rejects illegal overrides", async () => {
+  const { privateUsersPath, assertPrivateGitPath } = await import("./git-private.server.ts");
+  const prevEnv = process.env.VERCEL_ENV;
+  const prevPath = process.env.ADMIN_DATA_USERS_PATH;
+  delete process.env.ADMIN_DATA_USERS_PATH;
+  process.env.VERCEL_ENV = "production";
+  assert.equal(privateUsersPath(), "admin/private-users.json");
+  delete process.env.VERCEL_ENV;
+  assert.equal(privateUsersPath(), "admin/preview/private-users.json");
+  process.env.VERCEL_ENV = "preview";
+  assert.equal(privateUsersPath(), "admin/preview/private-users.json");
+  process.env.ADMIN_DATA_USERS_PATH = "admin/preview/private-users.json";
+  assert.equal(privateUsersPath(), "admin/preview/private-users.json");
+  process.env.ADMIN_DATA_USERS_PATH = "orders/orders.json";
+  assert.throws(() => privateUsersPath(), /orders/);
+  process.env.ADMIN_DATA_USERS_PATH = "../secret.json";
+  assert.throws(() => privateUsersPath(), /allowlisted/);
+  assert.throws(() => assertPrivateGitPath("public/catalog/admin-activity.json"), /allowlisted/);
+  if (prevEnv === undefined) delete process.env.VERCEL_ENV;
+  else process.env.VERCEL_ENV = prevEnv;
+  if (prevPath === undefined) delete process.env.ADMIN_DATA_USERS_PATH;
+  else process.env.ADMIN_DATA_USERS_PATH = prevPath;
+});
+
+test("stored users keep only scrypt hashes and never plaintext passwords", async () => {
+  const { hashPassword } = await import("./passwords.ts");
+  const { sanitizeStoredUser, serializeUsersFile } = await import("./users.server.ts");
+  const hash = await hashPassword("correct-horse-battery");
+  assert.match(hash, /^scrypt:[0-9a-f]+:[0-9a-f]+$/i);
+  const ok = sanitizeStoredUser({
+    id: "user_1",
+    username: "worker1",
+    name: "עובד",
+    role: "worker",
+    active: true,
+    passwordHash: hash,
+  });
+  assert.ok(ok);
+  assert.equal(ok?.username, "worker1");
+  assert.equal("password" in (ok as object), false);
+  assert.equal(sanitizeStoredUser({ ...ok, password: "correct-horse-battery" }), null);
+  assert.equal(sanitizeStoredUser({ ...ok, passwordHash: "plaintext-password-value" }), null);
+  const text = serializeUsersFile([ok!]);
+  assert.doesNotMatch(text, /correct-horse-battery/);
+  assert.match(text, /"passwordHash": "scrypt:/);
+  assert.throws(() => serializeUsersFile([{ ...ok!, passwordHash: "bcrypt:nope" } as typeof ok]), /scrypt/);
+});
+
+test("users persist in the private repo across a fresh disk and can be deleted", async () => {
+  const { mkdtemp, rm } = await import("node:fs/promises");
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+  const dir = await mkdtemp(join(tmpdir(), "hezi-users-"));
+  const store = new Map<string, { content: string; sha: string }>();
+  const prev = {
+    repo: process.env.ADMIN_DATA_GITHUB_REPO,
+    token: process.env.ADMIN_GITHUB_TOKEN,
+    dataDir: process.env.ADMIN_DATA_DIR,
+    vercel: process.env.VERCEL,
+    vercelEnv: process.env.VERCEL_ENV,
+    local: process.env.ADMIN_LOCAL_ENABLED,
+    masterUser: process.env.ADMIN_MASTER_USERNAME,
+    masterPass: process.env.ADMIN_MASTER_PASSWORD,
+    masterHash: process.env.ADMIN_MASTER_PASSWORD_HASH,
+    workerUser: process.env.ADMIN_WORKER_USERNAME,
+    workerPass: process.env.ADMIN_WORKER_PASSWORD,
+    usersPath: process.env.ADMIN_DATA_USERS_PATH,
+  };
+  process.env.ADMIN_DATA_GITHUB_REPO = "heziorkor11/hezi-orkor-data";
+  process.env.ADMIN_GITHUB_TOKEN = "test-token-not-a-real-secret";
+  process.env.ADMIN_DATA_DIR = dir;
+  process.env.ADMIN_LOCAL_ENABLED = "1";
+  process.env.ADMIN_MASTER_USERNAME = "matan";
+  process.env.ADMIN_MASTER_PASSWORD = "master-pass-for-test";
+  delete process.env.ADMIN_MASTER_PASSWORD_HASH;
+  delete process.env.ADMIN_WORKER_USERNAME;
+  delete process.env.ADMIN_WORKER_PASSWORD;
+  delete process.env.VERCEL;
+  delete process.env.VERCEL_ENV;
+  process.env.ADMIN_DATA_USERS_PATH = "admin/preview/private-users.json";
+
+  const { setPrivateGitOpsForTests } = await import("./git-private.server.ts");
+  setPrivateGitOpsForTests({
+    async isPrivate() {
+      return true;
+    },
+    async readFile(_repo, _branch, path) {
+      return store.get(path) || null;
+    },
+    async putFile(_repo, _branch, path, content) {
+      if (JSON.stringify({ path, content }).includes("master-pass-for-test") || JSON.stringify({ path, content }).includes("worker-pass-for-test")) {
+        throw new Error("plaintext password leaked into private store");
+      }
+      store.set(path, { content, sha: `sha_${store.size + 1}` });
+    },
+  });
+
+  try {
+    const users = await import("./users.server.ts");
+    const listed = await users.listUsers();
+    assert.ok(listed.some((u) => u.username === "matan" && u.role === "master"));
+    const created = await users.addUser({ username: "e2e_worker", name: "עובד בדיקה", role: "worker", password: "worker-pass-for-test" });
+    assert.equal(created.username, "e2e_worker");
+    assert.ok(store.has("admin/preview/private-users.json"));
+    assert.equal(store.has("admin/private-users.json"), false);
+
+    await rm(dir, { recursive: true, force: true });
+    await mkdtemp(join(tmpdir(), "hezi-users-empty-")); // ensure fs still works
+    process.env.ADMIN_DATA_DIR = await mkdtemp(join(tmpdir(), "hezi-users-fresh-"));
+
+    const authed = await users.authenticate("e2e_worker", "worker-pass-for-test");
+    assert.ok(authed);
+    assert.equal(authed?.username, "e2e_worker");
+    const bad = await users.authenticate("e2e_worker", "wrong-password");
+    assert.equal(bad, null);
+
+    await users.deleteUser(created.id);
+    const after = await users.listUsers();
+    assert.equal(after.some((u) => u.username === "e2e_worker"), false);
+    await assert.rejects(() => users.deleteUser("user_master"), /מאסטר/);
+    const fresh = JSON.parse(store.get("admin/preview/private-users.json")!.content) as { users: { username: string; password?: string }[] };
+    assert.equal(fresh.users.some((u) => u.username === "e2e_worker"), false);
+    assert.equal(fresh.users.every((u) => !("password" in u)), true);
+  } finally {
+    setPrivateGitOpsForTests(null);
+    const restore = (key: string, value: string | undefined) => {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    };
+    restore("ADMIN_DATA_GITHUB_REPO", prev.repo);
+    restore("ADMIN_GITHUB_TOKEN", prev.token);
+    restore("ADMIN_DATA_DIR", prev.dataDir);
+    restore("VERCEL", prev.vercel);
+    restore("VERCEL_ENV", prev.vercelEnv);
+    restore("ADMIN_LOCAL_ENABLED", prev.local);
+    restore("ADMIN_MASTER_USERNAME", prev.masterUser);
+    restore("ADMIN_MASTER_PASSWORD", prev.masterPass);
+    restore("ADMIN_MASTER_PASSWORD_HASH", prev.masterHash);
+    restore("ADMIN_WORKER_USERNAME", prev.workerUser);
+    restore("ADMIN_WORKER_PASSWORD", prev.workerPass);
+    restore("ADMIN_DATA_USERS_PATH", prev.usersPath);
+    await rm(dir, { recursive: true, force: true }).catch(() => {});
+  }
+});
+
+test("private repo writes are refused when the data repo is not private", async () => {
+  const { setPrivateGitOpsForTests, commitPrivateFile, assertPrivateDataRepo } = await import("./git-private.server.ts");
+  const prevRepo = process.env.ADMIN_DATA_GITHUB_REPO;
+  process.env.ADMIN_DATA_GITHUB_REPO = "heziorkor11/Hezi-orkor";
+  setPrivateGitOpsForTests({
+    async isPrivate() {
+      return false;
+    },
+    async readFile() {
+      return null;
+    },
+    async putFile() {
+      throw new Error("should not write");
+    },
+  });
+  try {
+    await assert.rejects(() => assertPrivateDataRepo(), /not private/);
+    await assert.rejects(
+      () => commitPrivateFile({ path: "admin/preview/private-users.json", content: "{}", message: "x" }),
+      /not private/,
+    );
+  } finally {
+    setPrivateGitOpsForTests(null);
+    if (prevRepo === undefined) delete process.env.ADMIN_DATA_GITHUB_REPO;
+    else process.env.ADMIN_DATA_GITHUB_REPO = prevRepo;
+  }
 });
