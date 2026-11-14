@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAdmin } from "@/components/admin/shell";
 import { adminFetch, formatPrice, formatWhen, STATUS_CLASS, STATUS_LABEL, DELIVERY_LABEL } from "@/components/admin/api";
 import type { ActivityEntry, StoredOrder } from "@/lib/admin/types";
+import { isTestOrder } from "@/lib/admin/test-order";
 
 export const Route = createFileRoute("/admin/")({
   component: HomePage,
@@ -66,8 +67,14 @@ function HomePage() {
       <div className="grid-2" style={{ marginTop: 16 }}>
         <div className="card">
           <h2 className="section-title">הזמנות נכנסות</h2>
-          {data.orders.length === 0 ? <p className="muted">אין הזמנות עדיין. הזמנה שנשלחת בוואטסאפ מהעגלה תגיע לכאן.</p> : null}
-          {data.orders.map((o) => (
+          {data.orders.filter((o) => !isTestOrder(o)).length === 0 ? (
+            <p className="muted">
+              {data.orders.some((o) => isTestOrder(o))
+                ? "אין הזמנות רגילות להצגה. הזמנות בדיקה מוסתרות כברירת מחדל ואפשר להציג אותן במסך ההזמנות."
+                : "אין הזמנות עדיין. הזמנה שנשלחת בוואטסאפ מהעגלה תגיע לכאן."}
+            </p>
+          ) : null}
+          {data.orders.filter((o) => !isTestOrder(o)).map((o) => (
             <Link from="/" key={o.id} to="/admin/orders/$id" params={{ id: o.id }} className="log-row">
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div className="sku">{o.id}</div>
