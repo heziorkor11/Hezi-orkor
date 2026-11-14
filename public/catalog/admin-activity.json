@@ -3,6 +3,32 @@
   "description": "Catalog-change activity only. No customer personal data.",
   "entries": [
     {
+      "id": "act_57f8e955e8df7c7c",
+      "at": "2026-11-14T09:11:26.816Z",
+      "actorId": "user_master",
+      "actorName": "מתן יחזקאלי",
+      "actorRole": "master",
+      "action": "עריכת מוצר (price, tags)",
+      "sku": "HZ-GEN-00272",
+      "target": "HZ-GEN-00272",
+      "before": {
+        "name": "HZ-GEN-00272",
+        "price": 949,
+        "category": "steering-rack",
+        "hidden": false,
+        "tags": []
+      },
+      "after": {
+        "name": "HZ-GEN-00272",
+        "price": 980,
+        "category": "steering-rack",
+        "hidden": false,
+        "tags": [
+          "sale"
+        ]
+      }
+    },
+    {
       "id": "act_d94b669e7183b8d1",
       "at": "2026-11-14T06:51:36.241Z",
       "actorId": "user_master",
