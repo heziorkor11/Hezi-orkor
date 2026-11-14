@@ -16,13 +16,11 @@ import { priceOrQuoteLabel } from "@/lib/prices";
 import { packUnitPriceLabel } from "@/lib/pack-price";
 import { isWorkshopPackSku } from "@/lib/display-taxonomy";
 import { DeliveryLeadTimes } from "@/components/delivery-lead-times";
+import { bootAdminOverlay } from "@/lib/admin/boot-overlay";
 
 export const Route = createFileRoute("/product/$id")({
   loader: async ({ params }) => {
-    if (typeof window === "undefined") {
-      const { ensureAdminOverlay } = await import("@/lib/admin/storage.server");
-      await ensureAdminOverlay();
-    }
+    await bootAdminOverlay();
     const product = await loadProduct(params.id);
     if (!product) throw notFound();
     const related = await loadRelated(product);

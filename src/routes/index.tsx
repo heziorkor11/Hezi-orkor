@@ -12,13 +12,11 @@ import { brand } from "@/lib/brand";
 import { categoryName, faqs, loadProductsBySkus } from "@/lib/catalog";
 import { currentHomeDealsSkus, homeRecommendedSkus } from "@/lib/home-deals";
 import { localBusinessJsonLd, pageDescription, websiteJsonLd } from "@/lib/seo";
+import { bootAdminOverlay } from "@/lib/admin/boot-overlay";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
-    if (typeof window === "undefined") {
-      const { ensureAdminOverlay } = await import("@/lib/admin/storage.server");
-      await ensureAdminOverlay();
-    }
+    await bootAdminOverlay();
     const [deals, recommended] = await Promise.all([
       loadProductsBySkus(currentHomeDealsSkus()),
       loadProductsBySkus(homeRecommendedSkus),
