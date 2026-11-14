@@ -448,31 +448,3 @@ test("activity and order PDF paths stay isolated from production", async () => {
   else process.env.ADMIN_DATA_ORDERS_PATH = prevOrd;
 });
 
-test("workshop packs and ceil prices format correctly on the products sheet", async () => {
-  const { formatSheetPrice, visibilityLabel, sheetRowToArray, PRODUCT_SHEET_HEADERS } = await import("./product-sheet.ts");
-  assert.equal(PRODUCT_SHEET_HEADERS.length, 14);
-  const shop = formatSheetPrice({ workshop: true, displayPrice: 99, basePrice: 80 });
-  assert.equal(shop.priceDisplayed, "מחיר מיוחד למוסכים וספקים");
-  const ceil = formatSheetPrice({ workshop: false, displayPrice: 10.8, basePrice: 15 });
-  assert.equal(ceil.priceDisplayed, "11");
-  assert.equal(ceil.basePrice, "15");
-  assert.equal(visibilityLabel(true), "מוסתר");
-  const row = sheetRowToArray({
-    sku: "HZ-CAF-00195",
-    name: "x",
-    category: "filters",
-    categoryHe: "פילטרים",
-    subType: "cabin",
-    fitment: "",
-    priceDisplayed: "11",
-    basePrice: "15",
-    imageUrl: "",
-    tags: "",
-    stock: "",
-    visibility: "מוצג",
-    updatedAt: "",
-    updatedBy: "",
-  });
-  assert.equal(row[0], "HZ-CAF-00195");
-  assert.equal(row.length, 14);
-});

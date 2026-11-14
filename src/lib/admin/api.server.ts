@@ -4,6 +4,7 @@ import { issueSession, readSession, issueRevertToken, readRevertToken, issuePdfU
 import { sessionFromRequest, setSessionCookieHeader, clearSessionCookieHeader } from "./cookies";
 import { clientIp, rateLimit, rateLimitReset } from "./rate-limit";
 import { ensureAdminOverlay, readActivity, appendActivity, saveActivityList, writeCatalogFile, readCatalogFile, buildPublicOverlay } from "./storage.server";
+import { notifyProductChange, changeFromFields } from "./notify-product-change";
 import { adminProductRow, homeStats, listAdminProducts } from "./catalog-query.server";
 import { getOrder, listOrders, saveOrder, ingestCartOrder, ordersPersistence, nextStatus } from "./orders.server";
 import { notifyMasterChange, sendTestNotification, smtpConfigured, notifyEmail } from "./mail.server";
@@ -284,17 +285,7 @@ export async function adminApi(req: Request): Promise<Response> {
         before: null,
         after: { sku: added.sku, name: added.name, category: added.category, hidden: false },
       });
-      try {
-        const { upsertSheetRow, sheetsSyncConfigured } = await import("./sheets-sync.server");
-        const { buildAllProductSheetRows } = await import("./product-admin.server");
-        if (sheetsSyncConfigured()) {
-          const rows = await buildAllProductSheetRows(publicSiteOrigin());
-          const row = rows.find((r) => r.sku === added.sku);
-          if (row) await upsertSheetRow(row);
-        }
-      } catch {
-        /* sheet sync is optional */
-      }
+      await notifyProductChange({ action: "add", sku: added.sku, actor: u.name, fields: ["add"] });
       return json({ ok: true, product: await adminProductRow(added.sku), activity: logged.entry, mail: logged.mail });
     } catch (err) {
       return json({ error: err instanceof Error ? err.message : "לא ניתן להוסיף מוצר" }, 400);
@@ -420,6 +411,9 @@ export async function adminApi(req: Request): Promise<Response> {
           after: { name: after.name, price: after.price, category: after.category, hidden: after.hidden, tags: after.tags.map((t) => t.id) },
         })
       : null;
+    if (changes.length) {
+      await notifyProductChange(changeFromFields(changes, { sku, actor: u.name, hidden: after.hidden }));
+    }
     return json({ ok: true, product: after, activity: logged?.entry, mail: logged?.mail });
   }
 
@@ -451,6 +445,7 @@ export async function adminApi(req: Request): Promise<Response> {
         before: { image: before.image || null },
         after: { image: after.image || saved.publicUrl },
       });
+      await notifyProductChange({ action: "image", sku, actor: u.name, fields: ["image"] });
       return json({ ok: true, product: after, image: saved.publicUrl, activity: logged.entry, mail: logged.mail });
     } catch (err) {
       return json({ error: err instanceof Error ? err.message : "לא ניתן לשמור תמונה" }, 400);
@@ -529,6 +524,14 @@ export async function adminApi(req: Request): Promise<Response> {
       });
     }
     await logAndMaybeMail(u, { action: "עדכון קטגוריות", target: "categories", before: null, after: body });
+    if (body.hidden) {
+      await notifyProductChange({ action: "hide", actor: u.name, fields: ["hidden-categories"] });
+    }
+    if (body.move?.skus?.length) {
+      for (const sku of body.move.skus.slice(0, 50)) {
+        await notifyProductChange({ action: "category", sku, actor: u.name, fields: ["category"] });
+      }
+    }
     const cats = allTaxonomyCategories.map((c) => ({ ...c, name: categoryDisplayName(c.id, c.name), hidden: isHiddenCategory(c.id) }));
     return json({ ok: true, categories: cats });
   }
@@ -564,6 +567,7 @@ export async function adminApi(req: Request): Promise<Response> {
       });
     }
     await logAndMaybeMail(u, { action: "עדכון תגים/מבצעים", target: "tags", before: null, after: body });
+    await notifyProductChange({ action: "tag", actor: u.name, fields: ["tags"] });
     const library = await readCatalogFile<{ tags?: TagDef[] }>("public/catalog/tag-library.json", { tags: [] });
     const deals = await readCatalogFile<{ skus?: string[] }>("public/catalog/home-deals-overrides.json", { skus: [] });
     return json({ ok: true, tags: library.tags, deals: deals.skus });
@@ -737,30 +741,6 @@ export async function adminApi(req: Request): Promise<Response> {
     return json({ ok: true, order: await getOrder(id) });
   }
 
-  if (path === "/api/admin/sheets/status" && method === "GET") {
-    const u = await requireMaster(req);
-    if (u instanceof Response) return u;
-    const { sheetsSyncConfigured } = await import("./sheets-sync.server");
-    return json({ configured: sheetsSyncConfigured() });
-  }
-  if (path === "/api/admin/sheets/sync" && method === "POST") {
-    const u = await requireMaster(req);
-    if (u instanceof Response) return u;
-    const { sheetsSyncConfigured, fullResyncSheet } = await import("./sheets-sync.server");
-    if (!sheetsSyncConfigured()) {
-      return json({
-        ok: false,
-        configured: false,
-        error: "סנכרון Google Sheets לא הוגדר עדיין. ראו את ההוראות בתיעוד.",
-      }, 400);
-    }
-    const { buildAllProductSheetRows } = await import("./product-admin.server");
-    const rows = await buildAllProductSheetRows(publicSiteOrigin());
-    const result = await fullResyncSheet(rows);
-    if (!result.ok) return json({ ok: false, configured: true, error: result.reason }, 400);
-    await logAndMaybeMail(u, { action: "סנכרון מלא ל-Google Sheets", target: "sheets", before: null, after: { rows: result.rows } });
-    return json({ ok: true, configured: true, rows: result.rows });
-  }
 
   if (path === "/api/admin/mail/status" && method === "GET") {
     const u = await requireMaster(req);
@@ -884,6 +864,9 @@ export async function revertActivity(id: string, by: string): Promise<{ ok: bool
   entry.revertedAt = new Date().toISOString();
   entry.revertedBy = by;
   await saveActivityList(entries, `chore(admin): mark reverted ${id}`);
+  if (sku) {
+    await notifyProductChange({ action: "revert", sku, actor: by, fields: ["revert"] });
+  }
   return { ok: true };
 }
 

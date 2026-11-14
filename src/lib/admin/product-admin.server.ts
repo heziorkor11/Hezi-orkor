@@ -7,7 +7,6 @@ import { readCatalogFile, writeCatalogFile } from "./storage.server";
 import { overlayAdditions, overlayAddedProduct, overlayImage, overlayStock } from "./public-overlay";
 import { nextSkuForPrefix, skuPrefixFor, isValidGeneratedSku } from "./product-sku";
 import type { AddedProduct, ProductAdditionsFile, ImageOverridesFile, StockOverridesFile } from "./added-product";
-import { formatSheetPrice, visibilityLabel, type ProductSheetRow } from "./product-sheet";
 import type { SessionPayload } from "./types";
 import { catalogJson } from "@/lib/catalog-io";
 
@@ -155,45 +154,6 @@ export async function saveImageOverride(sku: string, url: string) {
     data: { ...f, version: 1, description: "Dashboard image replacements. Paths resolve via /api/catalog-image.", bySku: { ...(f.bySku || {}), [sku]: url } },
     message: `chore(admin): image ${sku}`,
   });
-}
-
-export async function buildAllProductSheetRows(siteOrigin = ""): Promise<ProductSheetRow[]> {
-  const hits = await loadSearchHits();
-  const prices = await catalogJson<Record<string, number>>("prices.json").catch(() => ({} as Record<string, number>));
-  const additions = overlayAdditions();
-  const rows: ProductSheetRow[] = [];
-  for (const hit of hits) {
-    const sku = hit.sku;
-    const category = displayCategory(sku, hit.category || "general");
-    const hidden = isHiddenProduct(sku) || isHiddenCategory(category);
-    const workshop = isWorkshopPackSku(sku);
-    const display = catalogPrice(sku);
-    const base = prices[sku];
-    const added = additions[sku];
-    const image = overlayImage(sku) || "";
-    const imageUrl = image.startsWith("http") || !image ? image : `${siteOrigin}${image}`;
-    const { priceDisplayed, basePrice } = formatSheetPrice({ workshop, displayPrice: display, basePrice: base });
-    const tags = getProductTags(sku).map((t) => t.label).join(", ");
-    const sub = added?.subType || "";
-    const fitment = added?.fitment || [hit.make, hit.model, hit.yearFrom, hit.yearTo].filter(Boolean).join(" ");
-    rows.push({
-      sku,
-      name: getNameOverride(sku) || added?.name || hit.title || sku,
-      category,
-      categoryHe: categoryHe(category),
-      subType: sub,
-      fitment,
-      priceDisplayed,
-      basePrice,
-      imageUrl,
-      tags,
-      stock: overlayStock(sku) || added?.stock || "",
-      visibility: visibilityLabel(hidden),
-      updatedAt: added?.updatedAt || "",
-      updatedBy: added?.updatedBy || "",
-    });
-  }
-  return rows;
 }
 
 void getPriceOverride;

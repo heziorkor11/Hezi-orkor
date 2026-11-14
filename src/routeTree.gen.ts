@@ -26,7 +26,6 @@ import { Route as AdminMailPreviewRouteImport } from './routes/admin.mail-previe
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminRevertRouteImport } from './routes/admin.revert'
-import { Route as AdminSheetsRouteImport } from './routes/admin.sheets'
 import { Route as AdminTagsRouteImport } from './routes/admin.tags'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as ApiCatalogOverlayRouteImport } from './routes/api.catalog-overlay'
@@ -128,11 +127,6 @@ const AdminRevertRoute = AdminRevertRouteImport.update({
   path: '/revert',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminSheetsRoute = AdminSheetsRouteImport.update({
-  id: '/sheets',
-  path: '/sheets',
-  getParentRoute: () => AdminRoute,
-} as any)
 const AdminTagsRoute = AdminTagsRouteImport.update({
   id: '/tags',
   path: '/tags',
@@ -226,7 +220,6 @@ export interface FileRoutesByFullPath {
   '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/products': typeof AdminProductsRouteWithChildren
   '/admin/revert': typeof AdminRevertRoute
-  '/admin/sheets': typeof AdminSheetsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/catalog-overlay': typeof ApiCatalogOverlayRoute
@@ -257,7 +250,6 @@ export interface FileRoutesByTo {
   '/admin/login': typeof AdminLoginRoute
   '/admin/mail-preview': typeof AdminMailPreviewRoute
   '/admin/revert': typeof AdminRevertRoute
-  '/admin/sheets': typeof AdminSheetsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/catalog-overlay': typeof ApiCatalogOverlayRoute
@@ -293,7 +285,6 @@ export interface FileRoutesById {
   '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/products': typeof AdminProductsRouteWithChildren
   '/admin/revert': typeof AdminRevertRoute
-  '/admin/sheets': typeof AdminSheetsRoute
   '/admin/tags': typeof AdminTagsRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/catalog-overlay': typeof ApiCatalogOverlayRoute
@@ -330,7 +321,6 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/products'
     | '/admin/revert'
-    | '/admin/sheets'
     | '/admin/tags'
     | '/admin/users'
     | '/api/catalog-overlay'
@@ -361,7 +351,6 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/admin/mail-preview'
     | '/admin/revert'
-    | '/admin/sheets'
     | '/admin/tags'
     | '/admin/users'
     | '/api/catalog-overlay'
@@ -396,7 +385,6 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/products'
     | '/admin/revert'
-    | '/admin/sheets'
     | '/admin/tags'
     | '/admin/users'
     | '/api/catalog-overlay'
@@ -553,13 +541,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRevertRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/sheets': {
-      id: '/admin/sheets'
-      path: '/sheets'
-      fullPath: '/admin/sheets'
-      preLoaderRoute: typeof AdminSheetsRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/tags': {
       id: '/admin/tags'
       path: '/tags'
@@ -706,7 +687,6 @@ interface AdminRouteChildren {
   AdminOrdersRoute: typeof AdminOrdersRouteWithChildren
   AdminProductsRoute: typeof AdminProductsRouteWithChildren
   AdminRevertRoute: typeof AdminRevertRoute
-  AdminSheetsRoute: typeof AdminSheetsRoute
   AdminTagsRoute: typeof AdminTagsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -720,7 +700,6 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminOrdersRoute: AdminOrdersRouteWithChildren,
   AdminProductsRoute: AdminProductsRouteWithChildren,
   AdminRevertRoute: AdminRevertRoute,
-  AdminSheetsRoute: AdminSheetsRoute,
   AdminTagsRoute: AdminTagsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
