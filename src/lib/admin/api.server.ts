@@ -1,16 +1,17 @@
 import { adminEnabled, adminMode, publicSiteOrigin } from "./config";
 import { authenticate, addUser, listUsers, setUserActive, deleteUser, findUserById, usersPersistence } from "./users.server";
-import { issueSession, readSession, issueRevertToken, readRevertToken, randomId, type SessionPayload } from "./tokens";
+import { issueSession, readSession, issueRevertToken, readRevertToken, issuePdfUploadToken, readPdfUploadToken, randomId, type SessionPayload } from "./tokens";
 import { sessionFromRequest, setSessionCookieHeader, clearSessionCookieHeader } from "./cookies";
 import { clientIp, rateLimit, rateLimitReset } from "./rate-limit";
 import { ensureAdminOverlay, readActivity, appendActivity, saveActivityList, writeCatalogFile, readCatalogFile, buildPublicOverlay } from "./storage.server";
+import { notifyProductChange, changeFromFields } from "./notify-product-change";
 import { adminProductRow, homeStats, listAdminProducts } from "./catalog-query.server";
 import { getOrder, listOrders, saveOrder, ingestCartOrder, ordersPersistence, nextStatus } from "./orders.server";
 import { notifyMasterChange, sendTestNotification, smtpConfigured, notifyEmail } from "./mail.server";
 import { catalogPrice, ceilShekel } from "@/lib/prices";
 import { isWorkshopPackSku, allTaxonomyCategories, categoryDisplayName, isHiddenCategory } from "@/lib/display-taxonomy";
 import { brand } from "@/lib/brand";
-import type { ActivityEntry, AdminRole, SafeUser, StoredOrder, TagDef } from "./types";
+import type { ActivityEntry, AdminRole, OrderEvent, SafeUser, StoredOrder, TagDef } from "./types";
 import { getTagLibrary } from "@/lib/product-tags";
 
 function json(data: unknown, status = 200, extra?: HeadersInit) {
@@ -81,6 +82,22 @@ export async function adminApi(req: Request): Promise<Response> {
     return json(await buildPublicOverlay());
   }
 
+  const catalogImage = path.match(/^\/api\/catalog-image\/([^/]+)$/);
+  if (catalogImage && method === "GET") {
+    const sku = decodeURIComponent(catalogImage[1]);
+    const { loadImageBytesForSku } = await import("./product-image.server");
+    const file = await loadImageBytesForSku(sku);
+    if (!file) return json({ error: "אין תמונה" }, 404);
+    return new Response(file.bytes, {
+      status: 200,
+      headers: {
+        "Content-Type": file.mime,
+        "Cache-Control": "public, max-age=3600",
+        "X-Robots-Tag": "noindex, nofollow",
+      },
+    });
+  }
+
   if (path === "/api/orders" && method === "POST") {
     const rl = rateLimit(`orders:${clientIp(req)}`, 20, 60_000);
     if (!rl.ok) return json({ error: "יותר מדי בקשות" }, 429, { "Retry-After": String(rl.retryAfter) });
@@ -131,11 +148,32 @@ export async function adminApi(req: Request): Promise<Response> {
         total: subtotal + shipping,
         source: "whatsapp-cart",
       });
-      return json({ ok: true, id: order.id, durable: persist.durable, notice: persist.durable ? undefined : persist.reason });
+      return json({
+        ok: true,
+        id: order.id,
+        durable: persist.durable,
+        notice: persist.durable ? undefined : persist.reason,
+        pdfUploadToken: issuePdfUploadToken(order.id),
+      });
     } catch (err) {
       console.warn("[admin] ingest failed", err instanceof Error ? err.message : err);
       return json({ ok: false }, 500);
     }
+  }
+
+  const publicPdf = path.match(/^\/api\/orders\/([^/]+)\/pdf$/);
+  if (publicPdf && method === "POST") {
+    const rl = rateLimit(`order-pdf:${clientIp(req)}`, 20, 60_000);
+    if (!rl.ok) return json({ error: "יותר מדי בקשות" }, 429);
+    const id = decodeURIComponent(publicPdf[1]);
+    const token = req.headers.get("x-hezi-pdf-token") || url.searchParams.get("token") || "";
+    if (readPdfUploadToken(token) !== id) return json({ error: "הקישור להעלאת PDF אינו תקף" }, 403);
+    const order = await getOrder(id);
+    if (!order) return json({ error: "הזמנה לא נמצאה" }, 404);
+    const buf = Buffer.from(await req.arrayBuffer());
+    const { storeOrderPdf } = await import("./order-pdf-store.server");
+    await storeOrderPdf(id, buf);
+    return json({ ok: true });
   }
 
   if (!path.startsWith("/api/admin")) return json({ error: "not found" }, 404);
@@ -192,6 +230,66 @@ export async function adminApi(req: Request): Promise<Response> {
       newOrders: orders.filter((o) => o.status === "new").length,
       persist,
     });
+  }
+
+  if (path === "/api/admin/products/next-sku" && method === "GET") {
+    const u = await requireUser(req);
+    if (u instanceof Response) return u;
+    if (!canEditProduct(u.role)) return json({ error: "אין הרשאה" }, 403);
+    const { nextSku } = await import("./product-admin.server");
+    return json(await nextSku(url.searchParams.get("category") || "", url.searchParams.get("subType") || undefined));
+  }
+
+  if (path === "/api/admin/products" && method === "POST") {
+    const u = await requireUser(req);
+    if (u instanceof Response) return u;
+    if (!canEditProduct(u.role)) return json({ error: "אין הרשאה" }, 403);
+    const body = await bodyOf<{
+      name?: string;
+      category?: string;
+      subType?: string;
+      fitment?: string;
+      make?: string;
+      model?: string;
+      yearFrom?: number;
+      yearTo?: number;
+      oe?: string;
+      price?: number | null;
+      tags?: string[];
+      stock?: string;
+    }>(req);
+    if (u.role !== "master" && body.price != null) {
+      return json({ error: "שינוי מחיר למאסטר בלבד. המוצר יישמר בלי מחיר והמאסטר יוכל להשלים אותו." }, 403);
+    }
+    try {
+      const { createAddedProduct } = await import("./product-admin.server");
+      const added = await createAddedProduct({
+        actor: u,
+        name: String(body.name || ""),
+        category: String(body.category || ""),
+        subType: body.subType,
+        fitment: body.fitment,
+        make: body.make,
+        model: body.model,
+        yearFrom: body.yearFrom,
+        yearTo: body.yearTo,
+        oe: body.oe,
+        price: u.role === "master" ? body.price : null,
+        tags: body.tags,
+        stock: body.stock,
+      });
+      const logged = await logAndMaybeMail(u, {
+        action: "הוספת מוצר",
+        sku: added.sku,
+        target: added.sku,
+        before: null,
+        after: { sku: added.sku, name: added.name, category: added.category, hidden: false },
+      });
+      void notifyProductChange({ action: "add", sku: added.sku, actor: u.name, fields: ["add"] });
+      return json({ ok: true, product: await adminProductRow(added.sku), activity: logged.entry, mail: logged.mail });
+    } catch (err) {
+      return json({ error: err instanceof Error ? err.message : "לא ניתן להוסיף מוצר" }, 400);
+    }
   }
 
   if (path === "/api/admin/products" && method === "GET") {
@@ -286,6 +384,11 @@ export async function adminApi(req: Request): Promise<Response> {
       });
       changes.push("hidden");
     }
+    if (typeof (patch as { stock?: string }).stock === "string") {
+      const { saveStock } = await import("./product-admin.server");
+      await saveStock(sku, (patch as { stock?: string }).stock || "");
+      changes.push("stock");
+    }
     if (Array.isArray(patch.tags)) {
       const ids = patch.tags.slice(0, 2);
       const file = await readCatalogFile<{ version?: number; bySku?: Record<string, string[]> }>("public/catalog/product-tags.json", { version: 1, bySku: {} });
@@ -308,7 +411,45 @@ export async function adminApi(req: Request): Promise<Response> {
           after: { name: after.name, price: after.price, category: after.category, hidden: after.hidden, tags: after.tags.map((t) => t.id) },
         })
       : null;
+    if (changes.length) {
+      void notifyProductChange(changeFromFields(changes, { sku, actor: u.name, hidden: after.hidden }));
+    }
     return json({ ok: true, product: after, activity: logged?.entry, mail: logged?.mail });
+  }
+
+  const productImage = path.match(/^\/api\/admin\/products\/([^/]+)\/image$/);
+  if (productImage && method === "POST") {
+    const u = await requireUser(req);
+    if (u instanceof Response) return u;
+    if (!canEditProduct(u.role)) return json({ error: "אין הרשאה" }, 403);
+    const sku = decodeURIComponent(productImage[1]);
+    const before = await adminProductRow(sku);
+    const payload = await bodyOf<{ imageBase64?: string; mimeType?: string }>(req);
+    if (!payload.imageBase64) return json({ error: "חסרה תמונה" }, 400);
+    let bytes: Buffer;
+    try {
+      bytes = Buffer.from(payload.imageBase64, "base64");
+    } catch {
+      return json({ error: "תמונה לא תקינה" }, 400);
+    }
+    try {
+      const { saveAdminImage } = await import("./product-image.server");
+      const saved = await saveAdminImage({ sku, bytes, mime: payload.mimeType || "image/jpeg" });
+      const { saveImageOverride } = await import("./product-admin.server");
+      await saveImageOverride(sku, saved.publicUrl);
+      const after = await adminProductRow(sku);
+      const logged = await logAndMaybeMail(u, {
+        action: "החלפת תמונה",
+        sku,
+        target: sku,
+        before: { image: before.image || null },
+        after: { image: after.image || saved.publicUrl },
+      });
+      void notifyProductChange({ action: "image", sku, actor: u.name, fields: ["image"] });
+      return json({ ok: true, product: after, image: saved.publicUrl, activity: logged.entry, mail: logged.mail });
+    } catch (err) {
+      return json({ error: err instanceof Error ? err.message : "לא ניתן לשמור תמונה" }, 400);
+    }
   }
 
   if (path === "/api/admin/products/bulk" && method === "POST") {
@@ -383,6 +524,14 @@ export async function adminApi(req: Request): Promise<Response> {
       });
     }
     await logAndMaybeMail(u, { action: "עדכון קטגוריות", target: "categories", before: null, after: body });
+    if (body.hidden) {
+      void notifyProductChange({ action: "hide", actor: u.name, fields: ["hidden-categories"] });
+    }
+    if (body.move?.skus?.length) {
+      for (const sku of body.move.skus.slice(0, 50)) {
+        void notifyProductChange({ action: "category", sku, actor: u.name, fields: ["category"] });
+      }
+    }
     const cats = allTaxonomyCategories.map((c) => ({ ...c, name: categoryDisplayName(c.id, c.name), hidden: isHiddenCategory(c.id) }));
     return json({ ok: true, categories: cats });
   }
@@ -418,6 +567,7 @@ export async function adminApi(req: Request): Promise<Response> {
       });
     }
     await logAndMaybeMail(u, { action: "עדכון תגים/מבצעים", target: "tags", before: null, after: body });
+    void notifyProductChange({ action: "tag", actor: u.name, fields: ["tags"] });
     const library = await readCatalogFile<{ tags?: TagDef[] }>("public/catalog/tag-library.json", { tags: [] });
     const deals = await readCatalogFile<{ skus?: string[] }>("public/catalog/home-deals-overrides.json", { skus: [] });
     return json({ ok: true, tags: library.tags, deals: deals.skus });
@@ -484,6 +634,12 @@ export async function adminApi(req: Request): Promise<Response> {
     }
     if (typeof body.active === "boolean") {
       const updated = await setUserActive(userPatch[1], body.active);
+      await logAndMaybeMail(u, {
+        action: body.active ? "הפעלת עובד" : "השבתת עובד",
+        target: updated.username,
+        before: { username: updated.username, active: !body.active },
+        after: { username: updated.username, active: body.active },
+      });
       return json({ ok: true, user: updated, users: await listUsers() });
     }
     return json({ error: "אין מה לעדכן" }, 400);
@@ -521,19 +677,70 @@ export async function adminApi(req: Request): Promise<Response> {
     const order = await getOrder(decodeURIComponent(orderMatch[1]));
     if (!order) return json({ error: "הזמנה לא נמצאה" }, 404);
     const body = await bodyOf<Partial<StoredOrder> & { advance?: boolean }>(req);
-    const next = { ...order };
+    const next = { ...order, events: [...(order.events || [])] };
+    const at = new Date().toISOString();
+    const ev = (type: OrderEvent["type"], extra: Partial<OrderEvent> = {}): OrderEvent => ({
+      at,
+      by: u.sub,
+      byName: u.name,
+      type,
+      ...extra,
+    });
     if (body.advance) {
       const n = nextStatus[order.status];
-      if (n) next.status = n;
+      if (n) {
+        next.events = [...next.events, ev("status", { from: order.status, to: n })];
+        next.status = n;
+      }
     }
-    if (body.status) next.status = body.status;
-    if (typeof body.assignedTo === "string") next.assignedTo = body.assignedTo;
-    if (typeof body.scheduledDate === "string") next.scheduledDate = body.scheduledDate;
+    if (body.status && body.status !== order.status) {
+      next.events = [...next.events, ev("status", { from: order.status, to: body.status })];
+      next.status = body.status;
+    }
+    if (typeof body.assignedTo === "string" && body.assignedTo !== (order.assignedTo || "")) {
+      next.assignedTo = body.assignedTo;
+      next.events = [...next.events, ev("assign", { to: body.assignedTo || "", detail: body.assignedTo || "הוסר שיוך" })];
+    }
+    if (typeof body.scheduledDate === "string" && body.scheduledDate !== (order.scheduledDate || "")) {
+      next.scheduledDate = body.scheduledDate;
+      next.events = [...next.events, ev("schedule", { to: body.scheduledDate, detail: body.scheduledDate || "הוסר תאריך" })];
+    }
     if (typeof body.internalNotes === "string") next.internalNotes = body.internalNotes;
     if (Array.isArray(body.lines)) next.lines = body.lines;
     await saveOrder(next);
     return json({ ok: true, order: next });
   }
+
+  const orderPdf = path.match(/^\/api\/admin\/orders\/([^/]+)\/pdf$/);
+  if (orderPdf && method === "GET") {
+    const u = await requireUser(req);
+    if (u instanceof Response) return u;
+    const id = decodeURIComponent(orderPdf[1]);
+    const { readOrderPdf } = await import("./order-pdf-store.server");
+    const bytes = await readOrderPdf(id);
+    if (!bytes) return json({ error: "אין PDF שמור להזמנה הזו" }, 404);
+    return new Response(bytes, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `attachment; filename="${id}.pdf"`,
+        "Cache-Control": "no-store",
+        "X-Robots-Tag": "noindex, nofollow",
+      },
+    });
+  }
+  if (orderPdf && method === "POST") {
+    const u = await requireUser(req);
+    if (u instanceof Response) return u;
+    const id = decodeURIComponent(orderPdf[1]);
+    const order = await getOrder(id);
+    if (!order) return json({ error: "הזמנה לא נמצאה" }, 404);
+    const buf = Buffer.from(await req.arrayBuffer());
+    const { storeOrderPdf } = await import("./order-pdf-store.server");
+    await storeOrderPdf(id, buf, { id: u.sub, name: u.name });
+    return json({ ok: true, order: await getOrder(id) });
+  }
+
 
   if (path === "/api/admin/mail/status" && method === "GET") {
     const u = await requireMaster(req);
@@ -575,6 +782,19 @@ export async function revertActivity(id: string, by: string): Promise<{ ok: bool
   if (entry.reverted) return { ok: false, error: "השינוי כבר בוטל" };
   const sku = entry.sku;
   const before = entry.before as Record<string, unknown> | null;
+  if (sku && entry.action === "הוספת מוצר") {
+    const vis = await readCatalogFile<{ version?: number; bySku?: Record<string, { hidden: boolean; reason?: string }> }>(
+      "public/catalog/visibility-overrides.json",
+      { version: 1, bySku: {} },
+    );
+    const bySku = { ...(vis.bySku || {}) };
+    bySku[sku] = { hidden: true, reason: "בוטל מדאשבורד הניהול — המוצר הוסתר ולא נמחק" };
+    await writeCatalogFile({
+      path: "public/catalog/visibility-overrides.json",
+      data: { ...vis, version: 1, bySku },
+      message: `chore(admin): revert add (hide) ${sku}`,
+    });
+  }
   if (sku && before && typeof before === "object") {
     if ("price" in before) {
       const file = await readCatalogFile<{ bySku?: Record<string, number> }>("public/catalog/price-overrides.json", { bySku: {} });
@@ -605,6 +825,31 @@ export async function revertActivity(id: string, by: string): Promise<{ ok: bool
       bySku[sku] = before.tags as string[];
       await writeCatalogFile({ path: "public/catalog/product-tags.json", data: { ...file, version: 1, bySku }, message: `chore(admin): revert tags ${sku}` });
     }
+    if (entry.action === "הוספת מוצר" || (before && before.hidden === false && entry.action.startsWith("הוספת מוצר"))) {
+      const vis = await readCatalogFile<{ version?: number; bySku?: Record<string, { hidden: boolean; reason?: string }> }>(
+        "public/catalog/visibility-overrides.json",
+        { version: 1, bySku: {} },
+      );
+      const bySku = { ...(vis.bySku || {}) };
+      bySku[sku] = { hidden: true, reason: "בוטל מדאשבורד הניהול — המוצר הוסתר ולא נמחק" };
+      await writeCatalogFile({
+        path: "public/catalog/visibility-overrides.json",
+        data: { ...vis, version: 1, bySku },
+        message: `chore(admin): revert add (hide) ${sku}`,
+      });
+    }
+    if ("image" in before) {
+      const file = await readCatalogFile<{ version?: number; bySku?: Record<string, string> }>("public/catalog/image-overrides.json", { version: 1, bySku: {} });
+      const bySku = { ...(file.bySku || {}) };
+      const img = before.image;
+      if (typeof img === "string" && img) bySku[sku] = img;
+      else delete bySku[sku];
+      await writeCatalogFile({
+        path: "public/catalog/image-overrides.json",
+        data: { ...file, version: 1, bySku },
+        message: `chore(admin): revert image ${sku}`,
+      });
+    }
     if ("category" in before && typeof before.category === "string") {
       const file = await readCatalogFile<{ bySku?: Record<string, { category: string; reason?: string }> }>(
         "public/catalog/display-category-overrides.json",
@@ -619,6 +864,9 @@ export async function revertActivity(id: string, by: string): Promise<{ ok: bool
   entry.revertedAt = new Date().toISOString();
   entry.revertedBy = by;
   await saveActivityList(entries, `chore(admin): mark reverted ${id}`);
+  if (sku) {
+    void notifyProductChange({ action: "revert", sku, actor: by, fields: ["revert"] });
+  }
   return { ok: true };
 }
 

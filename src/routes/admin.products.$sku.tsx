@@ -25,6 +25,8 @@ function ProductEditPage() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [saved, setSaved] = useState("");
+  const [stock, setStock] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     void (async () => {
@@ -40,6 +42,7 @@ function ProductEditPage() {
         setCategory(p.product.category);
         setHidden(p.product.hidden);
         setSelected(p.product.tags.map((x) => x.id));
+        setStock(p.product.stock || "");
         setCats(c.categories);
         setTags(t.tags);
       } catch (e) {
@@ -62,7 +65,7 @@ function ProductEditPage() {
     setError("");
     setSaved("");
     try {
-      const body: Record<string, unknown> = { name, category, hidden, tags: selected };
+      const body: Record<string, unknown> = { name, category, hidden, tags: selected, stock };
       if (canEditPrice && !row?.workshop) {
         body.price = price.trim() === "" ? null : Number(price);
       }
@@ -122,8 +125,7 @@ function ProductEditPage() {
           </div>
           <div className="field">
             <label>מלאי</label>
-            <input placeholder="לא מנוהל באתר כרגע" readOnly />
-            <div className="muted" style={{ fontSize: 12, marginTop: 6 }}>שדה מוצע. נכון להיום אין נתוני מלאי בקטלוג.</div>
+            <input value={stock} onChange={(e) => setStock(e.target.value)} placeholder="לא חובה. למשל 12 יח׳" />
           </div>
           <div className="field span-2">
             <label>תגים על גבי התמונה</label>
@@ -143,12 +145,45 @@ function ProductEditPage() {
             <div className="upload">
               {row.image ? <img className="thumb" src={row.image} alt="" /> : <div className="ph">אין תמונה</div>}
               <div>
-                <div style={{ fontWeight: 700, marginBottom: 6 }}>{row.image ? "תמונה קיימת מהקטלוג" : "אין תמונה בקטלוג"}</div>
-                <button className="btn btn-sm btn-ghost" type="button" disabled>
-                  החלפת תמונה
-                </button>
+                <div style={{ fontWeight: 700, marginBottom: 6 }}>{row.image ? "תמונה נוכחית" : "אין תמונה בקטלוג"}</div>
+                <label className="btn btn-sm btn-ghost" style={{ display: "inline-block", cursor: uploading ? "wait" : "pointer" }}>
+                  {uploading ? "מעלה…" : "החלפת תמונה"}
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    hidden
+                    disabled={uploading}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      e.target.value = "";
+                      if (!file) return;
+                      if (file.size > 2 * 1024 * 1024) {
+                        setError("התמונה גדולה מ-2MB");
+                        return;
+                      }
+                      const reader = new FileReader();
+                      reader.onload = () => {
+                        const url = String(reader.result || "");
+                        const base64 = url.split(",")[1] || "";
+                        setUploading(true);
+                        setError("");
+                        void adminFetch<{ product: AdminProductRow }>(`/api/admin/products/${encodeURIComponent(sku)}/image`, {
+                          method: "POST",
+                          body: JSON.stringify({ imageBase64: base64, mimeType: file.type || "image/jpeg" }),
+                        })
+                          .then((res) => {
+                            setRow(res.product);
+                            setSaved("התמונה נשמרה ומוצגת בחנות דרך שכבת התצוגה החיה.");
+                          })
+                          .catch((err) => setError(err instanceof Error ? err.message : "העלאה נכשלה"))
+                          .finally(() => setUploading(false));
+                      };
+                      reader.readAsDataURL(file);
+                    }}
+                  />
+                </label>
                 <div className="muted" style={{ fontSize: 12, marginTop: 8 }}>
-                  בגרסה הזו החלפת תמונות נשארת בתהליך התמונות הקיים (התאמת קוד מדויק). מומלץ 1200×1200, רקע לבן. לוגו המותג של האריזה עצמה מותר.
+                  JPEG, PNG או WebP עד 2MB. מומלץ 1200×1200, רקע לבן. לוגו המותג שעל האריזה מותר. שינוי של עובד נרשם ונשלח למאסטר עם קישור «בטל».
                 </div>
               </div>
             </div>

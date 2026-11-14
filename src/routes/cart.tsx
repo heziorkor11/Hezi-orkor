@@ -21,6 +21,7 @@ import {
 } from "@/lib/order-pdf";
 import { isValidIlPhone, isValidIlPlate, type OrderCustomer } from "@/lib/order-quote";
 import { priceOrQuoteLabel, catalogPrice, formatCatalogPrice } from "@/lib/prices";
+import { useCatalogOverlayRev } from "@/components/catalog-overlay-sync";
 import { summarizeCart } from "@/lib/cart-pricing";
 
 export const Route = createFileRoute("/cart")({
@@ -45,6 +46,7 @@ type PdfCache = {
 };
 
 function CartPage() {
+  useCatalogOverlayRev();
   const items = useCart((s) => s.items);
   const remove = useCart((s) => s.remove);
   const setQty = useCart((s) => s.setQty);
@@ -219,34 +221,48 @@ function CartPage() {
       }
 
       try {
-        void fetch("/api/orders", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "same-origin",
-          keepalive: true,
-          body: JSON.stringify({
-            id: cache.orderRef,
-            customer: {
-              name: customer.name,
-              phone: customer.phone,
-              plate: customer.plate,
-              city: customer.city,
-              make: customer.make,
-              model: customer.model,
-              year: customer.year,
-              engine: customer.engine,
-              notes: customer.notes,
-            },
-            delivery: customer.delivery,
-            lines: orderLines.map((l) => ({
-              sku: l.sku,
-              name: l.name,
-              qty: l.qty,
-            })),
-            subtotal: cache.subtotal,
-            source: "whatsapp-cart",
-          }),
-        }).catch(() => {});
+        void (async () => {
+          try {
+            const created = await fetch("/api/orders", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              credentials: "same-origin",
+              body: JSON.stringify({
+                id: cache.orderRef,
+                customer: {
+                  name: customer.name,
+                  phone: customer.phone,
+                  plate: customer.plate,
+                  city: customer.city,
+                  make: customer.make,
+                  model: customer.model,
+                  year: customer.year,
+                  engine: customer.engine,
+                  notes: customer.notes,
+                },
+                delivery: customer.delivery,
+                lines: orderLines.map((l) => ({
+                  sku: l.sku,
+                  name: l.name,
+                  qty: l.qty,
+                })),
+                subtotal: cache.subtotal,
+                source: "whatsapp-cart",
+              }),
+            });
+            const data = (await created.json().catch(() => ({}))) as { id?: string; pdfUploadToken?: string };
+            if (data.id && data.pdfUploadToken && cache.blob) {
+              await fetch(`/api/orders/${encodeURIComponent(data.id)}/pdf?token=${encodeURIComponent(data.pdfUploadToken)}`, {
+                method: "POST",
+                credentials: "same-origin",
+                headers: { "Content-Type": "application/pdf", "x-hezi-pdf-token": data.pdfUploadToken },
+                body: await cache.blob.arrayBuffer(),
+              }).catch(() => {});
+            }
+          } catch {
+            /* never block WhatsApp if inbox/PDF save fails */
+          }
+        })();
       } catch {
         /* never block WhatsApp if inbox save fails */
       }

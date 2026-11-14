@@ -139,7 +139,7 @@ export function AdminGate({ children }: { children?: ReactNode }) {
   };
   const title =
     titleMap[pathname] ||
-    (pathname.startsWith("/admin/products/") ? "עריכת מוצר" : pathname.startsWith("/admin/orders/") ? "פרטי הזמנה" : "ניהול");
+    (pathname === "/admin/products/new" ? "מוצר חדש" : pathname.startsWith("/admin/products/") ? "עריכת מוצר" : pathname.startsWith("/admin/orders/") ? "פרטי הזמנה" : "ניהול");
 
   return (
     <AdminCtx.Provider value={{ user, mode, newOrders, refreshBadge, logout }}>

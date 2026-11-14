@@ -4,6 +4,7 @@ import { ProductImage } from "@/components/product-image";
 import { useCart } from "@/lib/cart";
 import type { Product } from "@/lib/catalog-types";
 import { priceOrQuoteLabel } from "@/lib/prices";
+import { useCatalogOverlayRev } from "@/components/catalog-overlay-sync";
 import { ProductTagBadges } from "@/components/product-tag-badges";
 import { getProductTags } from "@/lib/product-tags";
 
@@ -14,6 +15,7 @@ export function HomeCarouselCard({
   product: Product;
   badge?: string;
 }) {
+  useCatalogOverlayRev();
   const add = useCart((s) => s.add);
 
   return (

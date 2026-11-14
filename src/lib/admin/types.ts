@@ -45,6 +45,16 @@ export const ORDER_STATUSES: { id: OrderStatus; label: string }[] = [
   { id: "done", label: "הושלמה" },
 ];
 
+export type OrderEvent = {
+  at: string;
+  by: string;
+  byName: string;
+  type: "created" | "status" | "assign" | "schedule" | "note" | "pdf";
+  from?: string;
+  to?: string;
+  detail?: string;
+};
+
 export type StoredOrderLine = {
   sku: string;
   name: string;
@@ -79,6 +89,8 @@ export type StoredOrder = {
   scheduledDate?: string;
   internalNotes?: string;
   source: "whatsapp-cart";
+  events?: OrderEvent[];
+  pdfStored?: boolean;
 };
 
 export type PublicOverlay = {
@@ -93,6 +105,9 @@ export type PublicOverlay = {
   tagLibrary?: TagDef[];
   productTags?: Record<string, string[]>;
   homeDeals?: string[];
+  additions?: Record<string, import("./added-product").AddedProduct>;
+  imageBySku?: Record<string, string>;
+  stockBySku?: Record<string, string>;
 };
 
 export const PUBLIC_GIT_PATHS = [
@@ -108,6 +123,9 @@ export const PUBLIC_GIT_PATHS = [
   "public/catalog/admin-activity.json",
   "public/catalog/category-label-overrides.json",
   "public/catalog/category-order-overrides.json",
+  "public/catalog/product-additions.json",
+  "public/catalog/image-overrides.json",
+  "public/catalog/stock-overrides.json",
 ] as const;
 
 export type PublicGitPath = (typeof PUBLIC_GIT_PATHS)[number];
@@ -125,4 +143,8 @@ export type AdminProductRow = {
   hasImage: boolean;
   image?: string;
   tags: { id: string; label: string; color: string }[];
+  stock?: string;
+  added?: boolean;
+  fitment?: string;
+  subType?: string;
 };

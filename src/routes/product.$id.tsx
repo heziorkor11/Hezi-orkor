@@ -17,6 +17,8 @@ import { packUnitPriceLabel } from "@/lib/pack-price";
 import { isWorkshopPackSku } from "@/lib/display-taxonomy";
 import { DeliveryLeadTimes } from "@/components/delivery-lead-times";
 import { bootAdminOverlay } from "@/lib/admin/boot-overlay";
+import { useCatalogOverlayRev } from "@/components/catalog-overlay-sync";
+import { overlayImage } from "@/lib/admin/public-overlay";
 
 export const Route = createFileRoute("/product/$id")({
   loader: async ({ params }) => {
@@ -44,7 +46,9 @@ export const Route = createFileRoute("/product/$id")({
 
 function ProductPage() {
   const { product, related } = Route.useLoaderData();
+  useCatalogOverlayRev();
   const add = useCart((s) => s.add);
+  const image = overlayImage(product.sku) || product.image;
   const cat = categoryName(product.category) || "קטגוריה";
   const shownFitment = pickDisplayedFitment(product);
   const years = displayYears("", shownFitment.yearFrom, shownFitment.yearTo);
@@ -85,7 +89,7 @@ function ProductPage() {
         >
           <ProductTagBadges sku={product.sku} />
           <ProductImage
-            src={product.image}
+            src={image}
             alt={product.name}
             className="absolute inset-0 h-full w-full object-contain p-3"
           />

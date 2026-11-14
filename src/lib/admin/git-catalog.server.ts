@@ -72,3 +72,48 @@ export async function commitPublicFile(opts: {
   }
   return true;
 }
+
+const ADMIN_IMAGE_PATH = /^public\/catalog\/admin-images\/HZ-[A-Z]+-\d{5}-[a-f0-9]{8}\.(webp|jpg|jpeg|png)$/;
+
+export function isAllowedPublicBinaryPath(path: string): boolean {
+  return ADMIN_IMAGE_PATH.test(path);
+}
+
+export function assertPublicBinaryPath(path: string) {
+  if (!isAllowedPublicBinaryPath(path)) {
+    throw new Error("This image path is not allowed on the public catalog repo");
+  }
+}
+
+export async function commitPublicBinary(opts: {
+  path: string;
+  bytes: Buffer;
+  message: string;
+}): Promise<boolean> {
+  assertPublicBinaryPath(opts.path);
+  const repo = adminGithubRepo();
+  const branch = adminGithubBranch();
+  const get = await gh(`/repos/${repo}/contents/${opts.path}?ref=${encodeURIComponent(branch)}`);
+  let sha: string | undefined;
+  if (get.status === 200) {
+    const body = (await get.json()) as GhFile;
+    sha = body.sha;
+  } else if (get.status !== 404) {
+    const text = await get.text();
+    throw new Error(`GitHub read failed (${get.status}): ${text.slice(0, 200)}`);
+  }
+  const put = await gh(`/repos/${repo}/contents/${opts.path}`, {
+    method: "PUT",
+    body: JSON.stringify({
+      message: opts.message,
+      content: opts.bytes.toString("base64"),
+      branch,
+      sha,
+    }),
+  });
+  if (!put.ok) {
+    const text = await put.text();
+    throw new Error(`GitHub commit failed (${put.status}): ${text.slice(0, 200)}`);
+  }
+  return true;
+}

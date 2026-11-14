@@ -47,6 +47,10 @@ function ProductsPage() {
 
   return (
     <>
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 8, alignItems: "center" }}>
+        <p className="muted" style={{ margin: 0 }}>הוספה, עריכה והחלפת תמונה. מחיר — למאסטר בלבד.</p>
+        <Link from="/" to="/admin/products/new" className="btn btn-accent">+ מוצר חדש</Link>
+      </div>
       <form className="filters" onSubmit={onSearch} style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש לפי שם או מק״ט" style={{ flex: 1, minWidth: 180 }} />
         <select value={image} onChange={(e) => { setImage(e.target.value); setPage(1); }}>

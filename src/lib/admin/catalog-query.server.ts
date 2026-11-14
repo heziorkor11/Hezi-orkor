@@ -3,7 +3,7 @@ import { displayCategories, displayCategory, isHiddenCategory, isHiddenProduct, 
 import { getNameOverride } from "@/lib/name-overrides";
 import { loadSearchHits, resolveProductImage } from "@/lib/catalog-listing";
 import { getProductTags, getTagLibrary } from "@/lib/product-tags";
-import { overlayCategoryOfSku } from "./public-overlay";
+import { overlayAddedProduct, overlayCategoryOfSku, overlayImage, overlayStock } from "./public-overlay";
 
 import type { AdminProductRow } from "./types";
 export type { AdminProductRow };
@@ -14,12 +14,13 @@ function categoryName(id: string) {
 
 export async function adminProductRow(sku: string, title?: string): Promise<AdminProductRow> {
   const category = overlayCategoryOfSku(sku) || displayCategory(sku, "general");
-  const image = resolveProductImage(sku);
+  const added = overlayAddedProduct(sku);
+  const image = overlayImage(sku) || resolveProductImage(sku);
   const price = catalogPrice(sku);
   const workshop = isWorkshopPackSku(sku);
   return {
     sku,
-    name: getNameOverride(sku) || title || sku,
+    name: getNameOverride(sku) || added?.name || title || sku,
     category,
     categoryHe: categoryName(category),
     price,
@@ -29,6 +30,10 @@ export async function adminProductRow(sku: string, title?: string): Promise<Admi
     hasImage: Boolean(image),
     image,
     tags: getProductTags(sku),
+    stock: overlayStock(sku) || added?.stock,
+    added: Boolean(added),
+    fitment: added?.fitment,
+    subType: added?.subType,
   };
 }
 

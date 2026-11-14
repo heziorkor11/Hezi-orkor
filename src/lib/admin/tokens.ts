@@ -69,6 +69,16 @@ export function readRevertToken(token: string): string | null {
   return p.id;
 }
 
+export function issuePdfUploadToken(orderId: string, minutes = 20) {
+  return signPayload({ typ: "pdf-upload", id: orderId, exp: Date.now() + minutes * 60 * 1000 });
+}
+
+export function readPdfUploadToken(token: string): string | null {
+  const p = verifyPayload<{ typ?: string; id?: string; exp?: number }>(token);
+  if (!p || p.typ !== "pdf-upload" || typeof p.id !== "string" || !p.exp || p.exp < Date.now()) return null;
+  return p.id;
+}
+
 export function randomId(prefix: string) {
   return `${prefix}_${randomBytes(8).toString("hex")}`;
 }

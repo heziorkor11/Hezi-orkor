@@ -18,6 +18,7 @@ import { priceOrQuoteLabel } from "@/lib/prices";
 import { packUnitPriceLabel } from "@/lib/pack-price";
 import { isWorkshopPackSku } from "@/lib/display-taxonomy";
 import { ProductTagBadges } from "@/components/product-tag-badges";
+import { useCatalogOverlayRev } from "@/components/catalog-overlay-sync";
 
 function yearRange(from?: number, to?: number) {
   if (!from) return null;
@@ -32,6 +33,7 @@ export function ProductCard({
   /** Active finder filters — when set, card shows the matching fitment. */
   filter?: ProductFilter;
 }) {
+  useCatalogOverlayRev();
   const add = useCart((s) => s.add);
   const shown = pickDisplayedFitment(product, filter);
   const car = displayVehicle(shown.make, shown.model);
