@@ -3,6 +3,28 @@
   "description": "Catalog-change activity only. No customer personal data.",
   "entries": [
     {
+      "id": "act_56aeeb71d4fd53c5",
+      "at": "2026-11-14T08:32:17.277Z",
+      "actorId": "user_master",
+      "actorName": "מתן יחזקאלי",
+      "actorRole": "master",
+      "action": "עדכון תגים/מבצעים",
+      "target": "tags",
+      "before": null,
+      "after": {
+        "deals": [
+          "HZ-BRK-00248",
+          "HZ-BRK-00680",
+          "HZ-BRK-00449",
+          "HZ-CMP-00014",
+          "HZ-CMP-00047",
+          "HZ-OIL-00011",
+          "HZ-GEN-04977",
+          "HZ-CND-00001"
+        ]
+      }
+    },
+    {
       "id": "act_67f618a0494ed52e",
       "at": "2026-11-14T08:32:06.056Z",
       "actorId": "user_master",
