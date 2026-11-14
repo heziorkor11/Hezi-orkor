@@ -71,5 +71,5 @@
 
 ## Hook לסנכרון מוצרים (Sheets / ייצוא)
 
-כל שינוי קטלוג בדאשבורד (הוספה, עריכה, מחיר, תמונה, תג, הסתרה) קורא ל-`notifyProductChange` ב-`src/lib/admin/notify-product-change.ts`. בלי `SHEETS_SYNC_URL` זו פעולת no-op. אם המשתנה מוגדר, נשלח POST JSON עם כותרת הסוד המשותף `SHEETS_SYNC_SECRET` (מערך הסביבה באותו שם). לא לשלוח את הסוד בצ׳אט. חיבור Google Sheets עצמו מטופל בנפרד.
+כל שינוי קטלוג בדאשבורד (הוספה, עריכה, מחיר, תמונה, תג, הסתרה) קורא ל-`notifyProductChange` ב-`src/lib/admin/notify-product-change.ts`. בלי `SHEETS_SYNC_URL` זו פעולת no-op. אם המשתנה מוגדר, נשלח POST JSON עם `mode: "upsert"` והסוד המשותף **בגוף הבקשה** בשדה `secret` (מ-`SHEETS_SYNC_SECRET`) — Web App של Apps Script לא יכול לקרוא כותרות מותאמות. השדות: sku, name, category, subType, fitment, priceDisplayed (מספר מעוגל למעלה, או טקסט מארז מוסך), basePrice, image, hasImage, tags, stock, visibility, link, updatedBy, updatedAt. הקריאה היא fire-and-forget ולא חוסמת או מפילה שמירה בדאשבורד. לא לשלוח את הסוד בצ׳אט. חיבור Google Sheets עצמו מטופל בנפרד.
 

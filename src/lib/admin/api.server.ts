@@ -285,7 +285,7 @@ export async function adminApi(req: Request): Promise<Response> {
         before: null,
         after: { sku: added.sku, name: added.name, category: added.category, hidden: false },
       });
-      await notifyProductChange({ action: "add", sku: added.sku, actor: u.name, fields: ["add"] });
+      void notifyProductChange({ action: "add", sku: added.sku, actor: u.name, fields: ["add"] });
       return json({ ok: true, product: await adminProductRow(added.sku), activity: logged.entry, mail: logged.mail });
     } catch (err) {
       return json({ error: err instanceof Error ? err.message : "לא ניתן להוסיף מוצר" }, 400);
@@ -412,7 +412,7 @@ export async function adminApi(req: Request): Promise<Response> {
         })
       : null;
     if (changes.length) {
-      await notifyProductChange(changeFromFields(changes, { sku, actor: u.name, hidden: after.hidden }));
+      void notifyProductChange(changeFromFields(changes, { sku, actor: u.name, hidden: after.hidden }));
     }
     return json({ ok: true, product: after, activity: logged?.entry, mail: logged?.mail });
   }
@@ -445,7 +445,7 @@ export async function adminApi(req: Request): Promise<Response> {
         before: { image: before.image || null },
         after: { image: after.image || saved.publicUrl },
       });
-      await notifyProductChange({ action: "image", sku, actor: u.name, fields: ["image"] });
+      void notifyProductChange({ action: "image", sku, actor: u.name, fields: ["image"] });
       return json({ ok: true, product: after, image: saved.publicUrl, activity: logged.entry, mail: logged.mail });
     } catch (err) {
       return json({ error: err instanceof Error ? err.message : "לא ניתן לשמור תמונה" }, 400);
@@ -525,11 +525,11 @@ export async function adminApi(req: Request): Promise<Response> {
     }
     await logAndMaybeMail(u, { action: "עדכון קטגוריות", target: "categories", before: null, after: body });
     if (body.hidden) {
-      await notifyProductChange({ action: "hide", actor: u.name, fields: ["hidden-categories"] });
+      void notifyProductChange({ action: "hide", actor: u.name, fields: ["hidden-categories"] });
     }
     if (body.move?.skus?.length) {
       for (const sku of body.move.skus.slice(0, 50)) {
-        await notifyProductChange({ action: "category", sku, actor: u.name, fields: ["category"] });
+        void notifyProductChange({ action: "category", sku, actor: u.name, fields: ["category"] });
       }
     }
     const cats = allTaxonomyCategories.map((c) => ({ ...c, name: categoryDisplayName(c.id, c.name), hidden: isHiddenCategory(c.id) }));
@@ -567,7 +567,7 @@ export async function adminApi(req: Request): Promise<Response> {
       });
     }
     await logAndMaybeMail(u, { action: "עדכון תגים/מבצעים", target: "tags", before: null, after: body });
-    await notifyProductChange({ action: "tag", actor: u.name, fields: ["tags"] });
+    void notifyProductChange({ action: "tag", actor: u.name, fields: ["tags"] });
     const library = await readCatalogFile<{ tags?: TagDef[] }>("public/catalog/tag-library.json", { tags: [] });
     const deals = await readCatalogFile<{ skus?: string[] }>("public/catalog/home-deals-overrides.json", { skus: [] });
     return json({ ok: true, tags: library.tags, deals: deals.skus });
@@ -865,7 +865,7 @@ export async function revertActivity(id: string, by: string): Promise<{ ok: bool
   entry.revertedBy = by;
   await saveActivityList(entries, `chore(admin): mark reverted ${id}`);
   if (sku) {
-    await notifyProductChange({ action: "revert", sku, actor: by, fields: ["revert"] });
+    void notifyProductChange({ action: "revert", sku, actor: by, fields: ["revert"] });
   }
   return { ok: true };
 }
