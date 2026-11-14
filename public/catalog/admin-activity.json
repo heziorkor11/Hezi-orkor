@@ -48,7 +48,10 @@
         "category": "filters",
         "hidden": false,
         "tags": []
-      }
+      },
+      "reverted": true,
+      "revertedAt": "2026-11-14T08:34:05.178Z",
+      "revertedBy": "מתן יחזקאלי"
     },
     {
       "id": "act_7706d77d31dac0d7",
