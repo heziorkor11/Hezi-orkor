@@ -3,8 +3,8 @@
   "description": "Catalog-change activity only. No customer personal data.",
   "entries": [
     {
-      "id": "act_2ea9603fd9630424",
-      "at": "2026-11-14T09:11:48.181Z",
+      "id": "act_418ab89abc258640",
+      "at": "2026-11-14T09:12:25.562Z",
       "actorId": "user_master",
       "actorName": "מתן יחזקאלי",
       "actorRole": "master",
@@ -20,7 +20,7 @@
       },
       "after": {
         "name": "HZ-GEN-00272",
-        "price": 980,
+        "price": 949,
         "category": "steering-rack",
         "hidden": false,
         "tags": []
