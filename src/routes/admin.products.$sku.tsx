@@ -106,8 +106,10 @@ function ProductEditPage() {
                 <div className="muted" style={{ fontSize: 12, marginTop: 6 }}>למארזי מוסך מוצג «מחיר מיוחד למוסכים וספקים» בלבד.</div>
               </>
             ) : (
-              <input inputMode="numeric" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="ריק = הצעת מחיר" disabled={!canEditPrice} />
+              <>
+                <input inputMode="numeric" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="ריק = הצעת מחיר" disabled={!canEditPrice} />
                 {!canEditPrice ? <div className="muted" style={{ fontSize: 12, marginTop: 6 }}>שינוי מחיר למאסטר בלבד.</div> : null}
+              </>
             )}
           </div>
           <div className="field">
