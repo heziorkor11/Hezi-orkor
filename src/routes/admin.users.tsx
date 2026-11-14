@@ -66,7 +66,10 @@ function UsersPage() {
     if (!window.confirm(`למחוק את המשתמש ${u.username}? לא ניתן לשחזר.`)) return;
     setError("");
     try {
-      const res = await adminFetch<{ users: SafeUser[] }>(`/api/admin/users/${u.id}`, { method: "DELETE" });
+      const res = await adminFetch<{ users: SafeUser[] }>(`/api/admin/users/${u.id}`, {
+        method: "POST",
+        body: JSON.stringify({ delete: true }),
+      });
       setUsers(res.users);
       setSaved(`המשתמש ${u.username} נמחק.`);
     } catch (err) {

@@ -471,7 +471,16 @@ export async function adminApi(req: Request): Promise<Response> {
   if (userPatch && method === "POST") {
     const u = await requireMaster(req);
     if (u instanceof Response) return u;
-    const body = await bodyOf<{ active?: boolean }>(req);
+    const body = await bodyOf<{ active?: boolean; delete?: boolean }>(req);
+    if (body.delete === true) {
+      try {
+        const removed = await deleteUser(userPatch[1]);
+        await logAndMaybeMail(u, { action: "מחיקת עובד", target: removed.username, before: { username: removed.username, role: removed.role }, after: null });
+        return json({ ok: true, user: removed, users: await listUsers() });
+      } catch (err) {
+        return json({ error: err instanceof Error ? err.message : "לא ניתן למחוק משתמש" }, 400);
+      }
+    }
     if (typeof body.active === "boolean") {
       const updated = await setUserActive(userPatch[1], body.active);
       return json({ ok: true, user: updated, users: await listUsers() });
