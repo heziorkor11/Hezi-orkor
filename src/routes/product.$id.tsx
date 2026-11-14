@@ -1,5 +1,6 @@
 import { pickDisplayedFitment } from "@/lib/catalog-runtime";
 import { ProductImage } from "@/components/product-image";
+import { ProductTagBadges } from "@/components/product-tag-badges";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { DemoBanner } from "@/components/demo-banner";
@@ -80,6 +81,7 @@ function ProductPage() {
           data-product-photo
           className="relative grid aspect-[4/5] max-h-[300px] w-full place-items-center rounded-lg border border-line bg-white"
         >
+          <ProductTagBadges sku={product.sku} />
           <ProductImage
             src={product.image}
             alt={product.name}

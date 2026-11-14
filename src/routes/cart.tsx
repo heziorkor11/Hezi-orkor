@@ -218,6 +218,39 @@ function CartPage() {
         setPdfReady(true);
       }
 
+      try {
+        void fetch("/api/orders", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          keepalive: true,
+          body: JSON.stringify({
+            id: cache.orderRef,
+            customer: {
+              name: customer.name,
+              phone: customer.phone,
+              plate: customer.plate,
+              city: customer.city,
+              make: customer.make,
+              model: customer.model,
+              year: customer.year,
+              engine: customer.engine,
+              notes: customer.notes,
+            },
+            delivery: customer.delivery,
+            lines: orderLines.map((l) => ({
+              sku: l.sku,
+              name: l.name,
+              qty: l.qty,
+            })),
+            subtotal: cache.subtotal,
+            source: "whatsapp-cart",
+          }),
+        }).catch(() => {});
+      } catch {
+        /* never block WhatsApp if inbox save fails */
+      }
+
       const file = new File([cache.blob], `${cache.orderRef}.pdf`, {
         type: "application/pdf",
       });

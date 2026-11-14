@@ -4,6 +4,8 @@ import { ProductImage } from "@/components/product-image";
 import { useCart } from "@/lib/cart";
 import type { Product } from "@/lib/catalog-types";
 import { priceOrQuoteLabel } from "@/lib/prices";
+import { ProductTagBadges } from "@/components/product-tag-badges";
+import { getProductTags } from "@/lib/product-tags";
 
 export function HomeCarouselCard({
   product,
@@ -17,7 +19,9 @@ export function HomeCarouselCard({
   return (
     <article className="home-carousel-card sq-card flex h-full flex-col overflow-hidden border border-line bg-card">
       <Link to="/product/$id" params={{ id: product.id }} className="relative block">
-        {badge ? (
+        {getProductTags(product.sku).length ? (
+          <ProductTagBadges sku={product.sku} />
+        ) : badge ? (
           <span className="absolute top-2 right-2 z-[1] rounded-lg bg-accent px-2.5 py-0.5 text-[11px] font-extrabold text-on-accent">
             {badge}
           </span>

@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "description": "Catalog-change activity only. No customer personal data.",
+  "entries": [
+    {
+      "id": "act_d94b669e7183b8d1",
+      "at": "2026-11-14T06:51:36.241Z",
+      "actorId": "user_master",
+      "actorName": "מתן יחזקאלי",
+      "actorRole": "master",
+      "action": "הוספת עובד",
+      "target": "sahard",
+      "before": null,
+      "after": {
+        "username": "sahard",
+        "role": "worker"
+      }
+    }
+  ]
+}

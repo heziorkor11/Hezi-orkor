@@ -8,3 +8,6 @@ dist/
 .env.*
 !.env.example
 .tanstack/
+
+# local admin runtime (never commit)
+.data/
