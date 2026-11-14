@@ -4,6 +4,7 @@ import { githubRepoIsPrivate } from "./git-catalog.server.ts";
 /** Paths allowed in the private data repo only. Never write these to the public store repo. */
 export const PRIVATE_GIT_PATHS = [
   "orders/orders.json",
+  "orders/preview/orders.json",
   "admin/private-users.json",
   "admin/preview/private-users.json",
 ] as const;
@@ -54,8 +55,17 @@ export function privateUsersPath(): PrivateGitPath {
   return process.env.VERCEL_ENV === "production" ? "admin/private-users.json" : "admin/preview/private-users.json";
 }
 
+/** Production orders live at orders/orders.json. Preview/local use a separate path so they never mix. */
 export function privateOrdersPath(): PrivateGitPath {
-  return "orders/orders.json";
+  const override = (process.env.ADMIN_DATA_ORDERS_PATH || "").trim();
+  if (override) {
+    assertPrivateGitPath(override);
+    if (override === "admin/private-users.json" || override === "admin/preview/private-users.json") {
+      throw new Error("ADMIN_DATA_ORDERS_PATH cannot point at the users file");
+    }
+    return override;
+  }
+  return process.env.VERCEL_ENV === "production" ? "orders/orders.json" : "orders/preview/orders.json";
 }
 
 export function privateDataBranch() {

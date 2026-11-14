@@ -23,6 +23,7 @@ test("public git allowlist never includes orders or user files", async () => {
   assert.ok((PRIVATE_GIT_PATHS as readonly string[]).includes("admin/private-users.json"));
   assert.ok((PRIVATE_GIT_PATHS as readonly string[]).includes("admin/preview/private-users.json"));
   assert.ok((PRIVATE_GIT_PATHS as readonly string[]).includes("orders/orders.json"));
+  assert.ok((PRIVATE_GIT_PATHS as readonly string[]).includes("orders/preview/orders.json"));
 });
 
 test("product tags cap at two and overlay wins", () => {
@@ -246,6 +247,29 @@ test("preview users path is isolated from production and rejects illegal overrid
   else process.env.VERCEL_ENV = prevEnv;
   if (prevPath === undefined) delete process.env.ADMIN_DATA_USERS_PATH;
   else process.env.ADMIN_DATA_USERS_PATH = prevPath;
+});
+
+test("preview orders path is isolated from production and rejects illegal overrides", async () => {
+  const { privateOrdersPath, assertPrivateGitPath } = await import("./git-private.server.ts");
+  const prevEnv = process.env.VERCEL_ENV;
+  const prevPath = process.env.ADMIN_DATA_ORDERS_PATH;
+  delete process.env.ADMIN_DATA_ORDERS_PATH;
+  process.env.VERCEL_ENV = "production";
+  assert.equal(privateOrdersPath(), "orders/orders.json");
+  delete process.env.VERCEL_ENV;
+  assert.equal(privateOrdersPath(), "orders/preview/orders.json");
+  process.env.VERCEL_ENV = "preview";
+  assert.equal(privateOrdersPath(), "orders/preview/orders.json");
+  process.env.ADMIN_DATA_ORDERS_PATH = "orders/preview/orders.json";
+  assert.equal(privateOrdersPath(), "orders/preview/orders.json");
+  process.env.ADMIN_DATA_ORDERS_PATH = "admin/private-users.json";
+  assert.throws(() => privateOrdersPath(), /users/);
+  process.env.ADMIN_DATA_ORDERS_PATH = "../secret.json";
+  assert.throws(() => privateOrdersPath(), /allowlisted/);
+  if (prevEnv === undefined) delete process.env.VERCEL_ENV;
+  else process.env.VERCEL_ENV = prevEnv;
+  if (prevPath === undefined) delete process.env.ADMIN_DATA_ORDERS_PATH;
+  else process.env.ADMIN_DATA_ORDERS_PATH = prevPath;
 });
 
 test("stored users keep only scrypt hashes and never plaintext passwords", async () => {
