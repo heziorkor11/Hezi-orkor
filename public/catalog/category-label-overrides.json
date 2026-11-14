@@ -1,4 +1,31 @@
 {
   "version": 1,
-  "byId": {}
+  "byId": {
+    "lights": "פנס ראשי",
+    "brakes": "בלמים",
+    "ac-compressor": "מדחס מזגן",
+    "filters": "פילטרים",
+    "ac-condenser": "מעבה מזגן",
+    "spark-plugs": "מצתים",
+    "fluids": "שמנים ונוזלים",
+    "lighting": "תאורה ונורות",
+    "ignition-coils": "סליל הצתה",
+    "sensors": "חיישן חמצן",
+    "additives": "QA TEST תוספים",
+    "small-engine": "מנועים קטנים",
+    "fuel-pump": "משאבת דלק",
+    "shocks": "בולם זעזועים",
+    "steering": "היגוי",
+    "suspension": "מתלים",
+    "clutch": "מצמד",
+    "workshop-packs": "מחירי מוסך / מארזים",
+    "radiator": "רדיאטורים",
+    "water-pump": "משאבות מים",
+    "driveshaft": "ציריות",
+    "hub": "נאבות",
+    "steering-rack": "מסרקי הגה",
+    "timing": "טיימינג",
+    "throttle-body": "בתי מצערת",
+    "cleaning-maintenance": "ניקוי ותחזוקה"
+  }
 }
