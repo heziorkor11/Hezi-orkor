@@ -60,6 +60,10 @@ export const Route = createFileRoute("/results")({
   }),
   loaderDeps: ({ search }) => search,
   loader: async ({ deps }) => {
+    if (typeof window === "undefined") {
+      const { ensureAdminOverlay } = await import("@/lib/admin/storage.server");
+      await ensureAdminOverlay();
+    }
     if (deps.category && !categoryName(deps.category)) {
       return { items: [], total: 0, page: 1, pages: 0, tiles: [] };
     }

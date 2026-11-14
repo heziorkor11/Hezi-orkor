@@ -27,3 +27,18 @@ test("search hits keep the previous title as titleOriginal", () => {
   assert.equal(hit.titleOriginal, "צלחת בלם אופל אינסיגניה 1.4 קדמי מ17");
   assert.equal(hit.category, "brakes");
 });
+
+test("live admin overlay name wins over the bundled override", async () => {
+  const { setPublicOverlay, getPublicOverlay } = await import("./admin/public-overlay.ts");
+  const prev = getPublicOverlay();
+  setPublicOverlay({ ...prev, nameBySku: { "HZ-BRK-00001": "QA overlay name" } });
+  assert.equal(getNameOverride("HZ-BRK-00001"), "QA overlay name");
+  const hit = applySearchHitNameOverride({
+    sku: "HZ-BRK-00001",
+    title: "צלחת בלם",
+    category: "brakes",
+    oe: "",
+  });
+  assert.equal(hit.title, "QA overlay name");
+  setPublicOverlay(prev);
+});

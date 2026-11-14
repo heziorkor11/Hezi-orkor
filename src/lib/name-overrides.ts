@@ -1,11 +1,14 @@
 /** Display-only product name overrides. Source catalog JSON is left unchanged. */
 import overrides from "../../public/catalog/name-overrides.json" with { type: "json" };
 import type { SearchHit } from "./catalog-types.ts";
+import { overlayName } from "./admin/public-overlay.ts";
 
 const bySku = (overrides.bySku || {}) as Record<string, string>;
 
 export function getNameOverride(sku?: string): string | undefined {
   if (!sku) return undefined;
+  const live = overlayName(sku);
+  if (live) return live;
   const name = bySku[sku];
   const trimmed = typeof name === "string" ? name.trim() : "";
   return trimmed || undefined;

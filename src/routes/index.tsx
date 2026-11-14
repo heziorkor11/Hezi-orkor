@@ -15,6 +15,10 @@ import { localBusinessJsonLd, pageDescription, websiteJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
+    if (typeof window === "undefined") {
+      const { ensureAdminOverlay } = await import("@/lib/admin/storage.server");
+      await ensureAdminOverlay();
+    }
     const [deals, recommended] = await Promise.all([
       loadProductsBySkus(currentHomeDealsSkus()),
       loadProductsBySkus(homeRecommendedSkus),

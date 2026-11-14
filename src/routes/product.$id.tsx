@@ -19,6 +19,10 @@ import { DeliveryLeadTimes } from "@/components/delivery-lead-times";
 
 export const Route = createFileRoute("/product/$id")({
   loader: async ({ params }) => {
+    if (typeof window === "undefined") {
+      const { ensureAdminOverlay } = await import("@/lib/admin/storage.server");
+      await ensureAdminOverlay();
+    }
     const product = await loadProduct(params.id);
     if (!product) throw notFound();
     const related = await loadRelated(product);

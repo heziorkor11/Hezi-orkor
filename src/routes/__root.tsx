@@ -55,12 +55,13 @@ function RootComponent() {
       </head>
       <body className="bg-paper text-fg">
         <PreviewHostBridge />
-        <CatalogOverlaySync />
-        <AuthProvider>
-          <ShopShell>
-            <Outlet />
-          </ShopShell>
-        </AuthProvider>
+        <CatalogOverlaySync>
+          <AuthProvider>
+            <ShopShell>
+              <Outlet />
+            </ShopShell>
+          </AuthProvider>
+        </CatalogOverlaySync>
         <Scripts />
       </body>
     </html>

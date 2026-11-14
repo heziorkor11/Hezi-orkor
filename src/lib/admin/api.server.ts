@@ -244,6 +244,7 @@ export async function adminApi(req: Request): Promise<Response> {
       }
     }
     if (patch.price !== undefined) {
+      if (u.role !== "master") return json({ error: "שינוי מחיר למאסטר בלבד" }, 403);
       if (isWorkshopPackSku(sku)) return json({ error: "למארזי מוסך אין מחיר מספרי באתר" }, 400);
       const file = await readCatalogFile<{ bySku?: Record<string, number> }>("public/catalog/price-overrides.json", { bySku: {} });
       const bySku = { ...(file.bySku || {}) };
