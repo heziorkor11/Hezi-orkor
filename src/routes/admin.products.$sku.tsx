@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { adminFetch, formatPrice } from "@/components/admin/api";
+import { useAdmin } from "@/components/admin/shell";
 import type { AdminProductRow } from "@/lib/admin/types";
 import type { TagDef } from "@/lib/admin/types";
 
@@ -11,6 +12,8 @@ export const Route = createFileRoute("/admin/products/$sku")({
 function ProductEditPage() {
   const { sku } = Route.useParams();
   const navigate = useNavigate();
+  const { user } = useAdmin();
+  const canEditPrice = user?.role === "master";
   const [row, setRow] = useState<AdminProductRow | null>(null);
   const [tags, setTags] = useState<TagDef[]>([]);
   const [cats, setCats] = useState<{ id: string; name: string }[]>([]);
@@ -60,7 +63,7 @@ function ProductEditPage() {
     setSaved("");
     try {
       const body: Record<string, unknown> = { name, category, hidden, tags: selected };
-      if (!row?.workshop) {
+      if (canEditPrice && !row?.workshop) {
         body.price = price.trim() === "" ? null : Number(price);
       }
       const res = await adminFetch<{ product: AdminProductRow }>(`/api/admin/products/${encodeURIComponent(sku)}`, {
@@ -103,7 +106,10 @@ function ProductEditPage() {
                 <div className="muted" style={{ fontSize: 12, marginTop: 6 }}>למארזי מוסך מוצג «מחיר מיוחד למוסכים וספקים» בלבד.</div>
               </>
             ) : (
-              <input inputMode="numeric" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="ריק = הצעת מחיר" />
+              <>
+                <input inputMode="numeric" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="ריק = הצעת מחיר" disabled={!canEditPrice} />
+                {!canEditPrice ? <div className="muted" style={{ fontSize: 12, marginTop: 6 }}>שינוי מחיר למאסטר בלבד.</div> : null}
+              </>
             )}
           </div>
           <div className="field">

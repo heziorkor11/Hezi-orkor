@@ -151,7 +151,10 @@ export async function loadProductImpl(sku: string): Promise<Product | undefined>
   const chunkId = map[id];
   if (!chunkId) return undefined;
   const chunk = await loadChunk(chunkId);
-  return chunk.find((p) => p.sku === id || p.id === id);
+  const product = chunk.find((p) => p.sku === id || p.id === id);
+  if (!product) return undefined;
+  const name = getNameOverride(product.sku);
+  return name && name !== product.name ? { ...product, name } : product;
 }
 
 export async function loadRelatedImpl(product: Product, limit = 4): Promise<Product[]> {
@@ -170,9 +173,9 @@ async function loadSearchIndex(): Promise<SearchHit[]> {
   await loadImageMap();
   if (!cache.searchIndex) {
     const rows = await catalogJson<SearchHit[]>("search-index.json");
-    cache.searchIndex = rows.map(applySearchHitNameOverride);
+    cache.searchIndex = rows;
   }
-  return cache.searchIndex;
+  return cache.searchIndex.map(applySearchHitNameOverride);
 }
 
 export async function loadSearchHits(): Promise<SearchHit[]> {

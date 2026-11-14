@@ -15,6 +15,7 @@ import { canonicalMake } from "@/lib/search-intent";
 import { brand } from "@/lib/brand";
 import { FLUID_KIND_LABELS, type FluidKind } from "@/lib/fluid-classify";
 import { pageDescription, pageTitle } from "@/lib/seo";
+import { bootAdminOverlay } from "@/lib/admin/boot-overlay";
 
 export type ResultsSearch = ListingSearch;
 
@@ -60,6 +61,7 @@ export const Route = createFileRoute("/results")({
   }),
   loaderDeps: ({ search }) => search,
   loader: async ({ deps }) => {
+    await bootAdminOverlay();
     if (deps.category && !categoryName(deps.category)) {
       return { items: [], total: 0, page: 1, pages: 0, tiles: [] };
     }
