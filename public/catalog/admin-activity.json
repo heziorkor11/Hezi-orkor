@@ -3,6 +3,20 @@
   "description": "Catalog-change activity only. No customer personal data.",
   "entries": [
     {
+      "id": "act_7706d77d31dac0d7",
+      "at": "2026-11-14T08:32:29.341Z",
+      "actorId": "user_master",
+      "actorName": "מתן יחזקאלי",
+      "actorRole": "master",
+      "action": "הוספת עובד",
+      "target": "qa_full_worker",
+      "before": null,
+      "after": {
+        "username": "qa_full_worker",
+        "role": "worker"
+      }
+    },
+    {
       "id": "act_56aeeb71d4fd53c5",
       "at": "2026-11-14T08:32:17.277Z",
       "actorId": "user_master",
