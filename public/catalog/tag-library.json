@@ -15,6 +15,11 @@
       "id": "rec",
       "label": "מומלץ",
       "color": "#c2410c"
+    },
+    {
+      "id": "qa14test",
+      "label": "QA14",
+      "color": "#0f766e"
     }
   ]
 }
