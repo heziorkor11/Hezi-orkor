@@ -143,7 +143,7 @@ export function AdminGate({ children }: { children?: ReactNode }) {
 
   return (
     <AdminCtx.Provider value={{ user, mode, newOrders, refreshBadge, logout }}>
-      <div className="admin-app" dir="rtl">
+      <div className={`admin-app${mode !== "git" ? " has-top-banner" : ""}`} dir="rtl">
         {mode !== "git" && (
           <div className="persist-banner" style={{ borderRadius: 0, margin: 0 }}>
             {mode === "preview-demo" || mode === "local"
