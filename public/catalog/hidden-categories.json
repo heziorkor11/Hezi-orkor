@@ -3,7 +3,6 @@
   "description": "Display-only switch. Categories listed in hiddenCategories are hidden from the storefront (menu, home tiles, search, results, deals, featured, sitemap/SEO, and product URLs). Source catalog rows and prices are unchanged. To show a category again, remove its id from hiddenCategories and redeploy.",
   "hiddenCategories": [
     "lights",
-    "small-engine",
-    "additives"
+    "small-engine"
   ]
 }
