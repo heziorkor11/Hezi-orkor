@@ -3,6 +3,24 @@
   "description": "Catalog-change activity only. No customer personal data.",
   "entries": [
     {
+      "id": "act_33eae960ebd3d216",
+      "at": "2026-11-14T08:30:56.690Z",
+      "actorId": "user_master",
+      "actorName": "מתן יחזקאלי",
+      "actorRole": "master",
+      "action": "עדכון קטגוריות",
+      "target": "categories",
+      "before": null,
+      "after": {
+        "move": {
+          "skus": [
+            "HZ-BRK-00070"
+          ],
+          "category": "additives"
+        }
+      }
+    },
+    {
       "id": "act_f3ef69a4ea0e6968",
       "at": "2026-11-14T08:30:45.366Z",
       "actorId": "user_master",
