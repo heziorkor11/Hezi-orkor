@@ -3,26 +3,18 @@ import type { PlateLookupResult } from "./mot-plate-lookup";
 import { useOrderForm, writeSavedVehicle } from "./order-form";
 import { isMappedPlateResult, writePlateSession } from "./plate-session";
 import type { ListingSearch } from "./catalog-types";
+import { fetchPlateWithRetry } from "./plate-fetch-retry";
 
-export async function fetchVehicleByPlate(raw: string): Promise<PlateLookupResult> {
+export async function fetchVehicleByPlate(
+  raw: string,
+  opts: { onRetry?: (attempt: number) => void } = {},
+): Promise<PlateLookupResult> {
   const plate = normalizeIlPlate(raw);
   if (!isValidIlPlate(plate)) {
     return { ok: false, error: "invalid", message: "יש להזין מספר רכב ישראלי בן 7 או 8 ספרות." };
   }
-  const res = await fetch("/api/vehicle-by-plate", {
-    method: "POST",
-    headers: { "content-type": "application/json", accept: "application/json" },
-    body: JSON.stringify({ plate }),
-  });
-  try {
-    return (await res.json()) as PlateLookupResult;
-  } catch {
-    return {
-      ok: false,
-      error: "upstream",
-      message: "לא הצלחנו לשאול את מאגר משרד הרישוי. נסו שוב או בחרו רכב ידנית.",
-    };
-  }
+  // Retries automatically when bot protection / WAF blocks the request (see plate-fetch-retry).
+  return fetchPlateWithRetry(plate, { onRetry: opts.onRetry });
 }
 
 export async function applyPlateLookup(opts: {

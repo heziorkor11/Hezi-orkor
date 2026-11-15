@@ -2,6 +2,7 @@
 import facets from "../../public/catalog/facets.json" with { type: "json" };
 import abbreviations from "../../public/catalog/name-abbreviations.json" with { type: "json" };
 import { expandCertainModel, foldModelSpelling, sameModel } from "./model-names.ts";
+import { SEARCH_SPELLING_FOLDS } from "./model-spelling.ts";
 import { normalizePartKey, yearBounds } from "./part-display.ts";
 import type { ListingSearch, ProductFilter, SearchHit } from "./catalog-types.ts";
 import { applyPolMakeFitments, classifyPolMakes } from "./pol-makes.ts";
@@ -355,8 +356,9 @@ const KNOWN_PREFIX_REMAINDERS = new Set(
 function foldSearchToken(token: string) {
   const typo = LIGHT_TYPOS[token];
   if (typo) return typo;
-  const folded = foldModelSpelling(token);
-  return folded || token;
+  const folded = foldModelSpelling(token) || token;
+  // Certain catalog spelling duplicates (אטצה → אטקה, לאון → ליאון), search-time only.
+  return SEARCH_SPELLING_FOLDS[folded] || folded;
 }
 
 function maybeStripParticlePrefix(token: string) {

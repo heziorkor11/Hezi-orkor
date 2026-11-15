@@ -1,5 +1,5 @@
 import { subcategories, normalizeDisplayCategory, isHiddenCategory } from "@/lib/display-taxonomy";
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { ActiveFilters } from "@/components/active-filters";
 import { ListingSortControl } from "@/components/listing-sort-control";
 import { CategoryPhotoTiles } from "@/components/category-photo-tiles";
@@ -20,6 +20,7 @@ import { pageDescription, pageTitle } from "@/lib/seo";
 import { bootAdminOverlay } from "@/lib/admin/boot-overlay";
 import { isMappedPlateResult, readPlateSession, type StoredPlateVehicle } from "@/lib/plate-session";
 import { clearIdentifiedVehicle } from "@/lib/order-form";
+import { applyPlateLookup, fetchVehicleByPlate } from "@/lib/plate-lookup-client";
 import { useEffect, useState } from "react";
 
 export type ResultsSearch = ListingSearch;
@@ -155,6 +156,7 @@ function ResultsPage() {
           state={state}
           entry={plate.entry}
           onClear={plate.clear}
+          onRefresh={plate.refresh}
         />
         <div className="mb-4.5">
           <h1 className="text-[26px] tracking-tight">{title}</h1>
@@ -261,6 +263,8 @@ function usePlateSession(state: ResultsSearch) {
       clearIdentifiedVehicle();
       setEntry(null);
     },
+    /** Re-read after a manual "נסו שוב" that did not change the URL. */
+    refresh: () => setEntry(readPlateSession()),
   };
 }
 
@@ -269,13 +273,34 @@ function ResultsPlateBlock({
   state,
   entry,
   onClear,
+  onRefresh,
 }: {
   tiles: import("@/lib/category-tiles").CategoryTile[];
   state: ResultsSearch;
   entry: StoredPlateVehicle | null;
   onClear: () => void;
+  onRefresh: () => void;
 }) {
+  const navigate = useNavigate();
+  const [retrying, setRetrying] = useState(false);
   if (!entry) return null;
+  const retry = async () => {
+    if (retrying) return;
+    setRetrying(true);
+    try {
+      const result = await fetchVehicleByPlate(entry.plate);
+      await applyPlateLookup({
+        plate: entry.plate,
+        result,
+        path: "/results",
+        search: state,
+        navigate: navigate as never,
+      });
+    } finally {
+      setRetrying(false);
+      onRefresh();
+    }
+  };
   const mapped =
     isMappedPlateResult(entry.result) &&
     entry.result.ok &&
@@ -290,6 +315,8 @@ function ResultsPlateBlock({
         result={entry.result}
         tiles={mapped ? tiles : []}
         onClear={onClear}
+        onRetry={retry}
+        retrying={retrying}
       />
     </div>
   );
