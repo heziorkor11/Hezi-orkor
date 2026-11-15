@@ -13,7 +13,7 @@
       "startDate": "2026-11-15",
       "endDate": "2026-11-17",
       "timerEnabled": true,
-      "timerPosition": "button",
+      "timerPosition": "bottom",
       "linkType": "category",
       "linkTarget": "brakes",
       "href": "/results?category=brakes"
