@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "description": "Home hero slides. Hidden slides stay listed and are not deleted. An empty slides list means the site uses the built-in default banners.",
+  "slides": [
+    {
+      "id": "brakes",
+      "title": "מבצע בלמים",
+      "subtitle": "צלחות, רפידות ונעלי בלם — לזמן מוגבל",
+      "ctaLabel": "לקטלוג בלמים",
+      "imageKey": "brakes",
+      "tone": "ember",
+      "hidden": false,
+      "startDate": "2026-11-15",
+      "endDate": "2026-11-17",
+      "timerEnabled": true,
+      "timerPosition": "top",
+      "linkType": "category",
+      "linkTarget": "brakes",
+      "href": "/results?category=brakes"
+    },
+    {
+      "id": "ac",
+      "title": "מדחסים ומעבים",
+      "subtitle": "מזגן לרכב — תמונות, מק״ט והתאמה לפני הזמנה",
+      "ctaLabel": "מדחס מזגן",
+      "imageKey": "ac-compressor",
+      "tone": "ink",
+      "hidden": false,
+      "timerEnabled": false,
+      "timerPosition": "top",
+      "linkType": "category",
+      "linkTarget": "ac-compressor",
+      "href": "/results?category=ac-compressor"
+    },
+    {
+      "id": "help",
+      "title": "לא מצאת חלק?",
+      "subtitle": "שלחו תמונה או מק״ט בוואטסאפ",
+      "ctaLabel": "דברו איתנו",
+      "imageKey": "filters",
+      "tone": "warm",
+      "hidden": false,
+      "timerEnabled": false,
+      "timerPosition": "top",
+      "linkType": "whatsapp",
+      "href": "https://wa.me/972524858516"
+    },
+    {
+      "id": "filters-ended",
+      "title": "פילטרים לכל רכב",
+      "subtitle": "הוסתרה אוטומטית בסוף התאריך · לא נמחקה",
+      "ctaLabel": "לקטלוג פילטרים",
+      "imageKey": "filters",
+      "tone": "warm",
+      "hidden": true,
+      "startDate": "2026-11-01",
+      "endDate": "2026-11-10",
+      "timerEnabled": false,
+      "timerPosition": "top",
+      "linkType": "category",
+      "linkTarget": "filters",
+      "href": "/results?category=filters"
+    }
+  ]
+}
