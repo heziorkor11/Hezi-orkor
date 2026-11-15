@@ -501,3 +501,51 @@ details summary::-webkit-details-marker {
     font-size: 1.65rem;
   }
 }
+
+
+/* Home hero sale countdown */
+.hero-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(10, 8, 7, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff;
+  border-radius: var(--radius-btn);
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.25);
+}
+.hero-timer svg { width: 15px; height: 15px; color: var(--color-accent-hot); flex: 0 0 15px; }
+.hero-timer-clock {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  letter-spacing: 0.04em;
+}
+.hero-timer-top {
+  position: absolute;
+  top: 12px;
+  inset-inline: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+}
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.hero-cta-row .sq-btn { margin-top: 0; }
+.hero-timer-below {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}

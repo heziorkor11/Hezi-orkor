@@ -21,6 +21,7 @@ import { Route as ResultsRouteImport } from './routes/results'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
+import { Route as AdminHeroRouteImport } from './routes/admin.hero'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminMailPreviewRouteImport } from './routes/admin.mail-preview'
 import { Route as AdminNotificationsRouteImport } from './routes/admin.notifications'
@@ -37,6 +38,8 @@ import { Route as ApiVehicleByPlateRouteImport } from './routes/api.vehicle-by-p
 import { Route as LegalIndexRouteImport } from './routes/legal.index'
 import { Route as LegalSlugRouteImport } from './routes/legal.$slug'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
+import { Route as AdminHeroIndexRouteImport } from './routes/admin.hero.index'
+import { Route as AdminHeroIdRouteImport } from './routes/admin.hero.$id'
 import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.index'
 import { Route as AdminOrdersIdRouteImport } from './routes/admin.orders.$id'
 import { Route as AdminProductsIndexRouteImport } from './routes/admin.products.index'
@@ -44,6 +47,7 @@ import { Route as AdminProductsSkuRouteImport } from './routes/admin.products.$s
 import { Route as AdminProductsNewRouteImport } from './routes/admin.products.new'
 import { Route as ApiAdminSplatRouteImport } from './routes/api.admin.$'
 import { Route as ApiCatalogImageSkuRouteImport } from './routes/api.catalog-image.$sku'
+import { Route as ApiHeroImageIdRouteImport } from './routes/api.hero-image.$id'
 import { Route as ApiOrdersSplatRouteImport } from './routes/api.orders.$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -104,6 +108,11 @@ const AdminActivityRoute = AdminActivityRouteImport.update({
 const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
   id: '/categories',
   path: '/categories',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHeroRoute = AdminHeroRouteImport.update({
+  id: '/hero',
+  path: '/hero',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
@@ -186,6 +195,16 @@ const ProductIdRoute = ProductIdRouteImport.update({
   path: '/product/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminHeroIndexRoute = AdminHeroIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminHeroRoute,
+} as any)
+const AdminHeroIdRoute = AdminHeroIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminHeroRoute,
+} as any)
 const AdminOrdersIndexRoute = AdminOrdersIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -221,6 +240,11 @@ const ApiCatalogImageSkuRoute = ApiCatalogImageSkuRouteImport.update({
   path: '/api/catalog-image/$sku',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiHeroImageIdRoute = ApiHeroImageIdRouteImport.update({
+  id: '/api/hero-image/$id',
+  path: '/api/hero-image/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiOrdersSplatRoute = ApiOrdersSplatRouteImport.update({
   id: '/$',
   path: '/$',
@@ -239,6 +263,7 @@ export interface FileRoutesByFullPath {
   '/results': typeof ResultsRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/hero': typeof AdminHeroRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/mail-preview': typeof AdminMailPreviewRoute
   '/admin/notifications': typeof AdminNotificationsRoute
@@ -256,12 +281,15 @@ export interface FileRoutesByFullPath {
   '/product/$id': typeof ProductIdRoute
   '/admin/': typeof AdminIndexRoute
   '/legal/': typeof LegalIndexRoute
+  '/admin/hero/$id': typeof AdminHeroIdRoute
   '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/admin/products/$sku': typeof AdminProductsSkuRoute
   '/admin/products/new': typeof AdminProductsNewRoute
   '/api/admin/$': typeof ApiAdminSplatRoute
   '/api/catalog-image/$sku': typeof ApiCatalogImageSkuRoute
+  '/api/hero-image/$id': typeof ApiHeroImageIdRoute
   '/api/orders/$': typeof ApiOrdersSplatRoute
+  '/admin/hero/': typeof AdminHeroIndexRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
 }
@@ -290,12 +318,15 @@ export interface FileRoutesByTo {
   '/product/$id': typeof ProductIdRoute
   '/admin': typeof AdminIndexRoute
   '/legal': typeof LegalIndexRoute
+  '/admin/hero/$id': typeof AdminHeroIdRoute
   '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/admin/products/$sku': typeof AdminProductsSkuRoute
   '/admin/products/new': typeof AdminProductsNewRoute
   '/api/admin/$': typeof ApiAdminSplatRoute
   '/api/catalog-image/$sku': typeof ApiCatalogImageSkuRoute
+  '/api/hero-image/$id': typeof ApiHeroImageIdRoute
   '/api/orders/$': typeof ApiOrdersSplatRoute
+  '/admin/hero': typeof AdminHeroIndexRoute
   '/admin/orders': typeof AdminOrdersIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
 }
@@ -312,6 +343,7 @@ export interface FileRoutesById {
   '/results': typeof ResultsRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/hero': typeof AdminHeroRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/mail-preview': typeof AdminMailPreviewRoute
   '/admin/notifications': typeof AdminNotificationsRoute
@@ -329,12 +361,15 @@ export interface FileRoutesById {
   '/product/$id': typeof ProductIdRoute
   '/admin/': typeof AdminIndexRoute
   '/legal/': typeof LegalIndexRoute
+  '/admin/hero/$id': typeof AdminHeroIdRoute
   '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/admin/products/$sku': typeof AdminProductsSkuRoute
   '/admin/products/new': typeof AdminProductsNewRoute
   '/api/admin/$': typeof ApiAdminSplatRoute
   '/api/catalog-image/$sku': typeof ApiCatalogImageSkuRoute
+  '/api/hero-image/$id': typeof ApiHeroImageIdRoute
   '/api/orders/$': typeof ApiOrdersSplatRoute
+  '/admin/hero/': typeof AdminHeroIndexRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
 }
@@ -352,6 +387,7 @@ export interface FileRouteTypes {
     | '/results'
     | '/admin/activity'
     | '/admin/categories'
+    | '/admin/hero'
     | '/admin/login'
     | '/admin/mail-preview'
     | '/admin/notifications'
@@ -369,12 +405,15 @@ export interface FileRouteTypes {
     | '/product/$id'
     | '/admin/'
     | '/legal/'
+    | '/admin/hero/$id'
     | '/admin/orders/$id'
     | '/admin/products/$sku'
     | '/admin/products/new'
     | '/api/admin/$'
     | '/api/catalog-image/$sku'
+    | '/api/hero-image/$id'
     | '/api/orders/$'
+    | '/admin/hero/'
     | '/admin/orders/'
     | '/admin/products/'
   fileRoutesByTo: FileRoutesByTo
@@ -403,12 +442,15 @@ export interface FileRouteTypes {
     | '/product/$id'
     | '/admin'
     | '/legal'
+    | '/admin/hero/$id'
     | '/admin/orders/$id'
     | '/admin/products/$sku'
     | '/admin/products/new'
     | '/api/admin/$'
     | '/api/catalog-image/$sku'
+    | '/api/hero-image/$id'
     | '/api/orders/$'
+    | '/admin/hero'
     | '/admin/orders'
     | '/admin/products'
   id:
@@ -424,6 +466,7 @@ export interface FileRouteTypes {
     | '/results'
     | '/admin/activity'
     | '/admin/categories'
+    | '/admin/hero'
     | '/admin/login'
     | '/admin/mail-preview'
     | '/admin/notifications'
@@ -441,12 +484,15 @@ export interface FileRouteTypes {
     | '/product/$id'
     | '/admin/'
     | '/legal/'
+    | '/admin/hero/$id'
     | '/admin/orders/$id'
     | '/admin/products/$sku'
     | '/admin/products/new'
     | '/api/admin/$'
     | '/api/catalog-image/$sku'
+    | '/api/hero-image/$id'
     | '/api/orders/$'
+    | '/admin/hero/'
     | '/admin/orders/'
     | '/admin/products/'
   fileRoutesById: FileRoutesById
@@ -467,6 +513,7 @@ export interface RootRouteChildren {
   ProductIdRoute: typeof ProductIdRoute
   ApiAdminSplatRoute: typeof ApiAdminSplatRoute
   ApiCatalogImageSkuRoute: typeof ApiCatalogImageSkuRoute
+  ApiHeroImageIdRoute: typeof ApiHeroImageIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -553,6 +600,13 @@ declare module '@tanstack/react-router' {
       path: '/categories'
       fullPath: '/admin/categories'
       preLoaderRoute: typeof AdminCategoriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/hero': {
+      id: '/admin/hero'
+      path: '/hero'
+      fullPath: '/admin/hero'
+      preLoaderRoute: typeof AdminHeroRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/login': {
@@ -667,6 +721,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/hero/': {
+      id: '/admin/hero/'
+      path: '/'
+      fullPath: '/admin/hero/'
+      preLoaderRoute: typeof AdminHeroIndexRouteImport
+      parentRoute: typeof AdminHeroRoute
+    }
+    '/admin/hero/$id': {
+      id: '/admin/hero/$id'
+      path: '/$id'
+      fullPath: '/admin/hero/$id'
+      preLoaderRoute: typeof AdminHeroIdRouteImport
+      parentRoute: typeof AdminHeroRoute
+    }
     '/admin/orders/': {
       id: '/admin/orders/'
       path: '/'
@@ -716,6 +784,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCatalogImageSkuRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/hero-image/$id': {
+      id: '/api/hero-image/$id'
+      path: '/api/hero-image/$id'
+      fullPath: '/api/hero-image/$id'
+      preLoaderRoute: typeof ApiHeroImageIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/orders/$': {
       id: '/api/orders/$'
       path: '/$'
@@ -725,6 +800,20 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AdminHeroRouteChildren {
+  AdminHeroIdRoute: typeof AdminHeroIdRoute
+  AdminHeroIndexRoute: typeof AdminHeroIndexRoute
+}
+
+const AdminHeroRouteChildren: AdminHeroRouteChildren = {
+  AdminHeroIdRoute: AdminHeroIdRoute,
+  AdminHeroIndexRoute: AdminHeroIndexRoute,
+}
+
+const AdminHeroRouteWithChildren = AdminHeroRoute._addFileChildren(
+  AdminHeroRouteChildren,
+)
 
 interface AdminOrdersRouteChildren {
   AdminOrdersIdRoute: typeof AdminOrdersIdRoute
@@ -759,6 +848,7 @@ const AdminProductsRouteWithChildren = AdminProductsRoute._addFileChildren(
 interface AdminRouteChildren {
   AdminActivityRoute: typeof AdminActivityRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
+  AdminHeroRoute: typeof AdminHeroRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
   AdminMailPreviewRoute: typeof AdminMailPreviewRoute
   AdminNotificationsRoute: typeof AdminNotificationsRoute
@@ -775,6 +865,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminActivityRoute: AdminActivityRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
+  AdminHeroRoute: AdminHeroRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
   AdminMailPreviewRoute: AdminMailPreviewRoute,
   AdminNotificationsRoute: AdminNotificationsRoute,
@@ -830,6 +921,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductIdRoute: ProductIdRoute,
   ApiAdminSplatRoute: ApiAdminSplatRoute,
   ApiCatalogImageSkuRoute: ApiCatalogImageSkuRoute,
+  ApiHeroImageIdRoute: ApiHeroImageIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

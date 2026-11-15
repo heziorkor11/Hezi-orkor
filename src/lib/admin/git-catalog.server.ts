@@ -73,7 +73,7 @@ export async function commitPublicFile(opts: {
   return true;
 }
 
-const ADMIN_IMAGE_PATH = /^public\/catalog\/admin-images\/HZ-[A-Z]+-\d{5}-[a-f0-9]{8}\.(webp|jpg|jpeg|png)$/;
+const ADMIN_IMAGE_PATH = /^public\/catalog\/admin-images\/(?:HZ-[A-Z]+-\d{5}|hero-[a-z0-9_-]{1,40})-[a-f0-9]{8}\.(webp|jpg|jpeg|png)$/;
 
 export function isAllowedPublicBinaryPath(path: string): boolean {
   return ADMIN_IMAGE_PATH.test(path);

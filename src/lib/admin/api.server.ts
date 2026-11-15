@@ -14,6 +14,9 @@ import { brand } from "@/lib/brand";
 import type { ActivityEntry, AdminRole, OrderEvent, SafeUser, StoredOrder, TagDef } from "./types";
 import { getTagLibrary } from "@/lib/product-tags";
 import { isTestOrder } from "./test-order";
+import { heroMasterGuard } from "./home-hero-access";
+import { listOrDefaults, mergeHeroSlides, newHeroSlideId, normalizeHeroSlide } from "./home-hero-admin";
+import { defaultHomeHeroSlides, type HomeHeroSlide } from "@/lib/home-hero";
 import { isValidEmail } from "./notification-settings";
 
 function json(data: unknown, status = 200, extra?: HeadersInit) {
@@ -91,6 +94,22 @@ export async function adminApi(req: Request): Promise<Response> {
     const file = await loadImageBytesForSku(sku);
     if (!file) return json({ error: "אין תמונה" }, 404);
     return new Response(file.bytes, {
+      status: 200,
+      headers: {
+        "Content-Type": file.mime,
+        "Cache-Control": "public, max-age=3600",
+        "X-Robots-Tag": "noindex, nofollow",
+      },
+    });
+  }
+
+  const heroImage = path.match(/^\/api\/hero-image\/([^/]+)$/);
+  if (heroImage && method === "GET") {
+    const id = decodeURIComponent(heroImage[1]);
+    const { loadHeroImageBytes } = await import("./product-image.server");
+    const file = await loadHeroImageBytes(id);
+    if (!file) return json({ error: "אין תמונה" }, 404);
+    return new Response(new Uint8Array(file.bytes), {
       status: 200,
       headers: {
         "Content-Type": file.mime,
@@ -619,6 +638,108 @@ export async function adminApi(req: Request): Promise<Response> {
     return json({ ok: true, tags: library.tags, deals: deals.skus });
   }
 
+
+  if (path === "/api/admin/hero" && method === "GET") {
+    const u = await requireUser(req);
+    if (u instanceof Response) return u;
+    const guard = heroMasterGuard(u.role);
+    if (!guard.ok) return json({ error: guard.error }, guard.status);
+    const file = await readCatalogFile<{ slides?: HomeHeroSlide[] }>("public/catalog/home-hero-overrides.json", { slides: [] });
+    return json({ slides: listOrDefaults(file.slides) });
+  }
+
+  if (path === "/api/admin/hero" && method === "POST") {
+    const u = await requireMaster(req);
+    if (u instanceof Response) return u;
+    const file = await readCatalogFile<{ version?: number; description?: string; slides?: HomeHeroSlide[] }>(
+      "public/catalog/home-hero-overrides.json",
+      { version: 1, slides: [] },
+    );
+    const existing = listOrDefaults(file.slides);
+    const body = await bodyOf<{ slides?: unknown[]; add?: unknown; update?: unknown }>(req);
+    let next = existing;
+    if (Array.isArray(body.slides)) {
+      const incoming = body.slides
+        .map((raw) => normalizeHeroSlide(raw, existing.find((s) => s.id === (raw as { id?: string })?.id)))
+        .filter((s): s is HomeHeroSlide => Boolean(s));
+      next = mergeHeroSlides(existing, incoming);
+    } else if (body.add) {
+      const created = normalizeHeroSlide({ ...(typeof body.add === "object" ? body.add : {}), id: newHeroSlideId() });
+      if (!created) return json({ error: "לא ניתן להוסיף שקופית" }, 400);
+      next = [...existing, created];
+    } else if (body.update && typeof body.update === "object") {
+      const raw = body.update as { id?: string };
+      const id = String(raw.id || "");
+      const idx = existing.findIndex((s) => s.id === id);
+      if (idx < 0) return json({ error: "השקופית לא נמצאה" }, 404);
+      const updated = normalizeHeroSlide(body.update, existing[idx]);
+      if (!updated) return json({ error: "לא ניתן לעדכן שקופית" }, 400);
+      next = existing.map((s, i) => (i === idx ? updated : s));
+    } else {
+      return json({ error: "חסרים נתונים" }, 400);
+    }
+    const data = {
+      version: 1 as const,
+      description:
+        "Home hero slides. Hidden slides stay listed and are not deleted. An empty slides list means the site uses the built-in default banners.",
+      slides: next,
+    };
+    await writeCatalogFile({
+      path: "public/catalog/home-hero-overrides.json",
+      data,
+      message: "chore(admin): home hero slides",
+    });
+    await logAndMaybeMail(u, { action: "עדכון באנר ראשי", target: "home-hero", before: { slides: existing }, after: { slides: next } });
+    return json({ ok: true, slides: next });
+  }
+
+  if (path === "/api/admin/hero/image" && method === "POST") {
+    const u = await requireMaster(req);
+    if (u instanceof Response) return u;
+    const payload = await bodyOf<{ slideId?: string; imageBase64?: string; mimeType?: string }>(req);
+    const slideId = (payload.slideId || "").trim();
+    if (!slideId) return json({ error: "חסר מזהה שקופית" }, 400);
+    if (!payload.imageBase64) return json({ error: "חסרה תמונה" }, 400);
+    let bytes: Buffer;
+    try {
+      bytes = Buffer.from(payload.imageBase64, "base64");
+    } catch {
+      return json({ error: "תמונה לא תקינה" }, 400);
+    }
+    try {
+      const { saveHeroImage } = await import("./product-image.server");
+      const saved = await saveHeroImage({ slideId, bytes, mime: payload.mimeType || "image/jpeg" });
+      const file = await readCatalogFile<{ version?: number; description?: string; slides?: HomeHeroSlide[] }>(
+        "public/catalog/home-hero-overrides.json",
+        { version: 1, slides: [] },
+      );
+      const existing = listOrDefaults(file.slides);
+      const idx = existing.findIndex((s) => s.id === slideId);
+      const base = idx >= 0 ? existing[idx] : { ...defaultHomeHeroSlides[0]!, id: slideId, title: "שקופית חדשה" };
+      const updated = { ...base, imageUrl: saved.publicUrl, imagePath: saved.path, imageKey: undefined as string | undefined };
+      const next = idx >= 0 ? existing.map((s, i) => (i === idx ? updated : s)) : [...existing, updated];
+      await writeCatalogFile({
+        path: "public/catalog/home-hero-overrides.json",
+        data: {
+          version: 1,
+          description:
+            "Home hero slides. Hidden slides stay listed and are not deleted. An empty slides list means the site uses the built-in default banners.",
+          slides: next,
+        },
+        message: `chore(admin): home hero image ${slideId}`,
+      });
+      await logAndMaybeMail(u, {
+        action: "החלפת תמונת באנר",
+        target: `home-hero:${slideId}`,
+        before: { image: idx >= 0 ? existing[idx]?.imageUrl || existing[idx]?.imageKey || null : null },
+        after: { image: saved.publicUrl },
+      });
+      return json({ ok: true, image: saved.publicUrl, imagePath: saved.path, slides: next });
+    } catch (err) {
+      return json({ error: err instanceof Error ? err.message : "לא ניתן לשמור תמונה" }, 400);
+    }
+  }
+
   if (path === "/api/admin/activity" && method === "GET") {
     const u = await requireUser(req);
     if (u instanceof Response) return u;
@@ -979,6 +1100,20 @@ export async function revertActivity(id: string, by: string): Promise<{ ok: bool
       const bySku = { ...(file.bySku || {}) };
       bySku[sku] = { category: before.category, reason: "בוטל מדאשבורד הניהול" };
       await writeCatalogFile({ path: "public/catalog/display-category-overrides.json", data: { ...file, bySku }, message: `chore(admin): revert category ${sku}` });
+    }
+  }
+  if (entry.target === "home-hero" && entry.before && typeof entry.before === "object" && "slides" in (entry.before as object)) {
+    const prev = (entry.before as { slides?: HomeHeroSlide[] }).slides;
+    if (Array.isArray(prev)) {
+      const file = await readCatalogFile<{ version?: number; description?: string; slides?: HomeHeroSlide[] }>(
+        "public/catalog/home-hero-overrides.json",
+        { version: 1, slides: [] },
+      );
+      await writeCatalogFile({
+        path: "public/catalog/home-hero-overrides.json",
+        data: { ...file, version: 1, slides: prev },
+        message: "chore(admin): revert home hero slides",
+      });
     }
   }
   entry.reverted = true;
