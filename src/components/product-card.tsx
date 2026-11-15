@@ -161,6 +161,9 @@ export function ProductCard({
           )}
           <a
             href={waLink(quoteMessage(product))}
+            onClick={(e) => {
+              e.currentTarget.href = waLink(quoteMessage(product));
+            }}
             target="_blank"
             rel="noreferrer"
             className={

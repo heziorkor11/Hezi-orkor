@@ -200,6 +200,9 @@ function ProductPage() {
               target="_blank"
               rel="noreferrer"
               href={waLink(quoteMessage(product))}
+              onClick={(e) => {
+                e.currentTarget.href = waLink(quoteMessage(product));
+              }}
             >
               <WhatsAppIcon className="size-4" />
               {isWorkshopPackSku(product.sku) ? "בירור מחיר בוואטסאפ" : "לבירור מלאי"}

@@ -1,6 +1,6 @@
 import { isValidIlPlate, normalizeIlPlate } from "./order-quote";
 import type { PlateLookupResult } from "./mot-plate-lookup";
-import { writeSavedVehicle } from "./order-form";
+import { useOrderForm, writeSavedVehicle } from "./order-form";
 import { isMappedPlateResult, writePlateSession } from "./plate-session";
 import type { ListingSearch } from "./catalog-types";
 
@@ -38,7 +38,18 @@ export async function applyPlateLookup(opts: {
   writePlateSession({ plate, result: data, at: Date.now() });
   if (isMappedPlateResult(data) && data.ok && data.found) {
     const mapping = data.vehicle.mapping;
-    writeSavedVehicle({ make: mapping.make, model: mapping.model, year: mapping.year || "" });
+    writeSavedVehicle({
+      plate,
+      make: mapping.make,
+      model: mapping.model,
+      year: mapping.year || "",
+    });
+    useOrderForm.getState().setMany({
+      plate,
+      make: mapping.make,
+      model: mapping.model,
+      year: mapping.year || "",
+    });
     const current = opts.path === "/results" ? opts.search || {} : {};
     await opts.navigate({
       to: "/results",
@@ -55,7 +66,10 @@ export async function applyPlateLookup(opts: {
   }
   // Unmapped / not found / error: go to results without a vehicle filter so we
   // never list unrelated parts. The results page hides the catalog grid while
-  // a non-mapped plate session is active.
+  // a non-mapped plate session is active. Still persist the typed plate so it
+  // can be included in a WhatsApp quote or the cart.
+  writeSavedVehicle({ plate });
+  useOrderForm.getState().setMany({ plate });
   const current = opts.path === "/results" ? opts.search || {} : {};
   await opts.navigate({
     to: "/results",

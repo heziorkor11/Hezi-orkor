@@ -1,5 +1,6 @@
 import type { StoredOrder } from "./types.ts";
 import { mailSubjectPrefix } from "./notification-settings.ts";
+import { formatVehiclePlateLine } from "../order-quote.ts";
 
 function esc(s: string) {
   return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!));
@@ -44,6 +45,20 @@ function linesTable(order: StoredOrder): string {
     <p style="margin:12px 0 0;font-weight:800">סה״כ: ${esc(formatIls(order.total || 0))}</p>`;
 }
 
+function vehiclePlateBits(c: StoredOrder["customer"]) {
+  return { plate: c.plate, make: c.make, model: c.model, year: c.year };
+}
+
+function plateHtml(c: StoredOrder["customer"]): string {
+  const line = formatVehiclePlateLine(vehiclePlateBits(c));
+  return line ? `<b>${esc(line)}</b><br>` : "";
+}
+
+function plateTextLine(c: StoredOrder["customer"]): string {
+  const line = formatVehiclePlateLine(vehiclePlateBits(c));
+  return line ? `\n${line}` : "";
+}
+
 export function buildNewOrderMasterMail(order: StoredOrder, orderUrl: string): { subject: string; html: string; text: string } {
   const c = order.customer;
   const subject = `${mailSubjectPrefix()}הזמנה חדשה ${order.id}`;
@@ -54,12 +69,13 @@ export function buildNewOrderMasterMail(order: StoredOrder, orderUrl: string): {
     <p style="margin:0 0 12px"><b>לקוח:</b> ${esc(c.name)}<br>
     <b>טלפון:</b> <span dir="ltr">${esc(c.phone || "—")}</span><br>
     ${c.email ? `<b>דוא״ל:</b> <span dir="ltr">${esc(c.email)}</span><br>` : ""}
+    ${plateHtml(c)}
     <b>עיר:</b> ${esc(c.city || "—")}<br>
     <b>משלוח/איסוף:</b> ${esc(deliveryHe(order.delivery))}</p>
     ${linesTable(order)}
     <p style="margin:16px 0 0"><a href="${esc(orderUrl)}" style="display:inline-block;background:#e23b12;color:#fff;padding:10px 16px;border-radius:12px;font-weight:700;text-decoration:none">פתח בלוח הניהול</a></p>
   `);
-  const text = `הזמנה חדשה ${order.id}\n${c.name} · ${c.phone}\nסה״כ ${order.total}\n${orderUrl}`;
+  const text = `הזמנה חדשה ${order.id}\n${c.name} · ${c.phone}${plateTextLine(c)}\nסה״כ ${order.total}\n${orderUrl}`;
   return { subject, html, text };
 }
 
@@ -71,11 +87,12 @@ export function buildCustomerOrderMail(order: StoredOrder): { subject: string; h
     <p style="margin:0 0 12px">שלום ${esc(c.name || "")}, תודה. ההזמנה נקלטה אצלנו. מצורף קובץ PDF עם הפרטים.</p>
     <p style="margin:0 0 12px">מספר הזמנה: <span dir="ltr">${esc(order.id)}</span><br>
     תאריך: ${esc(whenHe(order.createdAt))}<br>
+    ${plateHtml(c)}
     משלוח/איסוף: ${esc(deliveryHe(order.delivery))}</p>
     ${linesTable(order)}
     <p style="margin:16px 0 0;font-size:13px;color:#555">נחזור אליכם בוואטסאפ או בטלפון לאישור סופי. לשאלות: <span dir="ltr">04-9920111</span>.</p>
   `);
-  const text = `קיבלנו את ההזמנה ${order.id}. מצורף PDF. סה״כ ${order.total || 0}.`;
+  const text = `קיבלנו את ההזמנה ${order.id}. מצורף PDF. סה״כ ${order.total || 0}.${plateTextLine(c)}`;
   return { subject, html, text };
 }
 

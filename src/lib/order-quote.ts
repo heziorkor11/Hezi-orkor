@@ -59,6 +59,32 @@ export function formatIlPlate(raw: string) {
   return raw.trim();
 }
 
+export type VehiclePlateBits = {
+  plate?: string;
+  make?: string;
+  model?: string;
+  year?: string;
+};
+
+/** True when a license plate with at least one digit is present. */
+export function hasOrderPlate(v: { plate?: string }): boolean {
+  return Boolean(normalizeIlPlate(v.plate || ""));
+}
+
+/**
+ * Combined plate + vehicle line used in WhatsApp, email, PDF and the cart.
+ * Returns null when no plate is present so callers can keep existing wording.
+ */
+export function formatVehiclePlateLine(v: VehiclePlateBits): string | null {
+  if (!hasOrderPlate(v)) return null;
+  const plate = formatIlPlate(v.plate || "") || String(v.plate || "").trim();
+  const vehicle = [v.make, v.model, v.year]
+    .map((s) => String(s || "").trim())
+    .filter(Boolean)
+    .join(" ");
+  return vehicle ? `מספר רכב: ${plate} · ${vehicle}` : `מספר רכב: ${plate}`;
+}
+
 export function orderRefNow(d = new Date()) {
   const parts = new Intl.DateTimeFormat("en-GB", {
     timeZone: "Asia/Jerusalem",
@@ -139,6 +165,7 @@ function displayName(name: string) {
 }
 
 function customerHeader(customer: OrderCustomer, now: Date) {
+  const plateLine = formatVehiclePlateLine(customer);
   return [
     "*הזמנה / בקשת הצעת מחיר מהאתר*",
     `מס׳ הזמנה: ${orderRefNow(now)}`,
@@ -153,8 +180,12 @@ function customerHeader(customer: OrderCustomer, now: Date) {
     `הערות: ${customer.notes.trim() || "—"}`,
     "",
     "*רכב*",
-    `מס׳ רישוי: ${formatIlPlate(customer.plate) || customer.plate.trim()}`,
-    `יצרן/דגם/שנה: ${[customer.make, customer.model, customer.year].filter(Boolean).join(" ") || "—"}`,
+    ...(plateLine
+      ? [plateLine]
+      : [
+          `מס׳ רישוי: ${formatIlPlate(customer.plate) || customer.plate.trim()}`,
+          `יצרן/דגם/שנה: ${[customer.make, customer.model, customer.year].filter(Boolean).join(" ") || "—"}`,
+        ]),
     `מנוע: ${customer.engine.trim() || "—"}`,
     "",
     "*פריטים*",
@@ -246,9 +277,13 @@ export function buildCartOrderMessageSummary(
   ].join("\n");
 }
 
-export function buildQuickQuoteMessage(product: { sku: string; name: string; oe?: string }) {
+export function buildQuickQuoteMessage(
+  product: { sku: string; name: string; oe?: string },
+  vehicle?: VehiclePlateBits,
+) {
   const oe = oeListForMessage(product.oe, 5);
   const brands = brandMfgPairs(product.oe, 2);
+  const plateLine = formatVehiclePlateLine(vehicle || {});
   const lines = [
     `שלום, אשמח להצעת מחיר ולבירור מלאי עבור:`,
     displayName(product.name),
@@ -260,7 +295,7 @@ export function buildQuickQuoteMessage(product: { sku: string; name: string; oe?
     `מחיר יח׳: ${unitPriceLabel(product.sku)}`,
     `קישור: ${productAbsoluteUrl(product.sku)}`,
     "",
-    "אשמח שתשלחו גם מספר רישוי של הרכב לאישור התאמה.",
+    plateLine || "אשמח שתשלחו גם מספר רישוי של הרכב לאישור התאמה.",
   );
   return lines.join("\n");
 }
@@ -304,13 +339,17 @@ function composeShareText(
     `הזמנה ${orderRef}`,
     `שם: ${customer.name.trim()}`,
     `טלפון: ${customer.phone.trim()}`,
-    `מס׳ רישוי: ${formatIlPlate(customer.plate) || customer.plate.trim()}`,
+    formatVehiclePlateLine(customer) ||
+      `מס׳ רישוי: ${formatIlPlate(customer.plate) || customer.plate.trim()}`,
     `משלוח: ${deliveryLabel(customer.delivery, true)}`,
   ];
   if (customer.city.trim()) rows.push(`עיר: ${customer.city.trim()}`);
   if (opts.includeVehicle) {
-    const veh = [customer.make, customer.model, customer.year].filter(Boolean).join(" ");
-    if (veh) rows.push(`רכב: ${veh}`);
+    const plateLine = formatVehiclePlateLine(customer);
+    if (!plateLine) {
+      const veh = [customer.make, customer.model, customer.year].filter(Boolean).join(" ");
+      if (veh) rows.push(`רכב: ${veh}`);
+    }
     if (customer.engine.trim()) rows.push(`מנוע: ${customer.engine.trim()}`);
   }
   if (opts.includeNotes && customer.notes.trim()) rows.push(`הערות: ${customer.notes.trim()}`);

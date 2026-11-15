@@ -18,7 +18,8 @@ import { brand } from "@/lib/brand";
 import { FLUID_KIND_LABELS, type FluidKind } from "@/lib/fluid-classify";
 import { pageDescription, pageTitle } from "@/lib/seo";
 import { bootAdminOverlay } from "@/lib/admin/boot-overlay";
-import { clearPlateSession, isMappedPlateResult, readPlateSession, type StoredPlateVehicle } from "@/lib/plate-session";
+import { isMappedPlateResult, readPlateSession, type StoredPlateVehicle } from "@/lib/plate-session";
+import { clearIdentifiedVehicle } from "@/lib/order-form";
 import { useEffect, useState } from "react";
 
 export type ResultsSearch = ListingSearch;
@@ -257,7 +258,7 @@ function usePlateSession(state: ResultsSearch) {
     entry,
     showCatalog: allowCatalog,
     clear: () => {
-      clearPlateSession();
+      clearIdentifiedVehicle();
       setEntry(null);
     },
   };
