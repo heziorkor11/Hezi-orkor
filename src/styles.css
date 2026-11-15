@@ -406,3 +406,98 @@ details summary::-webkit-details-marker {
   pointer-events: none;
   box-shadow: 0 2px 8px rgb(0 0 0 / 0.18);
 }
+
+/* Israeli license-plate input (yellow plate, blue IL band). */
+.il-plate {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-height: 3.25rem;
+  overflow: hidden;
+  border: 2px solid #1a1a1a;
+  border-radius: 10px;
+  background: #f5d000;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+.il-plate-sm {
+  width: auto;
+  min-height: 2.5rem;
+  flex: 0 0 auto;
+}
+.il-plate-band {
+  display: flex;
+  width: 1.85rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.15rem;
+  padding: 0.3rem 0 0.25rem;
+  background: #1d4f91;
+  color: #fff;
+}
+.il-plate-sm .il-plate-band {
+  width: 1.4rem;
+}
+.il-plate-flag {
+  width: 0.95rem;
+  height: 0.7rem;
+  border-radius: 1px;
+  background:
+    linear-gradient(#fff, #fff) 0 20%/100% 14% no-repeat,
+    linear-gradient(#fff, #fff) 0 66%/100% 14% no-repeat,
+    #0038b8;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+  position: relative;
+}
+.il-plate-flag::after {
+  content: "";
+  position: absolute;
+  inset: 28% 32%;
+  background: #fff;
+  clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+.il-plate-il {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+.il-plate-input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: #111;
+  text-align: center;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+  outline: none;
+}
+.il-plate-input::placeholder {
+  color: rgb(17 17 17 / 0.38);
+  letter-spacing: 0.06em;
+}
+.il-plate-input:focus {
+  outline: none;
+}
+.il-plate:focus-within {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 0 0 3px color-mix(in oklab, var(--color-accent) 45%, transparent);
+}
+.il-plate-readout {
+  display: grid;
+  place-items: center;
+  padding: 0 0.7rem 0 0.4rem;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+.il-plate-sm .il-plate-input {
+  font-size: 1.05rem;
+}
+@media (min-width: 768px) {
+  .il-plate:not(.il-plate-sm) .il-plate-input {
+    font-size: 1.65rem;
+  }
+}

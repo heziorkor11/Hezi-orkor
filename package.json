@@ -16,7 +16,7 @@
     "preview:stop": "node scripts/preview.mjs stop",
     "typecheck": "tsc --noEmit",
     "check:auth": "node scripts/check-auth-invariant.mjs",
-    "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --test src/lib/app-data/app-data.test.ts src/lib/auth/gate-identity.test.ts src/lib/tile-facets.test.ts src/lib/search-intent.test.ts src/lib/focused-search.test.ts src/lib/model-names.test.ts src/lib/name-expand.test.ts src/lib/name-overrides.test.ts src/lib/prices.test.ts src/lib/order-quote.test.ts src/lib/admin/admin.test.ts src/lib/admin/test-order.test.ts src/lib/admin/notification-stock.test.ts src/lib/pol-makes.test.ts src/lib/product-image-stability.test.ts",
+    "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --test src/lib/app-data/app-data.test.ts src/lib/auth/gate-identity.test.ts src/lib/tile-facets.test.ts src/lib/search-intent.test.ts src/lib/focused-search.test.ts src/lib/model-names.test.ts src/lib/name-expand.test.ts src/lib/name-overrides.test.ts src/lib/prices.test.ts src/lib/order-quote.test.ts src/lib/admin/admin.test.ts src/lib/admin/test-order.test.ts src/lib/admin/notification-stock.test.ts src/lib/pol-makes.test.ts src/lib/product-image-stability.test.ts src/lib/mot-map-vehicle.test.ts src/lib/mot-ckan.test.ts src/lib/mot-plate-lookup.test.ts",
     "check:search": "node --experimental-strip-types --test src/lib/search-intent.test.ts src/lib/focused-search.test.ts",
     "lint": "eslint .",
     "format": "prettier --write .",

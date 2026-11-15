@@ -33,6 +33,7 @@ import { Route as AdminTagsRouteImport } from './routes/admin.tags'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as ApiCatalogOverlayRouteImport } from './routes/api.catalog-overlay'
 import { Route as ApiOrdersRouteImport } from './routes/api.orders'
+import { Route as ApiVehicleByPlateRouteImport } from './routes/api.vehicle-by-plate'
 import { Route as LegalIndexRouteImport } from './routes/legal.index'
 import { Route as LegalSlugRouteImport } from './routes/legal.$slug'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
@@ -165,6 +166,11 @@ const ApiOrdersRoute = ApiOrdersRouteImport.update({
   path: '/api/orders',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiVehicleByPlateRoute = ApiVehicleByPlateRouteImport.update({
+  id: '/api/vehicle-by-plate',
+  path: '/api/vehicle-by-plate',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LegalIndexRoute = LegalIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -245,6 +251,7 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AdminUsersRoute
   '/api/catalog-overlay': typeof ApiCatalogOverlayRoute
   '/api/orders': typeof ApiOrdersRouteWithChildren
+  '/api/vehicle-by-plate': typeof ApiVehicleByPlateRoute
   '/legal/$slug': typeof LegalSlugRoute
   '/product/$id': typeof ProductIdRoute
   '/admin/': typeof AdminIndexRoute
@@ -278,6 +285,7 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AdminUsersRoute
   '/api/catalog-overlay': typeof ApiCatalogOverlayRoute
   '/api/orders': typeof ApiOrdersRouteWithChildren
+  '/api/vehicle-by-plate': typeof ApiVehicleByPlateRoute
   '/legal/$slug': typeof LegalSlugRoute
   '/product/$id': typeof ProductIdRoute
   '/admin': typeof AdminIndexRoute
@@ -316,6 +324,7 @@ export interface FileRoutesById {
   '/admin/users': typeof AdminUsersRoute
   '/api/catalog-overlay': typeof ApiCatalogOverlayRoute
   '/api/orders': typeof ApiOrdersRouteWithChildren
+  '/api/vehicle-by-plate': typeof ApiVehicleByPlateRoute
   '/legal/$slug': typeof LegalSlugRoute
   '/product/$id': typeof ProductIdRoute
   '/admin/': typeof AdminIndexRoute
@@ -355,6 +364,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/api/catalog-overlay'
     | '/api/orders'
+    | '/api/vehicle-by-plate'
     | '/legal/$slug'
     | '/product/$id'
     | '/admin/'
@@ -388,6 +398,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/api/catalog-overlay'
     | '/api/orders'
+    | '/api/vehicle-by-plate'
     | '/legal/$slug'
     | '/product/$id'
     | '/admin'
@@ -425,6 +436,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/api/catalog-overlay'
     | '/api/orders'
+    | '/api/vehicle-by-plate'
     | '/legal/$slug'
     | '/product/$id'
     | '/admin/'
@@ -451,6 +463,7 @@ export interface RootRouteChildren {
   ResultsRoute: typeof ResultsRoute
   ApiCatalogOverlayRoute: typeof ApiCatalogOverlayRoute
   ApiOrdersRoute: typeof ApiOrdersRouteWithChildren
+  ApiVehicleByPlateRoute: typeof ApiVehicleByPlateRoute
   ProductIdRoute: typeof ProductIdRoute
   ApiAdminSplatRoute: typeof ApiAdminSplatRoute
   ApiCatalogImageSkuRoute: typeof ApiCatalogImageSkuRoute
@@ -624,6 +637,13 @@ declare module '@tanstack/react-router' {
       path: '/api/orders'
       fullPath: '/api/orders'
       preLoaderRoute: typeof ApiOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/vehicle-by-plate': {
+      id: '/api/vehicle-by-plate'
+      path: '/api/vehicle-by-plate'
+      fullPath: '/api/vehicle-by-plate'
+      preLoaderRoute: typeof ApiVehicleByPlateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal/': {
@@ -806,6 +826,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResultsRoute: ResultsRoute,
   ApiCatalogOverlayRoute: ApiCatalogOverlayRoute,
   ApiOrdersRoute: ApiOrdersRouteWithChildren,
+  ApiVehicleByPlateRoute: ApiVehicleByPlateRoute,
   ProductIdRoute: ProductIdRoute,
   ApiAdminSplatRoute: ApiAdminSplatRoute,
   ApiCatalogImageSkuRoute: ApiCatalogImageSkuRoute,
