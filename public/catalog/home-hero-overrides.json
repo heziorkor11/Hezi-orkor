@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "description": "Home hero slides. Hidden slides stay listed and are not deleted. An empty slides list means the site uses the built-in default banners.",
+  "slides": []
+}

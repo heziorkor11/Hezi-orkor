@@ -1,4 +1,5 @@
 import type { PublicOverlay, TagDef } from "./types";
+import type { HomeHeroSlide } from "@/lib/home-hero";
 import type { AddedProduct } from "./added-product";
 
 let runtime: PublicOverlay = {};
@@ -27,6 +28,10 @@ export function overlayTagLibrary(fallback: TagDef[]): TagDef[] {
 
 export function overlayHomeDeals(fallback: readonly string[]): string[] {
   return runtime.homeDeals?.length ? runtime.homeDeals : [...fallback];
+}
+
+export function overlayHomeHero(fallback: readonly HomeHeroSlide[]): HomeHeroSlide[] {
+  return runtime.homeHeroSlides?.length ? runtime.homeHeroSlides : [...fallback];
 }
 
 export function overlayPrice(sku: string): number | undefined {

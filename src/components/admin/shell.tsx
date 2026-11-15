@@ -29,6 +29,7 @@ const MASTER_NAV = [
   { to: "/admin/summary", label: "סיכום", ico: "▦" },
   { to: "/admin/categories", label: "קטגוריות", ico: "☰", master: true },
   { to: "/admin/tags", label: "תגים ומבצעים", ico: "★", master: true },
+  { to: "/admin/hero", label: "באנר ראשי", ico: "▭", master: true },
   { to: "/admin/activity", label: "יומן פעילות", ico: "⌚" },
   { to: "/admin/users", label: "משתמשים והרשאות", ico: "👤", master: true },
   { to: "/admin/mail-preview", label: "דוא״ל והתראות", ico: "✉", master: true },
@@ -138,6 +139,7 @@ export function AdminGate({ children }: { children?: ReactNode }) {
     "/admin/products": "מוצרים",
     "/admin/categories": "קטגוריות",
     "/admin/tags": "תגים ומבצעים",
+    "/admin/hero": "באנר ראשי",
     "/admin/activity": "יומן פעילות",
     "/admin/users": "משתמשים והרשאות",
     "/admin/mail-preview": "דוא״ל והתראות",
@@ -147,7 +149,7 @@ export function AdminGate({ children }: { children?: ReactNode }) {
   };
   const title =
     titleMap[pathname] ||
-    (pathname === "/admin/products/new" ? "מוצר חדש" : pathname.startsWith("/admin/products/") ? "עריכת מוצר" : pathname.startsWith("/admin/orders/") ? "פרטי הזמנה" : "ניהול");
+    (pathname === "/admin/products/new" ? "מוצר חדש" : pathname.startsWith("/admin/products/") ? "עריכת מוצר" : pathname.startsWith("/admin/orders/") ? "פרטי הזמנה" : pathname.startsWith("/admin/hero/") ? "עריכת שקופית" : "ניהול");
 
   return (
     <AdminCtx.Provider value={{ user, mode, newOrders, lowStockCount, refreshBadge, logout }}>

@@ -159,6 +159,9 @@ function HomePage() {
               <Link from="/" className="btn btn-ghost" to="/admin/tags">
                 תגים ומבצעי החודש
               </Link>
+              <Link from="/" className="btn btn-ghost" to="/admin/hero">
+                באנר ראשי
+              </Link>
               <Link from="/" className="btn btn-ghost" to="/admin/users">
                 הוספת עובד
               </Link>

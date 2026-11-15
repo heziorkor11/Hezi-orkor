@@ -1,3 +1,5 @@
+import type { HomeHeroSlide } from "@/lib/home-hero";
+
 export type AdminRole = "master" | "worker";
 
 export type TagDef = { id: string; label: string; color: string };
@@ -5,6 +7,7 @@ export type TagDef = { id: string; label: string; color: string };
 export type ProductTagsFile = { version: 1; description?: string; bySku: Record<string, string[]> };
 export type TagLibraryFile = { version: 1; tags: TagDef[] };
 export type HomeDealsFile = { version: 1; description?: string; skus: string[] };
+export type HomeHeroFile = { version: 1; description?: string; slides: HomeHeroSlide[] };
 export type ActivityFile = { version: 1; description?: string; entries: ActivityEntry[] };
 
 export type ActivityEntry = {
@@ -110,6 +113,7 @@ export type PublicOverlay = {
   tagLibrary?: TagDef[];
   productTags?: Record<string, string[]>;
   homeDeals?: string[];
+  homeHeroSlides?: HomeHeroSlide[];
   additions?: Record<string, import("./added-product").AddedProduct>;
   imageBySku?: Record<string, string>;
   stockBySku?: Record<string, string>;
@@ -125,6 +129,7 @@ export const PUBLIC_GIT_PATHS = [
   "public/catalog/tag-library.json",
   "public/catalog/product-tags.json",
   "public/catalog/home-deals-overrides.json",
+  "public/catalog/home-hero-overrides.json",
   "public/catalog/admin-activity.json",
   "public/catalog/category-label-overrides.json",
   "public/catalog/category-order-overrides.json",
