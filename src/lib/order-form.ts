@@ -70,6 +70,7 @@ export const useOrderForm = create<OrderFormState>()(
       partialize: (s) => ({
         name: s.name,
         phone: s.phone,
+        email: s.email,
         city: s.city,
         delivery: s.delivery,
         plate: s.plate,

@@ -1,6 +1,7 @@
 import { pickDisplayedFitment } from "@/lib/catalog-runtime";
 import { ProductImage } from "@/components/product-image";
 import { ProductTagBadges } from "@/components/product-tag-badges";
+import { OutOfStockBadge } from "@/components/out-of-stock-badge";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { DemoBanner } from "@/components/demo-banner";
@@ -88,6 +89,7 @@ function ProductPage() {
           className="relative grid aspect-[4/5] max-h-[300px] w-full place-items-center rounded-lg border border-line bg-white"
         >
           <ProductTagBadges sku={product.sku} />
+          <OutOfStockBadge sku={product.sku} />
           <ProductImage
             src={image}
             alt={product.name}

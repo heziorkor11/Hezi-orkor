@@ -9,6 +9,8 @@ export const PRIVATE_GIT_PATHS = [
   "admin/preview/private-users.json",
   "admin/activity.json",
   "admin/preview/activity.json",
+  "admin/notification-settings.json",
+  "admin/preview/notification-settings.json",
 ] as const;
 
 export type PrivateGitPath = (typeof PRIVATE_GIT_PATHS)[number];
@@ -48,6 +50,22 @@ export function assertPrivateGitPath(path: string): asserts path is string {
   if (!isPrivateGitPath(path)) {
     throw new Error("Refusing to use a non-allowlisted path in the private data repo");
   }
+}
+
+
+/** Production settings live at admin/notification-settings.json. Preview/local use a separate path. */
+export function privateNotificationSettingsPath(): string {
+  const override = (process.env.ADMIN_DATA_NOTIFICATION_SETTINGS_PATH || "").trim();
+  if (override) {
+    assertPrivateGitPath(override);
+    if (!override.endsWith("notification-settings.json")) {
+      throw new Error("ADMIN_DATA_NOTIFICATION_SETTINGS_PATH must be a notification-settings.json file");
+    }
+    return override;
+  }
+  return process.env.VERCEL_ENV === "production"
+    ? "admin/notification-settings.json"
+    : "admin/preview/notification-settings.json";
 }
 
 /** Production activity lives at admin/activity.json. Preview/local use a separate path. */

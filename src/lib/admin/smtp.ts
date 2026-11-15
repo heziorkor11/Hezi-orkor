@@ -1,5 +1,6 @@
 import { connect as tlsConnect, type TLSSocket } from "node:tls";
 import { connect as netConnect, type Socket } from "node:net";
+import { randomBytes } from "node:crypto";
 
 export type SmtpTransport = { port: 465 | 587; mode: "implicit-tls" | "starttls" };
 
@@ -58,7 +59,73 @@ function isTlsFailureMessage(msg: string): boolean {
   );
 }
 
-type MailPayload = { to: string; subject: string; html: string; text: string };
+export type MailAttachment = {
+  filename: string;
+  contentType: string;
+  bytes: Buffer;
+};
+
+export type MailPayload = {
+  to: string;
+  subject: string;
+  html: string;
+  text: string;
+  attachments?: MailAttachment[];
+};
+
+export function sanitizeAttachmentFilename(name: string): string {
+  const base = String(name || "").split(/[/\\]/).pop() || "attachment";
+  const cleaned = base.replace(/[^A-Za-z0-9._-]/g, "_").replace(/^\.+/, "").slice(0, 80);
+  return cleaned || "attachment";
+}
+
+function foldBase64(b64: string): string {
+  return b64.replace(/(.{76})/g, "$1\r\n");
+}
+
+function dotStuff(raw: string): string {
+  return raw.replace(/^\./gm, "..");
+}
+
+export function buildMimeMessage(opts: MailPayload, fromAddress: string, fromName = "חזי אורקור ניהול"): string {
+  const subject = `=?UTF-8?B?${Buffer.from(opts.subject).toString("base64")}?=`;
+  const headers =
+    `From: ${fromName} <${fromAddress}>\r\n` +
+    `To: ${opts.to}\r\n` +
+    `Subject: ${subject}\r\n` +
+    `MIME-Version: 1.0\r\n`;
+  const text = opts.text || "";
+  if (!opts.attachments?.length) {
+    return headers + `Content-Type: text/html; charset=UTF-8\r\n\r\n` + dotStuff(opts.html) + "\r\n.";
+  }
+  const mixed = `----=_Hezi_${randomBytes(12).toString("hex")}`;
+  const alt = `----=_HeziAlt_${randomBytes(8).toString("hex")}`;
+  let body =
+    `Content-Type: multipart/mixed; boundary="${mixed}"\r\n\r\n` +
+    `--${mixed}\r\n` +
+    `Content-Type: multipart/alternative; boundary="${alt}"\r\n\r\n` +
+    `--${alt}\r\n` +
+    `Content-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n` +
+    foldBase64(Buffer.from(text, "utf8").toString("base64")) +
+    `\r\n--${alt}\r\n` +
+    `Content-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n` +
+    foldBase64(Buffer.from(opts.html, "utf8").toString("base64")) +
+    `\r\n--${alt}--\r\n`;
+  for (const att of opts.attachments) {
+    const filename = sanitizeAttachmentFilename(att.filename);
+    const ctype = (att.contentType || "application/octet-stream").replace(/[^A-Za-z0-9./+-]/g, "");
+    body +=
+      `--${mixed}\r\n` +
+      `Content-Type: ${ctype}; name="${filename}"\r\n` +
+      `Content-Transfer-Encoding: base64\r\n` +
+      `Content-Disposition: attachment; filename="${filename}"\r\n\r\n` +
+      foldBase64(att.bytes.toString("base64")) +
+      `\r\n`;
+  }
+  body += `--${mixed}--\r\n.`;
+  return headers + body;
+}
+
 
 type SendWithTransport = (opts: MailPayload, transport: SmtpTransport) => Promise<void>;
 
@@ -257,14 +324,7 @@ async function sendAuthenticatedMessage(io: SmtpIo, opts: MailPayload) {
   await command(io, `MAIL FROM:<${user}>`, 250, "session");
   await command(io, `RCPT TO:<${opts.to}>`, 250, "session");
   await command(io, "DATA", 354, "session");
-  const subject = `=?UTF-8?B?${Buffer.from(opts.subject).toString("base64")}?=`;
-  const payload =
-    `From: חזי אורקור ניהול <${user}>\r\n` +
-    `To: ${opts.to}\r\n` +
-    `Subject: ${subject}\r\n` +
-    `MIME-Version: 1.0\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n` +
-    opts.html +
-    "\r\n.";
+  const payload = buildMimeMessage(opts, user);
   io.write(payload);
   await expectCode(io, 250, "session");
 }

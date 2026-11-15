@@ -23,9 +23,12 @@ import { Route as AdminActivityRouteImport } from './routes/admin.activity'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminMailPreviewRouteImport } from './routes/admin.mail-preview'
+import { Route as AdminNotificationsRouteImport } from './routes/admin.notifications'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminRevertRouteImport } from './routes/admin.revert'
+import { Route as AdminStockRouteImport } from './routes/admin.stock'
+import { Route as AdminSummaryRouteImport } from './routes/admin.summary'
 import { Route as AdminTagsRouteImport } from './routes/admin.tags'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as ApiCatalogOverlayRouteImport } from './routes/api.catalog-overlay'
@@ -112,6 +115,11 @@ const AdminMailPreviewRoute = AdminMailPreviewRouteImport.update({
   path: '/mail-preview',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminNotificationsRoute = AdminNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminOrdersRoute = AdminOrdersRouteImport.update({
   id: '/orders',
   path: '/orders',
@@ -125,6 +133,16 @@ const AdminProductsRoute = AdminProductsRouteImport.update({
 const AdminRevertRoute = AdminRevertRouteImport.update({
   id: '/revert',
   path: '/revert',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminStockRoute = AdminStockRouteImport.update({
+  id: '/stock',
+  path: '/stock',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSummaryRoute = AdminSummaryRouteImport.update({
+  id: '/summary',
+  path: '/summary',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminTagsRoute = AdminTagsRouteImport.update({
@@ -217,9 +235,12 @@ export interface FileRoutesByFullPath {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/mail-preview': typeof AdminMailPreviewRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/products': typeof AdminProductsRouteWithChildren
   '/admin/revert': typeof AdminRevertRoute
+  '/admin/stock': typeof AdminStockRoute
+  '/admin/summary': typeof AdminSummaryRoute
   '/admin/tags': typeof AdminTagsRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/catalog-overlay': typeof ApiCatalogOverlayRoute
@@ -249,7 +270,10 @@ export interface FileRoutesByTo {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/mail-preview': typeof AdminMailPreviewRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/revert': typeof AdminRevertRoute
+  '/admin/stock': typeof AdminStockRoute
+  '/admin/summary': typeof AdminSummaryRoute
   '/admin/tags': typeof AdminTagsRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/catalog-overlay': typeof ApiCatalogOverlayRoute
@@ -282,9 +306,12 @@ export interface FileRoutesById {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/mail-preview': typeof AdminMailPreviewRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/products': typeof AdminProductsRouteWithChildren
   '/admin/revert': typeof AdminRevertRoute
+  '/admin/stock': typeof AdminStockRoute
+  '/admin/summary': typeof AdminSummaryRoute
   '/admin/tags': typeof AdminTagsRoute
   '/admin/users': typeof AdminUsersRoute
   '/api/catalog-overlay': typeof ApiCatalogOverlayRoute
@@ -318,9 +345,12 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/login'
     | '/admin/mail-preview'
+    | '/admin/notifications'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/revert'
+    | '/admin/stock'
+    | '/admin/summary'
     | '/admin/tags'
     | '/admin/users'
     | '/api/catalog-overlay'
@@ -350,7 +380,10 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/login'
     | '/admin/mail-preview'
+    | '/admin/notifications'
     | '/admin/revert'
+    | '/admin/stock'
+    | '/admin/summary'
     | '/admin/tags'
     | '/admin/users'
     | '/api/catalog-overlay'
@@ -382,9 +415,12 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/login'
     | '/admin/mail-preview'
+    | '/admin/notifications'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/revert'
+    | '/admin/stock'
+    | '/admin/summary'
     | '/admin/tags'
     | '/admin/users'
     | '/api/catalog-overlay'
@@ -520,6 +556,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMailPreviewRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/notifications': {
+      id: '/admin/notifications'
+      path: '/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AdminNotificationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/orders': {
       id: '/admin/orders'
       path: '/orders'
@@ -539,6 +582,20 @@ declare module '@tanstack/react-router' {
       path: '/revert'
       fullPath: '/admin/revert'
       preLoaderRoute: typeof AdminRevertRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/stock': {
+      id: '/admin/stock'
+      path: '/stock'
+      fullPath: '/admin/stock'
+      preLoaderRoute: typeof AdminStockRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/summary': {
+      id: '/admin/summary'
+      path: '/summary'
+      fullPath: '/admin/summary'
+      preLoaderRoute: typeof AdminSummaryRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/tags': {
@@ -684,9 +741,12 @@ interface AdminRouteChildren {
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminMailPreviewRoute: typeof AdminMailPreviewRoute
+  AdminNotificationsRoute: typeof AdminNotificationsRoute
   AdminOrdersRoute: typeof AdminOrdersRouteWithChildren
   AdminProductsRoute: typeof AdminProductsRouteWithChildren
   AdminRevertRoute: typeof AdminRevertRoute
+  AdminStockRoute: typeof AdminStockRoute
+  AdminSummaryRoute: typeof AdminSummaryRoute
   AdminTagsRoute: typeof AdminTagsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -697,9 +757,12 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminMailPreviewRoute: AdminMailPreviewRoute,
+  AdminNotificationsRoute: AdminNotificationsRoute,
   AdminOrdersRoute: AdminOrdersRouteWithChildren,
   AdminProductsRoute: AdminProductsRouteWithChildren,
   AdminRevertRoute: AdminRevertRoute,
+  AdminStockRoute: AdminStockRoute,
+  AdminSummaryRoute: AdminSummaryRoute,
   AdminTagsRoute: AdminTagsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,

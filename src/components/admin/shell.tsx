@@ -8,6 +8,7 @@ type Ctx = {
   user: SafeUser;
   mode: string;
   newOrders: number;
+  lowStockCount: number;
   refreshBadge: () => void;
   logout: () => Promise<void>;
 };
@@ -24,6 +25,8 @@ const MASTER_NAV = [
   { to: ADMIN_HOME, label: "סקירה", ico: "⌂", end: true },
   { to: "/admin/orders", label: "הזמנות", ico: "▤", badge: true },
   { to: "/admin/products", label: "מוצרים", ico: "▣" },
+  { to: "/admin/stock", label: "מלאי נמוך", ico: "⚑" },
+  { to: "/admin/summary", label: "סיכום", ico: "▦" },
   { to: "/admin/categories", label: "קטגוריות", ico: "☰", master: true },
   { to: "/admin/tags", label: "תגים ומבצעים", ico: "★", master: true },
   { to: "/admin/activity", label: "יומן פעילות", ico: "⌚" },
@@ -40,6 +43,7 @@ export function AdminGate({ children }: { children?: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [blocked, setBlocked] = useState<string | null>(null);
   const [newOrders, setNewOrders] = useState(0);
+  const [lowStockCount, setLowStockCount] = useState(0);
   const [menu, setMenu] = useState(false);
 
   const router = useRouter();
@@ -65,8 +69,9 @@ export function AdminGate({ children }: { children?: ReactNode }) {
 
   async function refreshBadge() {
     try {
-      const data = await adminFetch<{ newOrders?: number; counts?: { new: number } }>("/api/admin/home");
+      const data = await adminFetch<{ newOrders?: number; lowStockCount?: number; counts?: { new: number } }>("/api/admin/home");
       setNewOrders(data.newOrders ?? data.counts?.new ?? 0);
+      setLowStockCount(data.lowStockCount ?? 0);
     } catch {
       /* ignore */
     }
@@ -136,13 +141,16 @@ export function AdminGate({ children }: { children?: ReactNode }) {
     "/admin/activity": "יומן פעילות",
     "/admin/users": "משתמשים והרשאות",
     "/admin/mail-preview": "דוא״ל והתראות",
+    "/admin/notifications": "התראות",
+    "/admin/summary": "סיכום יומי ושבועי",
+    "/admin/stock": "מלאי נמוך",
   };
   const title =
     titleMap[pathname] ||
     (pathname === "/admin/products/new" ? "מוצר חדש" : pathname.startsWith("/admin/products/") ? "עריכת מוצר" : pathname.startsWith("/admin/orders/") ? "פרטי הזמנה" : "ניהול");
 
   return (
-    <AdminCtx.Provider value={{ user, mode, newOrders, refreshBadge, logout }}>
+    <AdminCtx.Provider value={{ user, mode, newOrders, lowStockCount, refreshBadge, logout }}>
       <div className={`admin-app${mode !== "git" ? " has-top-banner" : ""}`} dir="rtl">
         {mode !== "git" && (
           <div className="persist-banner" style={{ borderRadius: 0, margin: 0 }}>
@@ -169,6 +177,7 @@ export function AdminGate({ children }: { children?: ReactNode }) {
                   <span className="ico">{n.ico}</span>
                   {n.label}
                   {"badge" in n && n.badge && newOrders > 0 ? <span className="nav-count">{newOrders}</span> : null}
+                  {n.to === "/admin/stock" && lowStockCount > 0 ? <span className="nav-count">{lowStockCount}</span> : null}
                 </Link>
               );
             })}
@@ -191,8 +200,8 @@ export function AdminGate({ children }: { children?: ReactNode }) {
               </button>
               <h1>{title}</h1>
               <div className="grow" />
-              <Link from="/" to="/admin/orders" className="icon-btn" aria-label="התראות">
-                🔔{newOrders > 0 ? <span className="badge">{newOrders}</span> : null}
+              <Link from="/" to="/admin/notifications" className="icon-btn" aria-label="התראות">
+                🔔{newOrders + lowStockCount > 0 ? <span className="badge">{newOrders + lowStockCount}</span> : null}
               </Link>
               <div className="avatar">{initial}</div>
             </header>

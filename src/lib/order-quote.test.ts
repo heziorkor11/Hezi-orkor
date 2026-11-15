@@ -11,6 +11,7 @@ import { catalogPrice, formatCatalogPrice, WORKSHOP_PACK_PRICE_LABEL } from "./p
 const customer: OrderCustomer = {
   name: "בדיקה",
   phone: "0500000000",
+  email: "",
   city: "נהריה",
   delivery: "pickup",
   plate: "1234567",

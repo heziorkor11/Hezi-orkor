@@ -337,6 +337,7 @@ export async function buildOrderPdfBlob(input: OrderPdfInput): Promise<{
   drawCard(left + colW + gap, "לקוח", [
     `שם: ${c.name.trim() || "—"}`,
     `טלפון: ${c.phone.trim() || "—"}`,
+    ...(c.email.trim() ? [`דוא״ל: ${c.email.trim()}`] : []),
     `עיר: ${c.city.trim() || "—"}`,
     `משלוח/איסוף: ${deliveryLabel(c.delivery)}`,
     `הערות: ${c.notes.trim() || "—"}`,

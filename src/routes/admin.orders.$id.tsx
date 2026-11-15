@@ -126,6 +126,12 @@ function OrderDetailPage() {
               <dd dir="ltr">{order.customer.phone}</dd>
             </>
           ) : null}
+          {order.customer.email ? (
+            <>
+              <dt>דוא״ל</dt>
+              <dd dir="ltr"><a href={`mailto:${order.customer.email}`}>{order.customer.email}</a></dd>
+            </>
+          ) : null}
           {order.customer.city ? (
             <>
               <dt>עיר</dt>

@@ -21,6 +21,13 @@ export type { ChangeMailInput } from "./mail-template";
 
 export async function notifyMasterChange(entry: ActivityEntry): Promise<{ sent: boolean; reason?: string; message?: string; transport?: SmtpTransport }> {
   if (!smtpConfigured()) return { sent: false, reason: "smtp-not-configured", message: smtpErrorMessageHe("smtp-not-configured") };
+  try {
+    const { readNotificationSettings } = await import("./notification-settings.server");
+    const settings = await readNotificationSettings();
+    if (!settings.enabled.workerChange) return { sent: false, reason: "disabled", message: "התראות שינוי עובד כבויות בהגדרות" };
+  } catch {
+    /* keep default: send */
+  }
   const origin = publicSiteOrigin();
   const token = issueRevertToken(entry.id);
   const revertUrl = `${origin}/admin/revert?token=${encodeURIComponent(token)}`;

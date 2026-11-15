@@ -55,5 +55,15 @@
         }
       ]
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/admin/cron/daily-summary",
+      "schedule": "0 19 * * *"
+    },
+    {
+      "path": "/api/admin/cron/weekly-summary",
+      "schedule": "0 6 * * 0"
+    }
   ]
 }
