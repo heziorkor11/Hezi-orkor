@@ -169,6 +169,9 @@ const LATIN_MAKE_PREFIXES: Array<{ latin: string; make: string }> = [
   { latin: "volvo", make: "וולוו" },
   { latin: "jeep", make: "ג'יפ" },
   { latin: "lexus", make: "לקסוס" },
+  { latin: "alfa", make: "אלפא רומיאו" },
+  { latin: "alfa romeo", make: "אלפא רומיאו" },
+  { latin: "genesis", make: "ג'נסיס" },
   { latin: "isuzu", make: "איסוזו" },
   { latin: "mini", make: "מיני" },
   { latin: "tesla", make: "טסלה" },
@@ -381,12 +384,27 @@ const STRIPPABLE_MODEL_SUFFIXES = new Set(
     "היבריד", "היברידית", "היברידי", "פלאגין", "חשמלי",
     "סדאן", "סלון", "האצבק", "האצ'בק", "סטיישן", "וואגן",
     "דיזל", "בנזין", "אוטומט", "ידני", "אוטומטית", "טורבו",
+    "lt", "ls", "lx", "ex", "se", "le", "gls",
+    "style", "limited", "limite", "berlina", "kombi", "maxi",
+    "vigo", "space", "stepway",
+    "sport", "st",
+    "5d", "3d", "5dr", "3dr", "5door", "3door",
+    "titanium", "elegance",
+    "ii", "iii", "iv", "vi", "vii", "viii",
+    "mk2", "mk3", "mk4", "mk5", "mk6", "mk7", "mk8",
   ].map((s) => normalizeKey(s)),
 );
 
 function isStrippableModelSuffix(tok: string) {
   const key = normalizeKey(tok);
-  return Boolean(key) && STRIPPABLE_MODEL_SUFFIXES.has(key);
+  if (!key) return false;
+  if (STRIPPABLE_MODEL_SUFFIXES.has(key)) return true;
+  const compact = key.replace(/[\s-]+/g, "");
+  // BMW sDrive18i / xDrive30d style tokens are trims, not model names.
+  if (/^(sdrive|xdrive)\d{0,3}[idh]?$/.test(compact)) return true;
+  // Trailing engine codes such as 18I / 20D, when they are a separate token.
+  if (/^\d{2,3}[idh]$/.test(compact)) return true;
+  return false;
 }
 
 function stripTrailingDisplacement(name: string) {
@@ -401,9 +419,11 @@ function stripTrailingDisplacement(name: string) {
  * Distinct model words such as CROSS / VERSO are kept.
  */
 export function commercialNameVariants(make: string, commercialName: string): string[] {
-  const cleaned = stripMakeFromModel(make, text(commercialName));
+  const cleaned0 = stripMakeFromModel(make, text(commercialName));
+  const cleaned = cleaned0.replace(/-/g, " ").replace(/\s+/g, " ").trim() || cleaned0;
   const out: string[] = [];
   const seen = new Set<string>();
+
   const push = (value: string) => {
     const next = value.replace(/\s+/g, " ").trim();
     const key = normalizeKey(next);
@@ -415,14 +435,31 @@ export function commercialNameVariants(make: string, commercialName: string): st
       push(trimmed);
     }
   };
+  if (cleaned0 && normalizeKey(cleaned0) !== normalizeKey(cleaned)) push(cleaned0);
   push(cleaned);
-  const toks = words(cleaned);
+  const toks = cleaned.split(/\s+/).filter(Boolean);
   while (toks.length > 1 && isStrippableModelSuffix(toks[toks.length - 1])) {
     toks.pop();
     push(toks.join(" "));
   }
   push(stripPowertrainSuffix(cleaned));
+  const peeled = peelPowertrainCode(cleaned);
+  if (peeled) push(peeled);
+  const peeledTwice = peeled ? peelPowertrainCode(peeled) : undefined;
+  if (peeledTwice) push(peeledTwice);
   return out;
+}
+
+/** NX300H → NX300, 318I → 318, E300E → E300, NX450PHEV → NX450. */
+function peelPowertrainCode(name: string): string | undefined {
+  const toks = words(name);
+  if (!toks.length) return undefined;
+  const last = toks[toks.length - 1];
+  const glued = last.replace(/[\s-]+/g, "");
+  const m = glued.match(/^([A-Za-z]{1,6}\d{2,3}|\d{2,3})(phev|hev|ev|[eihd])$/i);
+  if (!m) return undefined;
+  toks[toks.length - 1] = m[1];
+  return toks.join(" ");
 }
 
 
@@ -435,6 +472,7 @@ function remainderLooksLikeTrim(remainder: string) {
   if (!tokens.length) return true;
   return tokens.every((tok) => {
     if (TRIM_SUFFIX.has(normalizeKey(tok))) return true;
+    if (isStrippableModelSuffix(tok)) return true;
     if (/^\d+(\.\d+)?$/.test(tok)) return true;
     if (/^[nנ]\d+$/i.test(tok)) return true;
     if (tok.length <= 2 && /[a-z0-9]/i.test(tok)) return true;
@@ -479,15 +517,16 @@ function compactKey(value: string) {
 
 /** Keep numeric model codes (208, 500, 3008) that canonicalModel treats as years and drops. */
 function keepPlateModel(make: string, raw: string): string | undefined {
+  const trimmed = text(raw);
+  const compact = trimmed.replace(/[\s-]+/g, "");
+  const singleToken = !/\s/.test(trimmed);
+  // Keep single-token model codes that canonicalModel treats as years or drops (X1, 208, E300, NX300H).
+  if (singleToken && (/^[A-Za-z]{1,6}\d{1,4}[A-Za-z]{0,4}$/.test(compact) || /^\d{2,4}$/.test(compact))) {
+    return compact;
+  }
   const canon = canonicalModel(make, raw);
   if (canon) return canon;
-  const compact = text(raw).replace(/[\s-]+/g, "");
-  const token =
-    compact.match(/[A-Za-z]{0,3}\d{2,4}/)?.[0] ||
-    text(raw).match(/[A-Za-z]{0,3}\d{2,4}/)?.[0] ||
-    text(raw).match(/^\d{2,4}$/)?.[0];
-  if (!token) return undefined;
-  if (/^\d{2,4}$/.test(token) || /^[A-Za-z]{1,3}\d{1,4}$/.test(token)) return token;
+  if (/^[A-Za-z]{1,6}\d{1,4}[A-Za-z]{0,4}$/.test(compact) || /^\d{2,4}$/.test(compact)) return compact;
   return undefined;
 }
 
@@ -584,7 +623,7 @@ export function matchCatalogModels(make: string, commercialName: string): string
   if (!models.length) return [];
   for (const variant of variants) {
     const hits = hitsForVariant(make, variant, models);
-    if (hits.length) return hits;
+    if (hits.length && pickFamilyBase(make, hits, commercialName)) return hits;
   }
   return [];
 }
@@ -640,6 +679,17 @@ function yearsForFamily(make: string, base: string, family: string[]) {
   return [...years].sort((a, b) => a - b);
 }
 
+const JEEP_ON_CHRYSLER = /\b(grand cherokee|cherokee|wrangler|compass|renegade|gladiator|patriot|commander|grand wagoneer)\b/i;
+const GENESIS_ON_HYUNDAI = /(^|\s)(genesis|גנסיס|ג['׳’]נסיס)|\b(gv60|gv70|gv80|g70|g80)\b/i;
+
+/** MOT often lists Jeep as Chrysler and Genesis as Hyundai. Only remap when the model is uniquely theirs. */
+function remapCatalogMake(make: string, commercialName: string): string {
+  const name = text(commercialName);
+  if (make === "קרייזלר" && JEEP_ON_CHRYSLER.test(name)) return "ג'יפ";
+  if (make === "יונדאי" && GENESIS_ON_HYUNDAI.test(name)) return "ג'נסיס";
+  return make;
+}
+
 export function mapMotVehicle(fields: MotVehicleFields): MotDisplayVehicle {
   const mapping: MotMapping = { confidence: "unmapped" };
   const display: MotDisplayVehicle = { ...fields, mapping };
@@ -649,11 +699,12 @@ export function mapMotVehicle(fields: MotVehicleFields): MotDisplayVehicle {
     return display;
   }
 
-  const make = mapMotMake(fields.manufacturer);
-  if (!make) {
+  const rawMake = mapMotMake(fields.manufacturer);
+  if (!rawMake) {
     mapping.reason = "לא הצלחנו להתאים את היצרן לקטלוג בוודאות. בחרו יצרן, דגם ושנה ידנית.";
     return display;
   }
+  const make = remapCatalogMake(rawMake, text(fields.commercialName));
   mapping.make = make;
 
   const commercial = text(fields.commercialName);

@@ -307,3 +307,60 @@ test("models absent from the catalog stay unmapped and are not guessed", () => {
   assert.equal(runx.mapping.confidence, "unmapped");
   assert.equal(runx.mapping.model, undefined);
 });
+
+
+test("common English MOT names across makes map to the catalog without guessing missing models", () => {
+  const space = mapMotVehicle({ manufacturer: "טויוטה יפן", commercialName: "SPACE VERSO", year: 2012 });
+  assert.equal(space.mapping.model, "ספייס ורסו");
+  const grand = mapMotVehicle({ manufacturer: "רנו טורקיה", commercialName: "GRAND COUPE", year: 2018 });
+  assert.equal(grand.mapping.confidence, "mapped");
+  assert.equal(grand.mapping.model, "גרנד קופה");
+  const typo = mapMotVehicle({ manufacturer: "קיה ד. קוריאה", commercialName: "PICANT0", year: 2017 });
+  assert.equal(typo.mapping.model, "פיקנטו");
+  const sport = mapMotVehicle({ manufacturer: "מזדה יפן", commercialName: "MAZDA3-SPORT", year: 2018 });
+  assert.equal(sport.mapping.model, "3");
+  const picasso = mapMotVehicle({ manufacturer: "סיטרואן סלובק", commercialName: "C3 PICASSO", year: 2014 });
+  assert.equal(picasso.mapping.model, "C3 פיקאסו");
+  const nx = mapMotVehicle({ manufacturer: "לקסוס יפן", commercialName: "LEXUS NX300H", year: 2018 });
+  assert.equal(nx.mapping.make, "לקסוס");
+  assert.equal(nx.mapping.confidence, "mapped");
+  assert.match(String(nx.mapping.model), /NX300H/i);
+  const series3 = mapMotVehicle({ manufacturer: "ב מ וו גרמניה", commercialName: "318I", year: 2016 });
+  assert.equal(series3.mapping.model, "סדרה 3");
+  const x1 = mapMotVehicle({ manufacturer: "ב מ וו גרמניה", commercialName: "X1 SDRIVE18I", year: 2018 });
+  assert.equal(x1.mapping.model, "X1");
+  const e300 = mapMotVehicle({ manufacturer: "מרצדס בנץ גרמנ", commercialName: "E300E", year: 2020 });
+  assert.equal(e300.mapping.model, "E300");
+  const cruze = mapMotVehicle({ manufacturer: "שברולט ד.קוריא", commercialName: "CRUZE 1.6 LS", year: 2014 });
+  assert.equal(cruze.mapping.model, "קרוז");
+  const enyaq = mapMotVehicle({ manufacturer: "סקודה צ'כיה", commercialName: "ENYAQ IV", year: 2022 });
+  assert.equal(enyaq.mapping.model, "אניאק");
+});
+
+test("Jeep and Genesis models listed under Chrysler or Hyundai remap to the catalog make", () => {
+  const jeep = mapMotVehicle({ manufacturer: 'קרייזלר ארהב"', commercialName: "GRAND CHEROKEE", year: 2018 });
+  assert.equal(jeep.mapping.make, "ג'יפ");
+  assert.equal(jeep.mapping.model, "גרנד שירוקי");
+  assert.equal(jeep.mapping.confidence, "mapped");
+  const genesis = mapMotVehicle({ manufacturer: "יונדאי ד. קורי", commercialName: "GENESIS  GV70", year: 2022 });
+  assert.equal(genesis.mapping.make, "ג'נסיס");
+  assert.equal(genesis.mapping.model, "GV70");
+});
+
+test("models that are not in the catalog, including popular English names, stay unmapped", () => {
+  for (const [manufacturer, commercialName, year] of [
+    ["פיג'ו צרפת", "3008", 2020],
+    ["פיג'ו צרפת", "2008", 2020],
+    ["טסלה גרמניה", "MODEL Y", 2023],
+    ["סוזוקי יפן", "IGNIS", 2018],
+    ["פולקסוואגן-ספרד", "POLO", 2018],
+    ["סיטרואן צרפת", "C5 AIRCROSS", 2020],
+    ["טויוטה צ'כיה", "AYGO", 2018],
+    ["סיאט ספרד", "CUPRA", 2020],
+  ] as const) {
+    const out = mapMotVehicle({ manufacturer, commercialName, year });
+    assert.equal(out.mapping.confidence, "unmapped", commercialName);
+    assert.equal(out.mapping.model, undefined, commercialName);
+    assert.ok(out.mapping.make, commercialName);
+  }
+});
