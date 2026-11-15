@@ -4,6 +4,7 @@ import abbreviations from "../../public/catalog/name-abbreviations.json" with { 
 import { expandCertainModel, foldModelSpelling, sameModel } from "./model-names.ts";
 import { normalizePartKey, yearBounds } from "./part-display.ts";
 import type { ListingSearch, ProductFilter, SearchHit } from "./catalog-types.ts";
+import { applyPolMakeFitments, classifyPolMakes } from "./pol-makes.ts";
 
 export type TypeRule = { category: string; sub?: string };
 
@@ -460,11 +461,12 @@ export function tokensMatchHit(hit: SearchHit, tokens: string[]) {
 }
 
 function fitmentEntries(hit: SearchHit) {
-  if (Array.isArray(hit.fitments) && hit.fitments.length) return hit.fitments;
-  if (hit.make) {
-    return [{ make: hit.make, model: hit.model || "", yearFrom: hit.yearFrom || 0, yearTo: hit.yearTo || 0 }];
-  }
-  return [];
+  const base = Array.isArray(hit.fitments) && hit.fitments.length
+    ? hit.fitments
+    : hit.make
+      ? [{ make: hit.make, model: hit.model || "", yearFrom: hit.yearFrom || 0, yearTo: hit.yearTo || 0 }]
+      : [];
+  return applyPolMakeFitments(hit, base);
 }
 
 export function productFitsVehicle(hit: SearchHit, make?: string, model?: string, year?: string) {
@@ -496,6 +498,8 @@ export function productFitsVehicle(hit: SearchHit, make?: string, model?: string
   if (entries.length) {
     const hitOnEntry = entries.some((entry) => makeOk(entry.make) && modelOk(entry.make, entry.model) && yearOk(entry));
     if (hitOnEntry) return true;
+    // Pol-makes already decided VW/Audi for this SKU — don't leak a stale catalog make.
+    if (classifyPolMakes(hit) !== "none") return false;
   } else if (wantedMake && (makeOk(hit.make) || tokensMatchHit(hit, [normalizeKey(wantedMake)]))) {
     return modelOk(hit.make, hit.model) && yearOk({ yearFrom: hit.yearFrom, yearTo: hit.yearTo });
   }
@@ -575,4 +579,17 @@ export function listingSearchFromQuery(q: string, current?: ProductFilter): Prod
     }
   }
   return next;
+}
+
+/**
+ * When a type-intent query has no category in the URL, pin the listing
+ * category so photo tiles are built for that type only. Without this,
+ * each category tile inherits the intent type and reuses the same photos
+ * (e.g. every tile on «מהבה לגרנד שירוקי» shows condenser images).
+ */
+export function resolveTileListingState(state: ProductFilter): ProductFilter {
+  if (state.category) return state;
+  const merged = mergeFilterWithIntent(state);
+  if (merged.category) return { ...state, category: merged.category, sub: merged.sub ?? state.sub };
+  return state;
 }

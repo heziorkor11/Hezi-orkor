@@ -5,6 +5,7 @@ import {
   listingSearchFromQuery,
   parseSearchIntent,
   productFitsVehicle,
+  resolveTileListingState,
   sameMake,
   tokensMatchHit,
 } from "./search-intent.ts";
@@ -115,4 +116,14 @@ test("Cherokee spelling variants are equivalent in search, Grand stays distinct"
   assert.equal(productFitsVehicle(cherokee, "ג'יפ", "שירוקי"), true);
   assert.equal(productFitsVehicle({ ...grand, model: "ג שירוקי" }, "ג'יפ", "גרנד שירוקי"), true);
   assert.equal(productFitsVehicle({ ...grand, model: "ג שירוקי" }, "ג'יפ", "שירוקי"), false);
+});
+
+
+test("type-intent queries without a category pin tiles to that type, not every category", () => {
+  const typo = resolveTileListingState({ q: "מהבה לגרנד שירוקי" });
+  assert.equal(typo.category, "ac-condenser");
+  const already = resolveTileListingState({ q: "מהבה לגרנד שירוקי", category: "filters" });
+  assert.equal(already.category, "filters");
+  const free = resolveTileListingState({ q: "גרנד שירוקי" });
+  assert.equal(free.category, undefined);
 });
