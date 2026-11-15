@@ -11,7 +11,7 @@ import {
 import { catalogJson } from "@/lib/catalog-io";
 import { isHiddenCategory } from "@/lib/display-taxonomy";
 import { buildQuickQuoteMessage, waLinkForText } from "@/lib/order-quote";
-import { readIdentifiedVehicle } from "@/lib/order-form";
+import { readIdentifiedVehicle } from "@/lib/saved-vehicle";
 
 type Cache = {
   manifest?: CatalogManifest;
