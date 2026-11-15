@@ -4,8 +4,12 @@ import {
   canonicalMake,
   listingSearchFromQuery,
   parseSearchIntent,
+  productFitsVehicle,
+  resolveTileListingState,
   sameMake,
+  tokensMatchHit,
 } from "./search-intent.ts";
+import type { SearchHit } from "./catalog-types.ts";
 
 test("parses cabin filter + Dacia, including typo without geresh and leading ל", () => {
   for (const q of ["פילטר מזגן דאציה", "פילטר מזגן לדאציה", "מסנן מזגן דאצ'יה", "פ.מזגן דצי"]) {
@@ -66,4 +70,60 @@ test("English type words map to the same categories as Hebrew", () => {
   assert.deepEqual(parseSearchIntent("oils").allowed, [{ category: "fluids" }]);
   assert.equal(parseSearchIntent("additives").restTokens.length, 0);
   assert.equal(parseSearchIntent("oils").restTokens.length, 0);
+});
+
+
+test("מהבה לגרנד שירוקי is a condenser query and keeps Grand tokens", () => {
+  const intent = parseSearchIntent("מהבה לגרנד שירוקי");
+  assert.deepEqual(intent.allowed, [{ category: "ac-condenser" }]);
+  assert.ok(intent.restTokens.includes("גרנד"), intent.restTokens.join("|"));
+  assert.ok(intent.restTokens.includes("שירוקי"), intent.restTokens.join("|"));
+  assert.equal(intent.restTokens.includes("לגרנד"), false);
+  assert.equal(intent.restTokens.includes("מהבה"), false);
+});
+
+test("leading ל/ב/ה is stripped only when the remainder is a known token", () => {
+  const grand = parseSearchIntent("מעבה לגרנד שירוקי");
+  assert.ok(grand.restTokens.includes("גרנד"));
+  const land = parseSearchIntent("פילטר לנד רובר");
+  assert.equal(land.make, "לנד רובר", JSON.stringify(land));
+  assert.equal(land.restTokens.includes("נד"), false);
+});
+
+test("Cherokee spelling variants are equivalent in search, Grand stays distinct", () => {
+  const cherokee: SearchHit = {
+    sku: "x",
+    title: "מעבה ג'יפ צ'ירוקי",
+    category: "ac-condenser",
+    oe: "",
+    make: "ג'יפ",
+    model: "צ'ירוקי",
+  };
+  const grand: SearchHit = {
+    sku: "y",
+    title: "מעבה מזגן ג'יפ גרנד צ'רוקי 2000-2004 NRF",
+    titleOriginal: "מעבה גי'פ ג.שירוקי NRF 00-04",
+    category: "ac-condenser",
+    oe: "",
+    make: "ג'יפ",
+    model: "",
+  };
+  assert.equal(tokensMatchHit(cherokee, ["שירוקי"]), true);
+  assert.equal(tokensMatchHit(cherokee, ["צרוקי"]), true);
+  assert.equal(tokensMatchHit(grand, ["גרנד", "שירוקי"]), true);
+  assert.equal(tokensMatchHit(grand, ["מעבה", "גרנד", "שירוקי"]), true);
+  assert.equal(productFitsVehicle(cherokee, "ג'יפ", "גרנד שירוקי"), false);
+  assert.equal(productFitsVehicle(cherokee, "ג'יפ", "שירוקי"), true);
+  assert.equal(productFitsVehicle({ ...grand, model: "ג שירוקי" }, "ג'יפ", "גרנד שירוקי"), true);
+  assert.equal(productFitsVehicle({ ...grand, model: "ג שירוקי" }, "ג'יפ", "שירוקי"), false);
+});
+
+
+test("type-intent queries without a category pin tiles to that type, not every category", () => {
+  const typo = resolveTileListingState({ q: "מהבה לגרנד שירוקי" });
+  assert.equal(typo.category, "ac-condenser");
+  const already = resolveTileListingState({ q: "מהבה לגרנד שירוקי", category: "filters" });
+  assert.equal(already.category, "filters");
+  const free = resolveTileListingState({ q: "גרנד שירוקי" });
+  assert.equal(free.category, undefined);
 });

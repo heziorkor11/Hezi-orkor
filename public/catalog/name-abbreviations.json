@@ -1,5 +1,5 @@
 {
-  "description": "High-confidence Hebrew catalog name expansions. Original kept as nameOriginal; search matches both. קס׳ intentionally not expanded.",
+  "description": "High-confidence Hebrew catalog name expansions. Original kept as nameOriginal; search matches both. קס׳ intentionally not expanded. Certain leftover expansions 2026-11-15 (audit); קס׳ and פול intentionally not expanded.",
   "applied": [
     {
       "abbr": "מ.דלק",
@@ -559,7 +559,407 @@
       "abbr": "סיט",
       "full": "סיאט",
       "mode": "token"
+    },
+    {
+      "abbr": "ג.שירוקי",
+      "full": "גרנד שירוקי",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ג.צירוקי",
+      "full": "גרנד שירוקי",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ג.פונטו",
+      "full": "גרנד פונטו",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ג.ויטרה",
+      "full": "גרנד ויטרה",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ג.סניק",
+      "full": "גרנד סניק",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ס.וגון",
+      "full": "ספייס וואגון",
+      "mode": "literal"
+    },
+    {
+      "abbr": "מ.קופר",
+      "full": "מיני קופר",
+      "mode": "literal"
+    },
+    {
+      "abbr": "מ.קרלו",
+      "full": "מונטה קרלו",
+      "mode": "literal"
+    },
+    {
+      "abbr": "פ.קלסיק",
+      "full": "פולו קלאסיק",
+      "mode": "literal"
+    },
+    {
+      "abbr": "רנג רובר",
+      "full": "ריינג' רובר",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ג'י.אם.סי",
+      "full": "GMC",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ג'י.אמ.סי",
+      "full": "GMC",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ג׳י.אם.סי",
+      "full": "GMC",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ג׳י.אמ.סי",
+      "full": "GMC",
+      "mode": "literal"
+    },
+    {
+      "abbr": "י.אם.סי",
+      "full": "GMC",
+      "mode": "literal"
+    },
+    {
+      "abbr": "י.אמ.סי",
+      "full": "GMC",
+      "mode": "literal"
+    },
+    {
+      "abbr": "אמ.ג'י",
+      "full": "MG",
+      "mode": "literal"
+    },
+    {
+      "abbr": "אמ.ג׳י",
+      "full": "MG",
+      "mode": "literal"
+    },
+    {
+      "abbr": "מ.ג",
+      "full": "MG",
+      "mode": "literal"
+    },
+    {
+      "abbr": "מ. מים",
+      "full": "משאבת מים",
+      "mode": "literal"
+    },
+    {
+      "abbr": "מ.מזגן",
+      "full": "פילטר מזגן",
+      "mode": "literal"
+    },
+    {
+      "abbr": "פ. מזגן",
+      "full": "פילטר מזגן",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ת.דלקול",
+      "full": "תוצרת דלקול",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ת.מסתובבת",
+      "full": "תאורת פינה מסתובבת",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ת.סיבוב",
+      "full": "תאורת סיבוב",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ק.גלגל",
+      "full": "קוטר גלגל",
+      "mode": "literal"
+    },
+    {
+      "abbr": "פ.גדול",
+      "full": "פולי גדול",
+      "mode": "literal"
+    },
+    {
+      "abbr": "פ.גדו",
+      "full": "פולי גדול",
+      "mode": "literal"
+    },
+    {
+      "abbr": "פ.רגיל",
+      "full": "פולי רגיל",
+      "mode": "literal"
+    },
+    {
+      "abbr": "פ.עליון",
+      "full": "פולי עליון",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ח.הברגה",
+      "full": "חור הברגה",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ח.מהיר",
+      "full": "חיבור מהיר",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ח.גדול",
+      "full": "חור גדול",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ח.עגול",
+      "full": "חור עגול",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ד.אקבונו",
+      "full": "דגם Akebono",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ד.נוסף",
+      "full": "דגם נוסף",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ג.רציף",
+      "full": "גיר רציף",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ר.מתפרק",
+      "full": "ראש מתפרק",
+      "mode": "literal"
+    },
+    {
+      "abbr": "אתות צ'",
+      "full": "אתות צד",
+      "mode": "literal"
+    },
+    {
+      "abbr": "אתות צ׳",
+      "full": "אתות צד",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ב.מ.וו",
+      "full": "BMW",
+      "mode": "literal"
+    },
+    {
+      "abbr": "גי'פ",
+      "full": "ג'יפ",
+      "mode": "literal"
+    },
+    {
+      "abbr": "גי׳פ",
+      "full": "ג'יפ",
+      "mode": "literal"
+    },
+    {
+      "abbr": "פג'ו",
+      "full": "פיג'ו",
+      "mode": "literal"
+    },
+    {
+      "abbr": "פג׳ו",
+      "full": "פיג'ו",
+      "mode": "literal"
+    },
+    {
+      "abbr": "קסנ'",
+      "full": "קסנון",
+      "mode": "literal"
+    },
+    {
+      "abbr": "קסנ׳",
+      "full": "קסנון",
+      "mode": "literal"
+    },
+    {
+      "abbr": "משא'",
+      "full": "משאית",
+      "mode": "literal"
+    },
+    {
+      "abbr": "משא׳",
+      "full": "משאית",
+      "mode": "literal"
+    },
+    {
+      "abbr": "מש'",
+      "full": "משאית",
+      "mode": "literal"
+    },
+    {
+      "abbr": "מש׳",
+      "full": "משאית",
+      "mode": "literal"
+    },
+    {
+      "abbr": "אוטו'",
+      "full": "אוטומטי",
+      "mode": "literal"
+    },
+    {
+      "abbr": "אוטו׳",
+      "full": "אוטומטי",
+      "mode": "literal"
+    },
+    {
+      "abbr": "אוט'",
+      "full": "אוטומטי",
+      "mode": "literal"
+    },
+    {
+      "abbr": "אוט׳",
+      "full": "אוטומטי",
+      "mode": "literal"
+    },
+    {
+      "abbr": "חלי'",
+      "full": "חליפי",
+      "mode": "literal"
+    },
+    {
+      "abbr": "חלי׳",
+      "full": "חליפי",
+      "mode": "literal"
+    },
+    {
+      "abbr": "אונ'",
+      "full": "אוניברסלי",
+      "mode": "literal"
+    },
+    {
+      "abbr": "אונ׳",
+      "full": "אוניברסלי",
+      "mode": "literal"
+    },
+    {
+      "abbr": "שח'",
+      "full": "שחור",
+      "mode": "literal"
+    },
+    {
+      "abbr": "שח׳",
+      "full": "שחור",
+      "mode": "literal"
+    },
+    {
+      "abbr": "עג'",
+      "full": "עגול",
+      "mode": "literal"
+    },
+    {
+      "abbr": "עג׳",
+      "full": "עגול",
+      "mode": "literal"
+    },
+    {
+      "abbr": "מס'",
+      "full": "מספר",
+      "mode": "literal"
+    },
+    {
+      "abbr": "מס׳",
+      "full": "מספר",
+      "mode": "literal"
+    },
+    {
+      "abbr": "על'",
+      "full": "עליון",
+      "mode": "literal"
+    },
+    {
+      "abbr": "על׳",
+      "full": "עליון",
+      "mode": "literal"
+    },
+    {
+      "abbr": "בנ'",
+      "full": "בנזין",
+      "mode": "literal"
+    },
+    {
+      "abbr": "בנ׳",
+      "full": "בנזין",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ממ'",
+      "full": "מילימטר",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ממ׳",
+      "full": "מילימטר",
+      "mode": "literal"
+    },
+    {
+      "abbr": "מ״מ",
+      "full": "מילימטר",
+      "mode": "literal"
+    },
+    {
+      "abbr": "מ\"מ",
+      "full": "מילימטר",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ס״מ",
+      "full": "סנטימטר",
+      "mode": "literal"
+    },
+    {
+      "abbr": "ס\"מ",
+      "full": "סנטימטר",
+      "mode": "literal"
+    },
+    {
+      "abbr": "כ\"ס",
+      "full": "כוח סוס",
+      "mode": "literal"
+    },
+    {
+      "abbr": "כ״ס",
+      "full": "כוח סוס",
+      "mode": "literal"
+    },
+    {
+      "abbr": "גיפ",
+      "full": "ג'יפ",
+      "mode": "token"
+    },
+    {
+      "abbr": "דהו",
+      "full": "דייהו",
+      "mode": "token"
+    },
+    {
+      "abbr": "גראנד",
+      "full": "גרנד",
+      "mode": "token"
     }
   ],
-  "reason": " Matan corrections 2026-11-06: ק.הגה→קצה הגה, ת.פרונט→תפוח פרונט, מ.מצמד→משאבת מצמד; קס׳ not expanded (pending supplier). · Make abbrev expansions 2026-11-07 (token, unambiguous only)."
+  "reason": " Matan corrections 2026-11-06: ק.הגה→קצה הגה, ת.פרונט→תפוח פרונט, מ.מצמד→משאבת מצמד; קס׳ not expanded (pending supplier). · Make abbrev expansions 2026-11-07 (token, unambiguous only). · Certain leftover name/model expansions 15.11.2026 from abbreviation audit. פול and קס׳ left untouched."
 }

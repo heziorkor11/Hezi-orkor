@@ -4,6 +4,7 @@ import { ProductImage } from "@/components/product-image";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
 import {
+  displayModel,
   displayVehicle,
   fitmentLabel,
   pickDisplayedFitment,
@@ -104,7 +105,7 @@ export function ProductCard({
                 <>
                   <dt className="text-muted">דגם</dt>
                   <dd className="font-bold text-fg">
-                    {shown.model}
+                    {displayModel(shown.make, shown.model) || shown.model}
                     {extraLabel ? (
                       <span className="mr-1 text-accent-warm"> {extraLabel}</span>
                     ) : null}

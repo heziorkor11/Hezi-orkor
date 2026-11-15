@@ -3,6 +3,7 @@ import { displayCategory, displayOverride, isHiddenProduct, normalizeDisplayCate
 import {
   mergeFilterWithIntent,
   productFitsVehicle,
+  resolveTileListingState,
   tokensMatchHit,
   typeAllows,
 } from "@/lib/search-intent";
@@ -134,7 +135,7 @@ export async function loadCategoryTiles(state: ListingSearch = {}): Promise<Cate
     const { loadSearchHits, resolveProductImage } = await import("./catalog-listing");
     const { buildCategoryTiles } = await import("./category-tiles");
     const hits = await loadSearchHits();
-    return buildCategoryTiles(state, hits, {
+    return buildCategoryTiles(resolveTileListingState(state), hits, {
       imageOf: resolveProductImage,
       hitMatches: filterHit,
     });
