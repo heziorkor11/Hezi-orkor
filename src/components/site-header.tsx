@@ -5,6 +5,9 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Phone, Search, ShoppingBag, Truck } from "lucide-react";
 import { visibleCategories } from "@/lib/catalog";
 import { listingSearchFromQuery } from "@/lib/search-intent";
+import { isValidIlPlate } from "@/lib/order-quote";
+import { applyPlateLookup, fetchVehicleByPlate } from "@/lib/plate-lookup-client";
+import { PlateSearch } from "@/components/plate-search";
 import type { ProductFilter } from "@/lib/catalog-types";
 import { useCart } from "@/lib/cart";
 import { brand } from "@/lib/brand";
@@ -48,6 +51,19 @@ export function SiteHeader() {
     e.preventDefault();
     const q = String(new FormData(e.currentTarget).get("q") || "").trim();
     const current = location.path === "/results" ? location.search : undefined;
+    if (isValidIlPlate(q)) {
+      void (async () => {
+        const result = await fetchVehicleByPlate(q);
+        await applyPlateLookup({
+          plate: q,
+          result,
+          path: location.path,
+          search: location.search,
+          navigate,
+        });
+      })();
+      return;
+    }
     navigate({ to: "/results", search: q ? listingSearchFromQuery(q, current) : {} });
   }
 
@@ -152,6 +168,9 @@ export function SiteHeader() {
               <Search className="size-4" />
             </button>
           </form>
+          <div className="mx-auto max-w-[1180px] px-3.5 pb-2 md:px-5">
+            <PlateSearch compact showInlineResult={false} />
+          </div>
         </div>
 
       <div className="border-b border-line bg-panel px-3.5 py-2 md:px-5">

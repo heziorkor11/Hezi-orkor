@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { DemoBanner } from "@/components/demo-banner";
 import { FaqList } from "@/components/faq-list";
 import { Finder } from "@/components/finder";
+import { PlateSearch } from "@/components/plate-search";
 import { HomeCategoryRail } from "@/components/home-category-rail";
 import { HomeHeroSlider } from "@/components/home-hero-slider";
 import { HomeParallaxBand } from "@/components/home-parallax-band";
@@ -52,7 +53,8 @@ function Home() {
 
       <section className="px-3.5 pt-5 md:px-5">
         <div className="mx-auto max-w-[720px]">
-          <h2 className="mb-1 text-[17px] font-extrabold md:text-2xl">לפי קטגוריה או רכב</h2>
+          <PlateSearch />
+          <h2 className="mt-5 mb-1 text-[17px] font-extrabold md:text-2xl">לפי קטגוריה או רכב</h2>
           <p className="mb-3 text-xs text-muted md:text-sm">
             אפשר לחפש בלי רכב. להתאמה מדויקת: יצרן ← דגם ← שנה
           </p>

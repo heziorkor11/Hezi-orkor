@@ -5,6 +5,8 @@ import { ListingSortControl } from "@/components/listing-sort-control";
 import { CategoryPhotoTiles } from "@/components/category-photo-tiles";
 import { DemoBanner } from "@/components/demo-banner";
 import { Finder } from "@/components/finder";
+import { PlateSearch } from "@/components/plate-search";
+import { PlateVehicleCard } from "@/components/plate-vehicle-card";
 import { FluidsFilters } from "@/components/fluids-filters";
 import { Pagination } from "@/components/pagination";
 import { ProductCard } from "@/components/product-card";
@@ -16,6 +18,8 @@ import { brand } from "@/lib/brand";
 import { FLUID_KIND_LABELS, type FluidKind } from "@/lib/fluid-classify";
 import { pageDescription, pageTitle } from "@/lib/seo";
 import { bootAdminOverlay } from "@/lib/admin/boot-overlay";
+import { clearPlateSession, isMappedPlateResult, readPlateSession, type StoredPlateVehicle } from "@/lib/plate-session";
+import { useEffect, useState } from "react";
 
 export type ResultsSearch = ListingSearch;
 
@@ -112,6 +116,8 @@ function PendingResults() {
 function ResultsPage() {
   const state = Route.useSearch();
   const listing = Route.useLoaderData();
+  const plate = usePlateSession(state);
+  const showCatalog = plate.showCatalog;
   const isFluids =
     state.category === "fluids" || Boolean(state.fluidKind) || Boolean(state.oilBrand);
   const kindLabel =
@@ -143,14 +149,24 @@ function ResultsPage() {
     <>
       <div className="mx-auto max-w-[1180px] px-5 pt-7 pb-16">
         <DemoBanner />
+        <ResultsPlateBlock
+          tiles={showCatalog ? listing.tiles || [] : []}
+          state={state}
+          entry={plate.entry}
+          onClear={plate.clear}
+        />
         <div className="mb-4.5">
           <h1 className="text-[26px] tracking-tight">{title}</h1>
-          <p className="text-muted">
-            {listing.total} פריטים
-            {listing.pages > 1 ? ` · עמוד ${listing.page} מתוך ${listing.pages}` : ""}
-          </p>
+          {showCatalog ? (
+            <p className="text-muted">
+              {listing.total} פריטים
+              {listing.pages > 1 ? ` · עמוד ${listing.page} מתוך ${listing.pages}` : ""}
+            </p>
+          ) : (
+            <p className="text-muted">בחרו יצרן, דגם ושנה ידנית כדי לראות חלקים מתאימים.</p>
+          )}
         </div>
-        <CategoryPhotoTiles tiles={listing.tiles || []} />
+        {showCatalog ? <CategoryPhotoTiles tiles={listing.tiles || []} /> : null}
         {isFluids ? (
           <FluidsFilters state={{ ...state, category: state.category || "fluids" }} />
         ) : (
@@ -158,10 +174,13 @@ function ResultsPage() {
             className="mb-6 flex justify-center border border-line bg-panel px-3.5 py-5 md:px-5 md:py-7"
             id="search"
           >
-            <Finder key={JSON.stringify({ ...state, page: undefined })} state={state} />
+            <div className="flex w-full max-w-[720px] flex-col gap-3">
+              <PlateSearch compact showInlineResult={false} />
+              <Finder key={JSON.stringify({ ...state, page: undefined })} state={state} />
+            </div>
           </section>
         )}
-        {!listing.tiles?.length && state.category && state.category !== "fluids" && subcategories[state.category] ? (
+        {showCatalog && !listing.tiles?.length && state.category && state.category !== "fluids" && subcategories[state.category] ? (
           <nav aria-label="תתי קטגוריות" className="mb-5 flex flex-wrap gap-2">
             <Link
               to="/results"
@@ -184,9 +203,9 @@ function ResultsPage() {
               ))}
           </nav>
         ) : null}
-        <ActiveFilters state={state} />
-        <ListingSortControl state={state} />
-        {listing.items.length ? (
+        {showCatalog ? <ActiveFilters state={state} /> : null}
+        {showCatalog ? <ListingSortControl state={state} /> : null}
+        {showCatalog && listing.items.length ? (
           <>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {listing.items.map((p) => (
@@ -195,7 +214,7 @@ function ResultsPage() {
             </div>
             <Pagination page={listing.page} total={listing.total} search={state} />
           </>
-        ) : (
+        ) : showCatalog ? (
           <div className="rounded-xl border border-line bg-card p-7 text-center">
             <h2 className="mb-2 text-lg font-semibold">לא מצאנו התאמה בקטלוג</h2>
             <p className="mb-4 text-muted">
@@ -211,8 +230,66 @@ function ResultsPage() {
               </Link>
             </div>
           </div>
-        )}
+        ) : null}
       </div>
     </>
+  );
+}
+
+function usePlateSession(state: ResultsSearch) {
+  const [entry, setEntry] = useState<StoredPlateVehicle | null>(null);
+  useEffect(() => {
+    setEntry(readPlateSession());
+  }, [state.make, state.model, state.year, state.category, state.q]);
+  const mappedMatch = Boolean(
+    entry &&
+      isMappedPlateResult(entry.result) &&
+      entry.result.ok &&
+      entry.result.found &&
+      entry.result.vehicle.mapping.make === state.make &&
+      entry.result.vehicle.mapping.model === state.model &&
+      (!entry.result.vehicle.mapping.year || entry.result.vehicle.mapping.year === state.year),
+  );
+  const userChoseVehicle = Boolean(state.make && state.model);
+  // Hide the catalog for an unmapped/failed plate lookup, unless the user picked a vehicle manually.
+  const allowCatalog = !entry || mappedMatch || userChoseVehicle;
+  return {
+    entry,
+    showCatalog: allowCatalog,
+    clear: () => {
+      clearPlateSession();
+      setEntry(null);
+    },
+  };
+}
+
+function ResultsPlateBlock({
+  tiles,
+  state,
+  entry,
+  onClear,
+}: {
+  tiles: import("@/lib/category-tiles").CategoryTile[];
+  state: ResultsSearch;
+  entry: StoredPlateVehicle | null;
+  onClear: () => void;
+}) {
+  if (!entry) return null;
+  const mapped =
+    isMappedPlateResult(entry.result) &&
+    entry.result.ok &&
+    entry.result.found &&
+    entry.result.vehicle.mapping.make === state.make &&
+    entry.result.vehicle.mapping.model === state.model &&
+    (!entry.result.vehicle.mapping.year || entry.result.vehicle.mapping.year === state.year);
+  return (
+    <div className="mb-4">
+      <PlateVehicleCard
+        plate={entry.plate}
+        result={entry.result}
+        tiles={mapped ? tiles : []}
+        onClear={onClear}
+      />
+    </div>
   );
 }
