@@ -896,3 +896,30 @@
   .order-log-row .when { text-align: right; }
 }
 
+
+
+.stock-stepper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.stock-stepper input {
+  width: 96px;
+  text-align: center;
+}
+.stock-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.stock-pill.low { background: #fff6e8; color: #8a5a00; }
+.stock-pill.out { background: #fdecea; color: #b42318; }
+.mail-toggles { list-style: none; padding: 0; margin: 0; }
+.mail-toggles li { margin: 0 0 8px; }
+.mail-toggles label { display: flex; gap: 8px; align-items: flex-start; }
+.summary-top { padding-right: 18px; margin: 0; }
+.summary-top li { margin: 0 0 6px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }

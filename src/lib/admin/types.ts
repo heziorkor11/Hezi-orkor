@@ -72,6 +72,7 @@ export type StoredOrder = {
   customer: {
     name: string;
     phone: string;
+    email?: string;
     plate?: string;
     city?: string;
     make?: string;
@@ -91,6 +92,10 @@ export type StoredOrder = {
   source: "whatsapp-cart";
   events?: OrderEvent[];
   pdfStored?: boolean;
+  mail?: {
+    masterSentAt?: string;
+    customerSentAt?: string;
+  };
 };
 
 export type PublicOverlay = {

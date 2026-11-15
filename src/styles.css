@@ -385,3 +385,24 @@ details summary::-webkit-details-marker {
 }
 .product-img-tag.tr { right: 0.5rem; }
 .product-img-tag.tl { left: 0.5rem; }
+
+
+/* Out-of-stock ribbon on the product photo (below the image tags). */
+.product-out-of-stock {
+  position: absolute;
+  left: 0.5rem;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  z-index: 2;
+  display: block;
+  text-align: center;
+  padding: 0.28rem 0.5rem;
+  border-radius: 0.5rem;
+  background: #b42318;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.3;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.18);
+}

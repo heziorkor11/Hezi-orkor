@@ -8,7 +8,7 @@
 
 - שינויי קטלוג (מחירים, שמות, הסתרה, קטגוריות, תגים, מבצעים, יומן פעילות בלי פרטי לקוח) נשמרים לקובצי JSON ב־`public/catalog/` דרך GitHub API, ועולים לאתר תוך כ־2–5 דקות אחרי redeploy.
 - **הזמנות וחשבונות ניהול (סיסמאות כגיבוב scrypt בלבד) לא נשמרות בריפו הציבורי.** הן נכתבות למאגר הפרטי `heziorkor11/hezi-orkor-data` רק אחרי שהמערכת וידאה שהוא private: הזמנות בייצור ב־`orders/orders.json` ובהזמנות Preview/מקומי ב־`orders/preview/orders.json` (או `ADMIN_DATA_ORDERS_PATH` אם הוגדר לנתיב מותר), משתמשים בייצור ב־`admin/private-users.json`, ומשתמשי Preview ב־`admin/preview/private-users.json` (או `ADMIN_DATA_USERS_PATH` אם הוגדר לנתיב מותר) כדי שלא יתערבבו עם הייצור.
-- יומן הפעילות נשמר במאגר הפרטי: בייצור `admin/activity.json`, וב-Preview/מקומי `admin/preview/activity.json` (או `ADMIN_DATA_ACTIVITY_PATH` אם הוגדר לנתיב מותר). קובץ ה-PDF של הזמנה נשמר ליד ההזמנות (`orders/pdfs/` בייצור, `orders/preview/pdfs/` ב-Preview). מוצרים חדשים, תמונות שהועלו ותגי מלאי נשמרים בריפו הציבורי כשכבת JSON (`product-additions.json`, `image-overrides.json`, `stock-overrides.json`) ותמונות ב-`public/catalog/admin-images/`.
+- יומן הפעילות נשמר במאגר הפרטי: בייצור `admin/activity.json`, וב-Preview/מקומי `admin/preview/activity.json` (או `ADMIN_DATA_ACTIVITY_PATH` אם הוגדר לנתיב מותר). הגדרות ההתראות נשמרות במאגר הפרטי בנתיבים נפרדים: בייצור `admin/notification-settings.json`, וב-Preview/מקומי `admin/preview/notification-settings.json` (או `ADMIN_DATA_NOTIFICATION_SETTINGS_PATH` אם הוגדר לנתיב מותר). קובץ ה-PDF של הזמנה נשמר ליד ההזמנות (`orders/pdfs/` בייצור, `orders/preview/pdfs/` ב-Preview). מוצרים חדשים, תמונות שהועלו ותגי מלאי נשמרים בריפו הציבורי כשכבת JSON (`product-additions.json`, `image-overrides.json`, `stock-overrides.json`) ותמונות ב-`public/catalog/admin-images/`.
 - הגדרות דוא״ל הן משתני סביבה בלבד. תגיות נשמרות בריפו הציבורי. סשן הוא עוגייה חתומה (בלי רשימת ביטול על הדיסק); אחרי מחיקת עובד הסשן שלו נדחה.
 - בלי מאגר פרטי, הזמנות ומשתמשים נשמרים רק באחסון זמני של המופע (`/tmp` ב־Vercel או `.data/admin` מקומית) ונמחקים ב-redeploy. לפני כל כתיבה למאגר הפרטי המערכת בודקת שהוא אכן private.
 
@@ -73,3 +73,21 @@
 
 כל שינוי קטלוג בדאשבורד (הוספה, עריכה, מחיר, תמונה, תג, הסתרה) קורא ל-`notifyProductChange` ב-`src/lib/admin/notify-product-change.ts`. בלי `SHEETS_SYNC_URL` זו פעולת no-op. אם המשתנה מוגדר, נשלח POST JSON עם `mode: "upsert"` והסוד המשותף **בגוף הבקשה** בשדה `secret` (מ-`SHEETS_SYNC_SECRET`) — Web App של Apps Script לא יכול לקרוא כותרות מותאמות. השדות: sku, name, category, subType, fitment, priceDisplayed (מספר מעוגל למעלה, או טקסט מארז מוסך), basePrice, image, hasImage, tags, stock, visibility, link, updatedBy, updatedAt. הקריאה היא fire-and-forget ולא חוסמת או מפילה שמירה בדאשבורד. לא לשלוח את הסוד בצ׳אט. חיבור Google Sheets עצמו מטופל בנפרד.
 
+
+
+## התראות, סיכומים ומלאי
+
+- בעגלה יש שדה דוא״ל אופציונלי. אם הלקוח ממלא כתובת תקינה, נשלח אליו אישור הזמנה עם קובץ ה-PDF (MIME דרך Gmail SMTP הקיים), **רק בייצור**. בסביבת Preview או מקומית לא נשלח דוא״ל לכתובת של לקוח.
+- העתק הזמנה חדשה נשלח לתיבת המאסטר (`ADMIN_NOTIFY_EMAIL`) ולכתובות נוספות שהמאסטר מגדיר במסך `/admin/mail-preview`. כל נמען מקבל הודעה נפרדת (אין CC משותף עם הלקוח). הזמנות בדיקה לא מייצרות מייל.
+- המאסטר שולט בסוגי ההודעות (הפעלה/כיבוי) ובסף מלאי נמוך. מייל שינוי עובד עם קישור «בטל» נשאר רק בתיבת המאסטר.
+- מלאי הוא כמות מספרית (≥ 0) שנערכת ידנית בלבד על ידי מאסטר או עובד. הזמנה **לא** מורידה מלאי אוטומטית. 0 מציג בחנות את התג «אזל מהמלאי». עריכת עובד נרשמת ביומן ונשלח מייל עם «בטל»; הביטול מחזיר גם את הכמות. הכמות מועברת ב-`notifyProductChange` לגיליון.
+- סיכום יומי ושבועי במסך `/admin/summary` מחושב מהזמנות אמיתיות בלבד (הזמנות בדיקה מוסתרות), לפי שעון ישראל.
+- Cron ב-Vercel (Hobby): שני תזמונים פעם ביום מותרים במסלול Hobby (מינימום יומי; תדירות גבוהה יותר נכשלת בפריסה). `0 19 * * *` לסיכום יומי (19:00 UTC ≈ 21:00 שעון ישראל בחורף / 22:00 בקיץ) ו-`0 6 * * 0` לסיכום שבועי ביום ראשון (06:00 UTC ≈ 08:00/09:00). הדיוק הוא ±59 דקות, והאזור הוא תמיד UTC. נתיבי ה-cron מוגנים ב-`CRON_SECRET` (`Authorization: Bearer`). בלי המשתנה הנתיב מחזיר 503. Cron רץ בייצור בלבד, לא ב-Preview.
+
+### משתנה נוסף לייצור
+
+| משתנה | מי מספק | הערות |
+|---|---|---|
+| `CRON_SECRET` | מתן | סוד לשליחת סיכומים אוטומטיים. לא לייצר ולא להדפיס כאן. להגדיר בייצור ב-Vercel. |
+
+`ADMIN_DATA_NOTIFICATION_SETTINGS_PATH` הוא אופציונלי, ורק לנתיב allowlisted שנשמר ב-`notification-settings.json`.

@@ -6,6 +6,7 @@ import type { Product } from "@/lib/catalog-types";
 import { priceOrQuoteLabel } from "@/lib/prices";
 import { useCatalogOverlayRev } from "@/components/catalog-overlay-sync";
 import { ProductTagBadges } from "@/components/product-tag-badges";
+import { OutOfStockBadge } from "@/components/out-of-stock-badge";
 import { getProductTags } from "@/lib/product-tags";
 
 export function HomeCarouselCard({
@@ -28,6 +29,7 @@ export function HomeCarouselCard({
             {badge}
           </span>
         ) : null}
+        <OutOfStockBadge sku={product.sku} />
         <div className="relative aspect-square w-full bg-white">
           <ProductImage
             src={product.image}

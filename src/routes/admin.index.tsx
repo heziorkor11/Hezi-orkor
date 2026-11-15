@@ -16,6 +16,7 @@ function HomePage() {
     activity: ActivityEntry[];
     orders: StoredOrder[];
     newOrders: number;
+    lowStockCount?: number;
     persist: { durable: boolean; reason: string };
   } | null>(null);
   const [error, setError] = useState("");
@@ -42,6 +43,18 @@ function HomePage() {
   return (
     <>
       {!data.persist.durable ? <div className="persist-banner">{data.persist.reason}. מוצע מאגר פרטי חינמי: heziorkor11/hezi-orkor-data — לא ניצור אותו בלי אישור.</div> : null}
+      {"lowStockCount" in data && (data as { lowStockCount?: number }).lowStockCount ? (
+        <div className="persist-banner" style={{ background: "#fff6e8", borderColor: "#e8c36a", marginBottom: 16 }}>
+          {(data as { lowStockCount: number }).lowStockCount} פריטים במלאי נמוך או שאזלו.{" "}
+          <Link from="/" to="/admin/stock">לרשימה</Link>
+          {" · "}
+          <Link from="/" to="/admin/summary">לסיכום ההזמנות</Link>
+        </div>
+      ) : (
+        <p className="muted" style={{ marginBottom: 12 }}>
+          <Link from="/" to="/admin/summary">סיכום יומי ושבועי</Link>
+        </p>
+      )}
       <div className="grid-4">
         <div className="card stat">
           <div className="k">מוצרים בקטלוג</div>

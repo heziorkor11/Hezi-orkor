@@ -13,6 +13,8 @@ import { isWorkshopPackSku, allTaxonomyCategories, categoryDisplayName, isHidden
 import { brand } from "@/lib/brand";
 import type { ActivityEntry, AdminRole, OrderEvent, SafeUser, StoredOrder, TagDef } from "./types";
 import { getTagLibrary } from "@/lib/product-tags";
+import { isTestOrder } from "./test-order";
+import { isValidEmail } from "./notification-settings";
 
 function json(data: unknown, status = 200, extra?: HeadersInit) {
   return new Response(JSON.stringify(data), {
@@ -140,6 +142,9 @@ export async function adminApi(req: Request): Promise<Response> {
           year: input.customer.year,
           engine: input.customer.engine,
           notes: input.customer.notes ? String(input.customer.notes).slice(0, 500) : undefined,
+          email: isValidEmail(String(input.customer.email || ""))
+            ? String(input.customer.email).trim().slice(0, 120)
+            : undefined,
         },
         delivery: input.delivery === "pickup" || input.delivery === "delivery" ? input.delivery : "",
         lines,
@@ -148,6 +153,9 @@ export async function adminApi(req: Request): Promise<Response> {
         total: subtotal + shipping,
         source: "whatsapp-cart",
       });
+      void import("./order-mail.server")
+        .then((m) => m.notifyNewOrder(order))
+        .catch((err) => console.warn("[admin] order mail failed", err instanceof Error ? err.message : err));
       return json({
         ok: true,
         id: order.id,
@@ -173,6 +181,9 @@ export async function adminApi(req: Request): Promise<Response> {
     const buf = Buffer.from(await req.arrayBuffer());
     const { storeOrderPdf } = await import("./order-pdf-store.server");
     await storeOrderPdf(id, buf);
+    void import("./order-mail.server")
+      .then((m) => m.notifyCustomerOrder(id))
+      .catch((err) => console.warn("[admin] customer mail failed", err instanceof Error ? err.message : err));
     return json({ ok: true });
   }
 
@@ -180,6 +191,17 @@ export async function adminApi(req: Request): Promise<Response> {
 
   if (!adminEnabled()) {
     return json({ error: "לוח הניהול כבוי בסביבה הזו", mode: adminMode() }, 503);
+  }
+
+  if (path === "/api/admin/cron/daily-summary" || path === "/api/admin/cron/weekly-summary") {
+    if (method !== "GET" && method !== "POST") return json({ error: "method" }, 405);
+    const { authorizeCronRequest, cronSecretConfigured } = await import("./cron-auth");
+    if (!cronSecretConfigured()) return json({ error: "CRON_SECRET אינו מוגדר" }, 503);
+    if (!authorizeCronRequest(req)) return json({ error: "אין הרשאה" }, 401);
+    const { sendPeriodSummary } = await import("./order-mail.server");
+    const kind = path.endsWith("weekly-summary") ? "weekly" as const : "daily" as const;
+    const result = await sendPeriodSummary(kind);
+    return json({ ok: Boolean(result.sent), kind, reason: result.reason, orderCount: result.summary.orderCount, recipients: result.recipients });
   }
 
   if (path === "/api/admin/login" && method === "POST") {
@@ -223,11 +245,16 @@ export async function adminApi(req: Request): Promise<Response> {
       listOrders(),
       ordersPersistence(),
     ]);
+    const real = orders.filter((o) => !isTestOrder(o));
+    const { listLowStock } = await import("./low-stock.server");
+    const lowStock = await listLowStock();
     return json({
       stats,
       activity: activity.slice(0, 8),
       orders: orders.slice(0, 8),
-      newOrders: orders.filter((o) => o.status === "new").length,
+      newOrders: real.filter((o) => o.status === "new").length,
+      lowStockCount: lowStock.length,
+      lowStock: lowStock.slice(0, 8),
       persist,
     });
   }
@@ -262,6 +289,9 @@ export async function adminApi(req: Request): Promise<Response> {
       return json({ error: "שינוי מחיר למאסטר בלבד. המוצר יישמר בלי מחיר והמאסטר יוכל להשלים אותו." }, 403);
     }
     try {
+      const { normalizeStockInput } = await import("./stock-qty");
+      const stockNorm = normalizeStockInput(body.stock);
+      if (!stockNorm.ok) return json({ error: stockNorm.error }, 400);
       const { createAddedProduct } = await import("./product-admin.server");
       const added = await createAddedProduct({
         actor: u,
@@ -276,7 +306,7 @@ export async function adminApi(req: Request): Promise<Response> {
         oe: body.oe,
         price: u.role === "master" ? body.price : null,
         tags: body.tags,
-        stock: body.stock,
+        stock: stockNorm.value || undefined,
       });
       const logged = await logAndMaybeMail(u, {
         action: "הוספת מוצר",
@@ -384,10 +414,16 @@ export async function adminApi(req: Request): Promise<Response> {
       });
       changes.push("hidden");
     }
-    if (typeof (patch as { stock?: string }).stock === "string") {
-      const { saveStock } = await import("./product-admin.server");
-      await saveStock(sku, (patch as { stock?: string }).stock || "");
-      changes.push("stock");
+    if ("stock" in patch) {
+      const { normalizeStockInput } = await import("./stock-qty");
+      const norm = normalizeStockInput((patch as { stock?: unknown }).stock);
+      if (!norm.ok) return json({ error: norm.error }, 400);
+      const prev = (before.stock || "").trim();
+      if (norm.value !== prev) {
+        const { saveStock } = await import("./product-admin.server");
+        await saveStock(sku, norm.value);
+        changes.push("stock");
+      }
     }
     if (Array.isArray(patch.tags)) {
       const ids = patch.tags.slice(0, 2);
@@ -407,12 +443,22 @@ export async function adminApi(req: Request): Promise<Response> {
           action: `עריכת מוצר (${changes.join(", ")})`,
           sku,
           target: sku,
-          before: { name: before.name, price: before.price, category: before.category, hidden: before.hidden, tags: before.tags.map((t) => t.id) },
-          after: { name: after.name, price: after.price, category: after.category, hidden: after.hidden, tags: after.tags.map((t) => t.id) },
+          before: { name: before.name, price: before.price, category: before.category, hidden: before.hidden, tags: before.tags.map((t) => t.id), stock: before.stock || "" },
+          after: { name: after.name, price: after.price, category: after.category, hidden: after.hidden, tags: after.tags.map((t) => t.id), stock: after.stock || "" },
         })
       : null;
     if (changes.length) {
-      void notifyProductChange(changeFromFields(changes, { sku, actor: u.name, hidden: after.hidden }));
+      void notifyProductChange(changeFromFields(changes, { sku, actor: u.name, hidden: after.hidden, stock: after.stock || "" }));
+    }
+    if (changes.includes("stock")) {
+      const { crossedLowStock } = await import("./low-stock.server");
+      const crossed = await crossedLowStock({ sku, name: after.name, prev: before.stock, next: after.stock || "" });
+      if (crossed) {
+        const { notifyLowStockItems } = await import("./order-mail.server");
+        void notifyLowStockItems([crossed]).catch((err) =>
+          console.warn("[admin] low-stock mail failed", err instanceof Error ? err.message : err),
+        );
+      }
     }
     return json({ ok: true, product: after, activity: logged?.entry, mail: logged?.mail });
   }
@@ -738,9 +784,77 @@ export async function adminApi(req: Request): Promise<Response> {
     const buf = Buffer.from(await req.arrayBuffer());
     const { storeOrderPdf } = await import("./order-pdf-store.server");
     await storeOrderPdf(id, buf, { id: u.sub, name: u.name });
+    void import("./order-mail.server")
+      .then((m) => m.notifyCustomerOrder(id))
+      .catch((err) => console.warn("[admin] customer mail failed", err instanceof Error ? err.message : err));
     return json({ ok: true, order: await getOrder(id) });
   }
 
+
+  if (path === "/api/admin/notification-settings" && method === "GET") {
+    const u = await requireMaster(req);
+    if (u instanceof Response) return u;
+    const { readNotificationSettings } = await import("./notification-settings.server");
+    const { allowCustomerOrderEmail } = await import("./notification-settings");
+    const settings = await readNotificationSettings();
+    return json({
+      settings,
+      configured: smtpConfigured(),
+      to: notifyEmail() || null,
+      allowCustomerOrderEmail: allowCustomerOrderEmail(),
+    });
+  }
+
+  if (path === "/api/admin/notification-settings" && method === "POST") {
+    const u = await requireMaster(req);
+    if (u instanceof Response) return u;
+    const { readNotificationSettings, saveNotificationSettings } = await import("./notification-settings.server");
+    const { normalizeNotificationSettings } = await import("./notification-settings");
+    const body = await bodyOf<Record<string, unknown>>(req);
+    const current = await readNotificationSettings();
+    const saved = await saveNotificationSettings(normalizeNotificationSettings({ ...current, ...body }));
+    return json({ settings: saved });
+  }
+
+  if (path === "/api/admin/notifications" && method === "GET") {
+    const u = await requireUser(req);
+    if (u instanceof Response) return u;
+    const orders = (await listOrders()).filter((o) => !isTestOrder(o) && o.status === "new");
+    const { listLowStock } = await import("./low-stock.server");
+    const lowStock = await listLowStock();
+    return json({
+      newOrders: orders.slice(0, 20),
+      lowStock,
+      counts: { newOrders: orders.length, lowStock: lowStock.length },
+    });
+  }
+
+  if (path === "/api/admin/summary" && method === "GET") {
+    const u = await requireUser(req);
+    if (u instanceof Response) return u;
+    const { dashboardSummaries } = await import("./order-mail.server");
+    return json(await dashboardSummaries());
+  }
+
+  if (path === "/api/admin/summary/send" && method === "POST") {
+    const u = await requireMaster(req);
+    if (u instanceof Response) return u;
+    const body = await bodyOf<{ kind?: "daily" | "weekly" }>(req);
+    const kind = body.kind === "weekly" ? "weekly" as const : "daily" as const;
+    const { sendPeriodSummary } = await import("./order-mail.server");
+    const result = await sendPeriodSummary(kind);
+    return json({ ok: Boolean(result.sent), kind, reason: result.reason, summary: result.summary, recipients: result.recipients });
+  }
+
+  if (path === "/api/admin/stock/low" && method === "GET") {
+    const u = await requireUser(req);
+    if (u instanceof Response) return u;
+    const { listLowStock } = await import("./low-stock.server");
+    const { readNotificationSettings } = await import("./notification-settings.server");
+    const items = await listLowStock();
+    const settings = await readNotificationSettings();
+    return json({ items, threshold: settings.lowStockThreshold });
+  }
 
   if (path === "/api/admin/mail/status" && method === "GET") {
     const u = await requireMaster(req);
@@ -849,6 +963,13 @@ export async function revertActivity(id: string, by: string): Promise<{ ok: bool
         data: { ...file, version: 1, bySku },
         message: `chore(admin): revert image ${sku}`,
       });
+    }
+    if ("stock" in before) {
+      const { saveStock } = await import("./product-admin.server");
+      const { normalizeStockInput } = await import("./stock-qty");
+      const raw = before.stock == null ? "" : String(before.stock);
+      const norm = normalizeStockInput(raw);
+      await saveStock(sku, norm.ok ? norm.value : "");
     }
     if ("category" in before && typeof before.category === "string") {
       const file = await readCatalogFile<{ bySku?: Record<string, { category: string; reason?: string }> }>(

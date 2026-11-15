@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { adminFetch } from "@/components/admin/api";
 import { useAdmin } from "@/components/admin/shell";
+import { StockStepper } from "@/components/admin/stock-stepper";
 import type { AdminProductRow, TagDef } from "@/lib/admin/types";
 
 export const Route = createFileRoute("/admin/products/new")({
@@ -160,10 +161,7 @@ function NewProductPage() {
               <label>מק״ט (יוקצה אוטומטית)</label>
               <input value={sku} readOnly style={{ direction: "ltr", textAlign: "right", color: "var(--muted)" }} />
             </div>
-            <div className="field">
-              <label>מלאי</label>
-              <input value={stock} onChange={(e) => setStock(e.target.value)} placeholder="לא חובה. למשל 12 יח׳" />
-            </div>
+            <StockStepper value={stock} onChange={setStock} />
             {isMaster ? (
               <div className="field">
                 <label>מחיר ללקוח (₪, כולל מע״מ)</label>

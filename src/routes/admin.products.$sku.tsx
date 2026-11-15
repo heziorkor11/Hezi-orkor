@@ -4,6 +4,7 @@ import { adminFetch, formatPrice } from "@/components/admin/api";
 import { useAdmin } from "@/components/admin/shell";
 import type { AdminProductRow } from "@/lib/admin/types";
 import type { TagDef } from "@/lib/admin/types";
+import { StockStepper } from "@/components/admin/stock-stepper";
 
 export const Route = createFileRoute("/admin/products/$sku")({
   component: ProductEditPage,
@@ -123,10 +124,7 @@ function ProductEditPage() {
               ))}
             </select>
           </div>
-          <div className="field">
-            <label>מלאי</label>
-            <input value={stock} onChange={(e) => setStock(e.target.value)} placeholder="לא חובה. למשל 12 יח׳" />
-          </div>
+          <StockStepper value={stock} onChange={setStock} />
           <div className="field span-2">
             <label>תגים על גבי התמונה</label>
             <p className="muted" style={{ margin: "0 0 8px", fontSize: 13 }}>

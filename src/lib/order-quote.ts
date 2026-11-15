@@ -11,6 +11,7 @@ export const WA_URL_SOFT_LIMIT = 4000;
 export type OrderCustomer = {
   name: string;
   phone: string;
+  email: string;
   city: string;
   delivery: "pickup" | "delivery" | "";
   plate: string;
@@ -146,6 +147,7 @@ function customerHeader(customer: OrderCustomer, now: Date) {
     "*לקוח*",
     `שם: ${customer.name.trim()}`,
     `טלפון: ${customer.phone.trim()}`,
+    ...(customer.email.trim() ? [`דוא״ל: ${customer.email.trim()}`] : []),
     `עיר: ${customer.city.trim() || "—"}`,
     `משלוח/איסוף: ${deliveryLabel(customer.delivery)}`,
     `הערות: ${customer.notes.trim() || "—"}`,
@@ -425,6 +427,7 @@ export function emptyOrderCustomer(): OrderCustomer {
   return {
     name: "",
     phone: "",
+    email: "",
     city: "",
     delivery: "",
     plate: "",

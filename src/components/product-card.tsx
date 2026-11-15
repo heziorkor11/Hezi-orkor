@@ -18,6 +18,7 @@ import { priceOrQuoteLabel } from "@/lib/prices";
 import { packUnitPriceLabel } from "@/lib/pack-price";
 import { isWorkshopPackSku } from "@/lib/display-taxonomy";
 import { ProductTagBadges } from "@/components/product-tag-badges";
+import { OutOfStockBadge } from "@/components/out-of-stock-badge";
 import { useCatalogOverlayRev } from "@/components/catalog-overlay-sync";
 
 function yearRange(from?: number, to?: number) {
@@ -53,6 +54,7 @@ export function ProductCard({
           className="relative grid aspect-[4/5] max-h-[220px] w-full place-items-center bg-white md:max-h-[280px]"
         >
           <ProductTagBadges sku={product.sku} />
+          <OutOfStockBadge sku={product.sku} />
           <ProductImage
             src={product.image}
             alt={product.name}

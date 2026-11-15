@@ -20,6 +20,7 @@ import {
   waMeUrlForShareText,
 } from "@/lib/order-pdf";
 import { isValidIlPhone, isValidIlPlate, type OrderCustomer } from "@/lib/order-quote";
+import { isValidEmail } from "@/lib/admin/notification-settings";
 import { priceOrQuoteLabel, catalogPrice, formatCatalogPrice } from "@/lib/prices";
 import { useCatalogOverlayRev } from "@/components/catalog-overlay-sync";
 import { summarizeCart } from "@/lib/cart-pricing";
@@ -98,6 +99,7 @@ function CartPage() {
     () => ({
       name: form.name,
       phone: form.phone,
+      email: form.email || "",
       city: form.city,
       delivery: form.delivery,
       plate: form.plate,
@@ -110,6 +112,7 @@ function CartPage() {
     [
       form.name,
       form.phone,
+      form.email,
       form.city,
       form.delivery,
       form.plate,
@@ -126,8 +129,9 @@ function CartPage() {
     if (!customer.name.trim()) e.name = "נא למלא שם";
     if (!isValidIlPhone(customer.phone)) e.phone = "טלפון ישראלי לא תקין";
     if (!isValidIlPlate(customer.plate)) e.plate = "מספר רכב: 7 או 8 ספרות";
+    if (customer.email.trim() && !isValidEmail(customer.email)) e.email = "כתובת דוא״ל לא תקינה";
     return e;
-  }, [customer.name, customer.phone, customer.plate]);
+  }, [customer.name, customer.phone, customer.plate, customer.email]);
 
   const valid = Object.keys(errors).length === 0;
 
@@ -232,6 +236,7 @@ function CartPage() {
                 customer: {
                   name: customer.name,
                   phone: customer.phone,
+                  email: customer.email.trim() || undefined,
                   plate: customer.plate,
                   city: customer.city,
                   make: customer.make,
@@ -434,6 +439,21 @@ function CartPage() {
                 />
                 {touched && errors.phone ? (
                   <span className="text-xs text-accent-hot">{errors.phone}</span>
+                ) : null}
+              </FormField>
+              <FormField label="דוא״ל" hint="לא חובה. אם תמלאו, נשלח אישור עם קובץ ה-PDF">
+                <Input
+                  name="email"
+                  type="email"
+                  inputMode="email"
+                  autoComplete="email"
+                  value={form.email || ""}
+                  onChange={(e) => setField("email", e.target.value)}
+                  placeholder="name@example.com"
+                  dir="ltr"
+                />
+                {touched && errors.email ? (
+                  <span className="text-xs text-accent-hot">{errors.email}</span>
                 ) : null}
               </FormField>
               <FormField label="עיר">
