@@ -137,6 +137,47 @@ const MOT_MAKE_ALIASES: Record<string, string> = {
   "bmw": "ב.מ.וו",
 };
 
+/** Latin manufacturer prefixes that MOT often prepends to kinuy_mishari ("MAZDA 3"). */
+const LATIN_MAKE_PREFIXES: Array<{ latin: string; make: string }> = [
+  { latin: "toyota", make: "טויוטה" },
+  { latin: "mazda", make: "מאזדה" },
+  { latin: "honda", make: "הונדה" },
+  { latin: "nissan", make: "ניסאן" },
+  { latin: "mitsubishi", make: "מיצובישי" },
+  { latin: "suzuki", make: "סוזוקי" },
+  { latin: "subaru", make: "סובארו" },
+  { latin: "hyundai", make: "יונדאי" },
+  { latin: "kia", make: "קיה" },
+  { latin: "peugeot", make: "פיג'ו" },
+  { latin: "citroen", make: "סיטרואן" },
+  { latin: "citroën", make: "סיטרואן" },
+  { latin: "renault", make: "רנו" },
+  { latin: "dacia", make: "דאצ'יה" },
+  { latin: "fiat", make: "פיאט" },
+  { latin: "volkswagen", make: "פולקסווגן" },
+  { latin: "vw", make: "פולקסווגן" },
+  { latin: "audi", make: "אאודי" },
+  { latin: "bmw", make: "ב.מ.וו" },
+  { latin: "mercedes", make: "מרצדס" },
+  { latin: "mercedes-benz", make: "מרצדס" },
+  { latin: "ford", make: "פורד" },
+  { latin: "chevrolet", make: "שברולט" },
+  { latin: "chevy", make: "שברולט" },
+  { latin: "opel", make: "אופל" },
+  { latin: "skoda", make: "סקודה" },
+  { latin: "seat", make: "סיאט" },
+  { latin: "volvo", make: "וולוו" },
+  { latin: "jeep", make: "ג'יפ" },
+  { latin: "lexus", make: "לקסוס" },
+  { latin: "alfa", make: "אלפא רומיאו" },
+  { latin: "alfa romeo", make: "אלפא רומיאו" },
+  { latin: "genesis", make: "ג'נסיס" },
+  { latin: "isuzu", make: "איסוזו" },
+  { latin: "mini", make: "מיני" },
+  { latin: "tesla", make: "טסלה" },
+  { latin: "porsche", make: "פורשה" },
+];
+
 const TRIM_SUFFIX = new Set(
   [
     "היבריד",
@@ -284,16 +325,143 @@ function aliasModel(raw: string, allowAmbiguous: boolean) {
   return lookupMotModelAlias(raw);
 }
 
+function escapeRe(token: string) {
+  return token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function stripMakeFromModel(make: string, commercial: string) {
   let s = commercial.trim();
-  const keys = [make, ...words(make)];
-  for (const token of keys) {
-    const re = new RegExp(`^${token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s+`, "i");
-    s = s.replace(re, "");
+  const keys = new Set<string>([make, ...words(make)].filter(Boolean));
+  for (const { latin, make: heb } of LATIN_MAKE_PREFIXES) {
+    if (normalizeKey(heb) === normalizeKey(make) || normalizeKey(latin) === normalizeKey(make)) {
+      keys.add(latin);
+    }
   }
-  // English make aliases often prefix the commercial name: "KIA PICANTO".
+  for (const [alias, target] of Object.entries(MOT_MAKE_ALIASES)) {
+    if (normalizeKey(target) === normalizeKey(make) || normalizeKey(alias) === normalizeKey(make)) {
+      keys.add(alias);
+    }
+  }
+  let changed = true;
+  while (changed) {
+    changed = false;
+    const withoutNew = s.replace(/^(new|all[\s-]?new|the)\s+/i, "").trim();
+    if (withoutNew && withoutNew !== s) {
+      s = withoutNew;
+      changed = true;
+    }
+    for (const token of keys) {
+      const spaced = new RegExp(`^${escapeRe(token)}\\s+`, "i");
+      const glued = new RegExp(`^${escapeRe(token)}(?=\\d)`, "i");
+      const afterSpace = s.replace(spaced, "");
+      const afterGlued = s.replace(glued, "");
+      const cand = afterSpace !== s ? afterSpace : afterGlued !== s ? afterGlued : s;
+      if (cand && cand !== s) {
+        s = cand.trim();
+        changed = true;
+        break;
+      }
+    }
+  }
   return s.trim();
 }
+
+/** Body / powertrain / facelift tokens MOT appends to a commercial name. Not distinctive model words (CROSS, VERSO, AIRCROSS, CC). */
+const STRIPPABLE_MODEL_SUFFIXES = new Set(
+  [
+    "sdn", "sedan", "saloon", "hb", "hatch", "hatchback", "hat",
+    "sw", "wagon", "estate", "tourer", "touring", "ts", "sb",
+    "sportback",
+    "liftback", "lb",
+    "cabrio", "cabriolet", "convertible", "conv",
+    "hsd", "hybrid", "hev", "phev", "mhev", "plugin", "plug-in", "plug in",
+    "ev", "electric", "bev", "tdi", "tsi", "tfsi", "gdi", "crdi", "dci", "tce", "hdi", "cdti", "cdi",
+    "petrol", "diesel", "gasoline", "bensin",
+    "4wd", "4x4", "awd", "2wd", "fwd", "rwd", "4matic", "xdrive", "quattro",
+    "at", "mt", "cvt", "dct", "auto", "automatic", "manual",
+    "fl", "facelift",
+    "bluetec", "d4d",
+    "היבריד", "היברידית", "היברידי", "פלאגין", "חשמלי",
+    "סדאן", "סלון", "האצבק", "האצ'בק", "סטיישן", "וואגן",
+    "דיזל", "בנזין", "אוטומט", "ידני", "אוטומטית", "טורבו",
+    "lt", "ls", "lx", "ex", "se", "le", "gls",
+    "style", "limited", "limite", "berlina", "kombi", "maxi",
+    "vigo", "space", "stepway",
+    "sport", "st",
+    "5d", "3d", "5dr", "3dr", "5door", "3door",
+    "titanium", "elegance",
+    "ii", "iii", "iv", "vi", "vii", "viii",
+    "mk2", "mk3", "mk4", "mk5", "mk6", "mk7", "mk8",
+  ].map((s) => normalizeKey(s)),
+);
+
+function isStrippableModelSuffix(tok: string) {
+  const key = normalizeKey(tok);
+  if (!key) return false;
+  if (STRIPPABLE_MODEL_SUFFIXES.has(key)) return true;
+  const compact = key.replace(/[\s-]+/g, "");
+  // BMW sDrive18i / xDrive30d style tokens are trims, not model names.
+  if (/^(sdrive|xdrive)\d{0,3}[idh]?$/.test(compact)) return true;
+  // Trailing engine codes such as 18I / 20D, when they are a separate token.
+  if (/^\d{2,3}[idh]$/.test(compact)) return true;
+  return false;
+}
+
+function stripTrailingDisplacement(name: string) {
+  // Decimal litres (1.6, 2.0) or 3–4 digit cc (1600, 2000), optionally with t/d/i/l.
+  // Do not strip model numbers such as RAV 4, Mazda 3, or Golf 7.
+  return name.replace(/\s+(\d+\.\d+|\d{3,4})[tdil]?\s*$/i, "").trim();
+}
+
+/**
+ * Longest-first variants of a MOT commercial name after dropping body, powertrain
+ * and facelift suffixes. "COROLLA SDN HSD" and "COROLLA HSD SDN" both reduce to "COROLLA".
+ * Distinct model words such as CROSS / VERSO are kept.
+ */
+export function commercialNameVariants(make: string, commercialName: string): string[] {
+  const cleaned0 = stripMakeFromModel(make, text(commercialName));
+  const cleaned = cleaned0.replace(/-/g, " ").replace(/\s+/g, " ").trim() || cleaned0;
+  const out: string[] = [];
+  const seen = new Set<string>();
+
+  const push = (value: string) => {
+    const next = value.replace(/\s+/g, " ").trim();
+    const key = normalizeKey(next);
+    if (!next || seen.has(key)) return;
+    seen.add(key);
+    out.push(next);
+    const trimmed = stripTrailingDisplacement(next);
+    if (trimmed && normalizeKey(trimmed) !== key) {
+      push(trimmed);
+    }
+  };
+  if (cleaned0 && normalizeKey(cleaned0) !== normalizeKey(cleaned)) push(cleaned0);
+  push(cleaned);
+  const toks = cleaned.split(/\s+/).filter(Boolean);
+  while (toks.length > 1 && isStrippableModelSuffix(toks[toks.length - 1])) {
+    toks.pop();
+    push(toks.join(" "));
+  }
+  push(stripPowertrainSuffix(cleaned));
+  const peeled = peelPowertrainCode(cleaned);
+  if (peeled) push(peeled);
+  const peeledTwice = peeled ? peelPowertrainCode(peeled) : undefined;
+  if (peeledTwice) push(peeledTwice);
+  return out;
+}
+
+/** NX300H → NX300, 318I → 318, E300E → E300, NX450PHEV → NX450. */
+function peelPowertrainCode(name: string): string | undefined {
+  const toks = words(name);
+  if (!toks.length) return undefined;
+  const last = toks[toks.length - 1];
+  const glued = last.replace(/[\s-]+/g, "");
+  const m = glued.match(/^([A-Za-z]{1,6}\d{2,3}|\d{2,3})(phev|hev|ev|[eihd])$/i);
+  if (!m) return undefined;
+  toks[toks.length - 1] = m[1];
+  return toks.join(" ");
+}
+
 
 const FAMILY_BLOCKLIST = new Set(
   ["קרוס", "cross", "ורסו", "verso", "ספורט", "sport", "קופה"].map((s) => normalizeKey(s)),
@@ -304,6 +472,7 @@ function remainderLooksLikeTrim(remainder: string) {
   if (!tokens.length) return true;
   return tokens.every((tok) => {
     if (TRIM_SUFFIX.has(normalizeKey(tok))) return true;
+    if (isStrippableModelSuffix(tok)) return true;
     if (/^\d+(\.\d+)?$/.test(tok)) return true;
     if (/^[nנ]\d+$/i.test(tok)) return true;
     if (tok.length <= 2 && /[a-z0-9]/i.test(tok)) return true;
@@ -342,100 +511,152 @@ export function catalogModelsForMake(make: string) {
   return modelsByMake[make] || [];
 }
 
+function compactKey(value: string) {
+  return normalizeKey(value).replace(/\s+/g, "");
+}
+
+/** Keep numeric model codes (208, 500, 3008) that canonicalModel treats as years and drops. */
+function keepPlateModel(make: string, raw: string): string | undefined {
+  const trimmed = text(raw);
+  const compact = trimmed.replace(/[\s-]+/g, "");
+  const singleToken = !/\s/.test(trimmed);
+  // Keep single-token model codes that canonicalModel treats as years or drops (X1, 208, E300, NX300H).
+  if (singleToken && (/^[A-Za-z]{1,6}\d{1,4}[A-Za-z]{0,4}$/.test(compact) || /^\d{2,4}$/.test(compact))) {
+    return compact;
+  }
+  const canon = canonicalModel(make, raw);
+  if (canon) return canon;
+  if (/^[A-Za-z]{1,6}\d{1,4}[A-Za-z]{0,4}$/.test(compact) || /^\d{2,4}$/.test(compact)) return compact;
+  return undefined;
+}
+
 function uniqueCanonical(make: string, models: string[]) {
   const out: string[] = [];
   const seen = new Set<string>();
   for (const model of models) {
-    const canon = canonicalModel(make, model);
-    if (!canon) continue;
-    const key = normalizeKey(canon);
-    if (seen.has(key)) continue;
+    const kept = keepPlateModel(make, model);
+    if (!kept) continue;
+    const grouped = aliasModel(kept, true) || kept;
+    const key = compactKey(grouped);
+    if (!key || seen.has(key)) continue;
     seen.add(key);
-    out.push(canon);
+    out.push(grouped);
   }
   return out;
 }
 
-/** Collect catalog models that confidently match a MOT commercial name for a known make. */
-export function matchCatalogModels(make: string, commercialName: string): string[] {
-  const cleaned0 = stripMakeFromModel(make, text(commercialName));
-  const cleaned = stripPowertrainSuffix(cleaned0) || cleaned0;
-  if (!cleaned) return [];
-  const models = uniqueCanonical(make, catalogModelsForMake(make));
-  if (!models.length) return [];
+function modelsEquivalent(make: string, a: string, b: string) {
+  if (!a || !b) return false;
+  if (normalizeKey(a) === normalizeKey(b) || compactKey(a) === compactKey(b)) return true;
+  const left = aliasModel(a, true) || a;
+  const right = aliasModel(b, true) || b;
+  if (normalizeKey(left) === normalizeKey(right) || compactKey(left) === compactKey(right)) return true;
+  const ca = canonicalModel(make, left) || left;
+  const cb = canonicalModel(make, right) || right;
+  if (ca && cb && (normalizeKey(ca) === normalizeKey(cb) || compactKey(ca) === compactKey(cb))) return true;
+  return false;
+}
 
-  const wantedRaw = [cleaned];
-  const aliased = aliasModel(cleaned, true);
+function hitsForVariant(make: string, variant: string, models: string[]): string[] {
+  if (!variant) return [];
+  const wantedRaw = [variant];
+  const aliased = aliasModel(variant, true);
   if (aliased) wantedRaw.push(aliased);
-  // Multi-word: try full alias first only.
-
-  const wanted = wantedRaw.map((w) => normalizeKey(canonicalModel(make, w) || w)).filter(Boolean);
+  const wanted = wantedRaw
+    .map((w) => normalizeKey(keepPlateModel(make, w) || canonicalModel(make, w) || w))
+    .filter(Boolean);
+  const wantedCompact = wanted.map((w) => w.replace(/\s+/g, ""));
   const hits: string[] = [];
 
   for (const model of models) {
     const nk = normalizeKey(model);
-    for (const w of wanted) {
-      if (nk === w) {
+    const ck = compactKey(model);
+    for (let i = 0; i < wanted.length; i++) {
+      const w = wanted[i];
+      const wc = wantedCompact[i];
+      if (nk === w || ck === wc) {
         hits.push(model);
         break;
       }
       if (nk.startsWith(w + " ")) {
-        const rest = model.slice(model.length - (nk.length - w.length - 1)).trim();
-        // Use canonical remainder
         const remainder = nk.slice(w.length).trim();
-        if (remainderIsOtherModel(remainder, make, model.split(" ")[0] ? w : w)) {
-          break;
-        }
-        if (remainderLooksLikeTrim(remainder) || !remainderIsOtherModel(remainder, make, w)) {
-          // only accept if remainder is trim-like, not another model
-          if (!remainderIsOtherModel(remainder, make, w) && remainderLooksLikeTrim(remainder)) {
-            hits.push(model);
-          }
+        if (!remainderIsOtherModel(remainder, make, w) && remainderLooksLikeTrim(remainder)) {
+          hits.push(model);
         }
         break;
       }
     }
-    // Catalog entry already contains the Latin MOT name as a whole token.
-    const latin = normalizeKey(cleaned);
-    if (/^[a-z0-9][a-z0-9 \-]+$/i.test(cleaned) && latin.length >= 3) {
+    const latin = normalizeKey(variant);
+    if (/^[a-z0-9][a-z0-9 \-]+$/i.test(variant) && latin.length >= 2) {
       const modelKey = normalizeKey(model);
-      if (
-        modelKey === latin ||
-        modelKey.startsWith(latin + " ") ||
-        modelKey.endsWith(" " + latin) ||
-        modelKey.includes(" " + latin + " ")
-      ) {
-        if (!hits.includes(model)) hits.push(model);
+      const latinCompact = latin.replace(/\s+/g, "");
+      let latinHit = modelKey === latin || compactKey(model) === latinCompact;
+      if (!latinHit && modelKey.startsWith(latin + " ")) {
+        const remainder = modelKey.slice(latin.length).trim();
+        latinHit = !remainderIsOtherModel(remainder, make, latin) && remainderLooksLikeTrim(remainder);
       }
+      if (latinHit && !hits.includes(model)) hits.push(model);
     }
   }
 
-  // sameModel exact-family pass for the preferred alias / cleaned name
-  const preferred = aliased || cleaned;
+  const preferred = aliased || variant;
   for (const model of models) {
-    if (sameModel(make, model, preferred) && !hits.includes(model)) {
-      const a = normalizeKey(canonicalModel(make, model));
-      const b = normalizeKey(canonicalModel(make, preferred));
-      if (a === b) hits.push(model);
+    if (hits.includes(model)) continue;
+    if (modelsEquivalent(make, model, preferred)) {
+      hits.push(model);
+      continue;
+    }
+    if (sameModel(make, model, preferred)) {
+      const a = normalizeKey(canonicalModel(make, model) || model);
+      const b = normalizeKey(canonicalModel(make, preferred) || preferred);
+      if (a && b && (a === b || compactKey(a) === compactKey(b))) hits.push(model);
     }
   }
-
   return uniqueCanonical(make, hits);
+}
+
+/** Collect catalog models that confidently match a MOT commercial name for a known make. */
+export function matchCatalogModels(make: string, commercialName: string): string[] {
+  const variants = commercialNameVariants(make, commercialName);
+  if (!variants.length) return [];
+  const models = uniqueCanonical(make, catalogModelsForMake(make));
+  if (!models.length) return [];
+  for (const variant of variants) {
+    const hits = hitsForVariant(make, variant, models);
+    if (hits.length && pickFamilyBase(make, hits, commercialName)) return hits;
+  }
+  return [];
 }
 
 function pickFamilyBase(make: string, matches: string[], commercialName: string): string | undefined {
   if (!matches.length) return undefined;
-  const preferred = aliasModel(stripMakeFromModel(make, commercialName), true) || stripMakeFromModel(make, commercialName);
-  const preferredKey = normalizeKey(canonicalModel(make, preferred) || preferred);
-  const exact = matches.find((m) => normalizeKey(m) === preferredKey);
+  const variants = commercialNameVariants(make, commercialName);
+  let preferred: string | undefined;
+  for (const variant of variants) {
+    const aliased = aliasModel(variant, true);
+    if (aliased) {
+      preferred = aliased;
+      break;
+    }
+  }
+  if (!preferred) preferred = variants[variants.length - 1] || variants[0];
+
+  // An exact (or alias-equivalent) catalog name is enough. Dirty extra hits
+  // such as "I20 I30" or "NRF CX5" must not veto a confident exact match.
+  const exact = matches.find((m) => modelsEquivalent(make, m, preferred || ""));
   if (exact) return exact;
-  // All matches must share a single base (shortest name that others extend only with trim).
+
+  if (matches.every((m) => modelsEquivalent(make, m, matches[0]))) {
+    const hebrew = matches.find((m) => /[\u0590-\u05FF]/.test(m));
+    return hebrew || exact || matches[0];
+  }
+
   const sorted = [...matches].sort((a, b) => a.length - b.length || a.localeCompare(b, "he"));
-  const base = sorted[0];
-  const baseKey = normalizeKey(base);
+  const base = exact || sorted[0];
   const sameFamily = sorted.every((m) => {
+    if (modelsEquivalent(make, m, base)) return true;
     const k = normalizeKey(m);
-    if (k === baseKey) return true;
+    const baseKey = normalizeKey(base);
     if (!k.startsWith(baseKey + " ")) return false;
     const rest = k.slice(baseKey.length).trim();
     return remainderLooksLikeTrim(rest) && !remainderIsOtherModel(rest, make, base);
@@ -443,6 +664,7 @@ function pickFamilyBase(make: string, matches: string[], commercialName: string)
   if (sameFamily) return base;
   return undefined;
 }
+
 
 function yearsForFamily(make: string, base: string, family: string[]) {
   const years = new Set<number>();
@@ -457,6 +679,17 @@ function yearsForFamily(make: string, base: string, family: string[]) {
   return [...years].sort((a, b) => a - b);
 }
 
+const JEEP_ON_CHRYSLER = /\b(grand cherokee|cherokee|wrangler|compass|renegade|gladiator|patriot|commander|grand wagoneer)\b/i;
+const GENESIS_ON_HYUNDAI = /(^|\s)(genesis|גנסיס|ג['׳’]נסיס)|\b(gv60|gv70|gv80|g70|g80)\b/i;
+
+/** MOT often lists Jeep as Chrysler and Genesis as Hyundai. Only remap when the model is uniquely theirs. */
+function remapCatalogMake(make: string, commercialName: string): string {
+  const name = text(commercialName);
+  if (make === "קרייזלר" && JEEP_ON_CHRYSLER.test(name)) return "ג'יפ";
+  if (make === "יונדאי" && GENESIS_ON_HYUNDAI.test(name)) return "ג'נסיס";
+  return make;
+}
+
 export function mapMotVehicle(fields: MotVehicleFields): MotDisplayVehicle {
   const mapping: MotMapping = { confidence: "unmapped" };
   const display: MotDisplayVehicle = { ...fields, mapping };
@@ -466,11 +699,12 @@ export function mapMotVehicle(fields: MotVehicleFields): MotDisplayVehicle {
     return display;
   }
 
-  const make = mapMotMake(fields.manufacturer);
-  if (!make) {
+  const rawMake = mapMotMake(fields.manufacturer);
+  if (!rawMake) {
     mapping.reason = "לא הצלחנו להתאים את היצרן לקטלוג בוודאות. בחרו יצרן, דגם ושנה ידנית.";
     return display;
   }
+  const make = remapCatalogMake(rawMake, text(fields.commercialName));
   mapping.make = make;
 
   const commercial = text(fields.commercialName);
