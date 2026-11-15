@@ -107,3 +107,104 @@ test("a long cart still lists every SKU even if names are compacted", () => {
   for (const line of lines) assert.match(fit.text, new RegExp(line.sku));
   assert.doesNotMatch(fit.text, /מצורף PDF|PDF מצורף/);
 });
+
+import {
+  buildCartOrderMessage,
+  buildQuickQuoteMessage,
+  formatVehiclePlateLine,
+} from "./order-quote.ts";
+
+const noPlateCustomer: OrderCustomer = {
+  ...customer,
+  plate: "",
+};
+
+const corollaPlateCustomer: OrderCustomer = {
+  ...customer,
+  plate: "45773203",
+  make: "טויוטה",
+  model: "קורולה",
+  year: "2023",
+  engine: "",
+};
+
+test("formatVehiclePlateLine combines a formatted plate with the identified vehicle", () => {
+  assert.equal(
+    formatVehiclePlateLine({ plate: "45773203", make: "טויוטה", model: "קורולה", year: "2023" }),
+    "מספר רכב: 457-73-203 · טויוטה קורולה 2023",
+  );
+  assert.equal(formatVehiclePlateLine({ plate: "457-73-203" }), "מספר רכב: 457-73-203");
+  assert.equal(formatVehiclePlateLine({ plate: "", make: "טויוטה", model: "קורולה", year: "2023" }), null);
+  assert.equal(formatVehiclePlateLine({}), null);
+});
+
+test("quick quote without a plate keeps the fit-confirmation ask sentence exactly", () => {
+  const product = { sku: "HZ-CAF-00002", name: "פילטר מזגן לבדיקה" };
+  const text = buildQuickQuoteMessage(product);
+  assert.equal(text, buildQuickQuoteMessage(product, {}));
+  assert.ok(text.includes("אשמח שתשלחו גם מספר רישוי של הרכב לאישור התאמה."));
+  assert.ok(!text.includes("מספר רכב:"));
+  const withoutAsk = text.replace("\nאשמח שתשלחו גם מספר רישוי של הרכב לאישור התאמה.", "");
+  assert.equal(
+    text,
+    `${withoutAsk}\nאשמח שתשלחו גם מספר רישוי של הרכב לאישור התאמה.`,
+  );
+});
+
+test("quick quote with a plate includes the vehicle line and drops the ask sentence", () => {
+  const product = { sku: "HZ-CAF-00002", name: "פילטר מזגן לבדיקה" };
+  const without = buildQuickQuoteMessage(product);
+  const withPlate = buildQuickQuoteMessage(product, {
+    plate: "45773203",
+    make: "טויוטה",
+    model: "קורולה",
+    year: "2023",
+  });
+  assert.equal(
+    withPlate,
+    without.replace(
+      "אשמח שתשלחו גם מספר רישוי של הרכב לאישור התאמה.",
+      "מספר רכב: 457-73-203 · טויוטה קורולה 2023",
+    ),
+  );
+  assert.ok(!withPlate.includes("אשמח שתשלחו"));
+});
+
+test("cart WhatsApp message without a plate keeps today's vehicle wording", () => {
+  const now = new Date("2026-11-15T16:00:00.000Z");
+  const text = buildCartOrderMessage(noPlateCustomer, [{ sku: "HZ-CAF-00002", name: "פילטר", qty: 1 }], { now });
+  assert.match(text, /^\*רכב\*\nמס׳ רישוי: \nיצרן\/דגם\/שנה: טויוטה קורולה 2015\nמנוע: 1\.6$/m);
+  assert.ok(!text.includes("מספר רכב:"));
+});
+
+test("cart WhatsApp message with a plate uses the combined vehicle line", () => {
+  const now = new Date("2026-11-15T16:00:00.000Z");
+  const text = buildCartOrderMessage(corollaPlateCustomer, [{ sku: "HZ-CAF-00002", name: "פילטר", qty: 1 }], { now });
+  assert.match(text, /^\*רכב\*\nמספר רכב: 457-73-203 · טויוטה קורולה 2023\nמנוע: —$/m);
+  assert.ok(!text.includes("מס׳ רישוי:"));
+  assert.ok(!text.includes("יצרן/דגם/שנה:"));
+});
+
+test("share text without a plate keeps מס׳ רישוי and a separate רכב line", () => {
+  const plain = buildOrderShareMessage({
+    orderRef: "HZ-ORD-TEST-NOPLATE",
+    customer: noPlateCustomer,
+    lines: [{ sku: "HZ-CAF-00002", name: "פילטר", qty: 1 }],
+    subtotal: catalogPrice("HZ-CAF-00002") ?? 0,
+  });
+  assert.match(plain.text, /^מס׳ רישוי: $/m);
+  assert.match(plain.text, /^רכב: טויוטה קורולה 2015$/m);
+  assert.ok(!plain.text.includes("מספר רכב:"));
+});
+
+test("share text with a plate uses the combined line and drops the duplicate רכב line", () => {
+  const plain = buildOrderShareMessage({
+    orderRef: "HZ-ORD-TEST-PLATE",
+    customer: corollaPlateCustomer,
+    lines: [{ sku: "HZ-CAF-00002", name: "פילטר", qty: 1 }],
+    subtotal: catalogPrice("HZ-CAF-00002") ?? 0,
+  });
+  assert.match(plain.text, /^מספר רכב: 457-73-203 · טויוטה קורולה 2023$/m);
+  assert.doesNotMatch(plain.text, /^מס׳ רישוי:/m);
+  assert.doesNotMatch(plain.text, /^רכב:/m);
+});

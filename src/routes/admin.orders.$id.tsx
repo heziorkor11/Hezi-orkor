@@ -4,6 +4,7 @@ import { adminFetch, formatPrice, formatWhen, STATUS_CLASS, STATUS_LABEL, DELIVE
 import type { SafeUser, StoredOrder, OrderEvent } from "@/lib/admin/types";
 import { ORDER_STATUSES } from "@/lib/admin/types";
 import { isTestOrder } from "@/lib/admin/test-order";
+import { formatIlPlate } from "@/lib/order-quote";
 
 export const Route = createFileRoute("/admin/orders/$id")({
   component: OrderDetailPage,
@@ -146,7 +147,7 @@ function OrderDetailPage() {
           {order.customer.plate ? (
             <>
               <dt>מספר רכב</dt>
-              <dd dir="ltr">{order.customer.plate}</dd>
+              <dd dir="ltr">{formatIlPlate(order.customer.plate) || order.customer.plate}</dd>
             </>
           ) : null}
           {vehicle ? (

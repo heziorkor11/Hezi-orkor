@@ -19,7 +19,7 @@ import {
   preloadOrderPdf,
   waMeUrlForShareText,
 } from "@/lib/order-pdf";
-import { isValidIlPhone, isValidIlPlate, type OrderCustomer } from "@/lib/order-quote";
+import { formatVehiclePlateLine, isValidIlPhone, isValidIlPlate, type OrderCustomer } from "@/lib/order-quote";
 import { isValidEmail } from "@/lib/admin/notification-settings";
 import { priceOrQuoteLabel, catalogPrice, formatCatalogPrice } from "@/lib/prices";
 import { useCatalogOverlayRev } from "@/components/catalog-overlay-sync";
@@ -63,6 +63,13 @@ function CartPage() {
   const form = useOrderForm();
   const setField = useOrderForm((s) => s.setField);
   const prefillVehicleFromSaved = useOrderForm((s) => s.prefillVehicleFromSaved);
+  const clearIdentifiedVehicle = useOrderForm((s) => s.clearIdentifiedVehicle);
+  const identifiedPlateLine = formatVehiclePlateLine({
+    plate: form.plate,
+    make: form.make,
+    model: form.model,
+    year: form.year,
+  });
 
   useEffect(() => {
     prefillVehicleFromSaved();
@@ -323,6 +330,18 @@ function CartPage() {
       <div className="mb-4.5">
         <h1 className="text-[26px] tracking-tight">סל הקניות</h1>
         <p className="text-muted">{rows.length} פריטים · שליחת הזמנה בוואטסאפ עם פירוט פריטים וקובץ PDF</p>
+        {identifiedPlateLine ? (
+          <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-line bg-card px-3 py-2 text-sm">
+            <p className="min-w-0 leading-snug">{identifiedPlateLine}</p>
+            <button
+              type="button"
+              className="shrink-0 text-xs text-muted underline underline-offset-2"
+              onClick={() => clearIdentifiedVehicle()}
+            >
+              נקה
+            </button>
+          </div>
+        ) : null}
       </div>
 
       {items.length && !rows.length ? <p className="text-muted">טוען פריטים מהקטלוג…</p> : null}

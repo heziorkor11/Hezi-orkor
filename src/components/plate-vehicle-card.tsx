@@ -3,6 +3,7 @@ import { formatIlPlate } from "@/lib/order-quote";
 import type { PlateLookupResult } from "@/lib/mot-plate-lookup";
 import type { CategoryTile } from "@/lib/category-tiles";
 import { isMappedPlateResult } from "@/lib/plate-session";
+import { isRetryablePlateFailure } from "@/lib/plate-fetch-retry";
 import { cn } from "@/lib/utils";
 
 export function PlateVehicleCard({
@@ -10,13 +11,19 @@ export function PlateVehicleCard({
   result,
   tiles = [],
   onClear,
+  onRetry,
+  retrying = false,
 }: {
   plate: string;
   result: PlateLookupResult;
   tiles?: CategoryTile[];
   onClear?: () => void;
+  /** Shown as a "נסו שוב" button when the lookup was blocked / busy. */
+  onRetry?: () => void;
+  retrying?: boolean;
 }) {
   const mapped = isMappedPlateResult(result);
+  const canRetry = Boolean(onRetry) && isRetryablePlateFailure(result);
   const vehicle = result.ok && result.found ? result.vehicle : undefined;
   const details = vehicle
     ? [
@@ -47,7 +54,11 @@ export function PlateVehicleCard({
             </>
           ) : (
             <h2 className="mt-0.5 text-lg font-extrabold leading-snug md:text-xl">
-              {result.ok && !result.found ? "הרכב לא נמצא במאגר" : "לא הצלחנו לבצע את החיפוש"}
+              {result.ok && !result.found
+                ? "הרכב לא נמצא במאגר"
+                : isRetryablePlateFailure(result)
+                  ? "החיפוש לא הושלם, נסו שוב"
+                  : "לא הצלחנו לבצע את החיפוש"}
             </h2>
           )}
         </div>
@@ -80,7 +91,18 @@ export function PlateVehicleCard({
       ) : (
         <div className="mt-3 rounded-xl border border-dashed border-line bg-panel px-3 py-2.5 text-sm">
           <p>{"message" in result ? result.message : "בחרו יצרן, דגם ושנה ידנית."}</p>
-          <p className="mt-1 text-fg-soft">אפשר לבחור יצרן, דגם ושנה ידנית בטופס שמתחת.</p>
+          {canRetry ? (
+            <button
+              type="button"
+              onClick={onRetry}
+              disabled={retrying}
+              data-plate="retry"
+              className="sq-btn mt-2.5 min-h-11 w-full bg-accent px-4 text-sm font-extrabold text-on-accent hover:bg-accent-hot disabled:opacity-60 sm:w-auto"
+            >
+              {retrying ? "מנסים שוב…" : "נסו שוב"}
+            </button>
+          ) : null}
+          <p className="mt-2 text-fg-soft">אפשר לבחור יצרן, דגם ושנה ידנית בטופס שמתחת.</p>
         </div>
       )}
 

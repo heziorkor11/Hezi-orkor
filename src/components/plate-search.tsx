@@ -3,6 +3,7 @@ import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { formatIlPlate, isValidIlPlate, normalizeIlPlate } from "@/lib/order-quote";
 import type { PlateLookupResult } from "@/lib/mot-plate-lookup";
 import { applyPlateLookup, fetchVehicleByPlate } from "@/lib/plate-lookup-client";
+import { isRetryablePlateFailure } from "@/lib/plate-fetch-retry";
 import type { ProductFilter } from "@/lib/catalog-types";
 import { cn } from "@/lib/utils";
 import { PlateVehicleCard } from "@/components/plate-vehicle-card";
@@ -32,9 +33,10 @@ export function PlateSearch({
   const [busy, setBusy] = useState(false);
   const [inline, setInline] = useState<PlateLookupResult | null>(null);
   const [typedPlate, setTypedPlate] = useState("");
+  const [retryingAuto, setRetryingAuto] = useState(false);
 
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function onSubmit(e?: FormEvent<HTMLFormElement>) {
+    e?.preventDefault();
     const plate = normalizeIlPlate(value);
     setTypedPlate(plate);
     if (!isValidIlPlate(plate)) {
@@ -46,9 +48,10 @@ export function PlateSearch({
       return;
     }
     setBusy(true);
+    setRetryingAuto(false);
     setInline(null);
     try {
-      const data = await fetchVehicleByPlate(plate);
+      const data = await fetchVehicleByPlate(plate, { onRetry: () => setRetryingAuto(true) });
       const applied = await applyPlateLookup({
         plate,
         result: data,
@@ -68,6 +71,7 @@ export function PlateSearch({
       });
     } finally {
       setBusy(false);
+      setRetryingAuto(false);
     }
   }
 
@@ -115,7 +119,7 @@ export function PlateSearch({
           disabled={busy}
           className="sq-btn min-h-11 shrink-0 bg-accent px-4 text-sm font-extrabold text-on-accent hover:bg-accent-hot disabled:opacity-60"
         >
-          {busy ? "בודקים…" : compact ? "חפש רכב" : "חפש חלקים לרכב"}
+          {busy ? (retryingAuto ? "מנסים שוב…" : "בודקים…") : compact ? "חפש רכב" : "חפש חלקים לרכב"}
         </button>
       </form>
       {inline ? (
@@ -134,7 +138,20 @@ export function PlateSearch({
               <p>{inline.message}</p>
             </div>
           ) : !inline.ok && inline.error !== "invalid" ? (
-            <div className="rounded-xl border border-line bg-panel p-3 text-sm">{inline.message}</div>
+            <div className="rounded-xl border border-line bg-panel p-3 text-sm">
+              <p>{inline.message}</p>
+              {isRetryablePlateFailure(inline) ? (
+                <button
+                  type="button"
+                  onClick={() => void onSubmit()}
+                  disabled={busy}
+                  data-plate="retry"
+                  className="sq-btn mt-2.5 min-h-11 bg-accent px-4 text-sm font-extrabold text-on-accent hover:bg-accent-hot disabled:opacity-60"
+                >
+                  {busy ? "מנסים שוב…" : "נסו שוב"}
+                </button>
+              ) : null}
+            </div>
           ) : null}
         </div>
       ) : null}

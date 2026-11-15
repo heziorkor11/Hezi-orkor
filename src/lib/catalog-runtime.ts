@@ -11,6 +11,7 @@ import {
 import { catalogJson } from "@/lib/catalog-io";
 import { isHiddenCategory } from "@/lib/display-taxonomy";
 import { buildQuickQuoteMessage, waLinkForText } from "@/lib/order-quote";
+import { readIdentifiedVehicle } from "@/lib/saved-vehicle";
 
 type Cache = {
   manifest?: CatalogManifest;
@@ -33,7 +34,7 @@ export function waLink(text: string) {
 }
 
 export function quoteMessage(product: { sku: string; name: string; oe?: string }) {
-  return buildQuickQuoteMessage(product);
+  return buildQuickQuoteMessage(product, readIdentifiedVehicle());
 }
 
 const SHORTHAND: Array<[RegExp, string]> = [

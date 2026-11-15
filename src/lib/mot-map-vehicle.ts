@@ -390,6 +390,8 @@ const STRIPPABLE_MODEL_SUFFIXES = new Set(
     "sport", "st",
     "5d", "3d", "5dr", "3dr", "5door", "3door",
     "titanium", "elegance",
+    // SEAT / CUPRA trim names that MOT appends to kinuy_mishari (ATECA XPERIENCE → ATECA).
+    "xperience", "xcellence", "excellence", "fr",
     "ii", "iii", "iv", "vi", "vii", "viii",
     "mk2", "mk3", "mk4", "mk5", "mk6", "mk7", "mk8",
   ].map((s) => normalizeKey(s)),
@@ -418,7 +420,7 @@ function stripTrailingDisplacement(name: string) {
  * and facelift suffixes. "COROLLA SDN HSD" and "COROLLA HSD SDN" both reduce to "COROLLA".
  * Distinct model words such as CROSS / VERSO are kept.
  */
-export function commercialNameVariants(make: string, commercialName: string): string[] {
+export function commercialNameVariants(make: string, commercialName: string, trim?: string): string[] {
   const cleaned0 = stripMakeFromModel(make, text(commercialName));
   const cleaned = cleaned0.replace(/-/g, " ").replace(/\s+/g, " ").trim() || cleaned0;
   const out: string[] = [];
@@ -443,11 +445,35 @@ export function commercialNameVariants(make: string, commercialName: string): st
     push(toks.join(" "));
   }
   push(stripPowertrainSuffix(cleaned));
+  // MOT often repeats the trim level (ramat_gimur) at the end of the commercial name.
+  const withoutTrim = stripTrimLevel(cleaned, trim);
+  if (withoutTrim) {
+    push(withoutTrim);
+    const rest = withoutTrim.split(/\s+/).filter(Boolean);
+    while (rest.length > 1 && isStrippableModelSuffix(rest[rest.length - 1])) {
+      rest.pop();
+      push(rest.join(" "));
+    }
+  }
   const peeled = peelPowertrainCode(cleaned);
   if (peeled) push(peeled);
   const peeledTwice = peeled ? peelPowertrainCode(peeled) : undefined;
   if (peeledTwice) push(peeledTwice);
   return out;
+}
+
+/** "ATECA XPERIENCE" + trim "XPERIENCE" → "ATECA". Never strips a distinct model word or the whole name. */
+function stripTrimLevel(name: string, trim?: string): string | undefined {
+  const trimKey = normalizeKey(text(trim));
+  if (!trimKey) return undefined;
+  const nameKey = normalizeKey(name);
+  if (!nameKey.endsWith(" " + trimKey)) return undefined;
+  if (words(trimKey).some((w) => FAMILY_BLOCKLIST.has(normalizeKey(w)))) return undefined;
+  const toks = name.split(/\s+/).filter(Boolean);
+  const drop = words(trimKey).length;
+  if (toks.length <= drop) return undefined;
+  const kept = toks.slice(0, toks.length - drop).join(" ").trim();
+  return kept || undefined;
 }
 
 /** NX300H → NX300, 318I → 318, E300E → E300, NX450PHEV → NX450. */
@@ -616,21 +642,21 @@ function hitsForVariant(make: string, variant: string, models: string[]): string
 }
 
 /** Collect catalog models that confidently match a MOT commercial name for a known make. */
-export function matchCatalogModels(make: string, commercialName: string): string[] {
-  const variants = commercialNameVariants(make, commercialName);
+export function matchCatalogModels(make: string, commercialName: string, trim?: string): string[] {
+  const variants = commercialNameVariants(make, commercialName, trim);
   if (!variants.length) return [];
   const models = uniqueCanonical(make, catalogModelsForMake(make));
   if (!models.length) return [];
   for (const variant of variants) {
     const hits = hitsForVariant(make, variant, models);
-    if (hits.length && pickFamilyBase(make, hits, commercialName)) return hits;
+    if (hits.length && pickFamilyBase(make, hits, commercialName, trim)) return hits;
   }
   return [];
 }
 
-function pickFamilyBase(make: string, matches: string[], commercialName: string): string | undefined {
+function pickFamilyBase(make: string, matches: string[], commercialName: string, trim?: string): string | undefined {
   if (!matches.length) return undefined;
-  const variants = commercialNameVariants(make, commercialName);
+  const variants = commercialNameVariants(make, commercialName, trim);
   let preferred: string | undefined;
   for (const variant of variants) {
     const aliased = aliasModel(variant, true);
@@ -713,8 +739,8 @@ export function mapMotVehicle(fields: MotVehicleFields): MotDisplayVehicle {
     return display;
   }
 
-  const matches = matchCatalogModels(make, commercial);
-  const model = pickFamilyBase(make, matches, commercial);
+  const matches = matchCatalogModels(make, commercial, fields.trim);
+  const model = pickFamilyBase(make, matches, commercial, fields.trim);
   if (!model) {
     mapping.reason = "זיהינו את היצרן, אך לא הצלחנו להתאים את הדגם לקטלוג בוודאות. בחרו דגם ושנה ידנית.";
     return display;

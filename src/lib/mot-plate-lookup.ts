@@ -24,9 +24,12 @@ export type PlateLookupEmpty = {
 
 export type PlateLookupFail = {
   ok: false;
-  error: "invalid" | "rate_limited" | "upstream" | "timeout";
+  /** "blocked" is client-side only: Vercel bot protection / WAF answered instead of our API. */
+  error: "invalid" | "rate_limited" | "upstream" | "timeout" | "blocked";
   message: string;
   retryAfterMs?: number;
+  /** Client-side: automatic retries were used up; show "נסו שוב". */
+  retryable?: boolean;
 };
 
 export type PlateLookupResult = PlateLookupOk | PlateLookupEmpty | PlateLookupFail;

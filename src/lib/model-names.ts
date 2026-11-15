@@ -1,4 +1,5 @@
 /** Clean messy supplier model strings into one customer-facing name. */
+import { foldCertainModelSpelling } from "./model-spelling.ts";
 
 const JUNK = /^(שמן מנוע|גימי|חלק|כללי|universal)$/i;
 
@@ -150,8 +151,9 @@ export function sameModel(make: string, a?: string, b?: string) {
   const left = canonicalModel(make, a || "");
   const right = canonicalModel(make, b || "");
   if (!left || !right) return false;
-  const leftKey = foldModelSpelling(left);
-  const rightKey = foldModelSpelling(right);
+  // Matching only: Cherokee spellings plus certain same-make duplicates (אטצ'ה / אטקה).
+  const leftKey = foldCertainModelSpelling(make, foldModelSpelling(left));
+  const rightKey = foldCertainModelSpelling(make, foldModelSpelling(right));
   if (leftKey === rightKey) return true;
   const lt = tokens(leftKey);
   const rt = tokens(rightKey);

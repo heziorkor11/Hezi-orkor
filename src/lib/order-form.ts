@@ -1,41 +1,21 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { emptyOrderCustomer, type OrderCustomer } from "@/lib/order-quote";
+import { emptyOrderCustomer, type OrderCustomer } from "./order-quote.ts";
+import { clearPlateSession } from "./plate-session.ts";
+import {
+  clearSavedVehicle,
+  readIdentifiedVehicle,
+  readSavedVehicle,
+  writeSavedVehicle,
+} from "./saved-vehicle.ts";
 
-const VEHICLE_KEY = "hezi-vehicle-v1";
+export type { SavedVehicle } from "./saved-vehicle.ts";
+export { clearSavedVehicle, readIdentifiedVehicle, readSavedVehicle, writeSavedVehicle };
 
-export type SavedVehicle = { make?: string; model?: string; year?: string };
-
-export function readSavedVehicle(): SavedVehicle {
-  if (typeof window === "undefined") return {};
-  try {
-    const raw = localStorage.getItem(VEHICLE_KEY);
-    if (!raw) return {};
-    const v = JSON.parse(raw) as SavedVehicle;
-    return {
-      make: v.make || undefined,
-      model: v.model || undefined,
-      year: v.year ? String(v.year) : undefined,
-    };
-  } catch {
-    return {};
-  }
-}
-
-export function writeSavedVehicle(v: SavedVehicle) {
-  if (typeof window === "undefined") return;
-  try {
-    localStorage.setItem(
-      VEHICLE_KEY,
-      JSON.stringify({
-        make: v.make || undefined,
-        model: v.model || undefined,
-        year: v.year ? String(v.year) : undefined,
-      }),
-    );
-  } catch {
-    /* ignore quota */
-  }
+export function clearIdentifiedVehicle() {
+  clearSavedVehicle();
+  clearPlateSession();
+  useOrderForm.getState().setMany({ plate: "", make: "", model: "", year: "", engine: "" });
 }
 
 type OrderFormState = OrderCustomer & {
@@ -43,6 +23,7 @@ type OrderFormState = OrderCustomer & {
   setMany: (patch: Partial<OrderCustomer>) => void;
   prefillVehicleFromSaved: () => void;
   resetCustomerKeepVehicle: () => void;
+  clearIdentifiedVehicle: () => void;
 };
 
 export const useOrderForm = create<OrderFormState>()(
@@ -52,17 +33,21 @@ export const useOrderForm = create<OrderFormState>()(
       setField: (key, value) => set({ [key]: value } as Partial<OrderFormState>),
       setMany: (patch) => set(patch),
       prefillVehicleFromSaved: () => {
-        const v = readSavedVehicle();
+        const v = readIdentifiedVehicle();
         const cur = get();
         set({
+          plate: cur.plate || v.plate || "",
           make: cur.make || v.make || "",
           model: cur.model || v.model || "",
           year: cur.year || v.year || "",
         });
       },
       resetCustomerKeepVehicle: () => {
-        const { make, model, year, engine } = get();
-        set({ ...emptyOrderCustomer(), make, model, year, engine });
+        const { plate, make, model, year, engine } = get();
+        set({ ...emptyOrderCustomer(), plate, make, model, year, engine });
+      },
+      clearIdentifiedVehicle: () => {
+        clearIdentifiedVehicle();
       },
     }),
     {

@@ -6,6 +6,7 @@ import {
   brandMfgPairs,
   buildOrderShareMessage,
   formatIlPlate,
+  formatVehiclePlateLine,
   formatTimestampIl,
   orderRefNow,
   productAbsoluteUrl,
@@ -342,9 +343,14 @@ export async function buildOrderPdfBlob(input: OrderPdfInput): Promise<{
     `משלוח/איסוף: ${deliveryLabel(c.delivery)}`,
     `הערות: ${c.notes.trim() || "—"}`,
   ]);
+  const plateLine = formatVehiclePlateLine(c);
   drawCard(left, "רכב", [
-    `מס׳ רישוי: ${formatIlPlate(c.plate) || c.plate.trim() || "—"}`,
-    `יצרן/דגם/שנה: ${[c.make, c.model, c.year].filter(Boolean).join(" ") || "—"}`,
+    ...(plateLine
+      ? [plateLine]
+      : [
+          `מס׳ רישוי: ${formatIlPlate(c.plate) || c.plate.trim() || "—"}`,
+          `יצרן/דגם/שנה: ${[c.make, c.model, c.year].filter(Boolean).join(" ") || "—"}`,
+        ]),
     `מנוע: ${c.engine.trim() || "—"}`,
   ]);
   y += cardH + 8;
