@@ -1,4 +1,5 @@
 import { canonicalModel, dedupeModels, sameModel } from "@/lib/model-names";
+import { expandProductName } from "@/lib/name-expand";
 import {
   categories,
   type CatalogFacets,
@@ -51,6 +52,7 @@ function collapseRepeatedWords(text: string) {
 
 export function polishText(text?: string) {
   let s = collapseRepeatedWords((text || "").trim());
+  s = expandProductName(s).name;
   for (const [re, to] of SHORTHAND) s = s.replace(re, to);
   return s.replace(/\s+/g, " ").trim();
 }

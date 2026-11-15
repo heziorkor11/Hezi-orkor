@@ -1,4 +1,4 @@
-import { pickDisplayedFitment } from "@/lib/catalog-runtime";
+import { displayModel, pickDisplayedFitment } from "@/lib/catalog-runtime";
 import { ProductImage } from "@/components/product-image";
 import { ProductTagBadges } from "@/components/product-tag-badges";
 import { OutOfStockBadge } from "@/components/out-of-stock-badge";
@@ -142,7 +142,7 @@ function ProductPage() {
             {shownFitment.model ? (
               <>
                 <dt className="text-muted">דגם</dt>
-                <dd className="font-semibold">{shownFitment.model}</dd>
+                <dd className="font-semibold">{displayModel(shownFitment.make, shownFitment.model) || shownFitment.model}</dd>
               </>
             ) : null}
             {years ? (

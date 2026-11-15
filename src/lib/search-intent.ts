@@ -1,7 +1,7 @@
 /** Parse a free-text search into AND constraints: part type, vehicle, remaining tokens. */
 import facets from "../../public/catalog/facets.json" with { type: "json" };
 import abbreviations from "../../public/catalog/name-abbreviations.json" with { type: "json" };
-import { sameModel } from "./model-names.ts";
+import { expandCertainModel, foldModelSpelling, sameModel } from "./model-names.ts";
 import { normalizePartKey, yearBounds } from "./part-display.ts";
 import type { ListingSearch, ProductFilter, SearchHit } from "./catalog-types.ts";
 
@@ -322,11 +322,66 @@ function detectModel(tokens: string[], make?: string): string | undefined {
   return undefined;
 }
 
-function maybeStripMakePrefix(token: string) {
-  if (token.length < 4 || !token.startsWith("ל")) return token;
+/** Conservative typo list for known part types only. */
+const LIGHT_TYPOS: Record<string, string> = {
+  מהבה: "מעבה",
+};
+
+const KNOWN_PREFIX_REMAINDERS = new Set(
+  [
+    "גרנד",
+    "שירוקי",
+    "צירוקי",
+    "צרוקי",
+    "פונטו",
+    "ויטרה",
+    "סניק",
+    "מעבה",
+    "מדחס",
+    "רדיאטור",
+    "פילטר",
+    "מסנן",
+    "רפידות",
+    "צלחת",
+    "בולם",
+    "מצת",
+    "מצתים",
+    "ציריה",
+    "נאבה",
+  ].map((w) => w),
+);
+
+function foldSearchToken(token: string) {
+  const typo = LIGHT_TYPOS[token];
+  if (typo) return typo;
+  const folded = foldModelSpelling(token);
+  return folded || token;
+}
+
+function maybeStripParticlePrefix(token: string) {
+  if (token.length < 4) return token;
+  const prefix = token[0];
+  if (prefix !== "ל" && prefix !== "ב" && prefix !== "ה") return token;
   const rest = token.slice(1);
-  if (makeByKey.has(rest) || STOP.has(rest)) return rest;
+  if (makeByKey.has(rest) || STOP.has(rest) || KNOWN_PREFIX_REMAINDERS.has(rest) || KNOWN_PREFIX_REMAINDERS.has(foldModelSpelling(rest))) {
+    return rest;
+  }
   return token;
+}
+
+/** "ג שירוקי" / "ג צירוקי" → גרנד שירוקי, without merging bare שירוקי. */
+function collapseGrandAbbrev(tokens: string[]): string[] {
+  const out: string[] = [];
+  for (let i = 0; i < tokens.length; i++) {
+    const next = tokens[i + 1];
+    if (tokens[i] === "ג" && next && /^(שירוקי|צירוקי|צרוקי)$/.test(foldModelSpelling(next))) {
+      out.push("גרנד", "שירוקי");
+      i += 1;
+      continue;
+    }
+    out.push(tokens[i]);
+  }
+  return out;
 }
 
 export function parseSearchIntent(raw: string): SearchIntent {
@@ -335,10 +390,12 @@ export function parseSearchIntent(raw: string): SearchIntent {
   if (looksLikePartNumber(input)) {
     return { raw: input, isPartNumber: true, allowed: [], restTokens: [] };
   }
-  const expanded = expandLiterals(input);
-  const tokens = words(expanded)
-    .map((tok) => normalizeKey(expandToken(maybeStripMakePrefix(tok))))
-    .filter((tok) => tok && !STOP.has(tok) && !STOP.has(`ל${tok}`));
+  const expanded = expandLiterals(expandCertainModel(input));
+  const tokens = collapseGrandAbbrev(
+    words(expanded)
+      .map((tok) => foldSearchToken(normalizeKey(expandToken(maybeStripParticlePrefix(tok)))))
+      .filter((tok) => tok && !STOP.has(tok) && !STOP.has(`ל${tok}`)),
+  );
   const allowed = detectType(tokens);
   const make = detectMake(tokens);
   const model = detectModel(tokens, make);
@@ -369,20 +426,23 @@ function haystackWords(hit: SearchHit) {
   ]
     .filter(Boolean)
     .join(" ");
-  const expanded = expandLiterals(bits);
-  const toks = words(expanded).map((tok) => normalizeKey(expandToken(tok)));
+  const expanded = expandLiterals(expandCertainModel(bits));
+  const toks = collapseGrandAbbrev(words(expanded).map((tok) => foldSearchToken(normalizeKey(expandToken(tok)))));
   const hay = new Set(toks);
   for (const tok of toks) {
     const make = makeByKey.get(tok);
     if (make) for (const alias of aliasesForMake(make)) hay.add(alias);
+    hay.add(foldSearchToken(tok));
   }
   return hay;
 }
 
 function tokenSatisfied(token: string, hay: Set<string>) {
-  if (hay.has(token)) return true;
-  const aliased = normalizeKey(MODEL_ALIASES[token] || makeByKey.get(token) || token);
+  const folded = foldSearchToken(token);
+  if (hay.has(token) || hay.has(folded)) return true;
+  const aliased = normalizeKey(MODEL_ALIASES[token] || MODEL_ALIASES[folded] || makeByKey.get(token) || token);
   if (aliased !== token && hay.has(aliased)) return true;
+  if (hay.has(foldSearchToken(aliased))) return true;
   // Allow close model spellings: לוגן / לוגאן.
   if (token.length >= 4) {
     for (const word of hay) {
@@ -428,11 +488,7 @@ export function productFitsVehicle(hit: SearchHit, make?: string, model?: string
 
   const modelOk = (entryMake: string | undefined, entryModel: string | undefined) => {
     if (!wantedModel) return true;
-    if (sameModel(wantedMake || entryMake || "", entryModel, wantedModel)) return true;
-    const left = normalizeKey(resolveModel(entryModel) || entryModel || "");
-    const right = normalizeKey(wantedModel);
-    if (left && right && (left === right || left.startsWith(right) || right.startsWith(left))) return true;
-    return tokensMatchHit(hit, words(wantedModel));
+    return sameModel(wantedMake || entryMake || "", entryModel, wantedModel);
   };
 
   const makeOk = (value?: string) => Boolean(wantedMake && value && sameMake(value, wantedMake));

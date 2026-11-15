@@ -2,11 +2,21 @@ import nameAbbr from "../../public/catalog/name-abbreviations.json" with { type:
 
 type Rule = { abbr: string; full: string; mode: "literal" | "token" };
 
-const rules = (nameAbbr as { rules?: Rule[] }).rules ?? [];
+const rules = ((nameAbbr as { rules?: Rule[] }).rules ?? [])
+  .slice()
+  .sort((a, b) => b.abbr.length - a.abbr.length);
 const HE = "\\u0590-\\u05FF";
 
 function escapeReg(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/** Certain patterns that a plain literal rule cannot express cleanly. */
+function applyCertainPatterns(text: string) {
+  return text
+    .replace(/(\d)\s*ד['׳’]/g, "$1 דלתות")
+    .replace(/(\d+)\s*יח['׳’]/g, "$1 יחידות")
+    .replace(/יח['׳’]/g, "יחידה");
 }
 
 /** Expand high-confidence abbreviations for display. Keeps original when unchanged. */
@@ -23,6 +33,7 @@ export function expandProductName(name: string): { name: string; nameOriginal?: 
       out = out.split(rule.abbr).join(rule.full);
     }
   }
+  out = applyCertainPatterns(out);
   out = out.replace(/\s+/g, " ").trim();
   if (out === original) return { name: original, changed: false };
   return { name: out, nameOriginal: original, changed: true };
