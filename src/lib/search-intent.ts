@@ -6,6 +6,7 @@ import { SEARCH_SPELLING_FOLDS } from "./model-spelling.ts";
 import { normalizePartKey, yearBounds } from "./part-display.ts";
 import type { ListingSearch, ProductFilter, SearchHit } from "./catalog-types.ts";
 import { applyPolMakeFitments, classifyPolMakes } from "./pol-makes.ts";
+import { applySearchHitFitmentOverride } from "./fitment-overrides.ts";
 
 export type TypeRule = { category: string; sub?: string };
 
@@ -473,6 +474,7 @@ function fitmentEntries(hit: SearchHit) {
 
 export function productFitsVehicle(hit: SearchHit, make?: string, model?: string, year?: string) {
   if (!make && !model && !year) return true;
+  hit = applySearchHitFitmentOverride(hit);
   const wantedMake = resolveMake(make) || make;
   const wantedModel = resolveModel(model) || model;
   const entries = fitmentEntries(hit);
