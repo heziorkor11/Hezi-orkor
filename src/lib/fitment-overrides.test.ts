@@ -23,7 +23,6 @@ test("fitment overlay for HZ-CND-00023 is Nissan NV200 without years", () => {
   assert.equal(applied.make, "ניסאן");
   assert.equal(applied.model, "NV200");
   assert.deepEqual(applied.fitments, fitments);
-  assert.equal(getFitmentOverride("HZ-CMP-00071"), undefined);
 });
 
 test("NV200 2013 matches the overlaid condenser and a non-NV200 Nissan does not", () => {
@@ -34,4 +33,36 @@ test("NV200 2013 matches the overlaid condenser and a non-NV200 Nissan does not"
   assert.equal(productFitsVehicle(condenser, "ניסאן", "NV200", "2013"), true);
   assert.equal(productFitsVehicle(condenser, "ניסאן", "קשקאי", "2013"), false);
   assert.equal(productFitsVehicle(condenser, "ניסאן", "מיקרה", "2010"), false);
+});
+
+test("fitment overlay for HZ-CMP-00071 is Nissan Qashqai 2008-2012", () => {
+  const fitments = getFitmentOverride("HZ-CMP-00071");
+  assert.deepEqual(fitments, [{ make: "ניסאן", model: "קשקאי", yearFrom: 2008, yearTo: 2012 }]);
+  const compressor = hitBySku("HZ-CMP-00071");
+  assert.equal(productFitsVehicle(compressor, "ניסאן", "קשקאי", "2010"), true);
+  assert.equal(productFitsVehicle(compressor, "ניסאן", "קשקאי", "2015"), false);
+  assert.equal(productFitsVehicle(compressor, "ניסאן", "NV200", "2010"), false);
+});
+
+test("fitment overlay for HZ-CMP-00438 is Hyundai Santa Fe 2012 only", () => {
+  const fitments = getFitmentOverride("HZ-CMP-00438");
+  assert.deepEqual(fitments, [{ make: "יונדאי", model: "סנטה פה", yearFrom: 2012, yearTo: 2012 }]);
+  const compressor = hitBySku("HZ-CMP-00438");
+  assert.equal(productFitsVehicle(compressor, "יונדאי", "סנטה פה", "2012"), true);
+  assert.equal(productFitsVehicle(compressor, "יונדאי", "סנטה פה", "2011"), false);
+  assert.equal(productFitsVehicle(compressor, "יונדאי", "I30", "2012"), false);
+});
+
+test("fitment overlay for HZ-CND-00048 covers Nissan Juke, Note, and Micra without years", () => {
+  const fitments = getFitmentOverride("HZ-CND-00048");
+  assert.deepEqual(fitments, [
+    { make: "ניסאן", model: "ג'וק", yearFrom: 0, yearTo: 0 },
+    { make: "ניסאן", model: "נוט", yearFrom: 0, yearTo: 0 },
+    { make: "ניסאן", model: "מיקרה", yearFrom: 0, yearTo: 0 },
+  ]);
+  const condenser = hitBySku("HZ-CND-00048");
+  assert.equal(productFitsVehicle(condenser, "ניסאן", "ג'וק", "2014"), true);
+  assert.equal(productFitsVehicle(condenser, "ניסאן", "נוט", "2012"), true);
+  assert.equal(productFitsVehicle(condenser, "ניסאן", "מיקרה", "2010"), true);
+  assert.equal(productFitsVehicle(condenser, "ניסאן", "NV200", "2013"), false);
 });
