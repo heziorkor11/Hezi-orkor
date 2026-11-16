@@ -147,6 +147,28 @@ export async function loadCategoryTiles(state: ListingSearch = {}): Promise<Cate
   }
 }
 
+/**
+ * Display categories that have at least one visible product fitting the
+ * vehicle in `state` (make/model/year only). Used for "לבירור" placeholders.
+ */
+export async function loadFittedCategoryIds(state: ListingSearch = {}): Promise<Set<string> | null> {
+  try {
+    const { loadSearchHits } = await import("./catalog-listing");
+    const hits = await loadSearchHits();
+    const vehicle: ProductFilter = { make: state.make, model: state.model, year: state.year };
+    const out = new Set<string>();
+    for (const hit of hits) {
+      if (!filterHit(hit, vehicle)) continue;
+      out.add(displayCategory(hit.sku, hit.category || "general"));
+    }
+    return out;
+  } catch (err) {
+    console.error("[catalog] loadFittedCategoryIds failed", err);
+    // Unknown → show no placeholders rather than wrong ones.
+    return null;
+  }
+}
+
 export async function loadFeatured(): Promise<Product[]> {
   try {
     const { loadFeaturedImpl } = await import("./catalog-listing");
