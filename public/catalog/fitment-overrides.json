@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "description": "Display-only vehicle fitment overrides. Source catalog chunks, prices.json, and the original catalog are not changed. bySku lists approved fitments (make, model, optional yearFrom/yearTo). When a SKU has an entry, these fitments are used for matching and display in place of the source fitments.",
+  "bySku": {
+    "HZ-CND-00023": {
+      "fitments": [
+        { "make": "ניסאן", "model": "NV200" }
+      ]
+    }
+  }
+}

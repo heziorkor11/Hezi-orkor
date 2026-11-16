@@ -7,6 +7,7 @@ import {
   tokensMatchHit,
   typeAllows,
 } from "@/lib/search-intent";
+import { applyProductFitmentOverride } from "@/lib/fitment-overrides";
 import {
   type ListingResult,
   type ListingSearch,
@@ -123,7 +124,8 @@ export function matchesListingHit(hit: SearchHit, state: ProductFilter) {
 export async function loadListing(state: ListingSearch = {}): Promise<ListingResult> {
   try {
     const { loadListingImpl } = await import("./catalog-listing");
-    return await loadListingImpl(state, { filterHit });
+    const result = await loadListingImpl(state, { filterHit });
+    return { ...result, items: result.items.map(applyProductFitmentOverride) };
   } catch (err) {
     console.error("[catalog] loadListing failed", err);
     return { items: [], total: 0, page: 1, pages: 1 };
@@ -148,7 +150,7 @@ export async function loadCategoryTiles(state: ListingSearch = {}): Promise<Cate
 export async function loadFeatured(): Promise<Product[]> {
   try {
     const { loadFeaturedImpl } = await import("./catalog-listing");
-    return await loadFeaturedImpl();
+    return (await loadFeaturedImpl()).map(applyProductFitmentOverride);
   } catch (err) {
     console.error("[catalog] loadFeatured failed", err);
     return [];
@@ -161,7 +163,7 @@ export async function loadProductsBySkus(skus: readonly string[]): Promise<Produ
     const out: Product[] = [];
     for (const sku of skus) {
       const p = await loadProductImpl(sku);
-      if (p) out.push(p);
+      if (p) out.push(applyProductFitmentOverride(p));
     }
     return out;
   } catch (err) {
@@ -173,7 +175,8 @@ export async function loadProductsBySkus(skus: readonly string[]): Promise<Produ
 export async function loadProduct(sku: string): Promise<Product | undefined> {
   try {
     const { loadProductImpl } = await import("./catalog-listing");
-    return await loadProductImpl(sku);
+    const product = await loadProductImpl(sku);
+    return product ? applyProductFitmentOverride(product) : undefined;
   } catch (err) {
     console.error("[catalog] loadProduct failed", err);
     return undefined;
@@ -183,7 +186,7 @@ export async function loadProduct(sku: string): Promise<Product | undefined> {
 export async function loadRelated(product: Product, limit = 4): Promise<Product[]> {
   try {
     const { loadRelatedImpl } = await import("./catalog-listing");
-    return await loadRelatedImpl(product, limit);
+    return (await loadRelatedImpl(product, limit)).map(applyProductFitmentOverride);
   } catch (err) {
     console.error("[catalog] loadRelated failed", err);
     return [];
