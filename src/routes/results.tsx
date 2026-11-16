@@ -11,7 +11,21 @@ import { FluidsFilters } from "@/components/fluids-filters";
 import { Pagination } from "@/components/pagination";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
-import { categoryName, loadCategoryTiles, loadListing, type ListingSearch } from "@/lib/catalog";
+import {
+  categoryName,
+  loadCategoryTiles,
+  loadFittedCategoryIds,
+  loadListing,
+  visibleCategories,
+  type ListingSearch,
+} from "@/lib/catalog";
+import { categoryImage } from "@/lib/category-images";
+import {
+  buildCategoryInquiry,
+  buildOverviewInquiries,
+  hasInquiryVehicle,
+} from "@/lib/inquiry-placeholders";
+import { InquiryCard, InquiryRail } from "@/components/inquiry-placeholder";
 import { parseListingSort } from "@/lib/listing-sort";
 import { canonicalMake } from "@/lib/search-intent";
 import { brand } from "@/lib/brand";
@@ -69,11 +83,16 @@ export const Route = createFileRoute("/results")({
   loader: async ({ deps }) => {
     await bootAdminOverlay();
     if (deps.category && !categoryName(deps.category)) {
-      return { items: [], total: 0, page: 1, pages: 0, tiles: [] };
+      return { items: [], total: 0, page: 1, pages: 0, tiles: [], fitted: null as string[] | null };
     }
     const listing = await loadListing(deps);
     const tiles = await loadCategoryTiles(deps);
-    return { ...listing, tiles };
+    // "לבירור" placeholders: which categories have a fitting product for the vehicle.
+    const overview =
+      hasInquiryVehicle(deps) && !deps.category && !deps.q && !deps.type && !deps.fluidKind && !deps.oilBrand;
+    const fittedSet = overview ? await loadFittedCategoryIds(deps) : null;
+    const fitted = fittedSet ? [...fittedSet] : null;
+    return { ...listing, tiles, fitted };
   },
   pendingComponent: PendingResults,
   head: ({ match }) => {
@@ -120,6 +139,29 @@ function ResultsPage() {
   const listing = Route.useLoaderData();
   const plate = usePlateSession(state);
   const showCatalog = plate.showCatalog;
+  const overviewInquiries =
+    showCatalog && listing.fitted
+      ? buildOverviewInquiries({
+          state,
+          categories: visibleCategories,
+          fittedCategoryIds: new Set(listing.fitted),
+          imageFor: categoryImage,
+          isHidden: isHiddenCategory,
+        })
+      : [];
+  const categoryInquiry = showCatalog
+    ? buildCategoryInquiry({
+        state,
+        total: listing.total,
+        categories: visibleCategories,
+        imageFor: categoryImage,
+        isHidden: isHiddenCategory,
+        subName:
+          state.category && state.sub
+            ? subcategories[state.category]?.find((s) => s.id === state.sub)?.name
+            : undefined,
+      })
+    : null;
   const isFluids =
     state.category === "fluids" || Boolean(state.fluidKind) || Boolean(state.oilBrand);
   const kindLabel =
@@ -170,6 +212,9 @@ function ResultsPage() {
           )}
         </div>
         {showCatalog ? <CategoryPhotoTiles tiles={listing.tiles || []} /> : null}
+        {overviewInquiries.length ? (
+          <InquiryRail items={overviewInquiries} state={state} plate={plate.plateNumber} />
+        ) : null}
         {isFluids ? (
           <FluidsFilters state={{ ...state, category: state.category || "fluids" }} />
         ) : (
@@ -217,6 +262,8 @@ function ResultsPage() {
             </div>
             <Pagination page={listing.page} total={listing.total} search={state} />
           </>
+        ) : showCatalog && categoryInquiry ? (
+          <InquiryCard item={categoryInquiry} state={state} plate={plate.plateNumber} />
         ) : showCatalog ? (
           <div className="rounded-xl border border-line bg-card p-7 text-center">
             <h2 className="mb-2 text-lg font-semibold">לא מצאנו התאמה בקטלוג</h2>
@@ -259,6 +306,8 @@ function usePlateSession(state: ResultsSearch) {
   return {
     entry,
     showCatalog: allowCatalog,
+    /** Plate only when it identified exactly this vehicle. */
+    plateNumber: mappedMatch && entry ? entry.plate : undefined,
     clear: () => {
       clearIdentifiedVehicle();
       setEntry(null);
