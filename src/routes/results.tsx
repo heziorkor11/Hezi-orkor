@@ -6,7 +6,7 @@ import { CategoryPhotoTiles } from "@/components/category-photo-tiles";
 import { DemoBanner } from "@/components/demo-banner";
 import { Finder } from "@/components/finder";
 import { PlateSearch } from "@/components/plate-search";
-import { PlateVehicleCard } from "@/components/plate-vehicle-card";
+import { PlateVehicleBar, PlateVehicleCard } from "@/components/plate-vehicle-card";
 import { FluidsFilters } from "@/components/fluids-filters";
 import { Pagination } from "@/components/pagination";
 import { ProductCard } from "@/components/product-card";
@@ -139,6 +139,16 @@ function ResultsPage() {
   const listing = Route.useLoaderData();
   const plate = usePlateSession(state);
   const showCatalog = plate.showCatalog;
+  const [changeOpen, setChangeOpen] = useState(false);
+  // Overview = vehicle identified, nothing picked yet: keep the full card with category buttons.
+  const overviewMode =
+    !state.category && !state.q && !state.type && !state.fluidKind && !state.oilBrand;
+  // After a category / search was picked for a plate-identified vehicle: compact bar instead of the big card.
+  const compactVehicle = Boolean(plate.entry && plate.mapped && !overviewMode);
+  const searchKey = JSON.stringify({ ...state, page: undefined, sort: undefined });
+  useEffect(() => {
+    setChangeOpen(false);
+  }, [searchKey]);
   const overviewInquiries =
     showCatalog && listing.fitted
       ? buildOverviewInquiries({
@@ -189,23 +199,58 @@ function ResultsPage() {
       </section>
     );
   }
+  const changeSearchSection = (
+    <section
+      className={`flex justify-center border border-line bg-panel px-3.5 py-5 md:px-5 md:py-7 ${compactVehicle ? "mb-4" : "mb-6"}`}
+      id={compactVehicle ? "change-search" : "search"}
+    >
+      <div className="flex w-full max-w-[720px] flex-col gap-3">
+        <PlateSearch compact showInlineResult={false} />
+        <Finder key={JSON.stringify({ ...state, page: undefined })} state={state} />
+        {compactVehicle ? (
+          <button
+            type="button"
+            onClick={plate.clear}
+            className="self-start text-xs text-muted underline"
+          >
+            נקו את זיהוי הרכב
+          </button>
+        ) : null}
+      </div>
+    </section>
+  );
+  const pagesNote = listing.pages > 1 ? ` · עמוד ${listing.page} מתוך ${listing.pages}` : "";
   return (
     <>
       <div className="mx-auto max-w-[1180px] px-5 pt-7 pb-16">
-        <DemoBanner />
-        <ResultsPlateBlock
-          tiles={showCatalog ? listing.tiles || [] : []}
-          state={state}
-          entry={plate.entry}
-          onClear={plate.clear}
-          onRefresh={plate.refresh}
-        />
-        <div className="mb-4.5">
-          <h1 className="text-[26px] tracking-tight">{title}</h1>
+        {compactVehicle ? null : <DemoBanner />}
+        {compactVehicle && plate.entry ? (
+          <>
+            <PlateVehicleBar
+              plate={plate.entry.plate}
+              result={plate.entry.result}
+              open={changeOpen}
+              onToggle={() => setChangeOpen((v) => !v)}
+            />
+            {changeOpen ? changeSearchSection : null}
+          </>
+        ) : (
+          <ResultsPlateBlock
+            tiles={showCatalog ? listing.tiles || [] : []}
+            state={state}
+            entry={plate.entry}
+            onClear={plate.clear}
+            onRefresh={plate.refresh}
+          />
+        )}
+        <div className={compactVehicle ? "mb-3 flex items-baseline gap-2.5" : "mb-4.5"}>
+          <h1 className={compactVehicle ? "text-[22px] font-extrabold tracking-tight" : "text-[26px] tracking-tight"}>
+            {title}
+          </h1>
           {showCatalog ? (
-            <p className="text-muted">
+            <p className={compactVehicle ? "text-sm text-muted" : "text-muted"}>
               {listing.total} פריטים
-              {listing.pages > 1 ? ` · עמוד ${listing.page} מתוך ${listing.pages}` : ""}
+              {pagesNote}
             </p>
           ) : (
             <p className="text-muted">בחרו יצרן, דגם ושנה ידנית כדי לראות חלקים מתאימים.</p>
@@ -217,16 +262,8 @@ function ResultsPage() {
         ) : null}
         {isFluids ? (
           <FluidsFilters state={{ ...state, category: state.category || "fluids" }} />
-        ) : (
-          <section
-            className="mb-6 flex justify-center border border-line bg-panel px-3.5 py-5 md:px-5 md:py-7"
-            id="search"
-          >
-            <div className="flex w-full max-w-[720px] flex-col gap-3">
-              <PlateSearch compact showInlineResult={false} />
-              <Finder key={JSON.stringify({ ...state, page: undefined })} state={state} />
-            </div>
-          </section>
+        ) : compactVehicle ? null : (
+          changeSearchSection
         )}
         {showCatalog && !listing.tiles?.length && state.category && state.category !== "fluids" && subcategories[state.category] ? (
           <nav aria-label="תתי קטגוריות" className="mb-5 flex flex-wrap gap-2">
@@ -251,8 +288,8 @@ function ResultsPage() {
               ))}
           </nav>
         ) : null}
-        {showCatalog ? <ActiveFilters state={state} /> : null}
-        {showCatalog ? <ListingSortControl state={state} /> : null}
+        {showCatalog ? <ActiveFilters state={state} hideVehicleAndCategory={compactVehicle} /> : null}
+        {showCatalog ? <ListingSortControl state={state} compact={compactVehicle} /> : null}
         {showCatalog && listing.items.length ? (
           <>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -281,6 +318,8 @@ function ResultsPage() {
             </div>
           </div>
         ) : null}
+        {/* On the compact vehicle layout the notice sits below the products. */}
+        {compactVehicle ? <DemoBanner className="mt-6" /> : null}
       </div>
     </>
   );
@@ -305,6 +344,8 @@ function usePlateSession(state: ResultsSearch) {
   const allowCatalog = !entry || mappedMatch || userChoseVehicle;
   return {
     entry,
+    /** The stored plate vehicle is exactly the vehicle in the URL (mapped, found). */
+    mapped: mappedMatch,
     showCatalog: allowCatalog,
     /** Plate only when it identified exactly this vehicle. */
     plateNumber: mappedMatch && entry ? entry.plate : undefined,

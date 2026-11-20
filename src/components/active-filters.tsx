@@ -4,10 +4,17 @@ import { X } from "lucide-react";
 import { categoryName, partTypes, type ListingSearch } from "@/lib/catalog";
 import { FLUID_KIND_LABELS, type FluidKind } from "@/lib/fluid-classify";
 
-export function ActiveFilters({ state }: { state: ListingSearch }) {
+export function ActiveFilters({
+  state,
+  hideVehicleAndCategory = false,
+}: {
+  state: ListingSearch;
+  /** Compact vehicle bar already shows make/model/year and the title shows the category. */
+  hideVehicleAndCategory?: boolean;
+}) {
   const chips: { key: keyof ListingSearch; label: string }[] = [];
   if (state.q) chips.push({ key: "q", label: `חיפוש: ${state.q}` });
-  if (state.category) chips.push({ key: "category", label: categoryName(state.category) || state.category });
+  if (state.category && !hideVehicleAndCategory) chips.push({ key: "category", label: categoryName(state.category) || state.category });
   if (state.sub) chips.push({key: "sub", label: subcategories[state.category || ""]?.find(s => s.id === state.sub)?.name || state.sub});
   if (state.fluidKind) {
     chips.push({
@@ -23,9 +30,9 @@ export function ActiveFilters({ state }: { state: ListingSearch }) {
     const name = partTypes.find((t) => t.id === state.type)?.name || state.type;
     chips.push({ key: "type", label: name });
   }
-  if (state.make) chips.push({ key: "make", label: state.make });
-  if (state.model) chips.push({ key: "model", label: state.model });
-  if (state.year) chips.push({ key: "year", label: state.year });
+  if (state.make && !hideVehicleAndCategory) chips.push({ key: "make", label: state.make });
+  if (state.model && !hideVehicleAndCategory) chips.push({ key: "model", label: state.model });
+  if (state.year && !hideVehicleAndCategory) chips.push({ key: "year", label: state.year });
 
   if (!chips.length) return null;
 

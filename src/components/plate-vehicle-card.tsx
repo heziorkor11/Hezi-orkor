@@ -4,6 +4,7 @@ import type { PlateLookupResult } from "@/lib/mot-plate-lookup";
 import type { CategoryTile } from "@/lib/category-tiles";
 import { isMappedPlateResult } from "@/lib/plate-session";
 import { isRetryablePlateFailure } from "@/lib/plate-fetch-retry";
+import { hasRealProductImage } from "@/lib/product-image-policy";
 import { cn } from "@/lib/utils";
 
 export function PlateVehicleCard({
@@ -115,11 +116,30 @@ export function PlateVehicleCard({
                 <Link
                   to="/results"
                   search={tile.search}
-                  className="flex min-h-11 items-center justify-between gap-2 rounded-xl border border-line bg-panel px-3 py-2 text-sm hover:border-accent"
+                  className="flex min-h-14 items-center gap-2.5 rounded-xl border border-line bg-panel p-1.5 pe-3 text-sm hover:border-accent"
                 >
-                  <span className="font-bold">{tile.label.replace(/\n/g, " ")}</span>
-                  <span className="text-xs text-muted tabular-nums">
-                    {tile.count === 1 ? "פריט אחד" : `${tile.count.toLocaleString("he-IL")}`}
+                  {/* Only a real catalog photo of a fitting product; never a generic/placeholder image. */}
+                  {hasRealProductImage(tile.image) ? (
+                    <span
+                      data-tile-thumb
+                      className="grid size-11 shrink-0 place-items-center overflow-hidden rounded-lg border border-line bg-white"
+                    >
+                      <img
+                        src={tile.image}
+                        alt=""
+                        width={44}
+                        height={44}
+                        loading="lazy"
+                        decoding="async"
+                        className="size-full object-contain p-0.5"
+                      />
+                    </span>
+                  ) : null}
+                  <span className="flex min-w-0 flex-col">
+                    <span className="font-bold leading-tight">{tile.label.replace(/\n/g, " ")}</span>
+                    <span className="text-xs text-muted tabular-nums">
+                      {tile.count === 1 ? "פריט אחד" : `${tile.count.toLocaleString("he-IL")}`}
+                    </span>
                   </span>
                 </Link>
               </li>
@@ -135,6 +155,66 @@ export function PlateVehicleCard({
           </button>
         </div>
       ) : null}
+    </section>
+  );
+}
+
+/**
+ * Compact vehicle bar for results pages (after a category / search was chosen):
+ * vehicle name, small plate, year and a "שנה חיפוש" toggle. The full card with
+ * category buttons stays on the vehicle overview.
+ */
+export function PlateVehicleBar({
+  plate,
+  result,
+  open,
+  onToggle,
+}: {
+  plate: string;
+  result: PlateLookupResult;
+  open: boolean;
+  onToggle: () => void;
+}) {
+  const vehicle = result.ok && result.found ? result.vehicle : undefined;
+  if (!vehicle) return null;
+  return (
+    <section
+      className="mb-3 rounded-2xl border border-line bg-card p-3 shadow-lift"
+      aria-label="הרכב שזוהה לפי מספר רישוי"
+      data-vehicle-bar
+    >
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <p className="text-[15px] font-extrabold leading-tight">
+            {vehicle.manufacturer}
+            {vehicle.commercialName ? ` · ${vehicle.commercialName}` : ""}
+          </p>
+          <div className="mt-1.5 flex items-center gap-2">
+            <span className="inline-block" style={{ zoom: 0.62 }}>
+              <span className="il-plate il-plate-sm" dir="ltr" title="מספר הרכב שהוזן">
+                <span className="il-plate-band" aria-hidden="true">
+                  <span className="il-plate-flag" />
+                  <span className="il-plate-il">IL</span>
+                </span>
+                <span data-plate="display" className="il-plate-input il-plate-readout">
+                  {formatIlPlate(plate)}
+                </span>
+              </span>
+            </span>
+            {vehicle.year ? <span className="text-xs text-muted">שנת {vehicle.year}</span> : null}
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={open}
+          aria-controls="change-search"
+          data-change-search
+          className="sq-btn min-h-11 shrink-0 border border-line bg-panel px-3.5 text-[13px] font-extrabold text-fg"
+        >
+          {open ? "סגור ▴" : "שנה חיפוש ▾"}
+        </button>
+      </div>
     </section>
   );
 }
