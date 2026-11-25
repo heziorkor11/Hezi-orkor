@@ -18,6 +18,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as LegalRouteImport } from './routes/legal'
 import { Route as ResultsRouteImport } from './routes/results'
+import { Route as WinterBundlesRouteImport } from './routes/winter-bundles'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
@@ -93,6 +94,11 @@ const LegalRoute = LegalRouteImport.update({
 const ResultsRoute = ResultsRouteImport.update({
   id: '/results',
   path: '/results',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WinterBundlesRoute = WinterBundlesRouteImport.update({
+  id: '/winter-bundles',
+  path: '/winter-bundles',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -261,6 +267,7 @@ export interface FileRoutesByFullPath {
   '/help': typeof HelpRoute
   '/legal': typeof LegalRouteWithChildren
   '/results': typeof ResultsRoute
+  '/winter-bundles': typeof WinterBundlesRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/hero': typeof AdminHeroRouteWithChildren
@@ -301,6 +308,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/help': typeof HelpRoute
   '/results': typeof ResultsRoute
+  '/winter-bundles': typeof WinterBundlesRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/login': typeof AdminLoginRoute
@@ -341,6 +349,7 @@ export interface FileRoutesById {
   '/help': typeof HelpRoute
   '/legal': typeof LegalRouteWithChildren
   '/results': typeof ResultsRoute
+  '/winter-bundles': typeof WinterBundlesRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/hero': typeof AdminHeroRouteWithChildren
@@ -385,6 +394,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/legal'
     | '/results'
+    | '/winter-bundles'
     | '/admin/activity'
     | '/admin/categories'
     | '/admin/hero'
@@ -425,6 +435,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/help'
     | '/results'
+    | '/winter-bundles'
     | '/admin/activity'
     | '/admin/categories'
     | '/admin/login'
@@ -464,6 +475,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/legal'
     | '/results'
+    | '/winter-bundles'
     | '/admin/activity'
     | '/admin/categories'
     | '/admin/hero'
@@ -507,6 +519,7 @@ export interface RootRouteChildren {
   HelpRoute: typeof HelpRoute
   LegalRoute: typeof LegalRouteWithChildren
   ResultsRoute: typeof ResultsRoute
+  WinterBundlesRoute: typeof WinterBundlesRoute
   ApiCatalogOverlayRoute: typeof ApiCatalogOverlayRoute
   ApiOrdersRoute: typeof ApiOrdersRouteWithChildren
   ApiVehicleByPlateRoute: typeof ApiVehicleByPlateRoute
@@ -579,6 +592,13 @@ declare module '@tanstack/react-router' {
       path: '/results'
       fullPath: '/results'
       preLoaderRoute: typeof ResultsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/winter-bundles': {
+      id: '/winter-bundles'
+      path: '/winter-bundles'
+      fullPath: '/winter-bundles'
+      preLoaderRoute: typeof WinterBundlesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -915,6 +935,7 @@ const rootRouteChildren: RootRouteChildren = {
   HelpRoute: HelpRoute,
   LegalRoute: LegalRouteWithChildren,
   ResultsRoute: ResultsRoute,
+  WinterBundlesRoute: WinterBundlesRoute,
   ApiCatalogOverlayRoute: ApiCatalogOverlayRoute,
   ApiOrdersRoute: ApiOrdersRouteWithChildren,
   ApiVehicleByPlateRoute: ApiVehicleByPlateRoute,
