@@ -5,6 +5,7 @@ import { Finder } from "@/components/finder";
 import { PlateSearch } from "@/components/plate-search";
 import { HomeCategoryRail } from "@/components/home-category-rail";
 import { HomeHeroSlider } from "@/components/home-hero-slider";
+import { WinterPromoBanner } from "@/components/winter-promo";
 import { HomeParallaxBand } from "@/components/home-parallax-band";
 import { HomeBrandsRail } from "@/components/home-brands-rail";
 import { HomeProductCarousel } from "@/components/home-product-carousel";
@@ -48,6 +49,8 @@ function Home() {
     <>
       <JsonLd data={localBusinessJsonLd()} />
       <JsonLd data={websiteJsonLd()} />
+
+      <WinterPromoBanner />
 
       <HomeHeroSlider />
 

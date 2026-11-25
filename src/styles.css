@@ -549,3 +549,32 @@ details summary::-webkit-details-marker {
   justify-content: center;
   margin-top: 12px;
 }
+
+/* חבילות טיפול חורף (config: src/lib/winter-bundles.json) */
+.winter-banner {
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(226, 59, 18, 0.55), transparent 55%),
+    linear-gradient(160deg, #1a1a1a 0%, #2a120c 55%, #111 100%);
+  box-shadow: 0 8px 24px rgb(226 59 18 / 0.18);
+}
+.winter-cd {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 7px 4px 6px;
+}
+.winter-cd b {
+  display: block;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.winter-cd span {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+}
+.product-img-tag.winter-badge {
+  background: #1f2937;
+}

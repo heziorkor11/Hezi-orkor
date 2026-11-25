@@ -20,6 +20,7 @@ import { DeliveryLeadTimes } from "@/components/delivery-lead-times";
 import { bootAdminOverlay } from "@/lib/admin/boot-overlay";
 import { useCatalogOverlayRev } from "@/components/catalog-overlay-sync";
 import { overlayImage } from "@/lib/admin/public-overlay";
+import { WinterBundleNote, WinterBundlePhotoBadge } from "@/components/winter-promo";
 
 export const Route = createFileRoute("/product/$id")({
   loader: async ({ params }) => {
@@ -90,6 +91,7 @@ function ProductPage() {
         >
           <ProductTagBadges sku={product.sku} />
           <OutOfStockBadge sku={product.sku} />
+          <WinterBundlePhotoBadge sku={product.sku} />
           <ProductImage
             src={image}
             alt={product.name}
@@ -111,6 +113,7 @@ function ProductPage() {
               </span>
             ) : null}
           </div>
+          <WinterBundleNote sku={product.sku} className="-mt-2 mb-4" />
           <dl className="mb-4 grid grid-cols-[7.5rem_1fr] gap-x-2.5 gap-y-2 text-sm">
             <dt className="text-muted">מק״ט חנות</dt>
             <dd className="font-semibold">{product.sku}</dd>

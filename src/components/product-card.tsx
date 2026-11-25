@@ -21,6 +21,7 @@ import { isWorkshopPackSku } from "@/lib/display-taxonomy";
 import { ProductTagBadges } from "@/components/product-tag-badges";
 import { OutOfStockBadge } from "@/components/out-of-stock-badge";
 import { useCatalogOverlayRev } from "@/components/catalog-overlay-sync";
+import { WinterBundleNote, WinterBundlePhotoBadge } from "@/components/winter-promo";
 
 function yearRange(from?: number, to?: number) {
   if (!from) return null;
@@ -56,6 +57,7 @@ export function ProductCard({
         >
           <ProductTagBadges sku={product.sku} />
           <OutOfStockBadge sku={product.sku} />
+          <WinterBundlePhotoBadge sku={product.sku} />
           <ProductImage
             src={product.image}
             alt={product.name}
@@ -147,6 +149,7 @@ export function ProductCard({
             </p>
           ) : null}
         </div>
+        <WinterBundleNote sku={product.sku} />
         <div className="flex gap-2">
           {isWorkshopPackSku(product.sku) ? null : (
             <Button
